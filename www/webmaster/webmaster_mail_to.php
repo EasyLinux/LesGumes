@@ -17,7 +17,7 @@ if ( $retourAMAP == "amap_legumes_liste_attente")
 <!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
 	<head>
 		<title>AMAP Saint-Sébastien/Loire</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="styleW.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />

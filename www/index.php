@@ -28,7 +28,7 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 <!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
 	<head>
 		<title>AMAP Saint-Sébastien/Loire</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name='keywords' content='AMAP,Saint-Sébastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, Rublé' />
     <!-- pour le référencement google -->
     <meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" />		

@@ -85,7 +85,7 @@ if($ok==1 || $ok==2)
 <!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
 	<head>
 		<title>AMAP Saint-Sébastien/Loire</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" media="all" href="styleW.css" />
 			
 	</head>
@@ -150,7 +150,7 @@ else // le mot de passe n'est pas bon
 <!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
 	<head>
 		<title>AMAP Saint-Sébastien/Loire</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 		<link rel="stylesheet" type="text/css" media="all" href="styleW.css" />

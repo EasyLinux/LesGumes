@@ -31,16 +31,16 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 		$milieuRequete = " from amap_generale ag ";
 		$finRequete = " order by ".$tri." ".$sens;
 		
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		// parcours de chaque table d'amap listée dans la table liste_amap
-		$amaps =mysql_query("Select Nom_amap, Nom_court, Table_amap from liste_amap") or die(mysql_error());
+		$amaps =mysqli_query("Select Nom_amap, Nom_court, Table_amap from liste_amap") or die(mysqli_error());
 		
 		// ajout pour chaque amap 
 		// pour le début: ifNull(<Table_amap>.contrat_numero,0) <Nom_amap>,
 		// pour le milieu : left join <Table_amap> on ag.id = <Table_amap>.id
 		$first= true;
-		while ($amap=mysql_fetch_array($amaps, MYSQL_ASSOC )) {
+		while ($amap=mysqli_fetch_array($amaps, MYSQL_ASSOC )) {
 			if ( ! $first) { $debutRequete .= ", ";} else { $first=false;}
 			$debutRequete .= "ifNull(";
 			$debutRequete .= $amap["Table_amap"];
@@ -55,13 +55,13 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			$milieuRequete .= ".id ";		
 		}
 		$superRequete = $debutRequete.$milieuRequete.$finRequete;
-		$details =mysql_query($superRequete) or die(mysql_error());	
+		$details =mysqli_query($superRequete) or die(mysqli_error());	
 		?>
 		
 		<!--Affichage sous forme de tableau -->
 		<table>
 			<?php 
-			$detail=mysql_fetch_array($details, MYSQL_ASSOC); ?>
+			$detail=mysqli_fetch_array($details, MYSQL_ASSOC); ?>
 			<tr>
 				<?php // premier parcours pour les entêtes de colonne
 				foreach ($detail as  $cle=>$valeur) { 
@@ -82,9 +82,9 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			<?php 
 			//on recommence la requete pour les valeurs cette fois ...
 			$size = count($detail);
-			mysql_free_result($details);
-			$details =mysql_query($superRequete) or die(mysql_error());			
-			while ($detail=mysql_fetch_array($details)) { ?>	
+			mysqli_free_result($details);
+			$details =mysqli_query($superRequete) or die(mysqli_error());			
+			while ($detail=mysqli_fetch_array($details)) { ?>	
 				<tr>
 					<?php 
 					$nbContrats =0; 
@@ -105,19 +105,19 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 					<?php } 
 					// traitement spécial pour les binômes ...
 					$binomes ="select count(*) nb from binome Where binome.id_binome = ".$detail["id"];
-					$binomes = mysql_query($binomes) or die(mysql_error());
-					$binome = mysql_fetch_array($binomes); 
+					$binomes = mysqli_query($binomes) or die(mysqli_error());
+					$binome = mysqli_fetch_array($binomes); 
 					$nbContrats += $binome["nb"];
-					mysql_free_result($binomes);?>
+					mysqli_free_result($binomes);?>
 					<td> <?php if ($binome["nb"] !=0) {echo $binome["nb"];}?></td>				
 					<td > <?php echo $nbContrats; ?></td>
 				</tr >
 			<?php } ?>
 		</table>
 		<?php
-			$impayés =mysql_query("Select GROUP_CONCAT(e_mail SEPARATOR '; ') mail, COUNT(*) nb from amap_generale WHERE Etat_asso='ACTIF' AND Paiement=0") or die(mysql_error());
-			$mails= mysql_fetch_array($impayés);	
-			mysql_close(); 
+			$impayés =mysqli_query("Select GROUP_CONCAT(e_mail SEPARATOR '; ') mail, COUNT(*) nb from amap_generale WHERE Etat_asso='ACTIF' AND Paiement=0") or die(mysqli_error());
+			$mails= mysqli_fetch_array($impayés);	
+			mysqli_close(); 
 		?>
 		<p>Liste des mails des <?php echo $mails['nb'] ?> amapiens ACTIF n'ayant pas payés leur cotisation : <br />
 		<?php echo $mails['mail']; ?>

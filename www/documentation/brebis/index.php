@@ -7,12 +7,12 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 	if (isset($_GET['id'])) // Si la variable existe
 	{
 		$ok=1;
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees) or die ('Impossible de sélectionner la base de données : ' . mysql_error()); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees) or die ('Impossible de sélectionner la base de données : ' . mysqli_error()); // Sélection de la base 
 		if($_GET['reponse']=='oui') $question = "UPDATE enquete SET Ca_marche='OK' WHERE id='".$_GET['id']."'";
 		else $question = "UPDATE enquete SET Ca_marche='Pas bon!' WHERE id='".$_GET['id']."'";
-		$reponse = mysql_query($question) or die('Impossible de sélectionner la base de données : ' .mysql_error());
-		mysql_close();
+		$reponse = mysqli_query($question) or die('Impossible de sélectionner la base de données : ' .mysqli_error());
+		mysqli_close();
 	}
 	else
 	{
@@ -132,15 +132,15 @@ Bonne reprise à tous !<br />
 				</form>
 				<?php
 			}
-		/*	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+		/*	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
 			$question="SELECT * FROM enquete WHERE CA_marche='OK'";
-			$reponse = mysql_query($question);
-			$nbre_ok=mysql_num_rows($reponse);
+			$reponse = mysqli_query($question);
+			$nbre_ok=mysqli_num_rows($reponse);
 			$question="SELECT * FROM enquete ORDER BY Nom";
-			$reponse = mysql_query($question) or die(mysql_error());
-			$nbre_total=mysql_num_rows($reponse);
-			$donnees=mysql_fetch_array($reponse);
+			$reponse = mysqli_query($question) or die(mysqli_error());
+			$nbre_total=mysqli_num_rows($reponse);
+			$donnees=mysqli_fetch_array($reponse);
 			*/
 			?>
 			<table class="h3">
@@ -152,13 +152,13 @@ Bonne reprise à tous !<br />
 						if($donnees['Ca_marche']=='OK') { ?><td class="h3" style="color:blue; font-weight:bold"><?php echo $donnees['Ca_marche']; ?></td><?php } 
 						elseif ($donnees['Ca_marche']=='Pas bon!') { ?><td class="h3" style="color:red; font-weight:bold; text-decoration:blink"><?php echo $donnees['Ca_marche']; ?></td><?php } 
 						else { ?><td class="h3"><?php echo $donnees['Ca_marche']; ?></td><?php }
-						$donnees=mysql_fetch_array($reponse); ?>
+						$donnees=mysqli_fetch_array($reponse); ?>
 					<?php } ?>
 				</tr>
 				<?php } ?>
 			</table>
 		
 			<?php
-			mysql_close();?>
+			mysqli_close();?>
 		</div>	
 		-->

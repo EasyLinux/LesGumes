@@ -1,7 +1,7 @@
 <?php
 include_once("webmaster/define.php");
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="UPDATE amap_produits_laitiers_cde SET Beurre_160g_sale='".$_POST['Elt1ID']."'";
 $question.=", Beurre_160g_doux='".$_POST['Elt2ID']."'";
 $question.=", Creme_250g='".$_POST['Elt3ID']."'";
@@ -34,9 +34,9 @@ $question.=", Date_modif='".date("Y-m-d",time())."'";
 
 $question.=" WHERE id='".$_POST['ID']."'";
 
-$reponse=mysql_query($question) or die(mysql_error());
+$reponse=mysqli_query($question) or die(mysqli_error());
 
-mysql_close();
+mysqli_close();
 $page="Location: index.php";
 header($page);
 ?>

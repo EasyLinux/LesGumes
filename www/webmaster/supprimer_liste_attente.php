@@ -1,35 +1,35 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
-mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysqli_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $error ="Contacter l'administrateur du site";
 
 if ( isset($_POST['id']) &&  $_POST['id'] != "") {
 	//Recherche de l'amapien dans amap_gÃ©nÃ©rale
 	$complete = $_POST['complete'];
-	mysql_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
+	mysqli_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
 	$question='SELECT * from amap_generale WHERE id='.$id;
-	$reponse = mysql_query( $question ) or die(mysql_error());
-	$reponse=mysql_fetch_array($reponse);
+	$reponse = mysqli_query( $question ) or die(mysqli_error());
+	$reponse=mysqli_fetch_array($reponse);
 
 
 	if ( $reponse) { // amapien existe dans amap_general
 		$Etat_asso = $reponse["Etat_asso"];
 		$question='DELETE FROM amap_legumes_liste_attente WHERE id = "'.$id.'"';
-		mysql_query( $question) ;
-		$error = mysql_error();
+		mysqli_query( $question) ;
+		$error = mysqli_error();
 		if ( strlen($error) ==0 && $complete == "true") {
 			// supprimer l'amapien de amap_generale
 			$question='DELETE FROM amap_generale WHERE id = "'.$id.'"';
-			mysql_query( $question) ;
-			$error = mysql_error();
+			mysqli_query( $question) ;
+			$error = mysqli_error();
 		}
 	}
 	else { $error= " pas d'amapien dans la base avec l'id ". $id ;}
 }
 else { $error= "PrÃ©cisez l'id de la ligne Ã  supprimer !";}
-mysql_close();
+mysqli_close();
 
 
 if ( strlen($error) ==0) {

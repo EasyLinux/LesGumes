@@ -13,8 +13,8 @@ if (isset($_COOKIE['identification_amap']))  {
 	$etat=ETAT_IDENTIFIE;
 
 	// vérification que l'amapien est dans inscrit à ce contrat*/
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 	if ( InscritAuContrat( base_de_donnees, $_GET['amap'], $id)) {
 		$etat=ETAT_INSCRIT; 
@@ -25,14 +25,14 @@ if (isset($_COOKIE['identification_amap']))  {
 			$etat=ETAT_INSCRIT; 
 		}  elseif  ($_GET['amap']=='amap_legumes') {
 			$question="SELECT * FROM amap_legumes_liste_attente WHERE id='".$id."'";
-			$reponse = mysql_query($question) or die(mysql_error());
-			$ligne = mysql_num_rows($reponse);
+			$reponse = mysqli_query($question) or die(mysqli_error());
+			$ligne = mysqli_num_rows($reponse);
 			if ( $ligne > 0) {
 				$etat=ETAT_LISTE_ATTENTE;
 			}
 		}
 	}
-	mysql_close();
+	mysqli_close();
 }
 
 if ($etat==ETAT_INSCRIT) {

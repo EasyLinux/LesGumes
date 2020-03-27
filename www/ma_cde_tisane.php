@@ -17,17 +17,17 @@ function creerCombosPourType($typeProd,$nomType,$dateDerniereCommande, $id, $mod
 	// Récupération des lignes de la commande concernée pour le type demandé
 	$questionCommande="SELECT * FROM amap_tisanes_cde where Id_Personne=$id and Date='$dateDerniereCommande' and Type_Produit=$typeProd";
 	//echo "questionCommande : $questionCommande <BR>"; 
-	$tabDerniereCommandes = mysql_query($questionCommande) or die(mysql_error());
+	$tabDerniereCommandes = mysqli_query($questionCommande) or die(mysqli_error());
 	// echo "tabDerniereCommandes: $tabDerniereCommandes <BR>"; 
 	$cpt=0;
-	while ($tabDerniereCommande=mysql_fetch_array($tabDerniereCommandes)) {
+	while ($tabDerniereCommande=mysqli_fetch_array($tabDerniereCommandes)) {
 		$cpt++;		
 		$questionChoix="SELECT * FROM amap_tisanes_produits where Type=$typeProd ";
 		if ($modeAcces == 2) {
 			$questionChoix.="and Dispo=1 ";
 		}
 		$questionChoix.="ORDER by id";
-		$tabChoix = mysql_query($questionChoix) or die(mysql_error());		
+		$tabChoix = mysqli_query($questionChoix) or die(mysqli_error());		
 		$idProduit = $tabDerniereCommande["Id_Produit"];
 		
 		// création d'une combo avec les choix de tisanes possibles 
@@ -42,7 +42,7 @@ function creerCombosPourType($typeProd,$nomType,$dateDerniereCommande, $id, $mod
 						 if ($idProduit == null) { ?> selected="selected" <?php 
 						 } ?> >choix indéfini</option> <?php 
 					
-					while ($choix=mysql_fetch_array($tabChoix)) { 
+					while ($choix=mysqli_fetch_array($tabChoix)) { 
 					?>	
 					
 					<option value="<?php echo $choix["id"] ;?>" <?php
@@ -61,19 +61,19 @@ $ok=-1;/* identification non faite */
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
 	$ok=0;/* identification faite mais non inscrit à l'amap */
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 //$id=203;
 	$question="SELECT * FROM amap_tisanes WHERE id='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
+	$reponse = mysqli_query($question) or die(mysqli_error());
   
-	if( mysql_num_rows($reponse)>0) {
+	if( mysqli_num_rows($reponse)>0) {
 		$ok=1;/* inscrit à l'amap modification possible */
-		$contrat = mysql_fetch_array($reponse);
+		$contrat = mysqli_fetch_array($reponse);
     
 	}
-	mysql_close(); // Déconnexion de MySQL
+	mysqli_close(); // Déconnexion de MySQL
 }
 if ($ok==1) // inscrit à l'amap
 {
@@ -153,15 +153,15 @@ function ConfirmeRecord(strID, dateDerniereCommande) {
 // pour la prochaine livraison
 // La mise à jour nécessite en plus que la date du jour soit inférieure à la (date de distribution - jours de marge) 
 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		
 		// existe-t-il au moins une commande pour la personne connectée?
 		$questionAuMoinsUneCommande="SELECT Date,Date_modif FROM amap_tisanes_cde where Id_Personne=".$id." and date=(select Max(Date) FROM amap_tisanes_cde where Id_Personne=".$id.")";
 		// echo "question AuMoinsUneCommande:".$questionAuMoinsUneCommande."<BR>"; 
-	   	$tabDerniereCommande = mysql_query($questionAuMoinsUneCommande) or die(mysql_error());
+	   	$tabDerniereCommande = mysqli_query($questionAuMoinsUneCommande) or die(mysqli_error());
 		// echo "tabDerniereCommande:".$tabDerniereCommande."<BR>"; 
-		$tabDateDerniereCommande=mysql_fetch_array($tabDerniereCommande);
+		$tabDateDerniereCommande=mysqli_fetch_array($tabDerniereCommande);
 		// echo "tabDateDerniereCommande:".$tabDateDerniereCommande."<BR>"; 
 		$dateDerniereCommande=$tabDateDerniereCommande[0];
 		// echo "date dernière commande : ".$dateDerniereCommande."<BR>"; 
@@ -206,8 +206,8 @@ function ConfirmeRecord(strID, dateDerniereCommande) {
 			?></caption>
 		<?php
 			$questionNbLigne="SELECT COUNT(*) FROM amap_tisanes_cde where Id_Personne=$id and Date='$dateDerniereCommande'";
-			$reponseNBLigne = mysql_query($questionNbLigne) or die(mysql_error());
-			$nbLigne = mysql_fetch_array($reponseNBLigne);
+			$reponseNBLigne = mysqli_query($questionNbLigne) or die(mysqli_error());
+			$nbLigne = mysqli_fetch_array($reponseNBLigne);
 			$nbLigne = $nbLigne[0] +1;
 			if ($nbLigne < 3) $nbLigne = 3; // Pb d'affichage si pas assez de lignes
 			// echo "nbligne=".$nbLigne; ?>

@@ -1,7 +1,7 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
-mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysqli_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $commentaire= $_POST['comment'];
 $error ="Contacter l'administrateur du site";
@@ -10,10 +10,10 @@ if ( isset($_POST['id']) &&  $_POST['id'] != "") {
 
 	//Recherche de l'amapien dans amap_gÃ©nÃ©rale
 	$id = $_POST['id'];
-	mysql_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
+	mysqli_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
 	$question='SELECT * from amap_generale WHERE id='.$id;
-	$reponse = mysql_query( $question ) or die(mysql_error());
-	$reponse=mysql_fetch_array($reponse);
+	$reponse = mysqli_query( $question ) or die(mysqli_error());
+	$reponse=mysqli_fetch_array($reponse);
 
 	if ( $reponse) { // ajout dans liste d'attente
 		$nom = $reponse["Nom"];
@@ -22,11 +22,11 @@ if ( isset($_POST['id']) &&  $_POST['id'] != "") {
 		$date =date("Y-m-d",time());
 
 		$question='INSERT INTO amap_legumes_liste_attente (id, Nom, Prenom, Mail, Date_inscription, Commentaire)  VALUES ('.$id.',"'.$nom.'","'.$prenom.'","'.$mail.'","'.$date.'","'.$commentaire.'");';
-		mysql_query( $question) ;
-		$error = mysql_error();
+		mysqli_query( $question) ;
+		$error = mysqli_error();
 	}
 	else { $error= " pas d'amapien dans la base avec l' id ". $id ;}
-	mysql_close();
+	mysqli_close();
 }
 
 if ( strlen($error) ==0) {

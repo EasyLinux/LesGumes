@@ -10,18 +10,18 @@ $ok=-1;/* identification non faite */
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
 	$ok=0;/* identification faite mais non inscrit à l'amap */
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 	$question="SELECT * FROM amap_produits_laitiers_cde WHERE id='".$id."'";
-	$reponse = mysql_query($question);
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question);
+	$ligne = mysqli_num_rows($reponse);
 	if($ligne>0) {
 		$ok=1;/* inscrit à l'amap modification possible */
-		$donnee = mysql_fetch_array($reponse);
+		$donnee = mysqli_fetch_array($reponse);
 		$VPunite=$donnee['Unite'];
 	}
-	mysql_close(); // Déconnexion de MySQL
+	mysqli_close(); // Déconnexion de MySQL
 }
 if ($ok==1) // inscrit à l'amap
 {
@@ -168,20 +168,20 @@ function ConfirmeRecord(strID) {
 //cette partie de programme se trouve aussi dans l'accès à la liste des produits réservée au producteur
 //si bien que c'est le premier accès d'un amapien ou le premier acces du producteur après la date limite qui provoque
 //la mise à jour de la table cde_en_cours 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_produits_laitiers_permanences ORDER BY DATE";
-		$reponse1 = mysql_query($question);
+		$reponse1 = mysqli_query($question);
 		$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-		$reponse2 = mysql_query($question);
-		$TableDateLiv=mysql_fetch_array($reponse2);
+		$reponse2 = mysqli_query($question);
+		$TableDateLiv=mysqli_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=time();
 		$flag=0; //la date dans cde_en_cours est sup à la date d'aujourd'hui
 		//on écrase la table cde_en_cours que si il existe une livraison plus loin que la date d'aujourd'hui et à moins de 9 jours
 		if($auj>$DateLivEnCours || $DateLivEnCours==NULL) { 
 			$flag=-1;//impossible imprimer les amapiens peuvent encore modifier leur choix
-			while($DateLiv = mysql_fetch_array($reponse1)) if($DateLiv['Distribution']=='1'){
+			while($DateLiv = mysqli_fetch_array($reponse1)) if($DateLiv['Distribution']=='1'){
 				if($DateLivEnCours==NULL) {
 					$flag=1;
 					$LaDate=$DateLiv['Date'];
@@ -198,32 +198,32 @@ function ConfirmeRecord(strID) {
 		}
 		if($flag==1) {
 			$question="TRUNCATE TABLE amap_produits_laitiers_cde_en_cours";
-			$reponse=mysql_query($question);
+			$reponse=mysqli_query($question);
 			$question="INSERT INTO amap_produits_laitiers_cde_en_cours SELECT * FROM amap_produits_laitiers_cde";
-			$reponse=mysql_query($question);
+			$reponse=mysqli_query($question);
 			$question="UPDATE amap_produits_laitiers_cde_en_cours SET Date_livraison='".$LaDate."'";
-			$reponse=mysql_query($question);
+			$reponse=mysqli_query($question);
 		}
-		mysql_close();
+		mysqli_close();
 //fin mise à jour table_cde_en_cours
 			
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
 			$question="SELECT * FROM amap_produits_laitiers_permanences  ORDER BY DATE";
-			$reponse1 = mysql_query($question);
+			$reponse1 = mysqli_query($question);
 			$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-			$reponse2 = mysql_query($question);
-			$TableDateLiv=mysql_fetch_array($reponse2);
+			$reponse2 = mysqli_query($question);
+			$TableDateLiv=mysqli_fetch_array($reponse2);
 			$DateLivEnCours=strtotime($TableDateLiv[0]);
 			$auj=time();
 			$flag=0;
 			//il faut trouver une date de livraison telle que aujourd'hui < à cette date - JOURS_MARGE_PDT_LAITIER jours
-			while($DateLiv = mysql_fetch_array($reponse1)) if($DateLiv['Distribution']=='1'){
+			while($DateLiv = mysqli_fetch_array($reponse1)) if($DateLiv['Distribution']=='1'){
 				$temp=strtotime($DateLiv['Date']);
 				$limite=$temp-JOURS_MARGE_PDT_LAITIER*24*60*60;
 				if($auj<$limite) {$flag=1;$ProchLiv=date("d-M-Y",strtotime($DateLiv['Date']));break;}
 			}
-			mysql_close();?>
+			mysqli_close();?>
 		</div>
 		<?php if($flag==0) echo "  Vous n'avez plus la possibilité de modifier le dernier enregistrement.";
 		else { ?>

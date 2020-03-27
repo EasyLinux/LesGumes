@@ -7,30 +7,30 @@ $date=$_GET['date'];      // la date de distribution concernée
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
   // vérification des données avant de modifier quoi que ce soit
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 	$question="SELECT Nom, Prenom FROM amap_legumes WHERE id='".$id."'";
-	$reponse= mysql_query($question) or die(mysql_error());
+	$reponse= mysqli_query($question) or die(mysqli_error());
 
-  if ( $donnees = mysql_fetch_array($reponse) )  {
+  if ( $donnees = mysqli_fetch_array($reponse) )  {
     // la personne est bien inscrite dans la table amap_legumes
   	 $nom_prenom = $donnees['Prenom'].' '.$donnees['Nom'];    
       
     // enregistrement ou annulation ?
     $question="SELECT * FROM amap_legumes_dons WHERE date ='".$date."' and id='".$id."'";
-    $reponse= mysql_query($question) or die(mysql_error());
-    if ( mysql_fetch_array($reponse) ) {
+    $reponse= mysqli_query($question) or die(mysqli_error());
+    if ( mysqli_fetch_array($reponse) ) {
       // on a déjà un don pour cette date et cette personne -> annulation
-      mysql_query("DELETE FROM amap_legumes_dons WHERE Date='".$date."' And id='".$id."'");   
+      mysqli_query("DELETE FROM amap_legumes_dons WHERE Date='".$date."' And id='".$id."'");   
     } else {
       // on n'a pas encore de don pour cette personne à cete date -> enregistrement
-       mysql_query("INSERT into amap_legumes_dons (id, Date, Personne) VALUES( '".$id. "','".$date."','".$nom_prenom."')");
+       mysqli_query("INSERT into amap_legumes_dons (id, Date, Personne) VALUES( '".$id. "','".$date."','".$nom_prenom."')");
     }
-    mysql_close();
+    mysqli_close();
 		header("Location: donccas.php?amap=".$_GET['amap']);  
   }
-  mysql_close();
+  mysqli_close();
 }   
   
 

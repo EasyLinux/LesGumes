@@ -1,7 +1,7 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
-mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysqli_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $error="";
 
@@ -11,12 +11,12 @@ if( isset($_POST['nom']) && isset($_POST['mail']) && isset($_POST['prenom']) && 
 	$mdp = SHA1($_POST['mail']);
 	$date =date("Y-m-d",time());
 
-	mysql_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
+	mysqli_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
 	$question='INSERT INTO amap_generale ( Nom, Prenom, e_mail, Adresse,Code_postal,Ville,Telephone,Tel_portable,Date_inscription, Login, Mot_passe)  VALUES ("'.$nom.'","'. $_POST['prenom'].'","'.$_POST['mail'] .'","'.$_POST['adresse'] .'","'.$_POST['codePostal'] .'","'.$_POST['ville'] .'","'	.$_POST['telephone'] .'","'.$_POST['portable'] .'","'.$date.'","'.$_POST['mail'] .'","'.$mdp.'");';
 	
-	$reponse = mysql_query( $question );
-	$error = mysql_error();
-	mysql_close();
+	$reponse = mysqli_query( $question );
+	$error = mysqli_error();
+	mysqli_close();
 } else {
 	$error = "les champs Nom, Prenom et Mail doivent etre renseignes";
 }	

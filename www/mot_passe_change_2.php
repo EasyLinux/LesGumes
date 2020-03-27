@@ -22,32 +22,32 @@ if(isset($_GET['reconnu'])) {
 }
 if(isset($_POST['motpasse_1'])) {
 	$ok=0;
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motpasse_1."' AND Login='".$_POST['login_1']."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	if($ligne==1) {
 		$ok=1; //caracteres interdits
 		if(preg_match('#^[a-zA-Z0-9.@_-]{4,40}$#',$_POST['motpasse_2']) && preg_match('#^[a-zA-Z0-9.@_-]{4,40}$#',$_POST['login_2'])) {
 			$ok=2; // mot correct mais non identique
 			if($_POST['motpasse_2']==$_POST['motpasse_3']) {
 				$ok=3; //déjà utilisé
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+				mysqli_select_db(base_de_donnees); // Sélection de la base 
 				$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motpasse_2."' AND Login='".$_POST['login_2']."'";
-				$reponse = mysql_query($question) or die(mysql_error());
-				$ligne = mysql_num_rows($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error());
+				$ligne = mysqli_num_rows($reponse);
 				if($ligne==0) {
 					$question="UPDATE amap_generale SET Mot_passe='".$motpasse_2."', Login='".$_POST['login_2']."' WHERE Mot_passe='".$motpasse_1."' AND Login='".$_POST['login_1']."'";
-					$reponse = mysql_query($question) or die(mysql_error());
-					mysql_close();
+					$reponse = mysqli_query($question) or die(mysqli_error());
+					mysqli_close();
 					header("Location: index.php");
 				}
 			}
 		}
 	}
-	mysql_close();
+	mysqli_close();
 }
 ?>
 

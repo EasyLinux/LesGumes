@@ -30,13 +30,13 @@ if($ok==1)  {
 	<div style="text-align: center;">
 		<?php
 		include_once("webmaster/define.php");
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_chevre_permanences WHERE Distribution=1 ORDER BY Date";
-		$reponse1 = mysql_query($question) or die(mysql_error());;
+		$reponse1 = mysqli_query($question) or die(mysqli_error());;
 		$question="SELECT Date_livraison FROM amap_chevre_cde_en_cours";
-		$reponse2 = mysql_query($question) or die(mysql_error()); ;
-		$TableDateLiv=mysql_fetch_array($reponse2);
+		$reponse2 = mysqli_query($question) or die(mysqli_error()); ;
+		$TableDateLiv=mysqli_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=strtotime(date("Y-m-d",time()));
 		$flag=0; //la date dans cde_en_cours est sup à la date d'aujourd'hui
@@ -55,7 +55,7 @@ if($ok==1)  {
 //la mise à jour de la table cde_en_cours 
 		if($DateLivEnCours==NULL || $auj>$DateLivEnCours ) { 
 			$flag=-1;//impossible d'imprimer les amapiens peuvent encore modifier leur choix
-			while($DateLiv = mysql_fetch_array($reponse1)) {
+			while($DateLiv = mysqli_fetch_array($reponse1)) {
 			$temp=strtotime($DateLiv['Date']);
 			 $limite=$temp-JOURS_MARGE_CHEVRE*24*60*60;
   			 if($auj>=$limite && $auj<=$temp) { 
@@ -69,15 +69,15 @@ if($ok==1)  {
 		if($flag==0) $ProchLiv=date("d-M-Y",strtotime($TableDateLiv[0]));
 		if($flag==1) {
 			$question="TRUNCATE TABLE amap_chevre_cde_en_cours";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 			$question="INSERT INTO amap_chevre_cde_en_cours SELECT * FROM amap_chevre_cde";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 			$question="UPDATE amap_chevre_cde_en_cours SET Date_livraison='".$LaDate."'";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 		}
     // on récupère le nombre d'unité de chaque produit dans l'ordre des ID des produits
-    $resultUnit=mysql_query("SELECT Unite FROM amap_chevre_produits ORDER BY Id") or die(mysql_error());
-    while ( $unite = mysql_fetch_array($resultUnit)) {
+    $resultUnit=mysqli_query("SELECT Unite FROM amap_chevre_produits ORDER BY Id") or die(mysqli_error());
+    while ( $unite = mysqli_fetch_array($resultUnit)) {
      $unites[] =  $unite[0];
     };
     
@@ -102,8 +102,8 @@ if($ok==1)  {
   <div>
     	<?php
        	$question="SELECT * FROM ".$tableAlire." ORDER BY Nom"; 
-      	$reponse = mysql_query($question) or die(mysql_error());;
-      	$ligne = mysql_num_rows($reponse);
+      	$reponse = mysqli_query($question) or die(mysqli_error());;
+      	$ligne = mysqli_num_rows($reponse);
         
         $nom= $donnees['Nom'].' '.$donnees['Prenom'];
       	if (strlen($nom) > 22 ) {
@@ -149,7 +149,7 @@ if($ok==1)  {
           <?php 
               $totalUniteLivraison =0;
               $j=0;
-              while($donnees = mysql_fetch_array($reponse)) {  
+              while($donnees = mysqli_fetch_array($reponse)) {  
                 $j++; ?>
                 <tr style="background-color: <?php if($j % 3==1) echo '#40a7f5'; elseif($j % 3==2) echo '#f9f580'; else echo 'white';?>">
                   <td style="border: 1px solid black;"><?php echo $donnees['Nom'].' '.$donnees['Prenom'];?></td>
@@ -193,7 +193,7 @@ if($ok==1)  {
       				<?php	
               $erreur = 0;
        				$question = "SELECT SUM( Unite ) AS total FROM ".$tableAlire.";";
-        				$result=mysql_fetch_array(mysql_query($question));
+        				$result=mysqli_fetch_array(mysqli_query($question));
                 if ( $totalUniteLivraison != $result[0] ) {$erreur=1;}
         			?>
       				</th>
@@ -201,8 +201,8 @@ if($ok==1)  {
       				
               <?php
               // nouveau parcours des commandes pour récupérer les noms des produits
-              $reponse = mysql_query("SELECT * FROM ".$tableAlire." ORDER BY Nom");
-              $donnees = mysql_fetch_array($reponse);
+              $reponse = mysqli_query("SELECT * FROM ".$tableAlire." ORDER BY Nom");
+              $donnees = mysqli_fetch_array($reponse);
               foreach ($donnees as $key => $value) { 
                     if ( intval($key) != 0)
                            continue; //on passe  les key qui ne sont pas des champs
@@ -212,7 +212,7 @@ if($ok==1)  {
                     <th style="border: 1px solid black; background-color: #DDDDDD;">
                       <?php 
                           $question = "SELECT SUM( ".$key." ) AS total FROM ". $tableAlire;
-        				          $result=mysql_fetch_array(mysql_query($question));
+        				          $result=mysqli_fetch_array(mysqli_query($question));
          				          echo $result[0];
                       ?>
                     </th>
@@ -257,7 +257,7 @@ if($ok==1)  {
   </html>
      
 <?php 
-	mysql_close();
+	mysqli_close();
 } 
 else { // le mot de passe n'est pas bon : On affiche la zone de texte pour rentrer de nouveau le mot de passe.
 ?>

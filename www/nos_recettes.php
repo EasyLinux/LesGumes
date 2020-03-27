@@ -20,12 +20,12 @@
 		</div>
 		<div id="page_principale">
 		<?php include_once("includes/menu_gauche.php");
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
    
-   		$reponse = mysql_query("SELECT Rubrique,Nom_recette FROM recettes ORDER BY Rubrique ASC, Nom_recette ASC") or die(mysql_error()); // Requête SQL
-      mysql_close(); // Déconnexion de MySQL
-      if(mysql_num_rows($reponse) <= 0) { ?>
+   		$reponse = mysqli_query("SELECT Rubrique,Nom_recette FROM recettes ORDER BY Rubrique ASC, Nom_recette ASC") or die(mysqli_error()); // Requête SQL
+      mysqli_close(); // Déconnexion de MySQL
+      if(mysqli_num_rows($reponse) <= 0) { ?>
         <p> Aucune recette de saisie </p>
       <?php } else {  ?>
         <table >
@@ -40,7 +40,7 @@
            </tr>
         </thead>
         <tbody>
-         <?php  while ($donnees = mysql_fetch_array($reponse) ) { 
+         <?php  while ($donnees = mysqli_fetch_array($reponse) ) { 
             $nom = $donnees['Nom_recette'];
             $type = $donnees['Rubrique']?>	
             <tr>

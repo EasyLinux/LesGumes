@@ -7,8 +7,8 @@ $pdf->SetAutoPageBreak(false, 5);
 $pdf->AddPage();
 $pdf->SetFont('Arial','B',10);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 
 // les amapiens inscrits à ce contrat : le LEFT Join permet de récupérer le nom du binôme s'il existe
 
@@ -16,8 +16,8 @@ $question="SELECT g.id, g.Nom, g.Prenom, g.Tel_portable, g.Telephone, b.nom_bino
 $question=$question.$_GET['amap'];
 $question=$question." l, amap_generale g LEFT JOIN binome b ON (b.id_contrat=g.id AND b.type_amap='";
 $question=$question.$_GET['amap']."') WHERE g.id= l.id ORDER BY  g.Nom";
-$reponse = mysql_query($question) or die(mysql_error());
-$ligne = mysql_num_rows($reponse);
+$reponse = mysqli_query($question) or die(mysqli_error());
+$ligne = mysqli_num_rows($reponse);
 
 $pdf->Cell(278,10,'AMAP LesGUMES Saint Sébastien - Contrat '.$_GET['amap'].'             '.$ligne.' INSCRITS',0,1,'C');
 
@@ -30,7 +30,7 @@ $cellHeight = 8; // hauteur des lignes
 $nbLigneParPage = 22;
 $j=0;
 
-while($donnees = mysql_fetch_array($reponse)) {
+while($donnees = mysqli_fetch_array($reponse)) {
 
 	if ( $donnees['id'] == '303') {
 		//ATTENTION : l'amapien 303 est mis en fin de feuille car il a des problèmes de vue ...
@@ -50,12 +50,12 @@ while($donnees = mysql_fetch_array($reponse)) {
                                   
 		// les dates
 		$questionDate="SELECT DATE_FORMAT(date, '%d/%m/%Y') AS date FROM ".$_GET['amap']."_permanences WHERE Date >='".date("Y-m-d")."' ";
-		$reponseDate = mysql_query($questionDate) or die(mysql_error());
+		$reponseDate = mysqli_query($questionDate) or die(mysqli_error());
 		
-		$nbdate = mysql_num_rows($reponseDate);
+		$nbdate = mysqli_num_rows($reponseDate);
 		if ( $nbdate > 6) $nbdate = 6;
 		for ($i = 0; $i < $nbdate; $i++) {
-		  $dates = mysql_fetch_array($reponseDate);
+		  $dates = mysqli_fetch_array($reponseDate);
 		  $pdf->Cell($cellWidth,$cellHeight,$dates['date'],1,0,'C',true);
 		}
 		
@@ -101,7 +101,7 @@ while($donnees = mysql_fetch_array($reponse)) {
 
 }
 
-mysql_close();
+mysqli_close();
 
 $pdf->Output('Emargements'.$_GET['amap'].'_'.date("d-M-Y").'.pdf','D');
 ?>

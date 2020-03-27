@@ -33,11 +33,11 @@
       // données par amap 	
         
       $tableAMAP =$_GET['amap'];       
-      mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+      mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
       $question = "SELECT * FROM liste_amap WHERE Table_amap= '".$tableAMAP."'";
-      $reponse = mysql_query($question) or die(mysql_error()); // Requête SQL
-      $donnees = mysql_fetch_array($reponse);  
+      $reponse = mysqli_query($question) or die(mysqli_error()); // Requête SQL
+      $donnees = mysqli_fetch_array($reponse);  
       $nomAMAP   = $donnees['Nom_amap'];
       $dateDeb = $donnees['Date_deb'];
       $dateFin = $donnees['Date_fin'];
@@ -72,30 +72,30 @@
      
     				<tr class="h3">
               <?php
-                $reponse = mysql_query("SELECT Nom_produit FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+                $reponse = mysqli_query("SELECT Nom_produit FROM ".$tableProduits." ORDER BY id") or die(mysqli_error()); // Requête SQL
               ?>
     
     					<th>Désignation</th>            
-                <?php while ( $donnees = mysql_fetch_array($reponse) ) {	?>
+                <?php while ( $donnees = mysqli_fetch_array($reponse) ) {	?>
     						  <td class="h3"><?php echo $donnees[0]; ?></td>
     					<?php } ?>
     				</tr>
             
     		    <?php
-    				$reponse = mysql_query("SELECT Quantite FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+    				$reponse = mysqli_query("SELECT Quantite FROM ".$tableProduits." ORDER BY id") or die(mysqli_error()); // Requête SQL
    				?>
     				<tr class="h3">
     					<th>Quantité</th>
-    				  <?php while ($donnees = mysql_fetch_array($reponse) ) {	?>
+    				  <?php while ($donnees = mysqli_fetch_array($reponse) ) {	?>
     						<td class="h3"><?php echo $donnees[0]; ?></td>
     					<?php } ?>
     				</tr>
     			  <?php
-    				$reponse = mysql_query("SELECT Prix FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+    				$reponse = mysqli_query("SELECT Prix FROM ".$tableProduits." ORDER BY id") or die(mysqli_error()); // Requête SQL
     				?>
     				<tr class="h3">
     					<th>Prix unitaire</th>
-    				  <?php while ($donnees = mysql_fetch_array($reponse) ) {	?>
+    				  <?php while ($donnees = mysqli_fetch_array($reponse) ) {	?>
     						<td class="h3"><?php echo $donnees[0]; ?></td>
     					<?php } ?>
       			</tr>	
@@ -106,7 +106,7 @@
               $question =  "SELECT Nom_produit, Quantite, Prix";
               if ( $conservation )  $question .= ", Conservation ";
               $question .= " FROM ".$tableProduits . " ORDER BY id";
-              $reponse = mysql_query( $question ) or die(mysql_error()); // Requête SQL         
+              $reponse = mysqli_query( $question ) or die(mysqli_error()); // Requête SQL         
     		 ?>
             <table class="h3">
     				<caption class="h3">Tableau des produits</caption>    
@@ -117,7 +117,7 @@
               <th>Prix unitaire</th>
               <?php if ( $conservation ) { ?> <th> Conservation</th>   <?php } ?>
             </tr>
-            <?php while ($donnees = mysql_fetch_array($reponse) ) {	?>
+            <?php while ($donnees = mysqli_fetch_array($reponse) ) {	?>
               <tr>
               	<td ><?php echo $donnees[0]; ?></td>
                 <td ><?php echo $donnees[1]; ?></td>
@@ -131,7 +131,7 @@
           <h4 style="color:white; text-align:center">Consulter le tableau des produits joint en annexe au contrat </h4>
          <?php 
          } 
-           mysql_close(); 
+           mysqli_close(); 
          ?>   
     	
      

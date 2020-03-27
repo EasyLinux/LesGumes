@@ -20,59 +20,59 @@
 		</div>
 		<div id="page_principale">
 			<?php include("includes/menu_gauche.php");
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='désserts'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='désserts'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3">
 					<tr><th>desserts</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php }
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='légumes'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='légumes'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3" >
 					<tr><th>légumes</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php }
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='soupes & potages'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='soupes & potages'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3" >
 					<tr><th>soupes & potages</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php }
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='viande'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='viande'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3" >
 					<tr><th>viande</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php }
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='poissons'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='poissons'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3" >
 					<tr><th>poissons</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php }
-			$reponse = mysql_query("SELECT Nom_recette FROM recettes WHERE Rubrique='autres'") or die(mysql_error()); // Requête SQL
-			if(mysql_num_rows($reponse)!=0) {;
+			$reponse = mysqli_query("SELECT Nom_recette FROM recettes WHERE Rubrique='autres'") or die(mysqli_error()); // Requête SQL
+			if(mysqli_num_rows($reponse)!=0) {;
 			?>
 				<table class="h3" >
 					<tr><th>autres</th></tr>
-					<?php while ($donnees = mysql_fetch_array($reponse) ) { ?>
+					<?php while ($donnees = mysqli_fetch_array($reponse) ) { ?>
 					<tr><td><a class="tab_perm_leg" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a></td></tr><?php } ?>
 				</table>
 			<?php } ?>
@@ -81,17 +81,17 @@
 <!--
 					<ul style="list-style: none; margin-left:170px; padding:0">
 					<?php
-						mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-						mysql_select_db(base_de_donnees); // Sélection de la base 
-						$reponse = mysql_query("SELECT Nom_recette FROM recettes ORDER BY Nom_recette") or die(mysql_error()); // Requête SQL
-						while ($donnees = mysql_fetch_array($reponse) )	{
+						mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+						mysqli_select_db(base_de_donnees); // Sélection de la base 
+						$reponse = mysqli_query("SELECT Nom_recette FROM recettes ORDER BY Nom_recette") or die(mysqli_error()); // Requête SQL
+						while ($donnees = mysqli_fetch_array($reponse) )	{
 						?>
 						<li>
 							<a style="color:white" href="modifier_table_recettes.php?nom_recette=<?php echo $donnees['Nom_recette']?>&amp;action=modifier"><?php echo $donnees['Nom_recette'];?></a>
 						</li>
 						<?php
 						}
-						mysql_close(); // Déconnexion de MySQL
+						mysqli_close(); // Déconnexion de MySQL
 						?>
 
 					</ul>

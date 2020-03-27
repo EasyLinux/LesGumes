@@ -4,44 +4,44 @@ $ok=-1;/* pas identifier */
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
 	$ok=0; //identifié mais déjà inscrit aux légumes
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 	echo "id cockie=".$id ." et id requete=".$_GET['id'];
 	$question="SELECT * FROM amap_legumes WHERE id='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	if($ligne==0) {
 		$ok=1; //identifié et non inscrit aux légumes
 		$question="SELECT * FROM amap_legumes_liste_attente WHERE id='".$id."'";
-		$reponse = mysql_query($question) or die(mysql_error());
-		$ligne = mysql_num_rows($reponse);
+		$reponse = mysqli_query($question) or die(mysqli_error());
+		$ligne = mysqli_num_rows($reponse);
 		if($ligne>0) {
 			$ok=2;} //déjà inscrit sur la liste d'attente
 		if (isset($_GET['id'])) // Si la variable existe
 		{
 			$question="SELECT * FROM amap_legumes_liste_attente WHERE id='".$_GET['id']."'";
 			echo $question;
-			$reponse = mysql_query($question) or die(mysql_error());
-			$ligne = mysql_num_rows($reponse);
+			$reponse = mysqli_query($question) or die(mysqli_error());
+			$ligne = mysqli_num_rows($reponse);
 			if(($ligne==0) && ($_GET['reponse']=='oui')) {
 				$ok=3; //inscription réussi
 				$question="SELECT * FROM amap_generale WHERE id='".$_GET['id']."'";
-				$reponse = mysql_query($question) or die(mysql_error());
-				$donnees = mysql_fetch_array($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error());
+				$donnees = mysqli_fetch_array($reponse);
 			
 				$question = "INSERT INTO amap_legumes_liste_attente VALUES ('".$_GET['id']."', '".$donnees['Nom']."', '".$donnees['Prenom']."'";
 				$question.=", '".date('Y-m-d H:m:s')."')";
-				$reponse = mysql_query($question) or die(mysql_error());
+				$reponse = mysqli_query($question) or die(mysqli_error());
 			}
 			elseif ($ligne>0 && $_GET['reponse']=='non') {
 				$ok=4; // désinscription réussi
 				$question = "DELETE FROM amap_legumes_liste_attente WHERE id='".$_GET['id']."'";
-				$reponse = mysql_query($question) or die(mysql_error());
+				$reponse = mysqli_query($question) or die(mysqli_error());
 			}
 		}
 	}
-	mysql_close();
+	mysqli_close();
 
 }
 ?>
@@ -92,18 +92,18 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 				<h3 class="mot_passe_recette">Vous venez d'être retiré de la liste d'attente légumes.</h3> 
 			<?php } 
 			if($ok>0) {
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+				mysqli_select_db(base_de_donnees); // Sélection de la base 
 				$question="SELECT * FROM amap_legumes_liste_attente ORDER BY Date_inscription";
-				$reponse = mysql_query($question) or die(mysql_error());
-				$ligne = mysql_num_rows($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error());
+				$ligne = mysqli_num_rows($reponse);
 				$n=0;?>
 				<table class="h3"> 
 					<caption class="h3">Le nombre de personnes sur la liste d'attente est de <?php echo $ligne; ?></caption>
 					<tr>
 						<th>Nom</th><th>Date d'inscription</th><th>Votre ordre dans la liste</th>
 					</tr> <?php
-					while($donnees=mysql_fetch_array($reponse)) {
+					while($donnees=mysqli_fetch_array($reponse)) {
 						$n++;?>
 						<tr> 
 							<td class="h3"><?php echo $donnees['Nom']." ".$donnees['Prenom']; ?></td>
@@ -113,7 +113,7 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 					<?php } ?>
 				</table>
 				<?php
-				mysql_close();
+				mysqli_close();
 			} ?>
 		</div>		
 		<div id="pied_page">

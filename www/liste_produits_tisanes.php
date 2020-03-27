@@ -69,15 +69,15 @@ function getDateProchaineCommande() {
 	//echo "auj : ".$auj."<BR>"; 
 	//echo "aujSQL : ".$aujSQL."<BR>"; ;
 	
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$questionProchaineCommande="SELECT Min(Date) FROM amap_tisanes_permanences where Date>'".$aujSQL."'";
 	//echo "questionProchaineCommande:".$questionProchaineCommande."<BR>"; 
-	$tabProchaineCommande = mysql_query($questionProchaineCommande) or die(mysql_error());
+	$tabProchaineCommande = mysqli_query($questionProchaineCommande) or die(mysqli_error());
 	//echo "tabProchaineCommande:".$tabProchaineCommande."<BR>"; 
-	$tabDateProchaineCommande=mysql_fetch_array($tabProchaineCommande);
+	$tabDateProchaineCommande=mysqli_fetch_array($tabProchaineCommande);
 	$dateProchaineCommande=$tabDateProchaineCommande[0];
-	mysql_close();
+	mysqli_close();
 
 	return $dateProchaineCommande;
 }
@@ -138,8 +138,8 @@ if($ok==1)
 		<caption> Les produits commandés pour la livraison du <?php echo $dateProchaineCommande; ?> </caption>
 	<?php
 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	
 	$tab = computeProducts($dateProchaineCommande);
 	$nombreProd= $tab['nombreProd'];
@@ -151,7 +151,7 @@ if($ok==1)
 	$tabCommandes = $tab['tabCommandes'];
 	$noms = $tab['noms'];
 	$totalColonne = $tab['totalColonne'];
-	mysql_close();
+	mysqli_close();
 	
 	entete1($tabTypeProduit);
 	entete2($tabNomProduit, $nombreProd);

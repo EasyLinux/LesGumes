@@ -20,13 +20,13 @@ function VoirContratV(base, table, id)  	affiche le(s) contrat(s) verticalement 
 
 function AfficherTable($base,$table,$ordre1)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$ordre1;
-	$reponse = mysql_query($question);
-	/*$colonne = mysql_num_fields($reponse);*/
-	$ligne = mysql_num_rows($reponse);
-	$donnees = mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question);
+	/*$colonne = mysqli_num_fields($reponse);*/
+	$ligne = mysqli_num_rows($reponse);
+	$donnees = mysqli_fetch_array($reponse);
 	$i=0;
 ?>
 	<table 	style="
@@ -58,8 +58,8 @@ function AfficherTable($base,$table,$ordre1)
 			<?php   } } } ?>
 		</tr>
 		<?php
-		$reponse = mysql_query($question);
-		while($donnees = mysql_fetch_array($reponse)) { ?>
+		$reponse = mysqli_query($question);
+		while($donnees = mysqli_fetch_array($reponse)) { ?>
 			<tr>
 				<?php 
 				$i=0;
@@ -85,7 +85,7 @@ function AfficherTable($base,$table,$ordre1)
 			</tr>
 		<?php
 		}
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php } ?> 	
@@ -99,17 +99,17 @@ function AfficherTable($base,$table,$ordre1)
 
 function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	for($i=0; $i<$NbreChamps; $i++) {
 		if($i==0) $question="SELECT ".$ListeChamps[$i];
 		else $question.=", ".$ListeChamps[$i];
 	}
 	$question.=" FROM ".$table." ORDER BY ".$ordre;
-	$reponse = mysql_query($question);
-	/*$colonne = mysql_num_fields($reponse);*/
-	$ligne = mysql_num_rows($reponse);
-	$donnees = mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question);
+	/*$colonne = mysqli_num_fields($reponse);*/
+	$ligne = mysqli_num_rows($reponse);
+	$donnees = mysqli_fetch_array($reponse);
 	$i=0;
 ?>
 	<table 	style="
@@ -149,9 +149,9 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			<?php } ?>
 		</tr>
 		<?php
-		$reponse = mysql_query($question);
+		$reponse = mysqli_query($question);
 		$PrixTotal=0.0;
-		while($donnees = mysql_fetch_array($reponse)) {
+		while($donnees = mysqli_fetch_array($reponse)) {
 			$prix=0.0;?>
 			<tr>
 				<?php 
@@ -195,8 +195,8 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 		<?php
 		} 
 	/********* affichage des quantites totales et du prix total */
-		$reponse = mysql_query($question);
-		$colonne = mysql_num_fields($reponse);?>
+		$reponse = mysqli_query($question);
+		$colonne = mysqli_num_fields($reponse);?>
 		<tr> 
 			<th style="
 				text-align: center;
@@ -206,9 +206,9 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			>Total</th><?php
 			for($j=0; $j<($colonne-1)/2; $j++) {
 				$qte=0;
-				$reponse = mysql_query($question);
+				$reponse = mysqli_query($question);
 				for($i=0; $i<$ligne; $i++) {
-					$donnees = mysql_fetch_array($reponse);
+					$donnees = mysqli_fetch_array($reponse);
 					$qte+=$donnees[2*$j+1];
 				} ?>
 				<td style="
@@ -229,7 +229,7 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 		</tr>
 		
 		<?php
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php } ?> 	
@@ -241,17 +241,17 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 <!--***********************************************************************************************************-->
 <?php
 function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$classement;
-	$reponse = mysql_query($question);
+	$reponse = mysqli_query($question);
 ?>
 <form method="post" action=<?php echo $action; ?>>
    <p>
        <label for="adherent"><?php echo $message; ?></label>
        <select name="adherent" id="adherent">
 	   <?php
-			while($donnees = mysql_fetch_array($reponse)) {
+			while($donnees = mysqli_fetch_array($reponse)) {
 					if($amap_exclue=='amap_viande_bovine' //&& $donnees['Amap_viande_bovine']!='1'
 						|| $amap_exclue=='amap_legumes' && $donnees['Amap_legumes']!='1'
 						|| $amap_exclue=='amap_pommes' //&& $donnees['Amap_pommes']!='1'
@@ -265,7 +265,7 @@ function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action)
    </p>
 </form>
 <?php 
-	mysql_close();
+	mysqli_close();
 } ?>
 <!--***********************************************************************************************************-->
 <!-- fin fonction liste deroulante des noms -->	
@@ -273,54 +273,54 @@ function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action)
 <?php
 function SupprimeEnr($base, $table, $enr) {
 	echo "<br /><br />SupprimeEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="DELETE FROM ".$table." WHERE id='".$enr."'";
-	echo mysql_query($question);
+	echo mysqli_query($question);
 	echo "<br />".$question."<br />";
-	mysql_close();
+	mysqli_close();
 
 }
 ?>
 <?php
 function AjouteEnr($base, $table, $id) {
 	echo "<br /><br />AjouteEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM amap_generale WHERE id='".$id."'";
-	echo $reponse=mysql_query($question);
+	echo $reponse=mysqli_query($question);
 	echo "<br />".$question."<br />";
-	$donnees=mysql_fetch_array($reponse);
+	$donnees=mysqli_fetch_array($reponse);
 	$texte_1=addslashes($donnees['Nom']);
 	$texte_2=addslashes($donnees['Prenom']);
 	$question="INSERT INTO ".$table."(id, Nom, Prenom) VALUES ('".$id."', '".$texte_1."', '".$texte_2."')";	
-	echo mysql_query($question);
+	echo mysqli_query($question);
 	echo "<br />".$question."<br />";
-	mysql_close();
+	mysqli_close();
 }
 ?>
 <?php
 function MajChamp($base, $table, $id, $champ, $valeur) {
 	echo "<br /><br />MajChamp<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$texte=addslashes($valeur);
 	$question="UPDATE ".$table." SET ".$champ."='".$texte."' WHERE id='".$id."'";
-	echo mysql_query($question);
+	echo mysqli_query($question);
 	echo "<br />".$question."<br />";
-	mysql_close();
+	mysqli_close();
 
 }
 ?>
 <?php
 function AfficheFormulaireEnr($base, $table, $id, $action) {
 	echo "<br /><br />AfficheEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	echo $reponse=mysql_query($question);
+	echo $reponse=mysqli_query($question);
 	echo "<br />".$question."<br />";
-	$donnees=mysql_fetch_array($reponse);
+	$donnees=mysqli_fetch_array($reponse);
 	$i=0;
 	?>
 	<form method="post" action=<?php echo $action; ?>>
@@ -379,7 +379,7 @@ function AfficheFormulaireEnr($base, $table, $id, $action) {
 		</tr>
 	</table>
 	<?php
-	mysql_close();
+	mysqli_close();
 	?>
 	<p>
 	</form>
@@ -390,13 +390,13 @@ function AfficheFormulaireEnr($base, $table, $id, $action) {
 <?php
 function MajEnr($base, $table) {
 	echo "<br /><br />MajEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM ".$table." WHERE id='".$_POST['id']."'";
-	$reponse = mysql_query($question);
-	$colonne = mysql_num_fields($reponse);
+	$reponse = mysqli_query($question);
+	$colonne = mysqli_num_fields($reponse);
 	echo "Nbre colonne = ".$colonne."<br />";
-	$donnees=mysql_fetch_array($reponse);
+	$donnees=mysqli_fetch_array($reponse);
 	$question2="UPDATE ".$table." SET";/*.$champ."='".$valeur."' WHERE id='".$id."'";*/
 	$i=0;
 	foreach($donnees as $cle => $element) { 
@@ -408,46 +408,46 @@ function MajEnr($base, $table) {
 	}
     $question2.=" WHERE id='".$_POST['id']."'";
 	echo "<br />".$question2."<br />";
-	echo $reponse=mysql_query($question2)."<br />";
-	mysql_close();
+	echo $reponse=mysqli_query($question2)."<br />";
+	mysqli_close();
 }
 ?>
 
 <?php
 function SupTabPermLeg($id) {
 	echo "<br /><br />SupTabPermLeg<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-	if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
+	echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="UPDATE amap_legumes_permanences SET Personne_1='?' WHERE id_1='".$id."'";
-	echo mysql_query($question)."<br />";
+	echo mysqli_query($question)."<br />";
 	$question="UPDATE amap_legumes_permanences SET id_1='0' WHERE id_1='".$id."'";
-	echo mysql_query($question)."<br />";
+	echo mysqli_query($question)."<br />";
 	$question="UPDATE amap_legumes_permanences SET Personne_2='?' WHERE id_2='".$id."'";
-	echo mysql_query($question)."<br />";
+	echo mysqli_query($question)."<br />";
 	$question="UPDATE amap_legumes_permanences SET id_2='0' WHERE id_2='".$id."'";
-	echo mysql_query($question)."<br />";
+	echo mysqli_query($question)."<br />";
 	$question="UPDATE amap_legumes_permanences SET Personne_3='?' WHERE id_3='".$id."'";
-	echo mysql_query($question)."<br />";
+	echo mysqli_query($question)."<br />";
 	$question="UPDATE amap_legumes_permanences SET id_3='0' WHERE id_3='".$id."'";
-	echo mysql_query($question)."<br />";
-	mysql_close();
+	echo mysqli_query($question)."<br />";
+	mysqli_close();
 }
 ?>
 
 <?php
 function VoirContratH($base, $table, $id) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	$reponse = mysql_query($question);
-	/*$colonne = mysql_num_fields($reponse);*/
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question);
+	/*$colonne = mysqli_num_fields($reponse);*/
+	$ligne = mysqli_num_rows($reponse);
 ?>
 	<table class="h3">
 		<caption class="h3">Vous êtes enregistré dans : <?php echo $table; ?></caption>
 		<?php
 		for($j=1; $j<=$ligne; $j++) {
-			$donnees = mysql_fetch_array($reponse);
+			$donnees = mysqli_fetch_array($reponse);
 			if($j==1) { /* écrire le nom et les produits*/
 				$i=0;
 				foreach($donnees as $cle => $element) {
@@ -489,7 +489,7 @@ function VoirContratH($base, $table, $id) {
 				} ?>
 			</tr> <?php
 		}
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php
@@ -500,19 +500,19 @@ function VoirContratH($base, $table, $id) {
 // On ne gère toujours qu'un contrat par amapien : on peut donc simplifier cette fonction
 // la version précédente, avec possibilité d'ajout est conservée dans le fichier mes_fonctions_accès_contrat.php
 function VoirContratV($base, $table, $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";  
-	$reponse = mysql_query($question) or die(mysql_error());      
-	$colonne = mysql_num_fields($reponse);  
-	$ligne = mysql_num_rows($reponse);    
+	$reponse = mysqli_query($question) or die(mysqli_error());      
+	$colonne = mysqli_num_fields($reponse);  
+	$ligne = mysqli_num_rows($reponse);    
 
 ?>
 		
 	
 	<?php
 	for($j=1; $j<=$ligne; $j++) {
-		$donnees = mysql_fetch_array($reponse);
+		$donnees = mysqli_fetch_array($reponse);
 		if($j==1) { ?>
 			<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2> <?php
@@ -579,10 +579,10 @@ function VoirContratV($base, $table, $id) {
 
 <?php
 function VoirContratBimensuelV($base, $table, $id ) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	$reponse = mysql_query($question);
+	$reponse = mysqli_query($question);
   
   $libelle_prix = "Prix";
   $libelle_mois = "Nbre_par_mois";
@@ -596,8 +596,8 @@ function VoirContratBimensuelV($base, $table, $id ) {
       $libelle_quizaine = "Poids_par_quinzaine"; 
       $format = '%.3f'; 
   }
-  $donnees = mysql_fetch_array($reponse);
-	mysql_close();
+  $donnees = mysqli_fetch_array($reponse);
+	mysqli_close();
 ?>
 	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'<?php echo $table; ?><br /> sous le nom : 
 		<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2>

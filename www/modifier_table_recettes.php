@@ -4,37 +4,37 @@ $ok=-1;
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
 	if($_GET['action']=='ajouter') {
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT COUNT(*) AS nbre FROM amap_generale WHERE id='".$_COOKIE['identification_amap']."'";
-		$reponse = mysql_query($question) or die(mysql_error());
-		$donnees = mysql_fetch_array($reponse);
+		$reponse = mysqli_query($question) or die(mysqli_error());
+		$donnees = mysqli_fetch_array($reponse);
 		if ($donnees['nbre'] == '1') 
 		{
 			$ok=1;
 			$question="SELECT * FROM amap_generale WHERE id='".$_COOKIE['identification_amap']."'";
-			$reponse = mysql_query($question) or die(mysql_error());
-			$donnees = mysql_fetch_array($reponse);
+			$reponse = mysqli_query($question) or die(mysqli_error());
+			$donnees = mysqli_fetch_array($reponse);
 			$nom=$donnees['Nom'];
 			$prenom=$donnees['Prenom'];
 		}
 		else $ok=0;
-		mysql_close(); // Déconnexion de MySQL
+		mysqli_close(); // Déconnexion de MySQL
 		
 	}
 	if($_GET['action']=='supprimer' || $_GET['action']=='modifier') {
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_generale WHERE id='".$_COOKIE['identification_amap']."'";
-		$reponse = mysql_query($question) or die(mysql_error());
-		$donnees=mysql_fetch_array($reponse);
+		$reponse = mysqli_query($question) or die(mysqli_error());
+		$donnees=mysqli_fetch_array($reponse);
 		$nom_prenom = $donnees['Prenom'].' '.$donnees['Nom'];
 		$question="SELECT * FROM recettes WHERE Nom_recette='".$_GET['nom_recette']."'";
-		$reponse = mysql_query($question) or die(mysql_error());
-		$donnees = mysql_fetch_array($reponse);
+		$reponse = mysqli_query($question) or die(mysqli_error());
+		$donnees = mysqli_fetch_array($reponse);
 		if ($nom_prenom == $donnees['Auteur']) $ok=1;
 		else $ok=2;
-		mysql_close(); // Déconnexion de MySQL		
+		mysqli_close(); // Déconnexion de MySQL		
 	}
 }
 if ($ok==1) // Si le mot de passe est bon
@@ -100,13 +100,13 @@ if ($ok==1) // Si le mot de passe est bon
 					<form class="modifier_recette" method="post" action="maj_table_recettes.php?nom_recette=<?php echo stripslashes($_GET['nom_recette']); ?>&amp;action=modifier">
 						<p class="modifier_recette">
 						<?php 
-							mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-							mysql_select_db(base_de_donnees); // Sélection de la base 
+							mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+							mysqli_select_db(base_de_donnees); // Sélection de la base 
 							$nom_recette = $_GET['nom_recette'];
 							$question="SELECT Recette FROM recettes WHERE Nom_recette='".$nom_recette."'";
-							$reponse=mysql_query($question) or die(mysql_error()); // Requête SQL
-							$donnees = mysql_fetch_array($reponse);
-							mysql_close(); // Déconnexion de MySQL
+							$reponse=mysqli_query($question) or die(mysqli_error()); // Requête SQL
+							$donnees = mysqli_fetch_array($reponse);
+							mysqli_close(); // Déconnexion de MySQL
 						?>
 							<textarea name="texte_recette" cols="100" tabindex="10"><?php echo $donnees['Recette']; ?></textarea><br />
 							<input type="submit" tabindex="20" />
@@ -115,23 +115,23 @@ if ($ok==1) // Si le mot de passe est bon
 					</form>
 				<?php }
 				if($_GET['action']=="supprimer") { 
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
 					$nom = $_GET['nom_recette'];
 					$question="DELETE FROM recettes WHERE Nom_recette='".$nom."'";
-					mysql_query($question) or die(mysql_error()); // Requête SQL
-					mysql_close(); // Déconnexion de MySQL
+					mysqli_query($question) or die(mysqli_error()); // Requête SQL
+					mysqli_close(); // Déconnexion de MySQL
 					include("includes/menu_gauche.php");
 					?>
 					<h3 class="mot_passe_recette">La recette <span class="mot_passe_recette"><?php echo stripslashes($_GET['nom_recette']); ?></span> a bien été supprimée!</h3>
 				<?php } 
 				if($_GET['action']=="ajouter") { 
 					include("includes/menu_gauche.php");
-				  mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+				  mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
 					$question="SELECT distinct Rubrique FROM `recettes` ";
-					$reponse =mysql_query($question) or die(mysql_error()); // Requête SQL
-					mysql_close(); // Déconnexion de MySQL
+					$reponse =mysqli_query($question) or die(mysqli_error()); // Requête SQL
+					mysqli_close(); // Déconnexion de MySQL
 					?>
 					<h3 class="modifier_recette">Entrer votre recette</h3>
 					<form 	class="ajouter_recette" 
@@ -141,7 +141,7 @@ if ($ok==1) // Si le mot de passe est bon
 					<p class="ajouter_recette">
 						<label for="rubrique">Sélectionner la rubrique</label><br />
 						<select name="rubrique" id="rubrique">
-						    <?php while ($donnees = mysql_fetch_array($reponse) ) { 
+						    <?php while ($donnees = mysqli_fetch_array($reponse) ) { 
                   $rubrique= $donnees['Rubrique']; ?> 
 						   	<option value="<?php echo $rubrique; ?>"><?php echo $rubrique; ?></option>
 						   	<?php } ?>

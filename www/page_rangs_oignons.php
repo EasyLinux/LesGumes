@@ -1,11 +1,11 @@
 <?php include_once("webmaster/define.php");
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	$reponse=mysql_query("SELECT Prix FROM amap_legumes_produits WHERE id=1");
-	if ( mysql_error()) {
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
+	$reponse=mysqli_query("SELECT Prix FROM amap_legumes_produits WHERE id=1");
+	if ( mysqli_error()) {
 		$prix = 14;
 	} else {
-		$reponse = mysql_fetch_array($reponse);
+		$reponse = mysqli_fetch_array($reponse);
 		$prix = $reponse[0];
 	}
  ?>

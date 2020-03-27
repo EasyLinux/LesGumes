@@ -9,8 +9,8 @@
 /* recherche si l'amapien d'id $id est bien enregistré dans la $table */
 function InscritAuContrat( $base, $table, $id) {
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	return $ligne > 0; 
 }
 ?>
@@ -21,8 +21,8 @@ function InscritAuContrat( $base, $table, $id) {
 function getIdBinome( $base, $table, $id) {
 	$question="SELECT id_contrat FROM binome WHERE id_binome='".$id."' AND type_amap='".$table."'";
 
-	$reponse = mysql_query($question) or die(mysql_error()); 
-	if ( $donnees=mysql_fetch_array($reponse) ) { // c'est un binome
+	$reponse = mysqli_query($question) or die(mysqli_error()); 
+	if ( $donnees=mysqli_fetch_array($reponse) ) { // c'est un binome
 		$idContrat = $donnees['id_contrat'];
 	} else { 
 		$idContrat = -1;
@@ -40,8 +40,8 @@ function getNomBinome($base, $table, $id) {
 			WHERE B.id_contrat='".$id."' AND type_amap='".$table."'
 			AND G.id = B.id_binome";
 
-	$reponse = mysql_query($question) or die(mysql_error()); 
-	if ( $donnees= mysql_fetch_array($reponse) ) { // c'est un binome
+	$reponse = mysqli_query($question) or die(mysqli_error()); 
+	if ( $donnees= mysqli_fetch_array($reponse) ) { // c'est un binome
 		$binome = $donnees['nomBinome'];
 	}
 	else $binome =null;
@@ -53,19 +53,19 @@ function getNomBinome($base, $table, $id) {
 <?php
 /* affiche le */
 function VoirContratH($base, $table, $id) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	$reponse = mysql_query($question);
-	/*$colonne = mysql_num_fields($reponse);*/
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question);
+	/*$colonne = mysqli_num_fields($reponse);*/
+	$ligne = mysqli_num_rows($reponse);
 ?>
 	<table class="h3">
 		<caption class="h3">Vous êtes enregistré dans : <?php echo $table; ?></caption>
 		<?php
 		for($j=1; $j<=$ligne; $j++) {
-			$donnees = mysql_fetch_array($reponse);
+			$donnees = mysqli_fetch_array($reponse);
 			if($j==1) { /* écrire le nom et les produits*/
 				$i=0;
 				foreach($donnees as $cle => $element) {
@@ -106,7 +106,7 @@ function VoirContratH($base, $table, $id) {
 				} ?>
 			</tr> <?php
 		}
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php
@@ -119,18 +119,18 @@ function VoirContratH($base, $table, $id) {
 	La version précédente, avec possibilité d'ajout est conservée dans le fichier mes_fonctions_accès_contrat.php */
 	
 function VoirContratV($base, $table, $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$binome = getNomBinome( $base, $table, $id);
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";  
-	$reponse = mysql_query($question) or die(mysql_error());      
-	$colonne = mysql_num_fields($reponse);  
-	$ligne = mysql_num_rows($reponse);    
+	$reponse = mysqli_query($question) or die(mysqli_error());      
+	$colonne = mysqli_num_fields($reponse);  
+	$ligne = mysqli_num_rows($reponse);    
 ?>
 	
 	<?php
 	for($j=1; $j<=$ligne; $j++) {
-		$donnees = mysql_fetch_array($reponse);
+		$donnees = mysqli_fetch_array($reponse);
 		if($j==1) { ?>
 			<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; 			
@@ -189,11 +189,11 @@ function VoirContratV($base, $table, $id) {
 
 <?php
 function VoirContratBimensuelV($base, $table, $id ) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$binome = getNomBinome( $base, $table, $id);
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
-	$reponse = mysql_query($question);
+	$reponse = mysqli_query($question);
   
   $libelle_prix = "Prix";
   $libelle_mois = "Nbre_par_mois";
@@ -207,8 +207,8 @@ function VoirContratBimensuelV($base, $table, $id ) {
       $libelle_quizaine = "Poids_par_quinzaine"; 
       $format = '%.3f'; 
   }
-  $donnees = mysql_fetch_array($reponse);
-	mysql_close();
+  $donnees = mysqli_fetch_array($reponse);
+	mysqli_close();
 ?>
 	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; 

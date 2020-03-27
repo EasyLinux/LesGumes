@@ -3,15 +3,15 @@
 	$amap  = $_GET['amap'];
 	$tablePermanences= $amap."_permanences";
 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	$reponse = mysql_query("SELECT MAX(date),MIN(date) FROM ".$tablePermanences) or die(mysql_error()); // Requête SQL
-	$donnees = mysql_fetch_array($reponse);
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
+	$reponse = mysqli_query("SELECT MAX(date),MIN(date) FROM ".$tablePermanences) or die(mysqli_error()); // Requête SQL
+	$donnees = mysqli_fetch_array($reponse);
 	$derniere_date_bdd = $donnees[0]; 
 	$premiere_date_bdd = $donnees[1]; 	
 	$today =date("Y-m-d",time());
 
-	mysql_close();
+	mysqli_close();
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

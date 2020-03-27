@@ -48,16 +48,16 @@ if($ok==1)
 	<?php
     function MailTo($amap, $objet) {
     
-    	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-    	mysql_select_db(base_de_donnees);
+    	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+    	mysqli_select_db(base_de_donnees);
     	$question="SELECT * FROM amap_generale WHERE id IN (SELECT id FROM ".$amap.")";
-    	$reponse=mysql_query($question);
-    	$nbre_eng=mysql_num_rows($reponse);
+    	$reponse=mysqli_query($question);
+    	$nbre_eng=mysqli_num_rows($reponse);
     	//echo $nbre_eng." personnes<br />";
     	$adresse='';
     	$i=0;
     	if($nbre_eng!=0) {
-    		while($donnees=mysql_fetch_array($reponse)) {
+    		while($donnees=mysqli_fetch_array($reponse)) {
     			$i++;
     			if($i==1) $adresse=$donnees['e_mail'];
     			else $adresse=$adresse."; ".$donnees['e_mail'];
@@ -67,17 +67,17 @@ if($ok==1)
     	//ajouter les e-mail des binômes de cette amap
     	$question="SELECT e_mail FROM amap_generale WHERE id IN (SELECT id_binome FROM binome, ".$amap.
                 "  WHERE binome.id_contrat=".$amap.".id  And binome.type_amap='".$amap."')";
-    	$reponse=mysql_query($question);
-    	$nbre_eng=mysql_num_rows($reponse);
+    	$reponse=mysqli_query($question);
+    	$nbre_eng=mysqli_num_rows($reponse);
     	if($nbre_eng!=0) {
-    		while($donnees=mysql_fetch_array($reponse)) {
+    		while($donnees=mysqli_fetch_array($reponse)) {
     		  $adresse=$adresse.";".$donnees['e_mail'];
     		}
     	}
 	
     	$envoi="mailto:".$adresse;
     	if($objet!='') $envoi=$envoi."?subject=".$objet;
-    	mysql_close();
+    	mysqli_close();
     	return $envoi;
     }
   ?>

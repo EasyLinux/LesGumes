@@ -84,61 +84,61 @@ function tester(formulaire)
 		if($_GET['table']=='amap_generale' && $_GET['action']=='ajouter') {
 		if($_POST['amap_legumes']=='1' && $_POST['liste_attente_leg']=='1') echo "incompatibilté entre les drapeaux amap_legumes et amap_legumes_liste_attente!!!!!!!!!!!!!!";	
 		else {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			$texte_1=addslashes($_POST['nom']);
 			$texte_2=addslashes($_POST['prenom']);
 			$question = "SELECT COUNT(*) AS nbre FROM amap_generale WHERE Nom='".$texte_1."' AND Prenom='".$texte_2."'";
-			$reponse=mysql_query($question);
-			$donnees=mysql_fetch_array($reponse);
+			$reponse=mysqli_query($question);
+			$donnees=mysqli_fetch_array($reponse);
 			if($donnees['nbre']!=0) {
 				echo "Il y a déjà un enregistrement avec le même [Nom, Prénom]!!!!!!<br />";
 			}
 			else {
 				$question="SELECT COUNT(*) AS nbre FROM amap_generale WHERE e_mail='".$_POST['e_mail']."'";
-				$reponse=mysql_query($question);
-				$donnees=mysql_fetch_array($reponse);
+				$reponse=mysqli_query($question);
+				$donnees=mysqli_fetch_array($reponse);
 				if($donnees['nbre']!=0) {
 					echo "Il y a déjà un enregistrement avec cette e_mail!!!!!!<br />";
 				}
 				else {
 					$question="INSERT INTO amap_generale(id, Nom, Prenom, e_mail, Telephone, Date_inscription) ";
 					$question=$question."VALUES('', '".$texte_1."', '".$texte_2."', '".$_POST['e_mail']."', '".$_POST['tel']."', '".$_POST['date']."')";
-					mysql_query($question);
+					mysqli_query($question);
 					echo "<br />requete-1 = ".$question."<br /><br />";
 					
 					$question="SELECT id FROM amap_generale WHERE e_mail='".$_POST['e_mail']."'";
-					$reponse=mysql_query($question);
-					$donnees=mysql_fetch_array($reponse);
+					$reponse=mysqli_query($question);
+					$donnees=mysqli_fetch_array($reponse);
 					if($_POST['adresse']!='') {
 						$question="UPDATE amap_generale SET Adresse='".$_POST['adresse']."' WHERE id='".$donnees['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "requete-adresse = ".$question."<br /><br />";
 					}
 					if($_POST['portable']!='') {
 						$question="UPDATE amap_generale SET Tel_portable='".$_POST['portable']."' WHERE id='".$donnees['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "requete-portable = ".$question."<br /><br />";
 					}
 					$question="UPDATE amap_generale SET Paiement_centre='".$_POST['pay_centre']."', Amap_legumes='".$_POST['amap_legumes']."', ";
 					$question=$question."Amap_legumes_liste_attente='".$_POST['liste_attente_leg']."', Amap_pommes='".$_POST['amap_pommes']."', Amap_viande_bovine='".$_POST['amap_viande_bovine']."' ";
 					$question=$question."WHERE id='".$donnees['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo "requete-drapeaux 0/1 = ".$question."<br />";
 
 					if($_POST['amap_legumes']=='1') {
 						$question="INSERT INTO amap_legumes(id, Nom, Prenom) VALUES('".$donnees['id']."', '".$texte_1."', '".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "<br />".$_POST['prenom']." ".$_POST['nom']." est enregistré à l'amap légumes<br />";
 					}
 					if($_POST['amap_pommes']=='1') {
 						$question="INSERT INTO amap_pommes(id, Nom, Prenom) VALUES('".$donnees['id']."','".$texte_1."', '".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "<br />".$_POST['prenom']." ".$_POST['nom']." est enregistré à l'amap pommes<br />";
 					}
 					if($_POST['amap_viande_bovine']=='1') {
 						$question="INSERT INTO amap_viande_bovine(id, Nom, Prenom) VALUES('".$donnees['id']."','".$texte_1."', '".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "<br />".$_POST['prenom']." ".$_POST['nom']." est enregistré à l'amap viande bovine<br />";
 					}
 					
@@ -157,80 +157,80 @@ function tester(formulaire)
 					echo "inscription amap_viande_bovine : ".$_POST['amap_viande_bovine']."<br />";
 				}
 			}
-			mysql_close();
+			mysqli_close();
 		}
 		}
 /*******************************************************************************************************************/
 /* supprimer enregistrement generale
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_generale' && $_GET['action']=='supprimer') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="SELECT * FROM amap_generale WHERE id='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$nbre_eng=mysql_num_rows($reponse);
+			$reponse=mysqli_query($question);
+			$nbre_eng=mysqli_num_rows($reponse);
 			if($nbre_eng==0) echo "Pas d'adhérent avec l'id : ".$_POST['id'];
 			else {
-				$donnees=mysql_fetch_array($reponse);
+				$donnees=mysqli_fetch_array($reponse);
 				$nom_prenom=$donnees['Prenom']." ".$donnees['Nom'];
 				
 				$question="SELECT * FROM amap_legumes_permanences WHERE Personne_1='".$nom_prenom."' OR Personne_2='".$nom_prenom."' OR Personne_3='".$nom_prenom."'";
-				$reponse=mysql_query($question);
-				$nbre_eng=mysql_num_rows($reponse);
+				$reponse=mysqli_query($question);
+				$nbre_eng=mysqli_num_rows($reponse);
 				if($nbre_eng!=0) {
 					$question="UPDATE amap_legumes_permanences SET Personne_1='?', id_1='0' WHERE Personne_1='".$nom_prenom."'";
-					mysql_query($question);
+					mysqli_query($question);
 					$question="UPDATE amap_legumes_permanences SET Personne_2='?', id_2='0' WHERE Personne_2='".$nom_prenom."'";
-					mysql_query($question);
+					mysqli_query($question);
 					$question="UPDATE amap_legumes_permanences SET Personne_3='?', id_3='0' WHERE Personne_3='".$nom_prenom."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo "<br />".$nom_prenom." supprimer du tableau permanences légumes<br /><br />";
 				}
 
 				$question="DELETE FROM amap_generale WHERE id='".$_POST['id']."'";
-				if(mysql_query($question)) echo $nom_prenom." supprimer du fichier général<br /><br />";
+				if(mysqli_query($question)) echo $nom_prenom." supprimer du fichier général<br /><br />";
 				
 				$question="SELECT * FROM amap_legumes WHERE id='".$_POST['id']."'";
-				$reponse=mysql_query($question);
-				$nbre_eng=mysql_num_rows($reponse);
+				$reponse=mysqli_query($question);
+				$nbre_eng=mysqli_num_rows($reponse);
 				if($nbre_eng!=0) {
 					$question="DELETE FROM amap_legumes WHERE id='".$_POST['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo $nom_prenom." supprimer de l'amap légumes<br /><br />";
 				}
 				$question="SELECT * FROM amap_pommes WHERE id='".$_POST['id']."'";
-				$reponse=mysql_query($question);
-				$nbre_eng=mysql_num_rows($reponse);
+				$reponse=mysqli_query($question);
+				$nbre_eng=mysqli_num_rows($reponse);
 				if($nbre_eng!=0) {
 					$question="DELETE FROM amap_pommes WHERE id='".$_POST['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo $nom_prenom." supprimer de l'amap pommes<br /><br />";
 				}
 				$question="SELECT * FROM amap_viande_bovine WHERE id='".$_POST['id']."'";
-				$reponse=mysql_query($question);
-				$nbre_eng=mysql_num_rows($reponse);
+				$reponse=mysqli_query($question);
+				$nbre_eng=mysqli_num_rows($reponse);
 				if($nbre_eng!=0) {
 					$question="DELETE FROM amap_viande_bovine WHERE id='".$_POST['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo $nom_prenom." supprimer de l'amap viande bovine<br /><br />";
 				}
 			}
-			mysql_close();
+			mysqli_close();
 		}
 /*******************************************************************************************************************/
 /* modifier enregistrement sans maj table generale
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_generale' && $_GET['action']=='modifier') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="SELECT * FROM amap_generale WHERE id='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$nbre_eng=mysql_num_rows($reponse);
+			$reponse=mysqli_query($question);
+			$nbre_eng=mysqli_num_rows($reponse);
 			if($nbre_eng==0) { echo "Pas d'adhérent avec l'id : ".$_POST['id'];}
 			else {
-				$donnees=mysql_fetch_array($reponse);
+				$donnees=mysqli_fetch_array($reponse);
 				?>
 				<h4> Adhérent : <?php echo $donnees['id']; ?> (* = champ obligatoire)</h4>
 				<form name="form_ajouter" onsubmit="return tester(this);"  method="post" action="webmaster_maj_tables.php?table=amap_generale&amp;action=maj" >
@@ -269,7 +269,7 @@ function tester(formulaire)
 				</form>
 			<?php
 			}
-			mysql_close();
+			mysqli_close();
 		}
 /*******************************************************************************************************************/
 /* maj table generale
@@ -277,88 +277,88 @@ function tester(formulaire)
 		if($_GET['table']=='amap_generale' && $_GET['action']=='maj') {
 		if($_POST['amap_legumes']=='1' && $_POST['liste_attente_leg']=='1') echo "incompatibilté entre les drapeaux amap_legumes et amap_legumes_liste_attente!!!!!!!!!!!!!!";	
 		else {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			$texte_1=addslashes($_POST['nom']);
 			$texte_2=addslashes($_POST['prenom']);
 			$question = "SELECT COUNT(*) AS nbre FROM amap_generale WHERE Nom='".$texte_1."' AND Prenom='".$texte_2."' AND id!='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$donnees=mysql_fetch_array($reponse);
+			$reponse=mysqli_query($question);
+			$donnees=mysqli_fetch_array($reponse);
 			if($donnees['nbre']!=0) {
 				echo "Il y a déjà un autre enregistrement avec le même [Nom, Prénom]!!!!!!<br />";
 			}
 			else {
 				$question="SELECT COUNT(*) AS nbre FROM amap_generale WHERE e_mail='".$_POST['e_mail']."' AND id!='".$_POST['id']."'";
-				$reponse=mysql_query($question);
-				$donnees=mysql_fetch_array($reponse);
+				$reponse=mysqli_query($question);
+				$donnees=mysqli_fetch_array($reponse);
 				if($donnees['nbre']!=0) {
 					echo "Il y a déjà un autre enregistrement avec cette e_mail!!!!!!<br />";
 				}
 				else {
 		/*maj table amap_legumes et permanences legumes*/
 					$question="SELECT * FROM amap_generale WHERE id='".$_POST['id']."'";
-					$reponse=mysql_query($question);
-					$donnees=mysql_fetch_array($reponse);
+					$reponse=mysqli_query($question);
+					$donnees=mysqli_fetch_array($reponse);
 					$anc_nom_prenom=addslashes($donnees['Prenom'])." ".addslashes($donnees['Nom']);
 					$nouv_nom_prenom=$texte_2.' '.$texte_1;
 					if($donnees['Amap_legumes']=='1' && $_POST['amap_legumes']=='1') {
 						$question="UPDATE amap_legumes SET Nom='".$texte_1."', Prenom='".$texte_2."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "maj table amap légumes = ".$question."<br /><br />";
 						$question="UPDATE amap_legumes_permanences SET Personne_1='".$nouv_nom_prenom."' WHERE Personne_1='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 						$question="UPDATE amap_legumes_permanences SET Personne_2='".$nouv_nom_prenom."' WHERE Personne_2='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 						$question="UPDATE amap_legumes_permanences SET Personne_3='".$nouv_nom_prenom."' WHERE Personne_3='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 					}
 					elseif ($donnees['Amap_legumes']=='0' && $_POST['amap_legumes']=='1') {
 						$question="INSERT INTO amap_legumes(id, Nom, Prenom) VALUES('".$_POST['id']."', '".$texte_1."','".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "ajout à la table amap légumes = ".$question."<br /><br />";
 					}
 					elseif($donnees['Amap_legumes']=='1' && $_POST['amap_legumes']=='0') {
 						$question="DELETE FROM amap_legumes WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "suppression de la table amap légumes = ".$question."<br /><br />";
 						$question="UPDATE amap_legumes_permanences SET Personne_1='?', id_1='0' WHERE Personne_1='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 						$question="UPDATE amap_legumes_permanences SET Personne_2='?', id_2='0' WHERE Personne_2='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 						$question="UPDATE amap_legumes_permanences SET Personne_3='?', id_3='0' WHERE Personne_3='".$anc_nom_prenom."'";
-						mysql_query($question);
+						mysqli_query($question);
 					}
 
 		/*maj table amap_pommes */
 					if($donnees['Amap_pommes']=='1' && $_POST['amap_pommes']=='1') {
 						$question="UPDATE amap_pommes SET Nom='".$texte_1."', Prenom='".$texte_2."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "maj table amap pommes = ".$question."<br /><br />";
 					}
 					elseif ($donnees['Amap_pommes']=='0' && $_POST['amap_pommes']=='1') {
 						$question="INSERT INTO amap_pommes(id, Nom, Prenom) VALUES('".$_POST['id']."', '".$texte_1."','".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "ajout à la table amap pommes = ".$question."<br /><br />";
 					}
 					elseif($donnees['Amap_pommes']=='1' && $_POST['amap_pommes']=='0') {
 						$question="DELETE FROM amap_pommes WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "suppression de la table amap pommes = ".$question."<br /><br />";
 					}
 		/*maj table amap_viande_bovine */
 					if($donnees['Amap_viande_bovine']=='1' && $_POST['amap_viande_bovine']=='1') {
 						$question="UPDATE amap_viande_bovine SET Nom='".$texte_1."', Prenom='".$texte_2."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "maj table amap viande_bovine = ".$question."<br /><br />";
 					}
 					elseif ($donnees['Amap_viande_bovine']=='0' && $_POST['amap_viande_bovine']=='1') {
 						$question="INSERT INTO amap_viande_bovine(id, Nom, Prenom) VALUES('".$_POST['id']."', '".$texte_1."','".$texte_2."')";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "ajout à la table amap viande_bovine = ".$question."<br /><br />";
 					}
 					elseif($donnees['Amap_viande_bovine']=='1' && $_POST['amap_viande_bovine']=='0') {
 						$question="DELETE FROM amap_viande_bovine WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "suppression de la table amap viande_bovine = ".$question."<br /><br />";
 					}
 					
@@ -366,40 +366,40 @@ function tester(formulaire)
 					
 			/* maj table amap_generale */
 					$question="UPDATE amap_generale SET Nom='".$texte_1."', Prenom='".$texte_2."', e_mail='".$_POST['e_mail']."', Date_inscription='".$_POST['date']."' WHERE id='".$_POST['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 					echo "<br />requete-1 = ".$question."<br /><br />";
 					
 					if($_POST['adresse']!='') {
 						$question="UPDATE amap_generale SET Adresse='".$_POST['adresse']."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "requete-adresse = ".$question."<br /><br />";
 					}
 					else {
 						$question="UPDATE amap_generale SET Adresse=NULL WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 					}
 					if($_POST['tel']!='') {
 						$question="UPDATE amap_generale SET Telephone='".$_POST['tel']."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "requete-telephone = ".$question."<br /><br />";
 					}
 					else {
 						$question="UPDATE amap_generale SET Telephone=NULL WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 					}
 					if($_POST['portable']!='') {
 						$question="UPDATE amap_generale SET Tel_portable='".$_POST['portable']."' WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 						echo "requete-portable = ".$question."<br /><br />";
 					}
 					else {
 						$question="UPDATE amap_generale SET Tel_portable=NULL WHERE id='".$_POST['id']."'";
-						mysql_query($question);
+						mysqli_query($question);
 					}
 					$question="UPDATE amap_generale SET Paiement_centre='".$_POST['pay_centre']."', Amap_legumes='".$_POST['amap_legumes']."', ";
 					$question=$question."Amap_legumes_liste_attente='".$_POST['liste_attente_leg']."', Amap_pommes='".$_POST['amap_pommes']."', Amap_viande_bovine='".$_POST['amap_viande_bovine']."' ";
 					$question=$question."WHERE id='".$_POST['id']."'";
-					mysql_query($question);
+					mysqli_query($question);
 
 					echo "requete-drapeaux 0/1 = ".$question."<br />";
 					echo "<br /><br />paramètres enregistrés<br /><br />";
@@ -417,22 +417,22 @@ function tester(formulaire)
 					echo "inscription amap_viande_bovine : ".$_POST['amap_viande_bovine']."<br />";
 				}
 			}
-			mysql_close();
+			mysqli_close();
 		}
 		} 
 /*******************************************************************************************************************/
 /* modifier enregistrement sans maj  tables legumes
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_legumes' && $_GET['action']=='modifier') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="SELECT * FROM amap_legumes WHERE id='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$nbre_eng=mysql_num_rows($reponse);
+			$reponse=mysqli_query($question);
+			$nbre_eng=mysqli_num_rows($reponse);
 			if($nbre_eng==0) { echo "Pas d'adhérent avec l'id : ".$_POST['id'];}
 			else {
-				$donnees=mysql_fetch_array($reponse);
+				$donnees=mysqli_fetch_array($reponse);
 				?>
 				<h4> Adhérent : <?php echo $donnees['id']; ?></h4>
 				<form name="form_ajouter"  method="post" action="webmaster_maj_tables.php?table=amap_legumes&amp;action=maj" >
@@ -463,21 +463,21 @@ function tester(formulaire)
 				</form>
 			<?php
 			}
-			mysql_close();
+			mysqli_close();
 		}
 /*******************************************************************************************************************/
 /* modifier enregistrement sans maj  tables pommes
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_pommes' && $_GET['action']=='modifier') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="SELECT * FROM amap_pommes WHERE id='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$nbre_eng=mysql_num_rows($reponse);
+			$reponse=mysqli_query($question);
+			$nbre_eng=mysqli_num_rows($reponse);
 			if($nbre_eng==0) { echo "Pas d'adhérent avec l'id : ".$_POST['id'];}
 			else {
-				$donnees=mysql_fetch_array($reponse);
+				$donnees=mysqli_fetch_array($reponse);
 				?>
 				<h4> Adhérent : <?php echo $donnees['id']; ?></h4>
 				<form name="form_ajouter" method="post" action="webmaster_maj_tables.php?table=amap_pommes&amp;action=maj" >
@@ -520,21 +520,21 @@ function tester(formulaire)
 				</form>
 			<?php
 			}
-			mysql_close();
+			mysqli_close();
 		}
 /*******************************************************************************************************************/
 /* modifier enregistrement sans maj  tables viande bovine
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_viande_bovine' && $_GET['action']=='modifier') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="SELECT * FROM amap_viande_bovine WHERE id='".$_POST['id']."'";
-			$reponse=mysql_query($question);
-			$nbre_eng=mysql_num_rows($reponse);
+			$reponse=mysqli_query($question);
+			$nbre_eng=mysqli_num_rows($reponse);
 			if($nbre_eng==0) { echo "Pas d'adhérent avec l'id : ".$_POST['id'];}
 			else {
-				$donnees=mysql_fetch_array($reponse);
+				$donnees=mysqli_fetch_array($reponse);
 				?>
 				<h4> Adhérent : <?php echo $donnees['id']; ?></h4>
 				<form name="form_ajouter" method="post" action="webmaster_maj_tables.php?table=amap_viande_bovine&amp;action=maj" >
@@ -574,33 +574,33 @@ function tester(formulaire)
 				</form>
 			<?php
 			}
-			mysql_close();
+			mysqli_close();
 		}
 /*******************************************************************************************************************/
 /* maj  tables legumes
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_legumes' && $_GET['action']=='maj') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			$question="UPDATE amap_legumes SET Nombre_panier='".$_POST['nb_panier']."', Nre_cheque='".$_POST['nb_cheque']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			if($_POST['date_paiement']=='')
 				$question="UPDATE amap_legumes SET Date_paiement=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_legumes SET Date_paiement='".$_POST['date_paiement']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap légumes = ".$question."<br /><br />";
 			if($_POST['date_deb_contrat']=='')
 				$question="UPDATE amap_legumes SET Date_debut_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_legumes SET Date_debut_contrat='".$_POST['date_deb_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap légumes = ".$question."<br /><br />";
 			if($_POST['date_fin_contrat']=='')
 				$question="UPDATE amap_legumes SET Date_fin_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_legumes SET Date_fin_contrat='".$_POST['date_fin_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap légumes = ".$question."<br /><br />";
 		}
 
@@ -608,32 +608,32 @@ function tester(formulaire)
 /* maj  tables pommes
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_pommes' && $_GET['action']=='maj') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			
 			$question="UPDATE amap_pommes SET Nbre_pltx_pom_doux='".$_POST['nb_pom_doux']."', Nbre_pltx_pom_acide='".$_POST['nb_pom_acide']."', Nbre_pltx_pom_alterne='".$_POST['nb_pom_alterne']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			$question="UPDATE amap_pommes SET Nbre_jus_pom_nature='".$_POST['nb_jus_pom_nature']."', Nbre_jus_pom_citron='".$_POST['nb_jus_pom_citron']."', Nbre_jus_pom_cannelle='".$_POST['nb_jus_pom_cannelle']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			$question="UPDATE amap_pommes SET Nbre_cheque='".$_POST['nb_cheque']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			if($_POST['date_paiement']=='')
 				$question="UPDATE amap_pommes SET Date_paiement=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_pommes SET Date_paiement='".$_POST['date_paiement']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap pommes = ".$question."<br /><br />";
 			if($_POST['date_deb_contrat']=='')
 				$question="UPDATE amap_pommes SET Date_debut_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_pommes SET Date_debut_contrat='".$_POST['date_deb_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap pommes = ".$question."<br /><br />";
 			if($_POST['date_fin_contrat']=='')
 				$question="UPDATE amap_pommes SET Date_fin_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_pommes SET Date_fin_contrat='".$_POST['date_fin_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap pommes = ".$question."<br /><br />";
 		}
 
@@ -642,29 +642,29 @@ function tester(formulaire)
 /* maj  tables viande bovine
 /*******************************************************************************************************************/
 		if($_GET['table']=='amap_viande_bovine' && $_GET['action']=='maj') {
-			echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
-			if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
+			echo "connexion = ".mysqli_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+			if(mysqli_select_db(base_de_donnees)) echo "selection-base = true<br /><br />"; else echo "selection-base = false<br />";
 			$question="UPDATE amap_viande_bovine SET Nbre_colis_5kg_commande='".$_POST['nb_colis_5kg_cmd']."', Prix_colis_5kg='".$_POST['prix_colis_5kg']."', Nbre_colis_5kg_retire='".$_POST['nb_colis_5kg_retire']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			$question="UPDATE amap_viande_bovine SET Nbre_colis_10kg_commande='".$_POST['nb_colis_10kg_cmd']."', Prix_colis_10kg='".$_POST['prix_colis_10kg']."', Nbre_colis_10kg_retire='".$_POST['nb_colis_10kg_retire']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			if($_POST['date_paiement']=='')
 				$question="UPDATE amap_viande_bovine SET Date_paiement=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_viande_bovine SET Date_paiement='".$_POST['date_paiement']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap viande bovine = ".$question."<br /><br />";
 			if($_POST['date_deb_contrat']=='')
 				$question="UPDATE amap_viande_bovine SET Date_debut_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_viande_bovine SET Date_debut_contrat='".$_POST['date_deb_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap viande bovine = ".$question."<br /><br />";
 			if($_POST['date_fin_contrat']=='')
 				$question="UPDATE amap_viande_bovine SET Date_fin_contrat=NULL WHERE id='".$_POST['id']."'";
 			else
 				$question="UPDATE amap_viande_bovine SET Date_fin_contrat='".$_POST['date_fin_contrat']."' WHERE id='".$_POST['id']."'";
-			mysql_query($question);
+			mysqli_query($question);
 			echo "maj table amap viande bovine = ".$question."<br /><br />";
 
 		}

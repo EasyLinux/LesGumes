@@ -3,18 +3,18 @@ $ok=0; //inconnu
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {	
     $id=$_COOKIE['identification_amap'];
-    mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+    mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 
 	$question="SELECT Nom, Prenom FROM amap_generale WHERE id='".$id."'";
-	$reponse = mysql_query($question) ;
-	$donnees=mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question) ;
+	$donnees=mysqli_fetch_array($reponse);
 	if ( $donnees   ) {
 		$nom=$donnees['Nom'];
 		$prenom=$donnees['Prenom'];
 		$ok=1; //connu et identifié
 	}
-	mysql_close(); // Déconnexion de MySQL  	 
+	mysqli_close(); // Déconnexion de MySQL  	 
 }
 if($ok==1) {?>
 

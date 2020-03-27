@@ -2,14 +2,14 @@
 include_once("define.php");
 $question=stripslashes($_POST['commande']);
 echo $question;
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
-$reponse = mysql_query($question);// or die(mysql_error());
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
+$reponse = mysqli_query($question);// or die(mysqli_error());
 echo "<br />réponse : ";
 echo $reponse;
 echo "<br />Erreur : ";
-echo mysql_error();
-mysql_close();
+echo mysqli_error();
+mysqli_close();
 
 ?>
 <p>

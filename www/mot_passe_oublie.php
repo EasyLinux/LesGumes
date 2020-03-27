@@ -3,19 +3,19 @@ include_once("webmaster/define.php");
 $ok=-1;
 if(isset($_POST['e_mail'])) {
 	$ok=0;
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM amap_generale WHERE e_mail='".$_POST['e_mail']."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	if($ligne==1) {
 		$ok=1;
-		$donnees=mysql_fetch_array($reponse);
+		$donnees=mysqli_fetch_array($reponse);
 		mail($_POST['e_mail'], "Vos_identifiants_AMAP", "Votre login est : ".$donnees['Login']);
-		mysql_close();
+		mysqli_close();
 		header("Location: index.php");
 	}
-	else {mysql_close();}
+	else {mysqli_close();}
 }
 ?>
 

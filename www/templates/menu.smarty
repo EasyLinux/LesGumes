@@ -1,0 +1,43 @@
+{* Le menu est créé dynamiquement en fonction de la table sys_menu *}
+
+
+{foreach from=$Menu item=line}
+  {if $line.droits eq 'public' && $line.type eq 'gauche' && $line.parent == 0}
+			<h3 class='vmenu'>{$line.label}</h3>
+	{foreach from=$Menu item=level2}
+		{if $level2.droits eq 'public' && $level2.type eq 'gauche' && $line.id == $level2.parent}
+		    <div class='vertical-menu'>
+          <div class='submenu'>
+			<a href='#' onclick="loadContent('{$level2.link}'); return false;" class='vtitle'>{$level2.label}</a>
+		{foreach from=$Menu item=level3}
+			{if $level3.droits eq 'public' && $level3.type eq 'gauche' && $level2.id == $level3.parent}
+				<a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a>
+			{/if}
+              
+		{/foreach}
+        	</div>
+				</div>
+		 {/if}
+	{/foreach}
+
+  {/if}
+{/foreach}
+
+
+			{* <div class="vertical-menu">
+			<h3 class='vmenu'>Espace INFOs</h3>
+{foreach from=$Menu item=line}
+  {if $line.type eq 'public'}
+			<a href='#' onclick="loadContent('{$line.link}'); return false;">{$line.label}</a>
+  {/if}
+{/foreach}
+			</div>  *}
+
+			{* <div class="vertical-menu">
+			<h3 class='vmenu'>Espace AMAP</h3>
+{foreach from=$Menu item=line}
+  {if $line.type eq 'amap'}
+			<a href='#' onclick="loadContent('{$line.link}'); return false;">{$line.label}</a>
+  {/if}
+{/foreach}
+			</div>  *}

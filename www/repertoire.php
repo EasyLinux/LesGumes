@@ -4,14 +4,14 @@ $ok=-1;/* identification non faite */
 if (isset($_COOKIE['identification_amap'])) {
 	$ok=0;/* identification faite mais pas dans le répertoire */
 	$id=$_COOKIE['identification_amap'];
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM repertoire WHERE Code='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	if($ligne>0) $ok=1; /* identification faite et figure dans le repertoire */
 	if(isset($_GET['orderby'])) $orderby=$_GET['orderby']; else $orderby='Nom';
-	mysql_close();
+	mysqli_close();
 }
 if ($ok==1 || $ok==0) {
 //***********************************************************************
@@ -59,12 +59,12 @@ if ($ok==1 || $ok==0) {
 			<tr class="StaticText">
 			
 				<?php
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+				mysqli_select_db(base_de_donnees); // Sélection de la base 
 				$question="SELECT * FROM repertoire";
-				$reponse = mysql_query($question) or die(mysql_error());
-				$ligne = mysql_num_rows($reponse);
-				$donnees = mysql_fetch_array($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error());
+				$ligne = mysqli_num_rows($reponse);
+				$donnees = mysqli_fetch_array($reponse);
 				if($ligne<1) { ?><td nowrap="" class="DBEditHeader"><font class="DBEditHeader">Ce répertoire est vide</font></td>
 				<?php }
 				else {
@@ -76,12 +76,12 @@ if ($ok==1 || $ok==0) {
 				<?php } } ?>
 				</tr>
 				<?php
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
 					$question="SELECT * FROM repertoire ORDER BY ".$orderby;
-					$reponse = mysql_query($question) or die(mysql_error());
-					$ligne = mysql_num_rows($reponse);
-					if($ligne>0) { while($donnees = mysql_fetch_array($reponse)) { ?>
+					$reponse = mysqli_query($question) or die(mysqli_error());
+					$ligne = mysqli_num_rows($reponse);
+					if($ligne>0) { while($donnees = mysqli_fetch_array($reponse)) { ?>
 						<tr class="DBEditRowDefault" id="TR-<?php echo($donnees[1]); ?>" onmouseout="javascript:ADDBSetRowColorByID('TR-<?php echo($donnees[1]); ?>',0);" onmouseover="javascript:ADDBSetRowColorByID('TR-<?php echo($donnees[1]); ?>',1);">
 							<?php
 							$i=0;
@@ -98,7 +98,7 @@ if ($ok==1 || $ok==0) {
 			<?php } ?>
 			</table>
 		</form>
-		<?php mysql_close(); ?>
+		<?php mysqli_close(); ?>
 		</div>
 	</body>
 </html>

@@ -4,13 +4,13 @@
 	  // obtenir l'état actuel de cet amap
 	  $amap  = $_GET['amap'];
 	  $table_produit = $amap."_produits";
-	 	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-  	mysql_select_db(base_de_donnees); // Sélection de la base 
+	 	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+  	mysqli_select_db(base_de_donnees); // Sélection de la base 
     
-    $reponse = mysql_query("SELECT Etat_inscription, Table_produit FROM liste_amap WHERE Table_amap='".$amap."'") or die(mysql_error()); // Requête SQL
-	  $ligne = mysql_num_rows($reponse);
+    $reponse = mysqli_query("SELECT Etat_inscription, Table_produit FROM liste_amap WHERE Table_amap='".$amap."'") or die(mysqli_error()); // Requête SQL
+	  $ligne = mysqli_num_rows($reponse);
     // pour le moment, tous les produits d'une même table sont dans le même état
-  	$donnees = mysql_fetch_array($reponse);
+  	$donnees = mysqli_fetch_array($reponse);
     $table_produit = $donnees['Table_produit'];
     $etat_courant = $donnees['Etat_inscription'];
      
@@ -19,12 +19,12 @@
       if ( $futur_etat != etat_courant)  {
         //changement de l'état en base de donnée
         $question="UPDATE liste_amap SET Etat_inscription ='".$futur_etat."' WHERE Table_amap='".$amap."'";
-        $reponse = mysql_query($question) or die(mysql_error());
+        $reponse = mysqli_query($question) or die(mysqli_error());
         $etat_courant = $futur_etat;
       }   
    }
   
-   mysql_close();
+   mysqli_close();
 	 
 ?>
 	

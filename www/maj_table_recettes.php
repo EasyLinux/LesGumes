@@ -22,19 +22,19 @@
 			<?php 
 				if($_GET['action']=="modifier") {
 					include("includes/menu_gauche.php"); 
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
 					$texte = addslashes($_POST['texte_recette']);
 					$nom = addslashes($_GET['nom_recette']);
 					$question="UPDATE recettes SET Recette='".$texte."' WHERE Nom_recette='".$nom."'";
-					mysql_query( $question);
-					mysql_close();
+					mysqli_query( $question);
+					mysqli_close();
 			?>
 					<h3 class="mot_passe_recette">La recette <span class="mot_passe_recette"><?php echo stripslashes($_GET['nom_recette']); ?></span> a bien été modifiée!</h3>
 			<?php } 
 				if($_GET['action']=="ajouter") {
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
 					$texte = $_POST['texte_recette'];
 					$nom_recette = $_POST['nom_recette'];
 					$auteur = $_POST['nom_auteur'];
@@ -42,13 +42,13 @@
 					$date = date("Y-m-d");
 					
 					$question="SELECT * FROM amap_generale WHERE Nom='".$_GET['nom']."' AND Prenom='".$_GET['prenom']."'";
-					$reponse = mysql_query($question) or die(mysql_error());
-					$donnees = mysql_fetch_array($reponse);
+					$reponse = mysqli_query($question) or die(mysqli_error());
+					$donnees = mysqli_fetch_array($reponse);
 
 					$question="INSERT INTO recettes VALUES('".$nom_recette."', '".$auteur."', '".$date."', '".$texte."', '".$rubrique."')";
-					if (!mysql_query($question)) {
-						if (mysql_errno()=='1062') {
-							mysql_close();
+					if (!mysqli_query($question)) {
+						if (mysqli_errno()=='1062') {
+							mysqli_close();
 							include("includes/menu_gauche.php"); 
 					?>
 							<h3 class="mot_passe_recette">Le nom <span class="mot_passe_recette"><?php echo $nom_recette; ?></span> est déjà utilisé!
@@ -60,14 +60,14 @@
 					<?php
 						}
 						else {
-							mysql_close();
+							mysqli_close();
 							include("includes/menu_gauche.php"); 
 					?>
 							<h3 class="mot_passe_recette">Base de données non accessible!</h3>												
 					<?php
 						} }
 					else {
-						mysql_close();
+						mysqli_close();
 						include("includes/menu_gauche.php"); 
 			?>
 						<h3 class="mot_passe_recette">Votre recette <span class="mot_passe_recette"><?php echo stripslashes($_POST['nom_recette']); ?></span> a bien été enregistrée!</h3>

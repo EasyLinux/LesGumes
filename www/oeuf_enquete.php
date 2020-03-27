@@ -5,11 +5,11 @@ if (isset($_COOKIE['identification_amap']))
 {
 	$ok=1;
 	$id=$_COOKIE['identification_amap'];
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM enquete_oeufs WHERE id=$id";
-	$reponse = mysql_query($question);
-	$donnees=mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question);
+	$donnees=mysqli_fetch_array($reponse);
 	$nom=$donnees['Nom'];
 	$prenom=$donnees['Prenom'];
 	$ouinon=$donnees['Ouinon'];
@@ -20,7 +20,7 @@ if (isset($_COOKIE['identification_amap']))
 		$remarque=$donnees['Remarques'];
 	}
 	else $frequence=$duree=$nombre=$remarque="";
-	mysql_close();
+	mysqli_close();
 }		
 ?>
 

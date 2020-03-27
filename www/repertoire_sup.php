@@ -1,10 +1,10 @@
 <?php
 include("webmaster/define.php");
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="DELETE FROM repertoire WHERE Code='".$_GET['id']."'";
-$reponse = mysql_query($question) or die(mysql_error());
-mysql_close();
+$reponse = mysqli_query($question) or die(mysqli_error());
+mysqli_close();
 $page="Location: repertoire.php?orderby=";
 $page.=$_GET['orderby'];
 header($page);

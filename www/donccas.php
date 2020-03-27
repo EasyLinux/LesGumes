@@ -4,16 +4,16 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {	
 	//pour imposer que la personne soit inscrite aux légumes rétablir les lignes ci-dessous et enlever ok=1
 	$ok=0; //identifié mais pas inscrit aux légumes
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
   $id = $_COOKIE['identification_amap'];
 	$question="SELECT Nom, Prenom FROM ".$_GET['amap']." WHERE id='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
  
 	if($ligne>0)
      $ok=1; //identifié et inscrit aux légumes
-	mysql_close();
+	mysqli_close();
 }
 if($ok==1) { ?>
 
@@ -37,17 +37,17 @@ if($ok==1) { ?>
 		</div>
 		<div id="page_principale">
 			<?php include("includes/menu_gauche.php");
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+				mysqli_select_db(base_de_donnees); // Sélection de la base 
     
-        $reponse =  mysql_query("SELECT Count(*) as nb FROM amap_legumes_dons WHERE Date <= CURRENT_DATE and id='".$id."'");
-        $row = mysql_fetch_array ($reponse);
+        $reponse =  mysqli_query("SELECT Count(*) as nb FROM amap_legumes_dons WHERE Date <= CURRENT_DATE and id='".$id."'");
+        $row = mysqli_fetch_array ($reponse);
         $nbavant = $row[0];
-        $reponse =  mysql_query("SELECT Count(*) as nb FROM amap_legumes_dons WHERE Date <= CURRENT_DATE ");
-        $row = mysql_fetch_array ($reponse);
+        $reponse =  mysqli_query("SELECT Count(*) as nb FROM amap_legumes_dons WHERE Date <= CURRENT_DATE ");
+        $row = mysqli_fetch_array ($reponse);
         $nbAmap = $row[0];
  
-    		$reponse = mysql_query("SELECT Date FROM ".$_GET['amap']."_permanences WHERE Distribution='1' and Date > CURRENT_DATE   ORDER BY Date") or die(mysql_error()); // Requête SQL
+    		$reponse = mysqli_query("SELECT Date FROM ".$_GET['amap']."_permanences WHERE Distribution='1' and Date > CURRENT_DATE   ORDER BY Date") or die(mysqli_error()); // Requête SQL
     
       ?>	  
 							
@@ -65,7 +65,7 @@ if($ok==1) { ?>
           <th>Cliquer sur une case pour enregistrer/annnuler votre don</th>				
 				</tr>
 				<?php
-				while ($donnees = mysql_fetch_array($reponse) ) {
+				while ($donnees = mysqli_fetch_array($reponse) ) {
           $date= $donnees['Date'];
 				?>
 				<tr>
@@ -74,8 +74,8 @@ if($ok==1) { ?>
             <a class="tab_perm_leg" href="modifier_dons.php?date=<?php echo $date;?>&amp;id=<?php echo $id;?>&amp;amap=<?php echo $_GET['amap'];?>">
               <?php 
                    
-              $actuel = mysql_query("SELECT Personne FROM amap_legumes_dons WHERE Date='".$date."' And id='".$id."'");
-              if ( $row = mysql_fetch_array($actuel))  { ?>
+              $actuel = mysqli_query("SELECT Personne FROM amap_legumes_dons WHERE Date='".$date."' And id='".$id."'");
+              if ( $row = mysqli_fetch_array($actuel))  { ?>
                   je donne ce panier au CCAS
               <?php } else { ?>     ? <?php } ?>
             </a>
@@ -92,7 +92,7 @@ if($ok==1) { ?>
 	</body>
 </html>
 <?php
-mysql_close(); // Déconnexion de MySQL
+mysqli_close(); // Déconnexion de MySQL
 }
 else { 
  ?>

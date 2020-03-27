@@ -10,32 +10,32 @@ $ok=-1;/* identification non faite */
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
 	$ok=0;/* identification faite mais non inscrit à l'amap */
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$id=$_COOKIE['identification_amap'];
 	$question="SELECT * FROM amap_produits_laitiers_cde WHERE id='".$id."'";
-	$reponse = mysql_query($question) or die(mysql_error());
+	$reponse = mysqli_query($question) or die(mysqli_error());
   
   // champs de la table  amap_produits_laitiers_cde
-  $fields = mysql_list_fields (base_de_donnees, 'amap_produits_laitiers_cde');
+  $fields = mysqli_list_fields (base_de_donnees, 'amap_produits_laitiers_cde');
   
-	if( mysql_num_rows($reponse)>0) {
+	if( mysqli_num_rows($reponse)>0) {
 		$ok=1;/* inscrit à l'amap modification possible */
-		$commande = mysql_fetch_array($reponse);
+		$commande = mysqli_fetch_array($reponse);
     $firstField = 5;  // on passe id, Nom, Prenom, Unité et dateModif
-    $nbFields =  mysql_num_fields($reponse);  // nombre de champs de la table
+    $nbFields =  mysqli_num_fields($reponse);  // nombre de champs de la table
     $nbProduits = $nbFields - $firstField; // nombre de produits
 		$uniteCommande=$commande['Unite'];   
    
       //on recupère le prix d'une unité en base dans la table amap_produits_laitiers  - prix du contrat en cours identique pour tous les contrats !
   	$questionPrix="SELECT Prix_unite FROM amap_produits_laitiers WHERE id='".$id."'";
-    	$reponsePrix = mysql_query($questionPrix) or die(mysql_error());
-    $reponsePrix = mysql_fetch_array($reponsePrix) ;
+    	$reponsePrix = mysqli_query($questionPrix) or die(mysqli_error());
+    $reponsePrix = mysqli_fetch_array($reponsePrix) ;
     $prixUnite = $reponsePrix[0];
    
    
 	}
-	mysql_close(); // Déconnexion de MySQL
+	mysqli_close(); // Déconnexion de MySQL
 }
 if ($ok==1) // inscrit à l'amap
 {
@@ -229,13 +229,13 @@ function ConfirmeRecord(strID) {
 //cette partie de programme se trouve aussi dans l'accès à la liste des produits réservée au producteur
 //si bien que c'est le premier accès d'un amapien ou le premier acces du producteur après la date limite qui provoque
 //la mise à jour de la table cde_en_cours 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_produits_laitiers_permanences WHERE Distribution=1 ORDER BY Date";
-		$tabPermanence = mysql_query($question);
+		$tabPermanence = mysqli_query($question);
 		$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-		$reponse2 = mysql_query($question) or die(mysql_error());
-		$TableDateLiv=mysql_fetch_array($reponse2);
+		$reponse2 = mysqli_query($question) or die(mysqli_error());
+		$TableDateLiv=mysqli_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
  		$auj=time();  
           
@@ -243,7 +243,7 @@ function ConfirmeRecord(strID) {
 		//on écrase la table cde_en_cours que si il existe une livraison plus loin que la date d'aujourd'hui et à moins de 9 jours
 		if( $DateLivEnCours==NULL || $auj>$DateLivEnCours ) { 
  			$flag=-1;//impossible imprimer les amapiens peuvent encore modifier leur choix
-			while($DateLiv = mysql_fetch_array($tabPermanence)){
+			while($DateLiv = mysqli_fetch_array($tabPermanence)){
 				$temp=strtotime($DateLiv['Date']);
 				$limite=$temp-JOURS_MARGE_PDT_LAITIER*24*60*60;
 				if($auj>=$limite && $auj<=$temp) { 
@@ -255,41 +255,41 @@ function ConfirmeRecord(strID) {
 		}
 		if($flag==1) {
 			$question="TRUNCATE TABLE amap_produits_laitiers_cde_en_cours";
-			$reponse=mysql_query($question) or die(mysql_error());
+			$reponse=mysqli_query($question) or die(mysqli_error());
 			$question="INSERT INTO amap_produits_laitiers_cde_en_cours SELECT * FROM amap_produits_laitiers_cde";
-			$reponse=mysql_query($question);
+			$reponse=mysqli_query($question);
 			$question="UPDATE amap_produits_laitiers_cde_en_cours SET Date_livraison='".$LaDate."'";
-			$reponse=mysql_query($question) or die(mysql_error());
+			$reponse=mysqli_query($question) or die(mysqli_error());
 		}
 
 //fin mise à jour table_cde_en_cours
 		
     	
 			$question="SELECT * FROM amap_produits_laitiers_permanences order BY Date";
-			$tabPermanence = mysql_query($question) or die(mysql_error());;
+			$tabPermanence = mysqli_query($question) or die(mysqli_error());;
 			$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-			$reponse2 = mysql_query($question) or die(mysql_error());;
-			$TableDateLiv=mysql_fetch_array($reponse2);
+			$reponse2 = mysqli_query($question) or die(mysqli_error());;
+			$TableDateLiv=mysqli_fetch_array($reponse2);
 			$DateLivEnCours=strtotime($TableDateLiv[0]);
 			$auj=time();
 			$flag=0;
       
 			//il faut trouver une date de livraison telle que aujourd'hui < à cette date - JOURS_MARGE_PDT_LAITIER jours
-			while($DateLiv = mysql_fetch_array($tabPermanence)) if($DateLiv['Distribution']=='1'){
+			while($DateLiv = mysqli_fetch_array($tabPermanence)) if($DateLiv['Distribution']=='1'){
 				$temp=strtotime($DateLiv['Date']);
 				$limite=$temp-JOURS_MARGE_PDT_LAITIER*24*60*60;
 				if($auj<$limite) {$flag=1;$ProchLiv=date("d-M-Y",strtotime($DateLiv['Date']));break;}
 			}
       
       //  les prix des produits classés par id
-      $result=mysql_query("SELECT Unite FROM amap_produits_laitiers_produits ORDER BY Id") or die(mysql_error());;
-      $nbProduit = mysql_num_rows($result);    
+      $result=mysqli_query("SELECT Unite FROM amap_produits_laitiers_produits ORDER BY Id") or die(mysqli_error());;
+      $nbProduit = mysqli_num_rows($result);    
       for( $i=0; $i <$nbProduit; $i++) {
-        $inter = mysql_fetch_array( $result);
+        $inter = mysqli_fetch_array( $result);
         $uniteProduits[$i] =$inter["Unite"];
       }      
         
-			mysql_close();?>
+			mysqli_close();?>
 		</div>
     
 		<?php if($flag==0) echo "  Vous n'avez plus la possibilité de modifier le dernier enregistrement.";
@@ -395,7 +395,7 @@ function ConfirmeRecord(strID) {
             			border: 1px solid black;
             			background-color: <?php echo $color; ?>"
 						id="desc_<?php echo $j; ?>">
-            	    <?php    $str = mysql_field_name($fields,$i);
+            	    <?php    $str = mysqli_field_name($fields,$i);
                            $str = str_replace( "_", " ", $str);
                            echo  $str; 
 					?>  

@@ -1,10 +1,10 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="SELECT * FROM amap_generale WHERE id=".$_GET['id'];
-$reponse=mysql_query( $question) or die(mysql_error());
-$adherent=mysql_fetch_array($reponse);
+$reponse=mysqli_query( $question) or die(mysqli_error());
+$adherent=mysqli_fetch_array($reponse);
 
 $values="";
 
@@ -14,12 +14,12 @@ switch ($_GET['amap']) {
 		$values = $_GET['nbpanier'].",".$_GET['nblivraison'];
 		// suppression de l'amapien de la liste d'attente, s'il y était ...
 		$question="DELETE FROM amap_legumes_liste_attente WHERE id =".$_GET['id'];
-		mysql_query( $question) or die(mysql_error());
+		mysqli_query( $question) or die(mysqli_error());
 		break;
 	case 'amap_produits_laitiers':
 		$question="INSERT INTO amap_produits_laitiers_cde (id, Nom, Prenom, Unite ) VALUES (";
 		$question.=$adherent[0].",'".$adherent[1]."','".$adherent[2]."',".$_GET['nbunite'].")";
-		mysql_query( $question) or die(mysql_error());
+		mysqli_query( $question) or die(mysqli_error());
 
 		$insert = "Nbre_unite, Nbre_livraison";
 		$values = $_GET['nbunite'].",".$_GET['nblivraison'];
@@ -107,8 +107,8 @@ switch ($_GET['amap']) {
 		
 		// A FAIRE : récupérer les prix des produits dans la table produits_info
 		$questionPrices="SELECT * FROM amap_tisanes_produits_info ORDER BY id";
-		$reponsePrices=mysql_query( $questionPrices) or die(mysql_error());
-		while ($prices = mysql_fetch_array($reponsePrices) ) {
+		$reponsePrices=mysqli_query( $questionPrices) or die(mysqli_error());
+		while ($prices = mysqli_fetch_array($reponsePrices) ) {
 			$myId= $prices["id"];
 			switch ($myId) {
 				case 1 : $price1 = $prices['Prix']; break;
@@ -137,8 +137,8 @@ $insert1 = $insert1. "Contrat_verrouille, Date_debut_contrat,Date_fin_contrat,Da
 $values1 = $values1."1,'".$_GET['datedeb']."','".$_GET['datefin']."','".$_GET['datepaiement']."',".$_GET['nbrecheque'].")";
 $question = $insert1. $values1;
 //echo  $question; // mettre /header($page) en commentaire
-mysql_query( $question) or die(mysql_error());
-mysql_close();
+mysqli_query( $question) or die(mysqli_error());
+mysqli_close();
 $page="Location: webmaster_infos.php?nom_amap=";
 $page.=$_GET['amap'];
 header($page);

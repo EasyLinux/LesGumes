@@ -12,28 +12,28 @@ $ok=-1;/* pas de mot de passe : premier passage */
 if (isset($_POST['motpasse'])) // second passage
 {
 	$ok=0;/* mot de passe incorrect */
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motpasse."' AND Login='".$_POST['login']."'";
-	$reponse = mysql_query($question) or die(mysql_error());
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question) or die(mysqli_error());
+	$ligne = mysqli_num_rows($reponse);
 	if ($ligne == '1') 
 	{
 		$ok=1;/* mot de passe correct mais non encore modifié */
-		$donnees = mysql_fetch_array($reponse);
+		$donnees = mysqli_fetch_array($reponse);
 		if($donnees['Mot_passe']!=$donnees['e_mail'] || $donnees['Login']!=$donnees['e_mail']) {
 			$ok=2; //mot de passe correct et changé
 			// créer le cookie retour page d'appel
 			setcookie('identification_amap',$donnees['id']);
-			mysql_close(); // Déconnexion de MySQL
+			mysqli_close(); // Déconnexion de MySQL
 			header("Location: index.php");
 		}
 		else {
 			setcookie('identification_amap',$donnees['id']);
-			mysql_close(); // Déconnexion de MySQL
+			mysqli_close(); // Déconnexion de MySQL
 		}
 	}
-	else mysql_close();
+	else mysqli_close();
 }
 if(isset($_POST['motpasse_2'])) { // modification du mot de passe
 	$ok=3; //les  mots de passe utilisent des caractères interdits
@@ -43,23 +43,23 @@ if(isset($_POST['motpasse_2'])) { // modification du mot de passe
 		$ok=4; //mot correct mais confirmation mauvaise
 		if($_POST['motpasse_2']==$_POST['motpasse_3']) {
 			$ok=5; // mot correct mais déjà utilisé
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
 			$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motdp."' AND Login='".$login_2."'";
-			$reponse = mysql_query($question) or die(mysql_error());
-			$ligne = mysql_num_rows($reponse);
+			$reponse = mysqli_query($question) or die(mysqli_error());
+			$ligne = mysqli_num_rows($reponse);
 			if($ligne==0) {
 				$motdp=SHA1($motdp); // Encodage mot de passe
 				$question="UPDATE amap_generale SET Mot_passe='".$motdp."', Login='".$login_2."' WHERE e_mail='".$_GET['e_mail']."'";
-				$reponse = mysql_query($question) or die(mysql_error());
+				$reponse = mysqli_query($question) or die(mysqli_error());
 				$question="SELECT * FROM amap_generale WHERE e_mail='".$_GET['e_mail']."'";
-				$reponse = mysql_query($question) or die(mysql_error());
-				$donnees=mysql_fetch_array($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error());
+				$donnees=mysqli_fetch_array($reponse);
 				setcookie('identification_amap',$donnees['id']);
-				mysql_close();
+				mysqli_close();
 				header("Location: index.php");
 			}
-			mysql_close();
+			mysqli_close();
 		}
 	}
 }

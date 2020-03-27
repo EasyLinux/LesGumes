@@ -15,15 +15,15 @@
 <?php include_once("define.php"); ?>
 <h3><a href="liste_news.php">Retour à la liste des news</a></h3>
 <?php
-mysql_connect(hote, login, mot_passe_sql);
-mysql_select_db(base_de_donnees);
+mysqli_connect(hote, login, mot_passe_sql);
+mysqli_select_db(base_de_donnees);
 if (isset($_GET['modifier_news'])) // Si on demande de modifier une news
 {
     // On protège la variable "modifier_news" pour éviter une faille SQL
-    $_GET['modifier_news'] = mysql_real_escape_string(htmlspecialchars($_GET['modifier_news']));
+    $_GET['modifier_news'] = mysqli_real_escape_string(htmlspecialchars($_GET['modifier_news']));
     // On récupère les infos de la news correspondante
-    $retour = mysql_query('SELECT * FROM news WHERE id=\'' . $_GET['modifier_news'] . '\'');
-    $donnees = mysql_fetch_array($retour);
+    $retour = mysqli_query('SELECT * FROM news WHERE id=\'' . $_GET['modifier_news'] . '\'');
+    $donnees = mysqli_fetch_array($retour);
     
     // On place le titre et le contenu dans des variables simples
     $titre = stripslashes($donnees['titre']);

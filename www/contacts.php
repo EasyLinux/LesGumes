@@ -24,10 +24,10 @@
 		<h1 class="texte" style="text-align:center">   Liste des référents </h1>
 	  <p class="texte" style="text-align:center">
 		<?php
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
-			$referents=mysql_query("SELECT Nom_amap, nom, prenom, mail FROM `liste_amap` JOIN referent ON liste_amap.id_referent=referent.id") or die(mysql_error());	  
-      while ($donnees = mysql_fetch_array($referents)){
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
+			$referents=mysqli_query("SELECT Nom_amap, nom, prenom, mail FROM `liste_amap` JOIN referent ON liste_amap.id_referent=referent.id") or die(mysqli_error());	  
+      while ($donnees = mysqli_fetch_array($referents)){
 	      $amap = $donnees[0];
 	      $nom = "$donnees[2] $donnees[1]";
         $mail = $donnees[3];
@@ -35,8 +35,8 @@
 	      <a style="color:#00EEEE" href="mailto:<?php echo $mail?>?subject=[Amap LesGUMES] INFO <?php echo $amap?>"><?php echo $nom?> </a> ( <?php echo $mail?>)<br />
 	    <?php } 
       
-      $reponses =mysql_query("SELECT mail FROM referent WHERE fonction_speciale='liste_diffusion'") or die(mysql_error());
-      $mailRespDiff =mysql_fetch_array($reponses);
+      $reponses =mysqli_query("SELECT mail FROM referent WHERE fonction_speciale='liste_diffusion'") or die(mysqli_error());
+      $mailRespDiff =mysqli_fetch_array($reponses);
       ?>
      </p> 
       
@@ -44,8 +44,8 @@
       <p  class="texte" style="text-align:center">
         
 			   Ecrire à tous les référents : <a style="color:#00EEEE" href="mailto: <?php
-         	$mails=mysql_query("SELECT  DISTINCT mail FROM referent ORDER BY Nom") or die(mysql_error());
-   	      while ($donnees = mysql_fetch_array($mails)){
+         	$mails=mysqli_query("SELECT  DISTINCT mail FROM referent ORDER BY Nom") or die(mysqli_error());
+   	      while ($donnees = mysqli_fetch_array($mails)){
 			     echo $donnees[0]; ?>;<?php 
 	        }
          ?>?subject=[Amap LesGUMES]">cliquer ici</a><br />

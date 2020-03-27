@@ -5,11 +5,11 @@
   $pdf->AddPage();
   $pdf->SetTopMargin(0.0);
   
-  mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-  mysql_select_db(base_de_donnees); // Sélection de la base 
+  mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+  mysqli_select_db(base_de_donnees); // Sélection de la base 
   $question="SELECT Date_livraison FROM amap_chevre_cde_en_cours";
-  $reponse = mysql_query($question);
-  $donnees=mysql_fetch_array($reponse);
+  $reponse = mysqli_query($question);
+  $donnees=mysqli_fetch_array($reponse);
   $ProchLiv=date("d-M-Y",strtotime($donnees[0]));
   $auj=date("d-m-y",time());
   
@@ -64,18 +64,18 @@
   
   //affichage de la table cde_en_cours qui contient les produits de la prochaine livraison
   $question="SELECT * FROM amap_chevre_cde_en_cours ORDER BY Nom";
-  $reponse = mysql_query($question);
-  $ligne = mysql_num_rows($reponse);
+  $reponse = mysqli_query($question);
+  $ligne = mysqli_num_rows($reponse);
 
   // on récupère le nombre d'unité de chaque produit dans l'ordre des ID des produits
-  $resultUnit=mysql_query("SELECT Unite, Id FROM amap_chevre_produits ORDER BY Id") or die(mysql_error());
-  while ( $unite = mysql_fetch_array($resultUnit)) {
+  $resultUnit=mysqli_query("SELECT Unite, Id FROM amap_chevre_produits ORDER BY Id") or die(mysqli_error());
+  while ( $unite = mysqli_fetch_array($resultUnit)) {
     $unites[$unite['Id']] =  $unite['Unite'];
   };
     
 
   $totgene=0;
-  while($donnees = mysql_fetch_array($reponse)) {
+  while($donnees = mysqli_fetch_array($reponse)) {
   	$j++;
   	$totunit=0;
   	$pdf->SetFont('Arial','',10);
@@ -147,8 +147,8 @@
      }
   
   // nouveau parcours des commandes pour récupérer les totaux par produits
-  $reponse = mysql_query("SELECT * FROM amap_chevre_cde_en_cours ORDER BY Nom");
-  $donnees = $donnees = mysql_fetch_array($reponse);
+  $reponse = mysqli_query("SELECT * FROM amap_chevre_cde_en_cours ORDER BY Nom");
+  $donnees = $donnees = mysqli_fetch_array($reponse);
   $cpt=0;
   foreach ($donnees as $key => $value) { 
         if ( intval($key) != 0)
@@ -157,7 +157,7 @@
               continue; 
                 
         $question = "SELECT SUM( ".$key." ) AS total FROM amap_chevre_cde_en_cours ;";
-		    $result=mysql_fetch_array(mysql_query($question));
+		    $result=mysqli_fetch_array(mysqli_query($question));
         
         if (  $key == "Unite")  {
            $pdf->Cell($sizeUnite,5,$result[0],1,0,'C',true);
@@ -185,7 +185,7 @@
    $pdf->SetTextColor (0,0,0);
     
   
-  mysql_close();
+  mysqli_close();
   
   
   $pdf->SetFont('Arial','', $grandeFont); 

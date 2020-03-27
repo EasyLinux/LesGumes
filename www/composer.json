@@ -1,0 +1,15 @@
+{
+    "name": "snoel/lesgumes",
+    "description": "Site Web Amap LesGumes",
+    "type": "project",
+    "require": {
+        "smarty/smarty": "^3.1"
+    },
+    "license": "GNU GPL",
+    "authors": [
+        {
+            "name": "Serge NOEL",
+            "email": "serge.noel@easylinux.fr"
+        }
+    ]
+}

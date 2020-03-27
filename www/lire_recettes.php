@@ -29,12 +29,12 @@ function DateFr ($date_demandee) {
 		<div id="page_principale">
 			<?php 
 				include("includes/menu_gauche.php");
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+				mysqli_select_db(base_de_donnees); // Sélection de la base 
 				$nom = $_GET['nom_recette'];
 				$question="SELECT * FROM recettes WHERE Nom_recette='".$nom."'";
-				$reponse = mysql_query($question) or die(mysql_error()); // Requête SQL
-				$donnees = mysql_fetch_array($reponse);
+				$reponse = mysqli_query($question) or die(mysqli_error()); // Requête SQL
+				$donnees = mysqli_fetch_array($reponse);
 			?>
 			<h3 class="modifier_recette">Fiche recette</h3>
 			<h4 class="lire_recette"><?php echo stripslashes($_GET['nom_recette']);?><br /><br />
@@ -45,7 +45,7 @@ function DateFr ($date_demandee) {
 				<?php echo nl2br(stripslashes($donnees['Recette']));?>
 			</p>
 			<?php
-			mysql_close();
+			mysqli_close();
 			?>
 		</div>		
 		<div id="pied_page">

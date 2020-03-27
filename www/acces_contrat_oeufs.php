@@ -1,17 +1,17 @@
 <?php
 // On ne gère toujours qu'un contrat par amapien 
 function VoirContratOeufs( $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$binome = getNomBinome( $base, $table, $id);
 	$question="SELECT * FROM amap_oeufs WHERE id='".$id."'";  
-	$reponse = mysql_query($question) or die(mysql_error());      
-	$colonne = mysql_num_fields($reponse);  
-	$ligne = mysql_num_rows($reponse);  
+	$reponse = mysqli_query($question) or die(mysqli_error());      
+	$colonne = mysqli_num_fields($reponse);  
+	$ligne = mysqli_num_rows($reponse);  
 
 	if ( $ligne != 0){	
 		$total = 0;
-		$donnees = mysql_fetch_array($reponse);	// 1 seul contrat par amapien
+		$donnees = mysqli_fetch_array($reponse);	// 1 seul contrat par amapien
 ?>
 		<h2 style="color:yellow; text-align:center">Vous êtes enregistré au contrat oeufs et poulets <br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom'];				

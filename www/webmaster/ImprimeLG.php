@@ -6,12 +6,12 @@ $pdf->AddPage();
 $pdf->SetTopMargin(0.0);
 $pdf->SetFont('Arial','B',14);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="SELECT id, Nom, Prenom, e_mail, Telephone, Tel_portable, Date_inscription FROM amap_generale ORDER BY Nom";
-$reponse = mysql_query($question);
-$ligne = mysql_num_rows($reponse);
-mysql_close();
+$reponse = mysqli_query($question);
+$ligne = mysqli_num_rows($reponse);
+mysqli_close();
 
 $pdf->Cell(278,10,'AMAP SAINT SEBASTIEN --------- LISTE DES ADHERENTS --------- '.date("d-M-Y").' --------- '.$ligne.' INSCRITS',0,1,'C');
 $pdf->SetFont('Arial','',12);
@@ -24,7 +24,7 @@ $pdf->Cell(30,5,'Telephone-2',1,0,'C',true);
 $pdf->Cell(40,5,'Date inscription',1,0,'C',true);
 $pdf->Ln(5);
 
-while($donnees = mysql_fetch_array($reponse)) {
+while($donnees = mysqli_fetch_array($reponse)) {
 	$j++;
 	if($j % 31==0) {
 		$pdf->AddPage();

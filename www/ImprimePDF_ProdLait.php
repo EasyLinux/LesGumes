@@ -26,15 +26,15 @@ $pdf->AddPage();
 $pdf->SetTopMargin(0.0);
 $pdf->SetAutoPageBreak(true,0); 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-$reponse = mysql_query($question);
-$donnees=mysql_fetch_array($reponse);
+$reponse = mysqli_query($question);
+$donnees=mysqli_fetch_array($reponse);
 $ProchLiv=date("d-M-Y",strtotime($donnees[0]));
 $auj=date("d-m-y",time());
 
-mysql_close();
+mysqli_close();
 
 $sizeNom = 45;
 $sizeUnite = 11;
@@ -98,14 +98,14 @@ $pdf->Cell(12,5,'1L+2Y','LBR',0,'C',true);
 $pdf->Ln(5);
 
 //affichage de la table cde_en_cours qui contient les produits de la prochaine livraison
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 $question="SELECT * FROM amap_produits_laitiers_cde_en_cours ORDER BY Nom";
-$reponse = mysql_query($question);
-$ligne = mysql_num_rows($reponse);
-mysql_close();
+$reponse = mysqli_query($question);
+$ligne = mysqli_num_rows($reponse);
+mysqli_close();
 $totgene=0;
-while($donnees = mysql_fetch_array($reponse)) {
+while($donnees = mysqli_fetch_array($reponse)) {
 	$j++;
 	$totunit=0;
 	$pdf->SetFont('Arial','',10);
@@ -162,90 +162,90 @@ $pdf->Cell($sizeNom,5,"Nb unités de vente",1,0,'C',true);
 
 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 
 $question = "SELECT SUM( Unite ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell($sizeUnite,5,$donnees[0],1,0,'C',true);
 $pdf->Cell($sizeEmargement,5,'',1,0,'C',true);
  
 $question = "SELECT SUM( Beurre_160g_sale ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(7,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Beurre_160g_doux ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(7,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Creme_250g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(15,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Yaourt_nature_5x125g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(11,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Yaourt_nature_sucre_4x125g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(11,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Yaourt_aromatise_4x125g_abricot ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(8,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Yaourt_aromatise_4x125g_vanille ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(8,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Yaourt_aromatise_4x125g_citron ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(8,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Yaourt_aromatise_4x125g_framboise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Yaourt_aromatise_4x125g_fraise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Fromage_frais_nature ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(9,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Fromage_frais_herbes_150g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(9,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Bleruchon_100_a_150g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Bleruchon_225_a_275g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(10,5,'2x'.$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Faisselle_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Fromage_blanc_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Fromage_blanc_maigre_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Lait_cru_2L ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 $question = "SELECT SUM( Lait_ribot_1L5 ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(10,5,$donnees[0],1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $question = "SELECT SUM( Lait_cru_1L_Yaourt_nature_2x125g  ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-$donnees=mysql_fetch_array(mysql_query($question));
+$donnees=mysqli_fetch_array(mysqli_query($question));
 $pdf->Cell(12,5,$donnees[0],1,0,'C',true);
 
 $pdf->Cell(10,5,$totgene,1,0,'C',true);
 
-mysql_close();
+mysqli_close();
 
 $pdf->SetFont('Arial','',12);
 $pdf->Ln(5);

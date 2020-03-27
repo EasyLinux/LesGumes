@@ -25,8 +25,8 @@
 <?php include_once("define.php"); ?>
 <h2><a href="rediger_news.php">Ajouter une news</a></h2>
 <?php
-mysql_connect(hote, login, mot_passe_sql);
-mysql_select_db(base_de_donnees);
+mysqli_connect(hote, login, mot_passe_sql);
+mysqli_select_db(base_de_donnees);
 //-----------------------------------------------------
 // Vérification 1 : est-ce qu'on veut poster une news ?
 //-----------------------------------------------------
@@ -38,14 +38,14 @@ if (isset($_POST['titre']) AND isset($_POST['contenu']))
     if ($_POST['id_news'] == 0)
     {
         // Ce n'est pas une modification, on crée une nouvelle entrée dans la table
-        mysql_query("INSERT INTO news(titre, contenu) VALUES('".$titre."', '".$contenu."')");
+        mysqli_query("INSERT INTO news(titre, contenu) VALUES('".$titre."', '".$contenu."')");
     }
     else
     {
         // On protège la variable "id_news" pour éviter une faille SQL
         $_POST['id_news'] = addslashes($_POST['id_news']);
         // C'est une modification, on met juste à jour le titre et le contenu
-        mysql_query("UPDATE news SET titre='" . $titre . "', contenu='" . $contenu . "' WHERE id='" . $_POST['id_news'] . "'");
+        mysqli_query("UPDATE news SET titre='" . $titre . "', contenu='" . $contenu . "' WHERE id='" . $_POST['id_news'] . "'");
     }
 }
  
@@ -57,7 +57,7 @@ if (isset($_GET['supprimer_news'])) // Si on demande de supprimer une news
     // Alors on supprime la news correspondante
     // On protège la variable "id_news" pour éviter une faille SQL
 //    $_GET['supprimer_news'] = addslashes($_GET['supprimer_news']);
-    mysql_query("DELETE FROM news WHERE id='".$_GET['supprimer_news']."'");
+    mysqli_query("DELETE FROM news WHERE id='".$_GET['supprimer_news']."'");
 }
 ?>
 <table><tr>
@@ -67,8 +67,8 @@ if (isset($_GET['supprimer_news'])) // Si on demande de supprimer une news
 <th>Date</th>
 </tr>
 <?php
-$retour = mysql_query('SELECT * FROM news ORDER BY id DESC');
-while ($donnees = mysql_fetch_array($retour)) // On fait une boucle pour lister les news
+$retour = mysqli_query('SELECT * FROM news ORDER BY id DESC');
+while ($donnees = mysqli_fetch_array($retour)) // On fait une boucle pour lister les news
 {
 ?>
 <tr>

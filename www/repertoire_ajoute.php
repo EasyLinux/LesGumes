@@ -12,14 +12,14 @@
 	</head>
 	<body>
 		<?php 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_generale WHERE id='".$_GET['id']."'";
-		$reponse = mysql_query($question) or die(mysql_error());
-		$donnees = mysql_fetch_array($reponse);
+		$reponse = mysqli_query($question) or die(mysqli_error());
+		$donnees = mysqli_fetch_array($reponse);
 		$nom=$donnees['Nom'];
 		$prenom=$donnees['Prenom'];
-		mysql_close();
+		mysqli_close();
 		?>
 
 

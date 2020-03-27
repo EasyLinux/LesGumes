@@ -1,0 +1,117 @@
+
+.amap-title {
+  padding: 10px;
+}
+
+
+
+#titre {
+  color: white; 
+}
+
+#menu {
+  color: white;
+  background-color: #4CAF50;
+}
+
+.menu-right {
+  background-color: #4CAF50;
+  margin: -15px 0px 0px -15px;
+  width: 100%;
+  float: right;
+}
+
+#principal {
+  clear: right;
+}
+.head-menu {
+  color: white;
+  font-weight: bold;
+}
+
+#btn-info {
+    color: white; 
+    font-weight:bold; 
+    position:relative; 
+    margin: 10px; 
+    padding: 10px;
+}
+
+.bandeau {
+    position:relative; 
+    padding:10px; 
+    color: white;
+}
+
+.vertical-menu {
+    width: 100%; /* Set a width if you like */
+    padding: 10px 10px 10px 10px;
+    background-color: rgb(134, 226, 137);
+    border-radius: 0px 0px 5px 5px;
+  }
+
+.submenu {
+    border: 1px solid black;
+    border-radius: 2px;
+  }
+
+  .vertical-menu .vtitle {
+    background-color: rgb(144, 144, 144);
+    font-weight: bold;
+    border-radius: 5px 5px 0px 0px;
+}
+  
+  .vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+  /* padding-right: 10px;  Add some padding 
+  padding-left: 10px;
+  padding-top: 5px; */
+    padding: 5px 10px 10px 0px;
+    text-decoration: none; /* Remove underline from links */
+  }
+  
+  .vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
+  }
+  
+  .vertical-menu a.active {
+    background-color: #4CAF50; /* Add a green color to the "active/current" link */
+    color: white;
+  }
+
+.vmenu {
+  background-color: #4CAF50; /* Add a green color to the "active/current" link */
+  color: white;
+  padding: 10px;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+
+.vmenu-sub {
+  background-color: rgb(122, 228, 126); /* Add a green color to the "active/current" link */
+  color: white;
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+.vmenu-subtitle {
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.vmenu-item {
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+body {
+  background-image: url("/images/main/amap_bg2.jpg");
+  background-size: cover;
+  background-attachment:fixed;
+}

@@ -10,10 +10,10 @@
 		
 		// on supprime toutes les dates avant $first
 		$requete = "DELETE from ".$tablePermanences." WHERE Date<= '".$first."'";
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
-		$ok = mysql_query($requete);
-		mysql_close();
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
+		$ok = mysqli_query($requete);
+		mysqli_close();
 		$page="Location:webmaster_maj_permanence.php?amap=".$_POST['amap'];
 		header($page);
 	}

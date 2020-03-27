@@ -9,15 +9,15 @@ $pdf->SetTopMargin(0.0);
 $pdf->SetAutoPageBreak(true,5);
 $pdf->SetFont('Arial','B',10);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 
 $tableLegume = $_GET['amap'];
 $question="SELECT ".$tableLegume.".*, amap_generale.e_mail, amap_generale.Telephone, amap_generale.Tel_portable FROM ".$tableLegume.", amap_generale WHERE ".$tableLegume.".id= amap_generale.id ORDER BY Nom";
 	
-$reponse = mysql_query($question) or die(mysql_error());
-$ligne = mysql_num_rows($reponse);
-mysql_close();
+$reponse = mysqli_query($question) or die(mysqli_error());
+$ligne = mysqli_num_rows($reponse);
+mysqli_close();
 
 $pdf->Cell(250,5,'ST SEBASTIEN '.$_GET['amap'].' --------- LISTE DES ADHERENTS --------- '.date("d-M-Y").' --------- '.$ligne.' INSCRITS',0,1,'C');
 $pdf->SetFont('Arial','',10);
@@ -52,7 +52,7 @@ switch ($_GET['amap']) {
     
 }
 
-while($donnees = mysql_fetch_array($reponse)) {
+while($donnees = mysqli_fetch_array($reponse)) {
 
 	if($j==0 || $j % $nbligneParPage==0) {
 		// début de page

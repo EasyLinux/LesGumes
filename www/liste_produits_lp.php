@@ -29,13 +29,13 @@ if($ok==1)
 	<div style="text-align: center;">
 		<?php
 		include_once("webmaster/define.php");
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
 		$question="SELECT * FROM amap_produits_laitiers_permanences WHERE Distribution=1 ORDER BY Date";
-		$reponse1 = mysql_query($question)  or die(mysql_error());
+		$reponse1 = mysqli_query($question)  or die(mysqli_error());
 		$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
-		$reponse2 = mysql_query($question) or die(mysql_error());
-		$TableDateLiv=mysql_fetch_array($reponse2);
+		$reponse2 = mysqli_query($question) or die(mysqli_error());
+		$TableDateLiv=mysqli_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=strtotime(date("Y-m-d",time()));
 //mise à jour de la table_cde_en_cours par recopie de la table_cde
@@ -43,7 +43,7 @@ if($ok==1)
 //		[Date de la table cde_en_cours] < DateAujourd'hui ou [Date de la table cde_en_cours] est nulle
 //      et si      [datelimite] <= [date_aujourd'hui] <= [dateProchaineLivraison]
 
-		if ( mysql_num_rows($reponse1) ==0) { 
+		if ( mysqli_num_rows($reponse1) ==0) { 
 			$flag= -2;
 		} else {
 			$flag=0; 
@@ -52,7 +52,7 @@ if($ok==1)
 			//la mise à jour de la table cde_en_cours 
 			if($TableDateLiv[0]==NULL || $auj>$DateLivEnCours ) { 
 				$flag=-1;//impossible d'imprimer les amapiens peuvent encore modifier leur choix
-				while($DateLiv = mysql_fetch_array($reponse1)) {
+				while($DateLiv = mysqli_fetch_array($reponse1)) {
 					// on recherche la date de la prochaine livraison
 					$temp=strtotime($DateLiv['Date']);
 					$limite=$temp-JOURS_MARGE_PDT_LAITIER*24*60*60;
@@ -68,13 +68,13 @@ if($ok==1)
 		if($flag==0) $ProchLiv=date("d-M-Y",strtotime($TableDateLiv[0]));
 		if($flag==1) {
 			$question="TRUNCATE TABLE amap_produits_laitiers_cde_en_cours";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 			$question="INSERT INTO amap_produits_laitiers_cde_en_cours SELECT * FROM amap_produits_laitiers_cde";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 			$question="UPDATE amap_produits_laitiers_cde_en_cours SET Date_livraison='".$LaDate."'";
-			$reponse=mysql_query($question) or die(mysql_error());;
+			$reponse=mysqli_query($question) or die(mysqli_error());;
 		}
-		mysql_close();
+		mysqli_close();
 		
 		if ($flag==-1) { ?>
 			<h3 class="mot_passe_recette">
@@ -83,7 +83,7 @@ if($ok==1)
 			<h3 class="mot_passe_recette">
 			Plus de date de distribution de prévue.<br />voir avec le référent ou l'administateur de la base!!</h3>
 		<?php } else {?>		
-			<button onclick="document.location.href='ImprimePDF_ProdLait V2.php'" name="BtnImprime" type="button" class="BtnStd">Enregistrer pour imprimer</button>
+			<button onclick="document.location.href='ImprimePDF_ProdLait_V2.php'" name="BtnImprime" type="button" class="BtnStd">Enregistrer pour imprimer</button>
 		<?php } ?>
 		
 			<button onclick="document.location.href='index.php'" name="BtnRetour" type="button" class="BtnStd">Retour</button><br />
@@ -92,13 +92,13 @@ if($ok==1)
 	<?php if ($flag!=-1) { ?>
 	<div>
 	<?php
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM amap_produits_laitiers_cde_en_cours ORDER BY Nom"; 
-	$reponse = mysql_query($question);
-	$ligne = mysql_num_rows($reponse);
+	$reponse = mysqli_query($question);
+	$ligne = mysqli_num_rows($reponse);
 	$totgene = 0;
-	mysql_close();
+	mysqli_close();
 	?>
 		<table  style="text-align: center; border-collapse: collapse; margin: 5px auto;">
 			<caption style="
@@ -149,7 +149,7 @@ if($ok==1)
 				-->
 			</tr>
 			<?php $j=0;$totgne=0;
-			while($donnees = mysql_fetch_array($reponse)) { $j++;$totunit=0;?>
+			while($donnees = mysqli_fetch_array($reponse)) { $j++;$totunit=0;?>
 			<tr style="background-color: <?php if($j % 3==1) echo '#40a7f5'; elseif($j % 3==2) echo '#f9f580'; else echo 'white';?>">
 				<td style="border: 1px solid black;"><?php echo $donnees['Nom'].' '.$donnees['Prenom'];?></td>
 				<td style="border: 1px solid black;"><?php echo $donnees['Unite'];?></td>
@@ -178,47 +178,47 @@ if($ok==1)
 				<?php $totgene+=$totunit; ?>
 			</tr>
 			<?php } 
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
 			?>
 			<tr>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">Nombre d'unités</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Unite ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Beurre_160g_sale ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Beurre_160g_doux ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Creme_250g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_nature_5x125g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_nature_vrac ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -226,11 +226,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_peche ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_peche ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -238,11 +238,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_abricot ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_abricot ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -250,11 +250,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_vanille ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_vanille ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -262,11 +262,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_citron ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_citron ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -274,11 +274,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_framboise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_framboise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -286,11 +286,11 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">     
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_fraise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo "&nbsp;&nbsp;";
 				$question = "SELECT SUM( Yaourt_aromatise_vrac_fraise ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				echo 'p'
 				?>
@@ -298,70 +298,70 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">     
 				<?php		
 				$question = "SELECT SUM( Yaourt_aromatise_4x125g_mixte ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Fromage_frais_nature ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Fromage_frais_herbes_150g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Bleruchon_100_a_150g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Bleruchon_225_a_275g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo '2x'.$donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Faisselle_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Fromage_blanc_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Fromage_blanc_maigre_500g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Lait_cru_2L ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Lait_ribot_1L5 ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				</th>
@@ -369,14 +369,14 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Lait_cru_1L_Yaourt_nature_2x125g ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
-				$donnees=mysql_fetch_array(mysql_query($question));
+				$donnees=mysqli_fetch_array(mysqli_query($question));
 				echo $donnees[0];
 				?>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php echo $totgene; ?>
 				</tr>
 			</tr>
-			<?php mysql_close(); ?>
+			<?php mysqli_close(); ?>
 			<tr>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="2"></th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">S</th>

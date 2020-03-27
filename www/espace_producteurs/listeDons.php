@@ -1,11 +1,11 @@
 <?php include_once("../webmaster/define.php"); 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	$reponseDate = mysql_query("SELECT Date FROM amap_legumes_permanences WHERE Distribution='1' AND Date > '2015-07-01' ORDER BY Date ASC") or die(mysql_error());
-	$rowdate = mysql_fetch_array ($reponseDate);	
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
+	$reponseDate = mysqli_query("SELECT Date FROM amap_legumes_permanences WHERE Distribution='1' AND Date > '2015-07-01' ORDER BY Date ASC") or die(mysqli_error());
+	$rowdate = mysqli_fetch_array ($reponseDate);	
      
-	$reponse =  mysql_query("SELECT Count(*) FROM amap_legumes_dons WHERE Date <= CURRENT_DATE and id='".$id."'");
-    $row = mysql_fetch_array ($reponse);
+	$reponse =  mysqli_query("SELECT Count(*) FROM amap_legumes_dons WHERE Date <= CURRENT_DATE and id='".$id."'");
+    $row = mysqli_fetch_array ($reponse);
     $nbDons = $row[0];	 
  ?>
 
@@ -39,7 +39,7 @@
 				<?php
 		$timetoday = time();	
 		$done = false;		
-		while ($rowdate = mysql_fetch_array ($reponseDate) ) {
+		while ($rowdate = mysqli_fetch_array ($reponseDate) ) {
 			$style = '';
 			$date = $rowdate['Date'];
 			
@@ -47,15 +47,15 @@
 				$style = ' style="background-color: #C1FFC1"'; 
 				$done= true;
 			}
-			$reponseDon = mysql_query("SELECT * FROM amap_legumes_dons WHERE Date = '".$date."'") or die(mysql_error());
-			$count=mysql_num_rows($reponseDon);     ?>
+			$reponseDon = mysqli_query("SELECT * FROM amap_legumes_dons WHERE Date = '".$date."'") or die(mysqli_error());
+			$count=mysqli_num_rows($reponseDon);     ?>
 
 			<td <?php echo $style; ?> rowspan=<?php echo $count;?> > <?php echo date("d M y",strtotime($date)); ?> </td>
 			<td <?php echo $style; ?> rowspan=<?php echo $count;?>> <?php echo $count; ?> </td>  <?php
        
 			if ( $count == 0) {  ?> <td  <?php echo $style; ?> > - </td></tr><tr> <?php  }
 			
-			while ($row = mysql_fetch_array ($reponseDon) ) {    
+			while ($row = mysqli_fetch_array ($reponseDon) ) {    
 			?>
 				<td <?php echo $style; ?>> <?php echo $row['Personne']; ?> </td>
 				</tr><tr>
@@ -68,5 +68,5 @@
 	</body>
 </html>
 <?php
-mysql_close(); // Déconnexion de MySQL
+mysqli_close(); // Déconnexion de MySQL
 ?>

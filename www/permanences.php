@@ -4,13 +4,13 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {	
 	//pour imposer que la personne soit inscrite aux légumes rétablir les lignes ci-dessous et enlever ok=1
 	$ok=0; //identifié mais pas inscrit aux légumes
-	//mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	//mysql_select_db(base_de_donnees); // Sélection de la base 
+	//mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	//mysqli_select_db(base_de_donnees); // Sélection de la base 
 	//$question="SELECT * FROM ".$_GET['amap']." WHERE id='".$_COOKIE['identification_amap']."'";
-	//$reponse = mysql_query($question) or die(mysql_error());
-	//$ligne = mysql_num_rows($reponse);
+	//$reponse = mysqli_query($question) or die(mysqli_error());
+	//$ligne = mysqli_num_rows($reponse);
 	//if($ligne>0) $ok=1; //identifié et inscrit aux légumes
-	//mysql_close();
+	//mysqli_close();
 	$ok=1;
 }
 if($ok==1) {?>
@@ -56,10 +56,10 @@ if($ok==1) {?>
 				<tr>
 					<th>Date</th>
 					<?php
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
-					$reponse = mysql_query("SELECT * FROM ".$_GET['amap']."_permanences ORDER BY Date") or die(mysql_error()); // Requête SQL
-					$colonne = (mysql_num_fields($reponse)-2)/2;
+					mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+					mysqli_select_db(base_de_donnees); // Sélection de la base 
+					$reponse = mysqli_query("SELECT * FROM ".$_GET['amap']."_permanences ORDER BY Date") or die(mysqli_error()); // Requête SQL
+					$colonne = (mysqli_num_fields($reponse)-2)/2;
 					for($i=1;$i<=$colonne;$i++) { ?>
 						<th>Personne_<?php echo $i; ?></th>
 					<?php } ?>
@@ -69,7 +69,7 @@ if($ok==1) {?>
 						<tr><th></th><th>18h30-19h15</th><th>19h15-20h</th><th></th></tr>
 				<?php } 
 				$index=0;
-				while ($donnees = mysql_fetch_array($reponse) ) { $index++;
+				while ($donnees = mysqli_fetch_array($reponse) ) { $index++;
 				?>
 				<tr class="h3" >
 					<td class="h3_date" "><?php echo date("d-M-y",strtotime($donnees['Date'])); ?></td>
@@ -84,7 +84,7 @@ if($ok==1) {?>
 					<td class="h3_date"><?php echo date("d-M-y",strtotime($donnees['Date'])); ?></td>
 				</tr>
 				<?php }
-				mysql_close(); // Déconnexion de MySQL
+				mysqli_close(); // Déconnexion de MySQL
 			?>
 			</table>
 		</div>		

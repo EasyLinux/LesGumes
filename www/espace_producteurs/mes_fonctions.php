@@ -13,12 +13,12 @@ fonction ChoixDuNom(base, table, amap_exclue, label_liste_de_choix, ordre de la 
 
 function AfficherTable($base,$table,$tri,$sens, $adressePage)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$tri." ".$sens;
-	$reponse = mysql_query($question);
-	$ligne = mysql_num_rows($reponse);
-	$donnees = mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question);
+	$ligne = mysqli_num_rows($reponse);
+	$donnees = mysqli_fetch_array($reponse);
 	$i=0;
 ?>
 	<h2> <?php echo $table.' - nombre d\'adhérents : '.$ligne; ?></h2>
@@ -49,8 +49,8 @@ function AfficherTable($base,$table,$tri,$sens, $adressePage)
 		<?php }} ?>
 		</tr>
 		<?php
-		$reponse = mysql_query($question);
-		while($donnees = mysql_fetch_array($reponse)) { ?>
+		$reponse = mysqli_query($question);
+		while($donnees = mysqli_fetch_array($reponse)) { ?>
 			<tr>
 				<?php 
 				$i=0;
@@ -62,7 +62,7 @@ function AfficherTable($base,$table,$tri,$sens, $adressePage)
 			</tr>
 		<?php
 		}
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php } ?> 	
@@ -78,17 +78,17 @@ function AfficherTable($base,$table,$tri,$sens, $adressePage)
 
 function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	for($i=0; $i<$NbreChamps; $i++) {
 		if($i==0) $question="SELECT ".$ListeChamps[$i];
 		else $question.=", ".$ListeChamps[$i];
 	}
 	$question.=" FROM ".$table." ORDER BY ".$ordre;
-	$reponse = mysql_query($question);
-	/*$colonne = mysql_num_fields($reponse);*/
-	$ligne = mysql_num_rows($reponse);
-	$donnees = mysql_fetch_array($reponse);
+	$reponse = mysqli_query($question);
+	/*$colonne = mysqli_num_fields($reponse);*/
+	$ligne = mysqli_num_rows($reponse);
+	$donnees = mysqli_fetch_array($reponse);
 	$i=0;
 ?>
 	<table 	style="
@@ -128,9 +128,9 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			<?php } ?>
 		</tr>
 		<?php
-		$reponse = mysql_query($question);
+		$reponse = mysqli_query($question);
 		$PrixTotal=0.0;
-		while($donnees = mysql_fetch_array($reponse)) {
+		while($donnees = mysqli_fetch_array($reponse)) {
 			$prix=0.0;?>
 			<tr>
 				<?php 
@@ -174,8 +174,8 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 		<?php
 		} 
 	/********* affichage des quantites totales et du prix total */
-		$reponse = mysql_query($question);
-		$colonne = mysql_num_fields($reponse);?>
+		$reponse = mysqli_query($question);
+		$colonne = mysqli_num_fields($reponse);?>
 		<tr> 
 			<th style="
 				text-align: center;
@@ -185,9 +185,9 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			>Total</th><?php
 			for($j=0; $j<($colonne-1)/2; $j++) {
 				$qte=0;
-				$reponse = mysql_query($question);
+				$reponse = mysqli_query($question);
 				for($i=0; $i<$ligne; $i++) {
-					$donnees = mysql_fetch_array($reponse);
+					$donnees = mysqli_fetch_array($reponse);
 					$qte+=$donnees[2*$j+1];
 				} ?>
 				<td style="
@@ -208,7 +208,7 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 		</tr>
 		
 		<?php
-		mysql_close();
+		mysqli_close();
 		?>
 	</table>		
 <?php } ?> 	
@@ -220,17 +220,17 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 <!--***********************************************************************************************************-->
 <?php
 function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db($base); // Sélection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$classement;
-	$reponse = mysql_query($question);
+	$reponse = mysqli_query($question);
 ?>
 <form method="post" action=<?php echo $action; ?>>
    <p>
        <label for="adherent"><?php echo $message; ?></label>
        <select name="adherent" id="adherent">
 	   <?php
-			while($donnees = mysql_fetch_array($reponse)) {
+			while($donnees = mysqli_fetch_array($reponse)) {
 					if($amap_exclue=='amap_viande_bovine' //&& $donnees['Amap_viande_bovine']!='1'
 						|| $amap_exclue=='amap_legumes' && $donnees['Amap_legumes']!='1'
 						|| $amap_exclue=='amap_pommes' //&& $donnees['Amap_pommes']!='1'
@@ -244,5 +244,5 @@ function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action)
    </p>
 </form>
 <?php 
-	mysql_close();
+	mysqli_close();
 } ?>

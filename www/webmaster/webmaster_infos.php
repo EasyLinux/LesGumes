@@ -156,14 +156,14 @@ function Radier() {
 		<h4>Sélectionner une personne pour la retirer ou l'insérer :</h4>
 		<form id="MForm2" action="">
 			<?php
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
-			$ListeGenerale=mysql_query("SELECT id, Nom, Prenom FROM amap_generale ORDER BY Nom") or die(mysql_error());
-			$NbAdherent = mysql_num_rows($ListeGenerale);
+			mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+			mysqli_select_db(base_de_donnees); // Sélection de la base 
+			$ListeGenerale=mysqli_query("SELECT id, Nom, Prenom FROM amap_generale ORDER BY Nom") or die(mysqli_error());
+			$NbAdherent = mysqli_num_rows($ListeGenerale);
 			$question="SELECT id, Nom, Prenom, Contrat_verrouille FROM ".$amap." ORDER BY Nom";
 
-			$ListeAmap=mysql_query($question) or die(mysql_error());
-			$NbAmap = mysql_num_rows($ListeAmap);
+			$ListeAmap=mysqli_query($question) or die(mysqli_error());
+			$NbAmap = mysqli_num_rows($ListeAmap);
 			?>
 			<table >
 				<tr>
@@ -174,7 +174,7 @@ function Radier() {
 				<tr >
 					<td>
 						<select size="35" name="table_generale" id="table_generale" onchange="javascript:PermissionBouton(1)">
-							<?php while ($donnees = mysql_fetch_array($ListeGenerale)){ ?>
+							<?php while ($donnees = mysqli_fetch_array($ListeGenerale)){ ?>
 								<option value="<?php echo $donnees['id']; ?>"><?php echo $donnees['Nom'].' '.$donnees['Prenom'].' [id='.$donnees['id'].']'; ?></option>
 							<?php } ?>
 						</select>
@@ -191,7 +191,7 @@ function Radier() {
 					</td>
 					<td>                                                                                      
 						<select size="35" name="table_amap" id="table_amap" onchange="javascript:PermissionBouton(2)">
-					<?php while ($donnees = mysql_fetch_array($ListeAmap)){ 
+					<?php while ($donnees = mysqli_fetch_array($ListeAmap)){ 
 						if( $donnees['Contrat_verrouille'] == 0 ) {$etat='*';} else  { $etat='';}?>
 							<option value="<?php echo $donnees['id']; ?>"><?php echo $donnees['Nom'].' '.$donnees['Prenom'].' '.$etat; ?></option>
 					<?php } ?>
@@ -204,12 +204,12 @@ function Radier() {
 				$question.="AND id NOT IN (SELECT id FROM amap_pain) AND id NOT IN (SELECT id FROM amap_oeufs) ";
 				$question.="AND id NOT IN (SELECT id FROM amap_poulets) AND id NOT IN (SELECT id FROM amap_produits_laitiers) ";
 				$question.="AND id NOT IN (SELECT id FROM amap_pommes) AND id NOT IN (SELECT id FROM amap_poissons) ORDER BY Nom";
-				$SansContrat=mysql_query($question);
-				$NbSsContrat = mysql_num_rows($SansContrat);
+				$SansContrat=mysqli_query($question);
+				$NbSsContrat = mysqli_num_rows($SansContrat);
 				?-->
 				
 			</table>
-			<?php mysql_close();?>
+			<?php mysqli_close();?>
 		</form>
 	</div>
 	</body>

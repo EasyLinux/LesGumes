@@ -31,11 +31,11 @@
 		}
 		$requete = $requete.";";
 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
-		$req = mysql_query($requete);
+		mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+		mysqli_select_db(base_de_donnees); // Sélection de la base 
+		$req = mysqli_query($requete);
 		if ($req == FALSE) $ok=false;	
-		mysql_close();
+		mysqli_close();
 //echo $requete; $ok=false;
 	}
 	if ( $ok ) { 

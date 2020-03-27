@@ -30,34 +30,34 @@ $nom = "";
 $message ="";
 
 if ($idAEncoder!="") {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	mysql_error(); // lecture pour vider d'éventuels messages antérieurs
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_error(); // lecture pour vider d'éventuels messages antérieurs
 	$question='SELECT id, Nom, Prenom, e_mail from amap_generale WHERE id='.$idAEncoder;
-	$reponse = mysql_query( $question ) or die(mysql_error());
-	$reponse=mysql_fetch_array($reponse);
+	$reponse = mysqli_query( $question ) or die(mysqli_error());
+	$reponse=mysqli_fetch_array($reponse);
 	if ( $reponse != NULL) {
 		$mail = $reponse[3];
 		$nom = $reponse[1]." ".$reponse[2];
 	} else {
 		$nom = "pas d'amapien avec cet id";
 	}
-	mysql_close();	
+	mysqli_close();	
 }
 
 if ($idAReinitialiser!="") {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	mysql_error(); // lecture pour vider d'éventuels messages antérieurs
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_error(); // lecture pour vider d'éventuels messages antérieurs
 	// UPDATE `amap_generale` SET `Login` = 'sodimoreau@free.fr', `Mot_passe` = 'sodimoreau@free.fr' WHERE `amap_generale`.`id` = 174;
 	$question='UPDATE amap_generale SET Login = \''.$mailPourReinitialisation.'\', Mot_passe = \''.sha1($mailPourReinitialisation).'\' WHERE amap_generale.id = '.$idAReinitialiser;
-	$reponse = mysql_query( $question ) or die(mysql_error());
+	$reponse = mysqli_query( $question ) or die(mysqli_error());
 	if ( $reponse == 1) {
 		$message = "Réinitialisation effectuée";
 	} else {
 		$message = "Pb pendant la réinitialisation";
 	}	
-	mysql_close();	
+	mysqli_close();	
 }
 
 ?>

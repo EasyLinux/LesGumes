@@ -98,20 +98,20 @@
 <body>
 	<?php
 	include_once("define.php"); 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$question="SELECT * FROM ".$_GET['amap']." WHERE id=".$_GET['id'];
-	$reponse=mysql_query( $question);
-	if(mysql_num_rows($reponse)==0) {
+	$reponse=mysqli_query( $question);
+	if(mysqli_num_rows($reponse)==0) {
 		$question="SELECT Nom, Prenom, e_mail FROM amap_generale WHERE id=".$_GET['id'];
-		$reponse=mysql_query( $question) or die(mysql_error());
-		$donnees=mysql_fetch_array($reponse);
+		$reponse=mysqli_query( $question) or die(mysqli_error());
+		$donnees=mysqli_fetch_array($reponse);
 		$flag=0;
 		
 		// données globales aux contrats dans liste_amap
 		$questionContrat= "SELECT * FROM liste_amap WHERE  Table_amap='".$_GET['amap']."'";
-		$reponse2 = mysql_query( $questionContrat) or die(mysql_error());
-		$infoContrat = mysql_fetch_array( $reponse2);
+		$reponse2 = mysqli_query( $questionContrat) or die(mysqli_error());
+		$infoContrat = mysqli_fetch_array( $reponse2);
 		$datedeb= $infoContrat['Date_deb'];
 		$datefin= $infoContrat['Date_fin'];
 		$nbLivMax = $infoContrat['Nb_livraison'];
@@ -182,11 +182,11 @@
 							  
 				<?php   
 				//il faut refaire la requête pour parcourir tous les produits
-				$produits = mysql_query( $questionProduits);
-				$nbLigne = mysql_num_rows($produits);
+				$produits = mysqli_query( $questionProduits);
+				$nbLigne = mysqli_num_rows($produits);
 				$totalContrat =0;
 				$idMin = 1; $idMax= 9; // les lignes dont l'id est compris entre idMin et idMax doivent avoir le même nombre de livraison 
-				while ($produitChevre = mysql_fetch_array($produits) ) {	
+				while ($produitChevre = mysqli_fetch_array($produits) ) {	
 					$id = $produitChevre['id'];
 					$produit = $produitChevre['Nom_produit'];
 					$maxParLivraison = $produitChevre['Max_par_livraison'];
@@ -378,11 +378,11 @@
 							  
 				<?php   
 				//il faut refaire la requête pour parcourir tous les produits
-				$produits = mysql_query( $questionProduits);
-				$nbLigne = mysql_num_rows($produits);
+				$produits = mysqli_query( $questionProduits);
+				$nbLigne = mysqli_num_rows($produits);
 				$totalContrat =0;
 				
-				while ($produitPoulet = mysql_fetch_array($produits) ) {	
+				while ($produitPoulet = mysqli_fetch_array($produits) ) {	
 					$id = $produitPoulet['id'];
 					$produit = $produitPoulet['Nom_produit'];
 					$nbLivMax = $produitPoulet['Nbre_livraison'];
@@ -444,8 +444,8 @@
 				</tr>
 			  
 				<?php   
-                $produits = mysql_query( $questionProduits);
-                while ($produitChampignon = mysql_fetch_array($produits) ) 
+                $produits = mysqli_query( $questionProduits);
+                while ($produitChampignon = mysqli_fetch_array($produits) ) 
                 {	
                   $id = $produitChampignon['id'];
                   $produit = $produitChampignon['Nom_produit'];            
@@ -513,6 +513,6 @@
 		<input onclick="document.location.href='webmaster_infos.php?nom_amap=<?php echo $_GET['amap']; ?>'" type="Button" value="OK" />
 		</p>
 	<?php } 
-	mysql_close();  ?>
+	mysqli_close();  ?>
 </body>
 </html>

@@ -61,8 +61,8 @@ function entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol) {
 }
 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+mysqli_select_db(base_de_donnees); // Sélection de la base 
 
 
 $pdf->SetFont('Arial','B',12);
@@ -146,7 +146,7 @@ $tabCommandes = $tab['tabCommandes'];
 $noms = $tab['noms'];
 $totalColonne = $tab['totalColonne'];
 
-mysql_close();
+mysqli_close();
 
 // il ne reste plus qu'à parcourir le tableau pour afficher les commandes
 $total1=0;

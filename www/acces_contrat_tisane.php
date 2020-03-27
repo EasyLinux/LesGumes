@@ -1,11 +1,11 @@
 <?php
 function VoirContratTisane ( $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysqli_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysqli_select_db(base_de_donnees); // Sélection de la base 
 	$table= 'amap_tisanes';
 	$question="SELECT * FROM $table WHERE id='".$id."'";  
-	$reponse = mysql_query($question) or die(mysql_error());
-   	$donnees = mysql_fetch_array($reponse); 
+	$reponse = mysqli_query($question) or die(mysqli_error());
+   	$donnees = mysqli_fetch_array($reponse); 
 ?>
 	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'AMAP Tisanes<br /> sous le nom : 
 		<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2>
@@ -106,6 +106,6 @@ function VoirContratTisane ( $id) {
 	
 
 <?php	
-	mysql_close();
+	mysqli_close();
 }
 ?>

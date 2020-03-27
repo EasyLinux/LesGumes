@@ -1,0 +1,163 @@
+http://laurent-audibert.developpez.com/Cours-BD/html/Cours-BD.html#htoc77
+
+CREATE TABLE principale
+(id                 SERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ Nom                VARCHAR(100) CHECK (SUBSTRING(VALUE) BETWEEN 'A' AND 'Z')
+)ENGINE = InnoDB
+
+CREATE TABLE derive
+(
+ Nom                BIGINT(20) UNSIGNED REFERENCES principale (id)
+
+)ENGINE = InnoDB
+
+recopier l'e_mail dans le Mot_passe : UPDATE amap_generale SET `Mot_passe`=`e_mail`;
+
+créer la table amap_legumes_renouvellements à partir de la table amap_generale puis faire 
+DELETE FROM amap_legumes_renouvellements
+WHERE  (id) NOT IN (SELECT id FROM amap_legumes)
+AND (id) NOT IN (SELECT id FROM amap_legumes_liste_attente);
+
+créer la table amap_legumes_du_21_aout_2009 à partir de la table amap_legumes puis la vider
+
+/**********************************************************************************************************************
+     creation table amap_generale
+/**********************************************************************************************************************
+
+CREATE TABLE amap_generale
+(id                 	BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,              
+ Nom                	VARCHAR(100) NOT NULL,
+ Prenom             	VARCHAR(100) NOT NULL,
+ e_mail             	VARCHAR(100) NOT NULL,
+ Adresse            	VARCHAR(100) DEFAULT NULL,
+ Telephone          	VARCHAR(14)  DEFAULT NULL,
+ Tel_2              	VARCHAR(14)  DEFAULT NULL,
+ Date_inscription   	DATETIME DEFAULT NULL,
+ Paiement_centre    	INT(1) DEFAULT 0,
+ Amap_legumes       	INT(1) DEFAULT 0,
+ Amap_legumes_liste_attente     INT(1) DEFAULT 0,
+ Amap_pommes        		INT(1) DEFAULT 0,
+ Amap_viande_bovine 		INT(1) DEFAULT 0,
+ CONSTRAINT UNI_N_PRN           UNIQUE (Nom, Prenom),
+ CONSTRAINT UNI_MAIL            UNIQUE (e_mail)
+)ENGINE = InnoDB
+
+/**********************************************************************************************************************
+     creation table amap_legumes à partir de la table amap_generale
+/**********************************************************************************************************************
+CREATE TABLE amap_legumes AS SELECT id, Nom, Prenom FROM amap_generale WHERE amap_generale.amap_legumes=1;
+ALTER TABLE amap_legumes ADD Nombre_panier INT(1) NOT NULL DEFAULT 1;
+ALTER TABLE amap_legumes ADD Nombre_cheque INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_legumes ADD Date_Paiement  DATE DEFAULT NULL;
+ALTER TABLE amap_legumes ADD Date_debut_contrat DATE DEFAULT NULL;
+ALTER TABLE amap_legumes ADD Date_fin_contrat DATE DEFAULT NULL
+
+/**********************************************************************************************************************
+     maj table amap_legumes à partir de la table amap_generale
+/**********************************************************************************************************************
+DELETE FROM amap_legumes WHERE  (id) NOT IN (SELECT id FROM amap_generale),
+DELETE FROM amap_legumes WHERE  (id) IN (SELECT id FROM amap_generale WHERE amap_generale.amap_legumes=0),
+INSERT INTO amap_legumes(id,Nom,Prenom) 
+	SELECT id, Nom, Prenom FROM amap_generale 
+		WHERE amap_generale.amap_legumes=1
+			AND id NOT IN (SELECT id FROM amap_legumes)
+/**********************************************************************************************************************
+     creation table amap_pommes
+	 si une personne ajoute des produits en cours de contrat il faut lui créer
+	 un nouvel enregistrement dans cette table sans toucher aux autres tables
+	 il faut mettre le même nom suivi de (2) ou (3) selon qu'il s'agit de la 2nde ou 3me modif
+	 le champ id de cette table peut ne pas être unique
+/**********************************************************************************************************************
+CREATE TABLE amap_pommes AS SELECT id, Nom, Prenom FROM amap_generale WHERE amap_generale.amap_pommes=1;
+ALTER TABLE amap_pommes ADD Nbre_pltx_pom_doux INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nbre_pltx_pom_acide INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nbre_pltx_pom_alterne INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nbre_jus_pom_nature INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nbre_jus_pom_citron INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nbre_jus_pom_cannelle INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Nombre_cheque INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_pommes ADD Date_paiement  DATE DEFAULT NULL;
+ALTER TABLE amap_pommes ADD Date_debut_contrat DATE DEFAULT NULL;
+ALTER TABLE amap_pommes ADD Date_fin_contrat DATE DEFAULT NULL
+
+/**********************************************************************************************************************
+     maj table amap_pommes a partir table amap_generale
+/**********************************************************************************************************************
+DELETE FROM amap_pommes WHERE  (id) NOT IN (SELECT id FROM amap_generale);
+DELETE FROM amap_pommes WHERE  (id) IN (SELECT id FROM amap_generale WHERE amap_generale.amap_pommes=0);
+INSERT INTO amap_pommes(id,Nom,Prenom) 
+	SELECT id, Nom, Prenom FROM amap_generale 
+		WHERE amap_generale.amap_pommes=1
+			AND id NOT IN (SELECT id FROM amap_pommes);
+
+
+/**********************************************************************************************************************
+     creation table amap_viande_bovine a partir table amap_generale
+/**********************************************************************************************************************
+CREATE TABLE amap_viande_bovine AS SELECT id, Nom, Prenom FROM amap_generale WHERE amap_generale.amap_viande_bovine=1;
+ALTER TABLE amap_viande_bovine ADD Nbre_colis_5kg_commande INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_viande_bovine ADD Prix_colis_5kg DECIMAL(10,2) NOT NULL DEFAULT 55;
+ALTER TABLE amap_viande_bovine ADD Nbre_colis_5kg_retire INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_viande_bovine ADD Nbre_colis_10kg_commande INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_viande_bovine ADD Prix_colis_10kg DECIMAL(10,2) NOT NULL DEFAULT 110;
+ALTER TABLE amap_viande_bovine ADD Nbre_colis_10kg_retire INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE amap_viande_bovine ADD Date_paiement DATE DEFAULT NULL;
+ALTER TABLE amap_viande_bovine ADD Date_debut_contrat DATE DEFAULT NULL;
+ALTER TABLE amap_viande_bovine ADD Date_fin_contrat DATE DEFAULT NULL
+
+/**********************************************************************************************************************
+     maj amap_viande_bovine a partir table amap_generale
+/**********************************************************************************************************************
+DELETE FROM amap_viande_bovine WHERE  (id) NOT IN (SELECT id FROM amap_generale);
+DELETE FROM amap_viande_bovine WHERE  (id) IN (SELECT id FROM amap_generale WHERE amap_generale.amap_viande_bovine=0);
+INSERT INTO amap_viande_bovine(id,Nom,Prenom) 
+	SELECT id, Nom, Prenom FROM amap_generale 
+		WHERE amap_generale.amap_viande_bovine=1
+			AND id NOT IN (SELECT id FROM amap_viande_bovine);
+
+			
+			
+			
+			
+/**********************************************************************************************************************
+     creation table amap_liste_attente_legumes a partir table amap_generale
+/**********************************************************************************************************************
+
+/**********************************************************************************************************************
+     creation table amap_legumes_permanences
+/**********************************************************************************************************************
+
+CREATE TABLE amap_legumes_permanences
+(Date                  DATE         NOT NULL UNIQUE PRIMARY KEY,
+ Distribution          INT(1)       NOT NULL DEFAULT '1',
+ id_1		       BIGINT(20)   UNSIGNED NOT NULL DEFAULT '0',
+ Personne_1	       VARCHAR(100) DEFAULT '?', 
+ id_2		       BIGINT(20)   UNSIGNED NOT NULL DEFAULT '0',
+ Personne_2            VARCHAR(100) DEFAULT '?',
+ id_3		       BIGINT(20)   UNSIGNED NOT NULL DEFAULT '0',
+ Personne_3            VARCHAR(100) DEFAULT '?'
+) ENGINE = InnoDB
+
+/**********************************************************************************************************************
+     maj table amap_legumes_permanences
+/**********************************************************************************************************************
+
+/**************************************
+garder pour info
+/**************************************
+CREATE TABLE amap_pomme_contrats
+(
+ Nom                VARCHAR(100),
+ Prenom             VARCHAR(100),
+ Telephone          VARCHAR(100) UNIQUE NOT NULL,
+ e_mail             VARCHAR(100) UNIQUE NOT NULL,
+ Date_contrat	    DATE         NOT NULL,
+ Nombre_de_livraisons            INT NOT NULL DEFAULT '7',
+ Nbre_Plt_acidule                INT NOT NULL DEFAULT '0',
+ Nbre_Plt_doux                   INT NOT NULL DEFAULT '0',
+ Nbre_jus_nature                 INT NOT NULL DEFAULT '0',
+ Nbre_jus_citron                 INT NOT NULL DEFAULT '0',
+ Nbre_jus_cannelle               INT NOT NULL DEFAULT '0',
+ Nbre_cheques                    INT NOT NULL DEFAULT '1',
+ CONSTRAINT KEY_PR               PRIMARY KEY(Nom, Prenom)
+)ENGINE = InnoDB

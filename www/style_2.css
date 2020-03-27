@@ -1,0 +1,474 @@
+p {
+	font-family: "Times New Roman";
+	font-size: 16px;
+}
+h1 {
+	font-family: "Times New Roman";
+	font-size: 32px;
+}
+h3 {
+	font-family: "Times New Roman";
+	font-size: 19px;
+}
+h4 {
+	font-family: "Times New Roman";
+	font-size: 16px;
+}
+
+li, caption {
+	font-family: "Times New Roman";
+	font-size: 16px;
+	text-decoration: none;
+}
+th, td {
+	font-family: "Times New Roman";
+	font-size: 16px;
+	color: black;
+	text-decoration: none;
+}
+th {
+	font-weight: bold;
+}
+
+/*===================================*/
+/*  Fin des définitions des polices
+/*===================================*/
+
+html, body 
+{
+  margin:0;
+  padding:0;
+  height:100%; /* 100 % en hauteur */
+}
+
+.separateur {
+	clear: both;
+}
+
+#page_principale
+{
+	border: 1px solid black;
+	/*border-right: 1px solid black;*/
+	margin: 0px;
+	padding: 0 0 10px 0;/* 15x 15px 15px;*/
+	background-color: green;
+	width: auto;
+	max-width: 1200px;
+	min-height: 800px;
+}
+#page_principale td.accueil_1
+{
+	border: 1px solid black;
+	text-align: center;
+	background-color: white;
+	width: 25%;
+}
+
+
+/*===================================*/
+/*  BOITE en_tete 
+/*===================================*/
+#en_tete {
+	border: 1px solid black;
+	background-color: green;
+	height: 50px;
+	width: auto;
+}
+#en_tete h1{
+	margin: 0;
+	padding: 0;
+}
+#en_tete a.en_tete_amap {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	color: white;
+}
+#en_tete a.en_tete_amap img {
+	margin: 0px 0px 0px 0px;
+	height : 50px; 
+	width: 80px; 
+	border: none;
+}
+/*===================================*/
+/*  BOITE bandeau 
+/*===================================*/
+#bandeau {
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	background-color: #EEEEEE;
+	width: auto;
+	height: 29px;
+}
+#bandeau a {
+	text-decoration: none;
+	color: black;
+}
+
+#bandeau ul.h1 {
+	border:none;
+	/*float:right;*/
+	list-style-image:none;
+	list-style-position:inside;
+	/*list-style-type:none;*/
+	margin:0px;
+	padding:0px;
+	width:auto;
+}
+
+#bandeau ul.h1 li.h1,#bandeau ul.h1 li.h1_webmaster  {
+	display: inline;
+}
+#bandeau a.h1
+{
+	padding: 2px 16px;
+	margin: 0px -1px 0px 0px;
+	font-weight: bold;
+	width: auto;
+	height: 25px;
+	display: block;
+	text-align: center;
+}
+#bandeau a.h1_webmaster{
+	cursor: default;/* auto*/
+	color: #EEEEEE;
+	padding: 2px 20px;
+	margin: 0px -1px 0px 0px;
+	font-weight: bold;
+	width: auto;
+	height: 25px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+#bandeau div.boite_h2 {
+	/*display: none;*/
+}
+#bandeau ul.h1 li.h1_menu:hover div.boite_h2 {
+/*	display: block;
+	position: absolute;*/
+	background-color: #EEEEEE;
+	border: 1px solid black;
+	margin-top: -2px;
+}
+#bandeau ul.h2 {
+	list-style: none;
+}
+#bandeau ul.h1 li.h1_menu {
+	background-color: #EEEEEE;
+	background-image: url(images/fleche_bas.png);
+	background-repeat: no-repeat;
+	background-position: center 21px;
+/*	float:right;*/
+	list-style-image:none;
+	list-style-type:none;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+#bandeau ul.h1 li.h1, #bandeau ul.h1 li.h1_webmaster
+{
+	background-color: #EEEEEE;
+/*	float:right;*/
+	list-style-image:none;
+	list-style-type:none;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+#bandeau ul.h1 li.h1_menu:hover {
+	background-color: #CCCCFF;
+}
+#bandeau ul.h1 li.h1:hover {
+	background-color: #CCCCFF;
+}
+#bandeau ul.h1 li.h1_webmaster:hover {
+	background-color: #EEEEEE;
+}
+#bandeau ul.h1 li.h1_menu:hover ul.h2 li.h2 {
+	background-color: #EEEEEE;
+/*	margin-left: -40px;
+	padding: 0px 10px 0px 10px;*/
+}
+#bandeau ul.h1 li.h1_menu:hover ul.h2 li.h2:hover {
+	background-color: #CCCCFF;
+}
+
+
+
+/*===================================*/ 
+/*  BOITE menu gauche 
+/*===================================*/
+#menu_gauche {
+	float: left;
+	margin: 0px 10px 10px 5px;
+	padding: 0px 0px 0px 0px;
+	width: 170px;
+}
+#menu_gauche div.atome_menu_gauche {
+	background-color: #EEEEEE;
+	/*float: left;*/
+	margin: 5px 0px 0px 0px;;
+	padding: 0px 0px 0px 0px;
+	border: 1px solid black;
+	/*width: 170px;*/
+	text-align: center;
+}
+#menu_gauche div.atome_menu_gauche h3 {
+	margin: 0px;
+	padding: 1px 10px;
+}
+#menu_gauche div.atome_menu_gauche a
+{
+	color: black;
+	text-decoration: none;
+}
+#menu_gauche div.atome_menu_gauche ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu, #menu_gauche div.atome_menu_gauche ul.h1 li.h1
+{
+	font-weight: bold;
+	background-color: #CCCCFF;
+	margin: 5px 5px 5px 5px;
+	padding: 0px 0px 0px 0px;
+	border: 1px solid black;
+	text-align: center;	
+}
+#menu_gauche div.atome_menu_gauche h3.titre_menu_gauche:hover , #menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2_menu:hover, #menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2:hover
+{
+	background-color: #DDDDFF;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2_menu ul.h3 li.h3:hover
+{
+	background-color: #DDDDFF;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu div.boite_h2
+{
+	background-color: #EEEEEE;
+	padding: 0px 0px 0px 0px;
+	border-bottom: 1px solid black;
+	display: none;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2_menu 
+{
+	font-weight: normal;
+	background-color: #EEEEEE;
+	background-image: url(images/fleche_droite.png);
+	background-repeat: no-repeat;
+	background-position: 143px 5px;
+	text-align: left;
+	padding: 0px 20px 0px 5px;	
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2
+{
+	background-color: #EEEEEE;
+	font-weight: normal;
+	text-align: left;
+	padding: 0px 20px 0px 5px;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2_menu ul.h3 li.h3
+{
+	padding: 0px 10px;
+}
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2_menu:hover div.boite_h2
+{
+	display: block;
+	position: absolute;
+	margin-left: 151px;
+	margin-top: -20px;
+	background-color: #EEEEEE;
+	border: 1px solid black;
+}
+
+/*===================================*/
+/*  FEUILLE lire_recettes
+/*===================================*/
+
+#page_principale h4.lire_recette, #page_principale p.lire_recette
+{
+	background-color: white;
+	text-align: left;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 10px;
+	border: 1px solid black;
+}
+/*===================================*/
+/*  FEUILLE modifier_recettes & maj_recette
+/*===================================*/
+#page_principale h3.mot_passe_recette 
+{
+	background-color: white;
+	text-align: center;
+	margin: 20px auto auto 180px;/*5px 0px 180px;*/
+	color: red;
+	border: 1px solid black;
+}
+#page_principale h4.mot_passe_recette
+{
+	text-align: center;
+	margin: 50px auto auto 180px;
+	color: black;
+}
+#page_principale h4.mot_passe_recette a
+{
+	text-decoration: none;
+	background-color: white;
+	padding: 2px 5px 2px 5px;
+	color: black;
+	border: 5px white ridge;
+}
+	
+#page_principale h3.mot_passe_recette span.mot_passe_recette
+{
+	color: black;
+}
+#page_principale form.mot_passe_recette
+{
+	margin-left: 180px;
+	color: white;
+}
+#page_principale h3.modifier_recette
+{
+	background-color: #DDDDFF;/*white;*/
+	text-align: center;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	color: red;
+	border: 1px solid black;
+}
+#page_principale h3.modifier_recette span.modifier_recette
+{
+	color: black;
+}
+#page_principale  p.modifier_recette
+{
+	text-align: center;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 0px;
+	/*border: 1px solid black;*/
+}
+#page_principale  p.ajouter_recette
+{
+	text-align: left;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 0px;
+	color: white;
+	/*border: 1px solid black;*/
+}
+#page_principale p.modifier_recette textarea
+{
+	margin: 0px;
+	padding: 10px;
+	height: 400px;
+}
+#page_principale p.ajouter_recette textarea
+{
+	margin: 0px;
+	padding: 10px;
+	height: 300px;
+}
+/*===================================*/
+/*  FEUILLE permanences
+/*===================================*/
+#page_principale a.tab_perm_leg {
+	text-decoration: none;
+}
+
+#page_principale caption.h3 
+{
+	margin: 5px auto;
+	background-color: #DDDDFF;
+	border: 2px ridge white;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+}
+#page_principale table.h3
+{
+	margin: 5px auto;
+	border-collapse: collapse;
+	border: 2px ridge white;
+}
+#page_principale table.h3 th
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 2px ridge white;
+	background-color: #CCCCCC;
+}
+#page_principale table.h3 td
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: white;
+}
+#page_principale table.h3 td.h3_dist
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: #CCCCCC;
+}
+#page_principale table.h3 td.h3_date
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: yellow;
+}
+#page_principale table.h3 td.h3_selection
+{
+	text-align: center;
+	padding: 0px;/*2px 5px 2px 5px;*/
+	border: 1px ridge red;
+	background-color: white;
+}
+#page_principale table.h3 td.h3_selection input.h3_selection
+{
+	background-color: #DDDDFF;
+	text-align: center;
+}
+/*===================================*/
+/*  FEUILLE inscription amap pommes
+/*===================================*/
+#page_principale h4.ins_pom
+{
+	margin: 5px auto;
+	background-color: #DDDDFF;
+	border: 2px ridge white;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+	padding: 0px;
+}
+#page_principale form.ins_pom
+{
+	text-align: center;
+/*	color: white;*/
+}
+#page_principale form.ins_pom strong
+{
+	color: white;
+}
+
+#page_principale form.ins_pom label
+{
+	color: white;
+}
+#page_principale form.ins_pom input
+{
+	text-align: left;
+}
+
+
+
+
+
+#pied_page
+{
+  /* background-color: lightgreen;
+   text-align: center;
+   border: 2px solid black;*/
+}

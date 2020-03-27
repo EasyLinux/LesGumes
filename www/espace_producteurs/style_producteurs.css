@@ -1,0 +1,58 @@
+#page_principale h2
+{
+	margin: 10px auto auto ;
+	color: orange;
+}
+#page_principale p {
+	font-size: 16px;
+	margin: 5px 5px 5px 5px ;
+}
+
+#page_principale h3 
+{
+	margin: 10px auto auto ;
+	color: yellow;
+}
+
+body {
+    background-color: #B8E5A1;
+}
+
+#page_principale
+{
+	text-align:left;
+	margin: 0px 0px 0px 0px;
+	padding:  15px 15px 15px;
+}
+#page_principale table
+{
+	margin: 0px 0px 0px;
+	border-collapse: collapse;
+	border: 4px ridge white;
+
+}
+#page_principale table td
+{
+	white-space:nowrap;
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 2px ridge white;
+}
+				
+#page_principale table th
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 2px ridge white;
+	background-color: #92E255;
+	white-space:nowrap;	
+}							
+#page_principale table caption 
+{
+	text-align: left;
+	margin: 10px auto auto ;
+	color: orange;	
+	font-weight: bold;	
+	font-size: 30px;
+}	
+

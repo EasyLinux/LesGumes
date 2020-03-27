@@ -1,0 +1,788 @@
+				
+p {
+	font-family: "Times New Roman";
+	font-size: 16px;
+}
+h1 {
+	font-family: "Times New Roman";
+	font-size: 32px;
+}
+h3 {
+	font-family: "Times New Roman";
+	font-size: 19px;
+}
+h4 {
+	font-family: "Times New Roman";
+	font-size: 16px;
+}
+
+li, caption {
+	font-family: "Times New Roman";
+	font-size: 16px;
+	text-decoration: none;
+}
+th, td {
+	font-family: "Times New Roman";
+	font-size: 16px;
+	color: black;
+	text-decoration: none;
+}
+th {
+	font-weight: bold;
+}
+h5 {
+	font-family: "Times New Roman";
+	font-size: 14px;
+}
+
+
+/*===================================*/
+/*  Fin des définitions des polices
+/*===================================*/
+
+html, body 
+{
+  margin:0;
+  padding:0;
+  height:100%; /* 100 % en hauteur */
+  width: 100%
+ background-color: green;
+}
+}
+
+.separateur {
+	clear: both;
+}
+
+#page_principale
+{
+	border: 1px solid black;
+	/*border-right: 1px solid black;*/
+	margin: 0px;
+	padding: 0 0 10px 0;/* 15x 15px 15px;*/
+	background-color: green;
+	width: 100%;
+	height: 400%
+	
+}
+#page_principale td.accueil_1
+{
+	border: 1px solid black;
+	text-align: center;
+	background-color: white;
+	width: 25%;
+}
+
+/*===================================*/
+/*  Page Commande Tisanes 
+/*===================================*/
+
+#page_principale_tisane
+{
+	border: 1px solid green;
+/*border-right: 1px solid black;*/
+	margin: 0px;
+	padding: 0 0 10px 0;/* 15x 15px 15px;*/
+	background-color: green;
+	width: 100%;
+	height: 200%
+	
+}
+
+#page_principale_tisane table
+{
+	margin: 5px auto;
+}
+
+#page_principale_tisane caption
+{
+	margin: 1px auto;
+	background-color: orange;
+	text-align: center;
+	color: black;
+	font-weight: bold		
+}
+
+#page_principale_tisane td
+{
+	white-space:nowrap;
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	background-color:#FFFF99
+}
+
+#page_principale_tisane th
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	background-color: orange
+}
+#page_principale_tisane h4
+{
+  color: yellow;
+  text-align: center
+}
+
+#page_recap_tisane table
+{
+	text-align: center; 
+	border-collapse: collapse; 
+	margin: 5px auto;
+	background-color: #DDDDFF;
+}
+
+#page_recap_tisane caption
+{
+	margin: 5px auto;
+	background-color: #DDDDFF;
+	border: 2px ridge white;
+	text-align: center;
+	padding: 0px 0px 0px 10px;
+	color: red;
+	font-weight: bold
+}
+
+#page_recap_tisane th
+{
+	background-color: #DDDDDD;
+	border:  1px solid black;
+	padding: 0px 10px 0px 10px; ;
+}		
+
+#page_recap_tisane td
+{
+	border:  1px solid black;
+	
+}
+
+
+/*===================================*/
+/*  BOITE en_tete 
+/*===================================*/
+#en_tete {
+	border: 1px solid black;
+	background-color: green;
+	height: 50px;
+	width: auto;
+}
+#en_tete h1{
+	margin: 0;
+	padding: 0;
+}
+#en_tete a.en_tete_amap {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	color: white;
+}
+#en_tete a.en_tete_amap img {
+	margin: 0px 0px 0px 0px;
+	height : 50px; 
+	width: 80px; 
+	border: none;
+}
+/*===================================*/
+/*  BOITE bandeau 
+/*===================================*/
+#bandeau {
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	background-color: #EEEEEE;
+	width: auto;
+	height: 26px;
+}
+#bandeau  p {
+	text-align:right; 
+	margin:0px; 
+	padding:0px;
+}
+#bandeau a {
+	text-decoration: none;
+	color: black;
+	padding: 2px 16px; 
+	margin: 0px; 
+	font-weight: bold; 
+	width: auto; 
+	height: 25px;
+	position: relative;
+	top: 4px;
+}
+
+#bandeau a:hover {
+	background-color: #CCFF66;
+}
+#bandeau a.webmaster {
+	color:#EEEEEE; cursor: default; text-decoration: none;
+}
+#bandeau a.webmaster:hover {
+	background-color:#EEEEEE;
+}
+
+
+/*===================================*/ 
+/*  BOITE menu news 
+/*===================================*/
+
+#menu_news {
+	background-color: yellow;
+	margin:5px 0px 0px 220px;
+	padding: 0px 5px 5px 5px;
+	border: 1px solid black;
+	text-align: center;
+	 -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+#menu_news h3{
+	margin: 0px;
+	padding: 1px 10px;
+}
+#menu_news div.news {     
+	background-color: #EEFFEE;
+	border: 1px solid black;
+	margin: 0px 0px 0px 0px;;
+	padding: 5px 10px 0px 10px;
+	text-align: left;
+}
+#menu_news div.news h3{
+	margin: 0px;
+	padding: 0px;/*1px 10px;*/
+}
+#menu_news div.news p{
+	margin: 0px;
+	padding: 5px 0px 0px 0px;
+}
+
+/*===================================*/ 
+/*  BOITE menu gauche 
+/*===================================*/
+
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.sousMenu li.h2 a:hover
+{
+	background-color: #FFCC66;
+}
+
+
+#menuDeroulant
+{
+ list-style-type: none;
+ margin: 0;
+ padding: 0;
+ border: 0;
+}
+   
+
+#menuDeroulant .sousMenu li
+{
+ float: left;
+ width: 170px;
+ margin: 0;
+ padding: 0;
+ border: 0;
+}	
+
+#menuDeroulant .sousMenu a    
+{
+/* display: block;  ne marche pas sous IE */
+}			
+
+#menuDeroulant .sousMenu
+{
+ /* display: none;   marche pas sous IE */
+ background-color: #FFFF99;
+ list-style-type: none;
+ margin: 0;
+ padding: 0;
+ border: 1px;
+ font-weight: normal;
+ text-align: center;
+}			
+
+#menuDeroulant li:hover > .sousMenu { display: block; }
+#menuDeroulant .sousMenu li
+{
+ float: none;
+ margin: 0;
+ padding: 0;
+ border: 0;
+}			
+
+
+
+#menu_gauche {
+	float: left;
+	margin: 0px 10px 10px 5px;
+	padding: 0p;
+	width: 190px;
+	height: 100%;
+}
+
+
+#menu_gauche div.atome_menu_gauche {
+	background-color: yellow;
+	float: left;
+	margin: 5px 0px 0px 0px;;
+	padding: 0;
+	border: 1px solid black;   
+	width: 190px;
+	text-align: center;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+
+}
+#menu_gauche div.atome_menu_gauche h3 {
+	margin: 0px;
+	padding: 1px 10px;
+} 
+#menu_gauche div.atome_menu_gauche a
+{
+	color: black;
+	text-decoration: none;
+	/*display: block;  ne marche pas sous IE */
+	text-align: center;
+}
+#menu_gauche div.atome_menu_gauche ul{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}              
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu
+{
+	font-weight: bold;
+	background-color: orange;
+	margin: 5px 5px 5px 5px;
+	padding: 0;
+	border: 1px solid black;
+	text-align: center;  
+}
+#menu_gauche div.atome_menu_gauche h3.titre_menu_gauche a:hover ,
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2 a:hover
+{
+	background-color: #FFCC66;
+}
+
+#menu_gauche div.atome_menu_gauche ul.h1 li.h1_menu ul.h2 li.h2
+{
+	background-color: #FFFF99;
+	font-weight: normal;
+	text-align: left;
+	padding: 0px 20px 0px 5px;
+
+}  
+
+/*===================================*/
+/*  style description
+/*===================================*/
+#page_principale h1.texte
+{
+  color: orange;
+}
+
+#page_principale h2.texte
+{
+  color: yellow;
+}
+
+#page_principale p.texte
+{
+  color: white;
+}
+
+#page_principale strong.texte
+{
+  color: yellow;
+}
+
+#page_principale h5.texte
+{
+  color: white;
+  margin-bottom:0;
+  margin-top:0
+}
+
+#page_principale a.texte
+{
+  color: white;
+}
+
+/*===================================*/
+/*  FEUILLE lire_recettes
+/*===================================*/
+
+#page_principale h4.lire_recette, #page_principale p.lire_recette
+{
+	background-color: white;
+	text-align: left;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 10px;
+	border: 1px solid black;
+}
+/*===================================*/
+/*  FEUILLE modifier_recettes & maj_recette
+/*===================================*/
+#page_principale h3.mot_passe_recette 
+{
+	background-color: white;
+	text-align: center;
+	margin: 20px auto auto 180px;/*5px 0px 180px;*/
+	color: red;
+	border: 1px solid black;
+}
+#page_principale h4.mot_passe_recette
+{
+	text-align: center;
+	margin: 50px auto auto 180px;
+	color: black;
+}
+#page_principale h4.mot_passe_recette a
+{
+	text-decoration: none;
+	background-color: white;
+	padding: 2px 5px 2px 5px;
+	color: black;
+	border: 5px white ridge;
+}
+	
+#page_principale h3.mot_passe_recette span.mot_passe_recette
+{
+	color: black;
+}
+#page_principale form.mot_passe_recette
+{
+	margin-left: 180px;
+	color: white;
+}
+#page_principale h3.modifier_recette
+{
+	background-color: #DDDDFF;/*white;*/
+	text-align: center;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	color: red;
+	border: 1px solid black;
+}
+#page_principale h3.modifier_recette span.modifier_recette
+{
+	color: black;
+}
+#page_principale  p.modifier_recette
+{
+	text-align: center;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 0px;
+	/*border: 1px solid black;*/
+}
+#page_principale  p.ajouter_recette
+{
+	text-align: left;
+	margin: 5px auto auto 180px;/*5px 0px 180px;*/
+	padding: 0px;
+	color: white;
+	/*border: 1px solid black;*/
+}
+#page_principale p.modifier_recette textarea
+{
+	margin: 0px;
+	padding: 10px;
+	height: 400px;
+}
+#page_principale p.ajouter_recette textarea
+{
+	margin: 0px;
+	padding: 10px;
+	height: 300px;
+}
+
+/*===================================*/
+/*  FEUILLE permanences
+/*===================================*/
+#page_principale a.tab_perm_leg {
+	text-decoration: none;
+}
+
+#page_principale caption.h3 
+{
+	margin: 5px auto;
+	background-color: #DDDDFF;
+	border: 2px ridge white;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+}
+#page_principale table.h3
+{
+	margin: 5px auto;
+	border-collapse: collapse;
+	border: 2px ridge white;
+}
+#page_principale table.h3 th
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 2px ridge white;
+	background-color: #CCCCCC;
+}
+#page_principale table.h3 td
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: white;
+}
+#page_principale table.h3 td.h3_dist
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: #CCCCCC;
+}
+#page_principale table.h3 td.h3_date
+{
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	border: 1px solid black;
+	background-color: yellow;
+}
+#page_principale table.h3 td.h3_selection
+{
+	text-align: center;
+	padding: 0px;/*2px 5px 2px 5px;*/
+	border: 1px ridge red;
+	background-color: white;
+}
+#page_principale table.h3 td.h3_selection input.h3_selection
+{
+	background-color: #DDDDFF;
+	text-align: center;
+}
+/*===================================*/
+/*  FEUILLE inscription amap pommes
+/*===================================*/
+#page_principale h4.ins_pom
+{
+	margin: 5px auto;
+	background-color: #DDDDFF;
+	border: 2px ridge white;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+	padding: 0px;
+}
+#page_principale form.ins_pom
+{
+	text-align: center;
+/*	color: white;*/
+}
+#page_principale form.ins_pom strong
+{
+	color: white;
+}
+
+#page_principale form.ins_pom label
+{
+	color: white;
+}
+#page_principale form.ins_pom input
+{
+	text-align: left;
+}
+
+
+
+
+
+#pied_page
+{
+  /* background-color: lightgreen;
+   text-align: center;
+   border: 2px solid black;*/
+}
+/*===================================*/
+/*  FEUILLE repertoire
+/*===================================*/
+/* propriétés communes des menus bandes horizontaux */
+div.menubdhv {
+width:100%;
+height:auto;
+overflow: auto;
+margin: 0 auto;
+}
+
+/* boite de sélection du menu_2 */
+select.AD {
+color:#000000;
+font-family:Arial;
+font-size:8pt;
+font-style:normal;
+}
+/* texte général */
+.StaticText {
+color:#000000;
+font-family:Arial;
+font-size:9pt;
+font-weight:bold;
+}
+.ADMainTxt {
+color:#000000;
+font-family:Arial;
+font-size:9pt;
+font-weight:normal;
+}
+a.ADTxt {
+color:#000000;
+text-decoration:none;
+}
+/* bouton standard */
+button.BtnStd {
+background:url("images/BtnStd.gif") repeat-x left center;
+border-color:#FFFFFF #999999 #999999 #FFFFFF;
+border-style:solid;
+border-width:1px;
+border-collapse: collapse;
+font-family:Arial;
+font-size:9pt;
+font-weight:bold;
+text-align: left;
+color: #000000;
+}
+
+
+#entete {
+position: relative;
+background-color:#EEFFFF;
+}
+
+#entetegauche {
+width:200px;
+position: absolute;
+text-align:center;
+}
+
+#entetedroite  {
+width:200px;
+margin-left:770px;
+text-align:right;
+}
+
+
+
+
+
+
+table.tablemenucentral {/* pour centrer la table dans le div */
+margin-left:auto;
+margin-right:auto;
+width:100%;
+border:1px solid black;
+border-collapse: collapse;
+background-color:#EEEEEE;
+padding: 0px;
+}
+
+td.itemmenucentral {
+border: 1px solid black;
+height: 20px;
+text-align: center;
+}
+
+td.itemmenucentral a {
+text-decoration: none;
+color:#000000;
+font-family:Arial;
+font-size:9pt;
+font-weight:bold;
+}
+
+table.tablemenucentral td:hover {
+background-color: white;
+}
+
+
+
+
+
+/* menu_1 texte de présentation de la page */
+#menu_1 {
+background-color:#7090D0;
+}
+
+/* contient les boutons et la boite de sélection des catégories */
+#menu_2 {
+background:url("images/ADToolbar.png") repeat-x center top;
+}
+/* menu_3 contient l'affichage des données de la bdd */
+#menu_3 {
+background-color:#7090D0;
+}
+
+
+
+
+table.DBEdit {
+margin-left:auto;
+margin-right:auto;
+width:100%;
+border:1px solid black;
+border-collapse: collapse;
+background-color:#FFFFFF;
+padding: 0px;
+}
+
+td.DBEditHeaderChkBx {
+background-color:#C0C0C0;
+border:1px solid #B0B0B0;
+padding:2px;
+text-align:center;
+vertical-align:middle;
+width:30px;
+}
+
+td.DBEditHeader {
+background-color:#C0C0C0;
+border:1px solid #B0B0B0;
+padding:2px;
+text-align:left;
+vertical-align:top;
+}
+
+td.DBEditChkBx {
+border-color:#000000 #C0C0C0 #C0C0C0;
+border-style:solid;
+border-width:0 1px 1px;
+padding:2px;
+text-align:center;
+vertical-align:top;
+width:30px;
+}
+
+td.DBEditData {
+border-color:#000000 #C0C0C0 #C0C0C0;
+border-style:solid;
+border-width:0 1px 1px;
+padding:2px;
+text-align:left;
+vertical-align:top;
+}
+
+td.DBEditBtn {
+border-color:#000000 #C0C0C0 #C0C0C0;
+border-style:solid;
+border-width:0 1px 1px;
+padding:2px;
+text-align:right;
+vertical-align:top;
+white-space:nowrap;
+width:2%;
+}
+
+.DBEditRowSelected {
+background-color:red;
+}
+
+.DBEditRowDefault {
+background-color:white;
+}
+
+.DBEditRowCurrent {
+background-color:#FCC300;
+}

@@ -1,14 +1,14 @@
 <?php
-// Objectif : l'amapien enregistre  ou annule son don de panier pour la date donnée.
+// Objectif : l'amapien enregistre  ou annule son don de panier pour la date donnÃ©e.
 include("webmaster/define.php");
 
-$date=$_GET['date'];      // la date de distribution concernée 
+$date=$_GET['date'];      // la date de distribution concernÃ©e 
 
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
-  // vérification des données avant de modifier quoi que ce soit
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+  // vÃ©rification des donnÃ©es avant de modifier quoi que ce soit
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$id=$_COOKIE['identification_amap'];
 	$question="SELECT Nom, Prenom FROM amap_legumes WHERE id='".$id."'";
 	$reponse= mysql_query($question) or die(mysql_error());
@@ -21,10 +21,10 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
     $question="SELECT * FROM amap_legumes_dons WHERE date ='".$date."' and id='".$id."'";
     $reponse= mysql_query($question) or die(mysql_error());
     if ( mysql_fetch_array($reponse) ) {
-      // on a déjà un don pour cette date et cette personne -> annulation
+      // on a dÃ©jÃ  un don pour cette date et cette personne -> annulation
       mysql_query("DELETE FROM amap_legumes_dons WHERE Date='".$date."' And id='".$id."'");   
     } else {
-      // on n'a pas encore de don pour cette personne à cete date -> enregistrement
+      // on n'a pas encore de don pour cette personne Ã  cete date -> enregistrement
        mysql_query("INSERT into amap_legumes_dons (id, Date, Personne) VALUES( '".$id. "','".$date."','".$nom_prenom."')");
     }
     mysql_close();
@@ -34,17 +34,17 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 }   
   
 
-// la personne n'est pas bien identifiée ou n'est pas inscrite à cette amap !
+// la personne n'est pas bien identifiÃ©e ou n'est pas inscrite Ã  cette amap !
 ?> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -57,7 +57,7 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 		</div>
 		<div id="page_principale">
 			<?php include("includes/menu_gauche.php"); ?>
-			<h3 class="mot_passe_recette">vous n'êtes pas inscrit au contrat legumes </h3>
+			<h3 class="mot_passe_recette">vous n'Ãªtes pas inscrit au contrat legumes </h3>
 		</div>		
 		<div id="pied_page">
 			<!-- <?php include("includes/pied_page.php") ?> -->

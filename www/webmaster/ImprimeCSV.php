@@ -2,8 +2,8 @@
 include_once("define.php");
 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $tableLegume = $_GET['amap'];
 $question="SELECT ".$tableLegume.".*, amap_generale.e_mail, amap_generale.Telephone, amap_generale.Tel_portable FROM ".$tableLegume.", amap_generale WHERE ".$tableLegume.".id= amap_generale.id ORDER BY Nom";
@@ -21,10 +21,10 @@ mysql_close();
 $sep = ';';
 
 
-// ecrire les entêtes de colonne
+// ecrire les entÃªtes de colonne
 $buffer="Nom;Prenom;Portable;Telephone;mail;Nom_binome \n";
 
-// ecrire 1es données lignes par lignes
+// ecrire 1es donnÃ©es lignes par lignes
 while($donnees = mysql_fetch_array($reponse)) {
 		$buffer .=$donnees['Nom'];
 		$buffer .=  $sep;
@@ -40,7 +40,7 @@ while($donnees = mysql_fetch_array($reponse)) {
 		$buffer .=  "</ br>";
 }
 
-// ecrire les binômes
+// ecrire les binÃ´mes
 while($donnees = mysql_fetch_array($reponseBinome)) {	
 		$buffer .=  $donnees['nom_binome'];
 		$buffer .=  $sep;
@@ -66,13 +66,13 @@ while($donnees = mysql_fetch_array($reponseBinome)) {
 		 }
 		 else {		 
 			  if (fwrite($handle, $buffer, strlen($buffer )) === FALSE) {
-					echo "Impossible d'écrire dans le fichier ($filename)";
+					echo "Impossible d'Ã©crire dans le fichier ($filename)";
 					exit;
 				}
 		 }
 		 fclose($handle);
     }
-	else { echo "fichier $filename pas écrivable ";}*/
+	else { echo "fichier $filename pas Ã©crivable ";}*/
 	echo $buffer;
 	header('Content-Type: application/x-download');
 	if(headers_sent())

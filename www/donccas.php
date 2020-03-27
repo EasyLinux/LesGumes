@@ -2,17 +2,17 @@
 $ok=-1;
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {	
-	//pour imposer que la personne soit inscrite aux légumes rétablir les lignes ci-dessous et enlever ok=1
-	$ok=0; //identifié mais pas inscrit aux légumes
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	//pour imposer que la personne soit inscrite aux lÃ©gumes rÃ©tablir les lignes ci-dessous et enlever ok=1
+	$ok=0; //identifiÃ© mais pas inscrit aux lÃ©gumes
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
   $id = $_COOKIE['identification_amap'];
 	$question="SELECT Nom, Prenom FROM ".$_GET['amap']." WHERE id='".$id."'";
 	$reponse = mysql_query($question) or die(mysql_error());
 	$ligne = mysql_num_rows($reponse);
  
 	if($ligne>0)
-     $ok=1; //identifié et inscrit aux légumes
+     $ok=1; //identifiÃ© et inscrit aux lÃ©gumes
 	mysql_close();
 }
 if($ok==1) { ?>
@@ -20,11 +20,11 @@ if($ok==1) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -37,8 +37,8 @@ if($ok==1) { ?>
 		</div>
 		<div id="page_principale">
 			<?php include("includes/menu_gauche.php");
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+				mysql_select_db(base_de_donnees); // SÃ©lection de la base 
     
         $reponse =  mysql_query("SELECT Count(*) as nb FROM amap_legumes_dons WHERE Date <= CURRENT_DATE and id='".$id."'");
         $row = mysql_fetch_array ($reponse);
@@ -47,17 +47,17 @@ if($ok==1) { ?>
         $row = mysql_fetch_array ($reponse);
         $nbAmap = $row[0];
  
-    		$reponse = mysql_query("SELECT Date FROM ".$_GET['amap']."_permanences WHERE Distribution='1' and Date > CURRENT_DATE   ORDER BY Date") or die(mysql_error()); // Requête SQL
+    		$reponse = mysql_query("SELECT Date FROM ".$_GET['amap']."_permanences WHERE Distribution='1' and Date > CURRENT_DATE   ORDER BY Date") or die(mysql_error()); // RequÃªte SQL
     
       ?>	  
 							
 			<h3 style="color:yellow; text-align:center; ">
-      Je suis dans l'incapacité de récupérer ou faire récupérer mon panier de légumes à une distribution. <br /> 
-      Pour éviter le gaspillage, je choisis de donner mon panier au CCAS qui le redistribuera aux plus démunis. <br />
-      En remplissant ce tableau, je préviens <em>au moins 1 jour à l'avance </em> les producteurs qui s'engagent à donner ce panier au CCAS du Cellier.     
+      Je suis dans l'incapacitÃ© de rÃ©cupÃ©rer ou faire rÃ©cupÃ©rer mon panier de lÃ©gumes Ã  une distribution. <br /> 
+      Pour Ã©viter le gaspillage, je choisis de donner mon panier au CCAS qui le redistribuera aux plus dÃ©munis. <br />
+      En remplissant ce tableau, je prÃ©viens <em>au moins 1 jour Ã  l'avance </em> les producteurs qui s'engagent Ã  donner ce panier au CCAS du Cellier.     
       </h3>
       <h3 style="color:orange; text-align:center; ">
-      Nombre de don réalisé par l'amap depuis le début du contrat :  <? echo $nbAmap;?>.
+      Nombre de don rÃ©alisÃ© par l'amap depuis le dÃ©but du contrat :  <? echo $nbAmap;?>.
       </h3>
 			<table class="h3" >
          <tr>
@@ -88,11 +88,11 @@ if($ok==1) { ?>
 			<!-- <?php include("includes/pied_page.php") ?> -->
 		</div>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</body>
 </html>
 <?php
-mysql_close(); // Déconnexion de MySQL
+mysql_close(); // DÃ©connexion de MySQL
 }
 else { 
  ?>
@@ -100,11 +100,11 @@ else {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -118,8 +118,8 @@ else {
 		<div id="page_principale">
 			<?php 
 				include("includes/menu_gauche.php"); 
-			if($ok==-1) { ?><h3 class="mot_passe_recette">Il faut vous identifier pour accéder à ce service !!</h3><?php }
-			if($ok==0) { ?><h3 class="mot_passe_recette">Il faut faire partie de l'<?php echo $_GET['amap'] ?> pour accéder à ce service !!</h3><?php } ?>
+			if($ok==-1) { ?><h3 class="mot_passe_recette">Il faut vous identifier pour accÃ©der Ã  ce service !!</h3><?php }
+			if($ok==0) { ?><h3 class="mot_passe_recette">Il faut faire partie de l'<?php echo $_GET['amap'] ?> pour accÃ©der Ã  ce service !!</h3><?php } ?>
 		</div>		
 		<div id="pied_page">
 			<!-- <?php include("includes/pied_page.php") ?> -->

@@ -30,9 +30,9 @@ $nom = "";
 $message ="";
 
 if ($idAEncoder!="") {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	mysql_error(); // lecture pour vider d'éventuels messages antérieurs
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+	mysql_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
 	$question='SELECT id, Nom, Prenom, e_mail from amap_generale WHERE id='.$idAEncoder;
 	$reponse = mysql_query( $question ) or die(mysql_error());
 	$reponse=mysql_fetch_array($reponse);
@@ -46,16 +46,16 @@ if ($idAEncoder!="") {
 }
 
 if ($idAReinitialiser!="") {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
-	mysql_error(); // lecture pour vider d'éventuels messages antérieurs
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+	mysql_error(); // lecture pour vider d'Ã©ventuels messages antÃ©rieurs
 	// UPDATE `amap_generale` SET `Login` = 'sodimoreau@free.fr', `Mot_passe` = 'sodimoreau@free.fr' WHERE `amap_generale`.`id` = 174;
 	$question='UPDATE amap_generale SET Login = \''.$mailPourReinitialisation.'\', Mot_passe = \''.sha1($mailPourReinitialisation).'\' WHERE amap_generale.id = '.$idAReinitialiser;
 	$reponse = mysql_query( $question ) or die(mysql_error());
 	if ( $reponse == 1) {
-		$message = "Réinitialisation effectuée";
+		$message = "RÃ©initialisation effectuÃ©e";
 	} else {
-		$message = "Pb pendant la réinitialisation";
+		$message = "Pb pendant la rÃ©initialisation";
 	}	
 	mysql_close();	
 }
@@ -64,30 +64,30 @@ if ($idAReinitialiser!="") {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>		AMAP Saint-Sébastien/Loire</title>
+		<title>		AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="../espace_producteurs/style_producteurs.css" />
 	</head>
 	<body>
 		<div id="page_principale">
 		<p> <strong>&nbsp;&nbsp;Navigation &nbsp;&nbsp;&nbsp;:&nbsp;</strong>
-			<input type="button" value="Retour à l'accueil" onclick="document.location.href='../index.php'"/>
+			<input type="button" value="Retour Ã  l'accueil" onclick="document.location.href='../index.php'"/>
 			<input type="button" value="Menu Webmaster" onclick="document.location.href='webmaster.php?mode=<?php echo $retourAMAP; ?>'"/>
 		</p>
 		<p>			
 		<table>
 			<form method="post" action="webmaster_gestion_login.php">	
-				<caption>Réinitialiser le mot de passe d'un amapien : </caption>				
+				<caption>RÃ©initialiser le mot de passe d'un amapien : </caption>				
 				<input hidden type="text" name="amap" value="<?php echo $amap;?>" />  
 				<tr><th><label for="id">Id de l'amapien :  </label></th>
 					<td><input type="number" name="idAEncoder" value="<?php echo $idAEncoder;?>" />  
 						<input type="submit" value="Rechercher" /></td></tr>	
-				<tr><th><label for="nom">&nbsp;Nom et prénom de cet amapien : </label></th>
+				<tr><th><label for="nom">&nbsp;Nom et prÃ©nom de cet amapien : </label></th>
 					<td><input disabled style="text-align:left" type="text" value="<?php echo $nom;?>"  /> </td></tr>
-				<tr><th><label for="nom">&nbsp;Le mot de passe sera mis à jour avec : </label></th>
+				<tr><th><label for="nom">&nbsp;Le mot de passe sera mis Ã  jour avec : </label></th>
 				<td><input disabled style="text-align:left" type="text" name="mail" value="<?php echo $mail;?>" /> </td></tr>
 			</form>
 			<tr><td colspan="2" align="center">
@@ -95,7 +95,7 @@ if ($idAReinitialiser!="") {
 				<input hidden type="text" name="amap" value="<?php echo $amap;?>" />  
 				<input hidden type="number" name="idAReinitialiser" value="<?php echo $idAEncoder;?>" />  
 				<input hidden type="text" name="mailPourReinitialisation" value="<?php echo $mail;?>" />  
-				<input type="submit" value="Réinitialiser avec son adresse mail" <?php if ( $mail == "") echo "disabled";?>/> <?php echo $message; ?>
+				<input type="submit" value="RÃ©initialiser avec son adresse mail" <?php if ( $mail == "") echo "disabled";?>/> <?php echo $message; ?>
 			</form>
 			</td></tr>
 		</table>			
@@ -106,10 +106,10 @@ if ($idAReinitialiser!="") {
 		<form method="post" action="webmaster_gestion_login.php">
 			<caption> Test d'encodage :  </caption>	
 			<input hidden type="text" name="amap" value="<?php echo $_GET['amap'];?>" />  
-			<tr><th><label for="id">Texte à encoder :  </label></th>
+			<tr><th><label for="id">Texte Ã  encoder :  </label></th>
 				<td><input style="text-align:left" type="text" name="valeurAEncoder" value="<?php echo $valeurAEncoder;?>" />
 				<input type="submit" value="Calculer" /></td></tr>
-			<tr><th><label for="id">Résultat de l'encodage :  </label></th>
+			<tr><th><label for="id">RÃ©sultat de l'encodage :  </label></th>
 				<td><?php if ($valeurAEncoder!= "") echo sha1($valeurAEncoder) ?></td></tr>
 		</form>
 	</table>

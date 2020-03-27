@@ -1,7 +1,7 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="DELETE FROM ".$_GET['amap']." WHERE id=".$_GET['id'];
 $reponse=mysql_query( $question) or die(mysql_error());
 if ( $_GET['amap']=="amap_chevres" || $_GET['amap']=="amap_produits_laitiers")    {

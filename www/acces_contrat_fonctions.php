@@ -6,7 +6,7 @@
 //function VoirContratBimensuelV($base, $table, $id)
 
 
-/* recherche si l'amapien d'id $id est bien enregistré dans la $table */
+/* recherche si l'amapien d'id $id est bien enregistrÃ© dans la $table */
 function InscritAuContrat( $base, $table, $id) {
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	$reponse = mysql_query($question) or die(mysql_error());
@@ -53,8 +53,8 @@ function getNomBinome($base, $table, $id) {
 <?php
 /* affiche le */
 function VoirContratH($base, $table, $id) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	$reponse = mysql_query($question);
@@ -62,11 +62,11 @@ function VoirContratH($base, $table, $id) {
 	$ligne = mysql_num_rows($reponse);
 ?>
 	<table class="h3">
-		<caption class="h3">Vous êtes enregistré dans : <?php echo $table; ?></caption>
+		<caption class="h3">Vous Ãªtes enregistrÃ© dans : <?php echo $table; ?></caption>
 		<?php
 		for($j=1; $j<=$ligne; $j++) {
 			$donnees = mysql_fetch_array($reponse);
-			if($j==1) { /* écrire le nom et les produits*/
+			if($j==1) { /* Ã©crire le nom et les produits*/
 				$i=0;
 				foreach($donnees as $cle => $element) {
 					$i++;
@@ -114,13 +114,13 @@ function VoirContratH($base, $table, $id) {
 ?>
 
 <?php
-/* affiche les caractéristiques du contrat de l'amapien d'id $id
-	Attention on ne gère qu'un contrat par amapien 
-	La version précédente, avec possibilité d'ajout est conservée dans le fichier mes_fonctions_accès_contrat.php */
+/* affiche les caractÃ©ristiques du contrat de l'amapien d'id $id
+	Attention on ne gÃ¨re qu'un contrat par amapien 
+	La version prÃ©cÃ©dente, avec possibilitÃ© d'ajout est conservÃ©e dans le fichier mes_fonctions_accÃ¨s_contrat.php */
 	
 function VoirContratV($base, $table, $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$binome = getNomBinome( $base, $table, $id);
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";  
 	$reponse = mysql_query($question) or die(mysql_error());      
@@ -132,9 +132,9 @@ function VoirContratV($base, $table, $id) {
 	for($j=1; $j<=$ligne; $j++) {
 		$donnees = mysql_fetch_array($reponse);
 		if($j==1) { ?>
-			<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
+			<h2 style="color:yellow; text-align:center">Vous Ãªtes inscrit Ã  l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; 			
-			if ( $binome ) { ?> <br /> et avec <?php echo $binome?> comme binôme <?php } ?>
+			if ( $binome ) { ?> <br /> et avec <?php echo $binome?> comme binÃ´me <?php } ?>
 			</h2> <?php
 		}
 		$i=0;
@@ -176,7 +176,7 @@ function VoirContratV($base, $table, $id) {
 					</tr><?php
 				}
 				else if($element==1){ 
-					?><tr><td class="h3" colspan=2 style="color:red">contrat verrouillé</td></tr><?php
+					?><tr><td class="h3" colspan=2 style="color:red">contrat verrouillÃ©</td></tr><?php
 				}
         else { $suppression = true;}       
 			}  
@@ -189,8 +189,8 @@ function VoirContratV($base, $table, $id) {
 
 <?php
 function VoirContratBimensuelV($base, $table, $id ) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$binome = getNomBinome( $base, $table, $id);
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	$reponse = mysql_query($question);
@@ -210,9 +210,9 @@ function VoirContratBimensuelV($base, $table, $id ) {
   $donnees = mysql_fetch_array($reponse);
 	mysql_close();
 ?>
-	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
+	<h2 style="color:yellow; text-align:center">Vous Ãªtes inscrit Ã  l&apos;<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; 
-			if ( $binome ) { ?> <br /> et avec <?php echo $binome?> comme binôme <?php } ?>
+			if ( $binome ) { ?> <br /> et avec <?php echo $binome?> comme binÃ´me <?php } ?>
 	</h2>
 		
 	<table class="h3" style="margin-left:5px; float:left">
@@ -254,7 +254,7 @@ function VoirContratBimensuelV($base, $table, $id ) {
         </td>
 		</tr>
 		<tr>
-        <td class="h3" colspan=2 style="color:red">contrat verrouillé</td>
+        <td class="h3" colspan=2 style="color:red">contrat verrouillÃ©</td>
     </tr>
   </table>
 <?php		

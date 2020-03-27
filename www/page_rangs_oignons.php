@@ -1,6 +1,6 @@
 <?php include_once("webmaster/define.php");
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$reponse=mysql_query("SELECT Prix FROM amap_legumes_produits WHERE id=1");
 	if ( mysql_error()) {
 		$prix = 14;
@@ -13,11 +13,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -54,8 +54,8 @@
           <!-- bouton facebook -->
          <div class="fb-like" data-href="https://www.facebook.com/LesRangsdOignons/" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" data-action="recommend"></div>
     
-          <p class="texte"> Les Rangs d'oignons est une ferme de maraichage biologique diversifié sur la commune du Cellier. L'exploitation a été crée par Guillaume Gaspari et  Pauline Chouinau au printemps 2011 sur 4,5 hectares de terre, dans un cadre préservé. En décembre 2017 l'exploitation est vendue à Benjamin Cochin qui continuera à faire pousser nos légumes et à les distribuer en AMAP. 
-		  Les terres sont certifiées en Agriculture Biologique et la production respecte ce cahier des charges.
+          <p class="texte"> Les Rangs d'oignons est une ferme de maraichage biologique diversifiÃ© sur la commune du Cellier. L'exploitation a Ã©tÃ© crÃ©e par Guillaume Gaspari et  Pauline Chouinau au printemps 2011 sur 4,5 hectares de terre, dans un cadre prÃ©servÃ©. En dÃ©cembre 2017 l'exploitation est vendue Ã  Benjamin Cochin qui continuera Ã  faire pousser nos lÃ©gumes et Ã  les distribuer en AMAP. 
+		  Les terres sont certifiÃ©es en Agriculture Biologique et la production respecte ce cahier des charges.
 		  <br />
         
       </td>
@@ -85,14 +85,14 @@
       </td>
       <td>
       <h2 class="texte">Nos paniers :</h2>
-      <p class="texte">Nous proposons des paniers de taille unique à <?echo $prix;?> euros.<br/>
-      Pour vous donner une idée de ce que pourra contenir nos paniers, voici la gamme de légumes que nous cultiverons :   <br />
-      en automne hivers : Betterave, brocoli, carde, carotte, céleri rave, chicorée, chou de Bruxelles, chou fleur, chou pomme, courge, épinard, échalote, fenouil, mâche, navet, oignon, panais, persil, poireau, pomme de terre, radis, radis noir, roquette, rutabaga, salade;
-      <br /> au printemps/été : Aubergine, betterave botte, carde, carotte botte, céleri branche, concombre, courgette, épinard, fenouil, fraise, haricot, melon, navet nouveau, oignon, botte, persil, poivron, pomme de terre nouvelle, radis, rhubarbe, tomate, salade.
+      <p class="texte">Nous proposons des paniers de taille unique Ã  <?echo $prix;?> euros.<br/>
+      Pour vous donner une idÃ©e de ce que pourra contenir nos paniers, voici la gamme de lÃ©gumes que nous cultiverons :   <br />
+      en automne hivers : Betterave, brocoli, carde, carotte, cÃ©leri rave, chicorÃ©e, chou de Bruxelles, chou fleur, chou pomme, courge, Ã©pinard, Ã©chalote, fenouil, mÃ¢che, navet, oignon, panais, persil, poireau, pomme de terre, radis, radis noir, roquette, rutabaga, salade;
+      <br /> au printemps/Ã©tÃ©Â : Aubergine, betterave botte, carde, carotte botte, cÃ©leri branche, concombre, courgette, Ã©pinard, fenouil, fraise, haricot, melon, navet nouveau, oignon, botte, persil, poivron, pomme de terre nouvelle, radis, rhubarbe, tomate, salade.
       <br /> <br />
       Pour finir voici un exemple de contenu d'un panier d'hiver : 1 kg de carotte , 1,5 g de pomme de terre, 1,5 kg de poireau, 500 g de radis noir, 1 salade, 600 g de betterave
       <br/>
-      et d'un panier d'été : 1,5 kg de Tomate, 1 kg  de courgette, 2 poivrons, 1 salade, 2 concombres, 750 g d'haricot vert, basilic, persil ou ciboulette.   
+      et d'un panier d'Ã©tÃ© : 1,5 kg de Tomate, 1 kg  de courgette, 2 poivrons, 1 salade, 2 concombres, 750 g d'haricot vert, basilic, persil ou ciboulette.   
       </p> 
      </td>
 	 <td ></td> 

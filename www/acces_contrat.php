@@ -12,9 +12,9 @@ $etat=ETAT_NON_DEFINI;
 if (isset($_COOKIE['identification_amap']))  { 
 	$etat=ETAT_IDENTIFIE;
 
-	// vérification que l'amapien est dans inscrit à ce contrat*/
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	// vÃ©rification que l'amapien est dans inscrit Ã  ce contrat*/
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$id=$_COOKIE['identification_amap'];
 	if ( InscritAuContrat( base_de_donnees, $_GET['amap'], $id)) {
 		$etat=ETAT_INSCRIT; 
@@ -41,11 +41,11 @@ if ($etat==ETAT_INSCRIT) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -86,7 +86,7 @@ if ($etat==ETAT_INSCRIT) {
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

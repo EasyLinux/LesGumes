@@ -1,7 +1,7 @@
 <?php
   //page valable pour toutes les amaps sauf les produits laitiers
   //  'amap' doit contenir le nom de la table de cette amap   - champ Table_amap de la table liste_amap
-  //  'sens' mis à 'v' pour un affichage de la table des produits vertical, pour tout autre valeur ou indéfini il est horizontal
+  //  'sens' mis Ã  'v' pour un affichage de la table des produits vertical, pour tout autre valeur ou indÃ©fini il est horizontal
  
   include_once("webmaster/define.php");
   include_once("espace_producteurs/mes_fonctions.php");
@@ -11,11 +11,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -30,31 +30,31 @@
 			<?php
 			 include_once("includes/menu_gauche.php"); 
 				
-      // données par amap 	
+      // donnÃ©es par amap 	
         
       $tableAMAP =$_GET['amap'];       
-      mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+      mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+			mysql_select_db(base_de_donnees); // SÃ©lection de la base 
       $question = "SELECT * FROM liste_amap WHERE Table_amap= '".$tableAMAP."'";
-      $reponse = mysql_query($question) or die(mysql_error()); // Requête SQL
+      $reponse = mysql_query($question) or die(mysql_error()); // RequÃªte SQL
       $donnees = mysql_fetch_array($reponse);  
       $nomAMAP   = $donnees['Nom_amap'];
       $dateDeb = $donnees['Date_deb'];
       $dateFin = $donnees['Date_fin'];
-      $etat = $donnees['Etat_inscription'];  //valeurs possibles : ouvert, fermé ou attente
+      $etat = $donnees['Etat_inscription'];  //valeurs possibles : ouvert, fermÃ© ou attente
       $heureDebLiv =$donnees['Heure_deb'];
       $heureFinLiv =$donnees['Heure_fin']; 
       $tableProduits =$donnees['Table_produit'];
       $contrat = $donnees['Contrat'];
-      $sens =  'horizon' ;       // affichage du tableau en horizontal (par défaut), si trop de champ mettre le tableau en vertical 
+      $sens =  'horizon' ;       // affichage du tableau en horizontal (par dÃ©faut), si trop de champ mettre le tableau en vertical 
       if ( $_GET['sens'] == "v")    $sens =  'vertical' ;
-      $conservation = false ;     // vrai si la table de produit contient un champ Conservation à afficher)  
+      $conservation = false ;     // vrai si la table de produit contient un champ Conservation Ã  afficher)  
       if ( $tableAMAP == 'amap_brebis' )  {
             $conservation = true;
        }
   
       if ( $tableAMAP == 'amap_produits_laitiers' || $tableAMAP == 'amap_brebis' ||  $tableAMAP == 'amap_tisanes' || $tableAMAP == 'amap_chevre' ||  $tableAMAP == 'amap_oeufs')  { 
-            // une autre table pour produits_info pour regrouper les produits de même type
+            // une autre table pour produits_info pour regrouper les produits de mÃªme type
             $tableProduits =  $tableProduits.'_info';
       }
       ?>
@@ -64,7 +64,7 @@
 	<h3 style="color:yellow; text-align:center; text-decoration:underline"><?php echo $nomAMAP ?> BIO</h3>
 	<center>
       <?php if ($sens=="horizon" ){  
-        // tableau des produits présenté horizontalement par défaut, mais si trop de produits prendre la présentation verticale
+        // tableau des produits prÃ©sentÃ© horizontalement par dÃ©faut, mais si trop de produits prendre la prÃ©sentation verticale
       ?>
         
       		<table class="h3">
@@ -72,26 +72,26 @@
      
     				<tr class="h3">
               <?php
-                $reponse = mysql_query("SELECT Nom_produit FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+                $reponse = mysql_query("SELECT Nom_produit FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // RequÃªte SQL
               ?>
     
-    					<th>Désignation</th>            
+    					<th>DÃ©signation</th>            
                 <?php while ( $donnees = mysql_fetch_array($reponse) ) {	?>
     						  <td class="h3"><?php echo $donnees[0]; ?></td>
     					<?php } ?>
     				</tr>
             
     		    <?php
-    				$reponse = mysql_query("SELECT Quantite FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+    				$reponse = mysql_query("SELECT Quantite FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // RequÃªte SQL
    				?>
     				<tr class="h3">
-    					<th>Quantité</th>
+    					<th>QuantitÃ©</th>
     				  <?php while ($donnees = mysql_fetch_array($reponse) ) {	?>
     						<td class="h3"><?php echo $donnees[0]; ?></td>
     					<?php } ?>
     				</tr>
     			  <?php
-    				$reponse = mysql_query("SELECT Prix FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // Requête SQL
+    				$reponse = mysql_query("SELECT Prix FROM ".$tableProduits." ORDER BY id") or die(mysql_error()); // RequÃªte SQL
     				?>
     				<tr class="h3">
     					<th>Prix unitaire</th>
@@ -106,14 +106,14 @@
               $question =  "SELECT Nom_produit, Quantite, Prix";
               if ( $conservation )  $question .= ", Conservation ";
               $question .= " FROM ".$tableProduits . " ORDER BY id";
-              $reponse = mysql_query( $question ) or die(mysql_error()); // Requête SQL         
+              $reponse = mysql_query( $question ) or die(mysql_error()); // RequÃªte SQL         
     		 ?>
             <table class="h3">
     				<caption class="h3">Tableau des produits</caption>    
      
     				<tr class="h3">
-              <th>Désignation</th> 
-              <th>Quantité</th> 
+              <th>DÃ©signation</th> 
+              <th>QuantitÃ©</th> 
               <th>Prix unitaire</th>
               <?php if ( $conservation ) { ?> <th> Conservation</th>   <?php } ?>
             </tr>
@@ -141,9 +141,9 @@
 			<table class="h3">
 				<caption class="h3">Dates, lieu et horaires des livraisons</caption>
 				<tr class="h3">
-					<td class="h3">Les vendredis de <?php echo $heureDebLiv; ?> à <?php echo $heureFinLiv; ?><br />
+					<td class="h3">Les vendredis de <?php echo $heureDebLiv; ?> Ã  <?php echo $heureFinLiv; ?><br />
           du <?php echo date("d/m/Y",strtotime($dateDeb)); ?> au  <?php echo date("d/m/Y",strtotime($dateFin)); ?> inclus<br />         
-          à la Maison des associations, centre René Couillaud S<sup>t</sup> Sébastien/Loire. <br />
+          Ã  la Maison des associations, centre RenÃ© Couillaud S<sup>t</sup> SÃ©bastien/Loire. <br />
           <a href="planning.php">Voir le planning des livraisons</a>.
           </td>
 				</tr>
@@ -157,62 +157,62 @@
 	      // ajout de texte pour l'amap cerises
        if ( $tableAMAP == 'amap_cerises') { ?>
           <h4 style="color:yellow; text-align:center">
-          Chaque amapien devra assurer au moins une cueillette sur le site le jeudi en fin d'après midi.
-    		  Marie-Paule vous propose un contrat adapté où seul sera encaissé ce qui aura pu être cueilli !<br />
-    			Vous faites <strong style="color:yellow">deux chèques</strong> <br />
-    			- un chèque correspondant aux trois premières livraisons,<br />
-    			- un autre chèque correspondant à la dernière livraison qui ne sera pas encaissé si elle est annulée.
+          Chaque amapien devra assurer au moins une cueillette sur le site le jeudi en fin d'aprÃ¨s midi.
+    		  Marie-Paule vous propose un contrat adaptÃ© oÃ¹ seul sera encaissÃ© ce qui aura pu Ãªtre cueilli !<br />
+    			Vous faites <strong style="color:yellow">deux chÃ¨ques</strong> <br />
+    			- un chÃ¨que correspondant aux trois premiÃ¨res livraisons,<br />
+    			- un autre chÃ¨que correspondant Ã  la derniÃ¨re livraison qui ne sera pas encaissÃ© si elle est annulÃ©e.
           </h4>
        <?php }
 	    else if ( $tableAMAP == 'amap_oeufs') { ?>
-     	   <h4 style="color:yellow; text-align:center">Si vous prenez des oeufs, en fin de contrat vous recevrez une pondeuse de un an prête à cuire (ou à congeler) -> couscous, coq au vin, poule au pot...
-            Les poulets sont estimés à 15,00 euros, un ajustement sera effectué en fin de contrat en fonction du poids des poulets consommés.
-            Les volailles seront proposés de façon exceptionnelle en cours de contrat.  </h4>    	   
+     	   <h4 style="color:yellow; text-align:center">Si vous prenez des oeufs, en fin de contrat vous recevrez une pondeuse de un an prÃªte Ã  cuire (ou Ã  congeler) -> couscous, coq au vin, poule au pot...
+            Les poulets sont estimÃ©s Ã  15,00 euros, un ajustement sera effectuÃ© en fin de contrat en fonction du poids des poulets consommÃ©s.
+            Les volailles seront proposÃ©s de faÃ§on exceptionnelle en cours de contrat.  </h4>    	   
       <?php };           
        if  (  $tableAMAP == 'amap_sel') { ?>    
           <h4 style="color:white; text-align:center">
           Pour souscrire un contrat, contactez le coordinateur (bouton ci-dessous) <br />
-          Puis <a href="<?php echo $contrat?>">télécharger</a> le contrat en double exemplaire et remettez les au coordinateur le jour de sa permanence. 
+          Puis <a href="<?php echo $contrat?>">tÃ©lÃ©charger</a> le contrat en double exemplaire et remettez les au coordinateur le jour de sa permanence. 
          	</h4>
         <?php } else { ?> 
           <h4 style="color:white; text-align:center">
           <h4 style="color:white; text-align:center">
-          Vous pouvez rejoindre cette AMAP à tout moment. Le contrat se fera au prorata des distributions restantes. 
+          Vous pouvez rejoindre cette AMAP Ã  tout moment. Le contrat se fera au prorata des distributions restantes. 
           <br /><br />Pour souscrire un contrat, contactez le coordinateur (bouton ci-dessous) <br />
- 			    <br /><br />N'oubliez pas de <a href="<?php echo $contrat?>">télécharger</a> le contrat en double exemplaire et <br />
-          de vous présenter avec le contrat et les chèques de réglement le jour de votre première distribution. 
+ 			    <br /><br />N'oubliez pas de <a href="<?php echo $contrat?>">tÃ©lÃ©charger</a> le contrat en double exemplaire et <br />
+          de vous prÃ©senter avec le contrat et les chÃ¨ques de rÃ©glement le jour de votre premiÃ¨re distribution. 
          	</h4>
       <?php }} else if ($etat=='attente' ) {   ?> 
           <h4 style="color:white; text-align:center">
           Les inscriptions pour cette AMAP sont closes actuellement. <br />
-          Vous pouvez vous inscrire sur la liste d'attente en cliquant ici : <i><a class="h2" href="liste_attente_legumes.php">S'inscrire à la liste d'attente <?php echo $nomAMAP ?></a></i><br />
+          Vous pouvez vous inscrire sur la liste d'attente en cliquant ici : <i><a class="h2" href="liste_attente_legumes.php">S'inscrire Ã  la liste d'attente <?php echo $nomAMAP ?></a></i><br />
           et contacter le coordinateur pour plus d'information (bouton ci-dessous).
-          <br /><br /><a href="<?php echo $contrat?>">Télécharger</a> le contrat en cours.         
+          <br /><br /><a href="<?php echo $contrat?>">TÃ©lÃ©charger</a> le contrat en cours.         
           </h4>
       <?php } else { //inscriptions closes actuellement ?>
           <h4 style="color:white; text-align:center">
           Les inscriptions pour cette AMAP sont closes actuellement. <br />
           Pour plus d'information, contactez le coordinateur (bouton ci-dessous).
-         <br /><br /><a href="<?php echo $contrat?>">Télécharger</a> le contrat en cours.
+         <br /><br /><a href="<?php echo $contrat?>">TÃ©lÃ©charger</a> le contrat en cours.
         </h4>
       <?php } ?>
       	
 			</p>
 			
 				<?php 
-          $string = "Ecrire à ";
+          $string = "Ecrire Ã  ";
           $mailto = "";
     	    MailToReferent( $tableAMAP, $string, $mailto);
         ?>	
         
   		<h4 >
 		<a style="text-align:center; color:yellow" href="<?php echo $mailto?><?php echo ($string) ?> " >
-                <img src="/images/mail.jpg" alt="Envoyer un mail au référent" title="Cliquer ici pour envoyer un mail au référent"/></a><br />
+                <img src="/images/mail.jpg" alt="Envoyer un mail au rÃ©fÃ©rent" title="Cliquer ici pour envoyer un mail au rÃ©fÃ©rent"/></a><br />
 		<a style="text-align:center; color:yellow" href="<?php echo $mailto?><?php echo ($string) ?> " >
-                Ecrire au référent du contrat : <?php echo $mailto?></a>
+                Ecrire au rÃ©fÃ©rent du contrat : <?php echo $mailto?></a>
 		
         
-        <!-- a style="cursor:pointer" title="liste attente" href="liste_attente_legumes.php">Liste Attente Légumes</a-->
+        <!-- a style="cursor:pointer" title="liste attente" href="liste_attente_legumes.php">Liste Attente LÃ©gumes</a-->
        </h4>
 		</div>	
 		
@@ -221,7 +221,7 @@
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

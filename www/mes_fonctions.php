@@ -2,13 +2,13 @@
 fonction AfficherTable(base,table,ordreAffichage)
 fonction AfficheTousLesContrats(base,table,ListeChamps,NbreChamp,ordreAffichage)
 fonction ChoixDuNom(base, table, amap_exclue, label_liste_de_choix, ordre de la liste, action)
-				affiche la liste générale en excluant ceux de l'amap_exclue dans une liste de choix
-				action=action de la méthode POST
+				affiche la liste gÃ©nÃ©rale en excluant ceux de l'amap_exclue dans une liste de choix
+				action=action de la mÃ©thode POST
 function SupprimeEnr(base, table, id) supprime l'enregistrement de champ id de la table
 function AjouteEnr(base, table, id) ajoute l'enregistrement id dans la table
-function MajChamp(base, table, id, champ, valeur) met à valeur le champ dont l'id est donné
+function MajChamp(base, table, id, champ, valeur) met Ã  valeur le champ dont l'id est donnÃ©
 function AfficheFormulaireEnr(base, table, id, action) pour modifier l'enregistrement id de table. action =action de la methode post du formulaire
-function MajEnr(base, table, id) met à jour tous les champ de l'enregistrement id reçu par une méthode POST
+function MajEnr(base, table, id) met Ã  jour tous les champ de l'enregistrement id reÃ§u par une mÃ©thode POST
 function VoirContratH(base, table, id) affiche le(s) contrat(s) horizontalement
 function VoirContratV(base, table, id)  	affiche le(s) contrat(s) verticalement ajout/suppression de contrats possible 
 		
@@ -20,8 +20,8 @@ function VoirContratV(base, table, id)  	affiche le(s) contrat(s) verticalement 
 
 function AfficherTable($base,$table,$ordre1)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$ordre1;
 	$reponse = mysql_query($question);
 	/*$colonne = mysql_num_fields($reponse);*/
@@ -43,7 +43,7 @@ function AfficherTable($base,$table,$ordre1)
 			color: red;
 			font-weight: bold"		
 		>
-		<?php echo $table.' - nombre d\'adhérents : '.$ligne; ?></caption>
+		<?php echo $table.' - nombre d\'adhÃ©rents : '.$ligne; ?></caption>
 		<tr>
 			<?php
 			if($ligne>0) {
@@ -99,8 +99,8 @@ function AfficherTable($base,$table,$ordre1)
 
 function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	for($i=0; $i<$NbreChamps; $i++) {
 		if($i==0) $question="SELECT ".$ListeChamps[$i];
 		else $question.=", ".$ListeChamps[$i];
@@ -126,7 +126,7 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			color: red;
 			font-weight: bold"		
 		>
-		<?php echo $table.' - nombre d\'adhérents : '.$ligne; ?></caption>
+		<?php echo $table.' - nombre d\'adhÃ©rents : '.$ligne; ?></caption>
 		<tr>
 			<?php
 			if($ligne>0) {
@@ -241,8 +241,8 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 <!--***********************************************************************************************************-->
 <?php
 function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$classement;
 	$reponse = mysql_query($question);
 ?>
@@ -273,7 +273,7 @@ function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action)
 <?php
 function SupprimeEnr($base, $table, $enr) {
 	echo "<br /><br />SupprimeEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="DELETE FROM ".$table." WHERE id='".$enr."'";
 	echo mysql_query($question);
@@ -285,7 +285,7 @@ function SupprimeEnr($base, $table, $enr) {
 <?php
 function AjouteEnr($base, $table, $id) {
 	echo "<br /><br />AjouteEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM amap_generale WHERE id='".$id."'";
 	echo $reponse=mysql_query($question);
@@ -302,7 +302,7 @@ function AjouteEnr($base, $table, $id) {
 <?php
 function MajChamp($base, $table, $id, $champ, $valeur) {
 	echo "<br /><br />MajChamp<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$texte=addslashes($valeur);
 	$question="UPDATE ".$table." SET ".$champ."='".$texte."' WHERE id='".$id."'";
@@ -315,7 +315,7 @@ function MajChamp($base, $table, $id, $champ, $valeur) {
 <?php
 function AfficheFormulaireEnr($base, $table, $id, $action) {
 	echo "<br /><br />AfficheEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	echo $reponse=mysql_query($question);
@@ -339,7 +339,7 @@ function AfficheFormulaireEnr($base, $table, $id, $action) {
 			color: red;
 			font-weight: bold"		
 		>
-		<?php echo $table.' adhérents : '.$donnees['Prenom'].' '.$donnees['Nom']; ?></caption>
+		<?php echo $table.' adhÃ©rents : '.$donnees['Prenom'].' '.$donnees['Nom']; ?></caption>
 		<tr>
 			<?php
 			foreach($donnees as $cle => $element) {
@@ -390,7 +390,7 @@ function AfficheFormulaireEnr($base, $table, $id, $action) {
 <?php
 function MajEnr($base, $table) {
 	echo "<br /><br />MajEnr<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db($base)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="SELECT * FROM ".$table." WHERE id='".$_POST['id']."'";
 	$reponse = mysql_query($question);
@@ -416,7 +416,7 @@ function MajEnr($base, $table) {
 <?php
 function SupTabPermLeg($id) {
 	echo "<br /><br />SupTabPermLeg<br />";
-	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion à MySQL
+	echo "connexion = ".mysql_connect(hote, login, mot_passe_sql)."<br />"; // Connexion Ã  MySQL
 	if(mysql_select_db(base_de_donnees)) echo "selection-base = true<br />"; else echo "selection-base = false<br />";
 	$question="UPDATE amap_legumes_permanences SET Personne_1='?' WHERE id_1='".$id."'";
 	echo mysql_query($question)."<br />";
@@ -436,19 +436,19 @@ function SupTabPermLeg($id) {
 
 <?php
 function VoirContratH($base, $table, $id) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	$reponse = mysql_query($question);
 	/*$colonne = mysql_num_fields($reponse);*/
 	$ligne = mysql_num_rows($reponse);
 ?>
 	<table class="h3">
-		<caption class="h3">Vous êtes enregistré dans : <?php echo $table; ?></caption>
+		<caption class="h3">Vous Ãªtes enregistrÃ© dans : <?php echo $table; ?></caption>
 		<?php
 		for($j=1; $j<=$ligne; $j++) {
 			$donnees = mysql_fetch_array($reponse);
-			if($j==1) { /* écrire le nom et les produits*/
+			if($j==1) { /* Ã©crire le nom et les produits*/
 				$i=0;
 				foreach($donnees as $cle => $element) {
 					$i++;
@@ -475,7 +475,7 @@ function VoirContratH($base, $table, $id) {
 				</tr> <?php
 			} ?>
 			<tr>
-				<th>Contrat n°<?php echo $j; ?></th>
+				<th>Contrat nÂ°<?php echo $j; ?></th>
 				<?php
 				$i=0;
 				foreach($donnees as $element)
@@ -497,11 +497,11 @@ function VoirContratH($base, $table, $id) {
 ?>
 
 <?php
-// On ne gère toujours qu'un contrat par amapien : on peut donc simplifier cette fonction
-// la version précédente, avec possibilité d'ajout est conservée dans le fichier mes_fonctions_accès_contrat.php
+// On ne gÃ¨re toujours qu'un contrat par amapien : on peut donc simplifier cette fonction
+// la version prÃ©cÃ©dente, avec possibilitÃ© d'ajout est conservÃ©e dans le fichier mes_fonctions_accÃ¨s_contrat.php
 function VoirContratV($base, $table, $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";  
 	$reponse = mysql_query($question) or die(mysql_error());      
 	$colonne = mysql_num_fields($reponse);  
@@ -514,13 +514,13 @@ function VoirContratV($base, $table, $id) {
 	for($j=1; $j<=$ligne; $j++) {
 		$donnees = mysql_fetch_array($reponse);
 		if($j==1) { ?>
-			<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
+			<h2 style="color:yellow; text-align:center">Vous Ãªtes inscrit Ã  l'<?php echo str_replace("_", " ",$table); ?><br /> sous le nom : 
 			<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2> <?php
 		}
 		$i=0;
 		$prix=0.0;?>
 		<table class="h3" >
-		<caption class="h3">Contrat n°<?php echo $donnees['Contrat_numero']; ?></caption>
+		<caption class="h3">Contrat nÂ°<?php echo $donnees['Contrat_numero']; ?></caption>
 		<?php
 		$suppression = false;
 		foreach($donnees as $cle => $element) {
@@ -557,7 +557,7 @@ function VoirContratV($base, $table, $id) {
 					</tr><?php
 				}
 				else if($element==1){ 
-					?><tr><td class="h3" colspan=2 style="color:red">contrat verrouillé</td></tr><?php
+					?><tr><td class="h3" colspan=2 style="color:red">contrat verrouillÃ©</td></tr><?php
 				}
         else { $suppression = true;}       
 			}  
@@ -565,7 +565,7 @@ function VoirContratV($base, $table, $id) {
 		</table>
 	<?php
 	}
-  if ( $element==0)    {    // contrat non vérouillé
+  if ( $element==0)    {    // contrat non vÃ©rouillÃ©
   ?>
 		<form method="post" action=<?php echo "acces_contrat.php?amap=".$table."&amp;id=".$id."&amp;maj=suppression"; ?>>
 			<table style="margin-left:auto; margin-right:auto;">
@@ -579,8 +579,8 @@ function VoirContratV($base, $table, $id) {
 
 <?php
 function VoirContratBimensuelV($base, $table, $id ) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." WHERE id='".$id."'";
 	$reponse = mysql_query($question);
   
@@ -599,11 +599,11 @@ function VoirContratBimensuelV($base, $table, $id ) {
   $donnees = mysql_fetch_array($reponse);
 	mysql_close();
 ?>
-	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'<?php echo $table; ?><br /> sous le nom : 
+	<h2 style="color:yellow; text-align:center">Vous Ãªtes inscrit Ã  l'<?php echo $table; ?><br /> sous le nom : 
 		<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2>
 		
 	<table class="h3" style="margin-left:5px; float:left">
-	  <caption class="h3">Contrat n°<?php echo $donnees['Contrat_numero']; ?></caption>
+	  <caption class="h3">Contrat nÂ°<?php echo $donnees['Contrat_numero']; ?></caption>
 	
     <tr>
       <th style="font-size:small">Par_mois</th>
@@ -642,7 +642,7 @@ function VoirContratBimensuelV($base, $table, $id ) {
         </td>
 		</tr>
 		<tr>
-        <td class="h3" colspan=2 style="color:red">contrat verrouillé</td>
+        <td class="h3" colspan=2 style="color:red">contrat verrouillÃ©</td>
     </tr>
   </table>
 <?php		

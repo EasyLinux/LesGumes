@@ -1,2 +1,2 @@
-<!-- pour trouver le chemin absolu du fichier nommé chemin.php sur le serveur -->
+<!-- pour trouver le chemin absolu du fichier nommÃ© chemin.php sur le serveur -->
 <?php echo realpath('chemin.php'); ?>

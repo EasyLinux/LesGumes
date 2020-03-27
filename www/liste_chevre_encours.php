@@ -18,11 +18,11 @@ if($ok==1)  {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -30,8 +30,8 @@ if($ok==1)  {
 	<div style="text-align: center;">
 		<?php
 		include_once("webmaster/define.php");
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 		$question="SELECT * FROM amap_chevre_permanences WHERE Distribution=1 ORDER BY Date";
 		$reponse1 = mysql_query($question) or die(mysql_error());;
 		$question="SELECT Date_livraison FROM amap_chevre_cde_en_cours";
@@ -39,9 +39,9 @@ if($ok==1)  {
 		$TableDateLiv=mysql_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=strtotime(date("Y-m-d",time()));
-		$flag=0; //la date dans cde_en_cours est sup à la date d'aujourd'hui
-//mise à jour de la table_cde_en_cours par recopie de la table_cde
-//cette mise à jour ne se fait que si     
+		$flag=0; //la date dans cde_en_cours est sup Ã  la date d'aujourd'hui
+//mise Ã  jour de la table_cde_en_cours par recopie de la table_cde
+//cette mise Ã  jour ne se fait que si     
 //		[Date de la table cde_en_cours] < DateAujourd'hui
 //      et si      [datelimite] <= [date_aujourd'hui] <= [dateProchaineLivraison]
 
@@ -50,9 +50,9 @@ if($ok==1)  {
 // QUAND LA DATE DE LA 1RE LIVRAISON - 9j SERA ATTEINTE LA TABLE amap_brebis_cde_en_cours (QUI CONTIENT N'IMPORTE QUOI)
 //		SE METTRA A JOUR ET LE CYCLE NORMAL	DE FONCTIONNEMENT SE METTRA EN ROUTE
 
-//cette partie de programme se trouve aussi dans le menu d'accès à la commande perso de chaque amapien
-//si bien que c'est le premier accès d'un amapien ou le premier acces du producteur après la date limite qui provoque
-//la mise à jour de la table cde_en_cours 
+//cette partie de programme se trouve aussi dans le menu d'accÃ¨s Ã  la commande perso de chaque amapien
+//si bien que c'est le premier accÃ¨s d'un amapien ou le premier acces du producteur aprÃ¨s la date limite qui provoque
+//la mise Ã  jour de la table cde_en_cours 
 		if($DateLivEnCours==NULL || $auj>$DateLivEnCours ) { 
 			$flag=-1;//impossible d'imprimer les amapiens peuvent encore modifier leur choix
 			while($DateLiv = mysql_fetch_array($reponse1)) {
@@ -75,7 +75,7 @@ if($ok==1)  {
 			$question="UPDATE amap_chevre_cde_en_cours SET Date_livraison='".$LaDate."'";
 			$reponse=mysql_query($question) or die(mysql_error());;
 		}
-    // on récupère le nombre d'unité de chaque produit dans l'ordre des ID des produits
+    // on rÃ©cupÃ¨re le nombre d'unitÃ© de chaque produit dans l'ordre des ID des produits
     $resultUnit=mysql_query("SELECT Unite FROM amap_chevre_produits ORDER BY Id") or die(mysql_error());
     while ( $unite = mysql_fetch_array($resultUnit)) {
      $unites[] =  $unite[0];
@@ -88,8 +88,8 @@ if($ok==1)  {
     } 
 		else { ?>
 			<h3 class="mot_passe_recette">
-			 ATTENTION : Les amapiens peuvent encore modifier leur choix jusqu'à la date de livraison moins 9 jours !!
-       Ce récapitulatif n' est pas définitif
+			 ATTENTION : Les amapiens peuvent encore modifier leur choix jusqu'Ã  la date de livraison moins 9 jours !!
+       Ce rÃ©capitulatif n' est pas dÃ©finitif
       </h3>
 		<?php
       $tableAlire= 'amap_chevre_cde';    
@@ -119,29 +119,29 @@ if($ok==1)  {
     				text-align: center;
     				padding: 0px 0px 0px 10px;
     				color: red;
-    				font-weight: bold">Commandes de fromage de chèvre enregistrées pour la livraison du <?php echo $ProchLiv; ?>
+    				font-weight: bold">Commandes de fromage de chÃ¨vre enregistrÃ©es pour la livraison du <?php echo $ProchLiv; ?>
     			</caption>
            <!-- 2 lignes de titre -->
     			<tr>
     				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Nom</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Unité</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">UnitÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">&nbsp;&nbsp;Emargement&nbsp;&nbsp;</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="5">Petit</th>
     	   		<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="5">Grand</th>
-    	   		<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="1">Pyramide cendrée</th>
+    	   		<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="1">Pyramide cendrÃ©e</th>
         		<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="1">Fromage Blanc</th>
             <th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Total</th>
     			</tr>
     			<tr>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">frais</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affiné</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affinÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sec</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sésame</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sÃ©same</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">provence</th>
       			<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">frais</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affiné</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affinÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sec</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sésame</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sÃ©same</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">provence</th>
      			</tr>
           
@@ -188,7 +188,7 @@ if($ok==1)  {
           <!-- une ligne de total  -->
           <tr>  
        			<tr>
-      				<th style="border: 1px solid black; background-color: #DDDDDD;">Nombre d'unités</th>
+      				<th style="border: 1px solid black; background-color: #DDDDDD;">Nombre d'unitÃ©s</th>
       				<th style="border: 1px solid black; background-color: #DDDDDD;">
       				<?php	
               $erreur = 0;
@@ -200,7 +200,7 @@ if($ok==1)  {
       				<th style="border: 1px solid black; background-color: #DDDDDD;"></th>
       				
               <?php
-              // nouveau parcours des commandes pour récupérer les noms des produits
+              // nouveau parcours des commandes pour rÃ©cupÃ©rer les noms des produits
               $reponse = mysql_query("SELECT * FROM ".$tableAlire." ORDER BY Nom");
               $donnees = mysql_fetch_array($reponse);
               foreach ($donnees as $key => $value) { 
@@ -225,17 +225,17 @@ if($ok==1)  {
           <!-- 2 lignes de titre -->
           <tr>
     				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Nom</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Unité</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">UnitÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">&nbsp;&nbsp;Emargement&nbsp;&nbsp;</th>
      				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">frais</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affiné</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affinÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sec</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sésame</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sÃ©same</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">provence</th>
       			<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">frais</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affiné</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">affinÃ©</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sec</th>
-    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sésame</th>
+    				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">sÃ©same</th>
     				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">provence</th>
             <th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="1">Pyramide four</th>
         		<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="1">Fromage Blanc</th>
@@ -249,7 +249,7 @@ if($ok==1)  {
         
         <?php if ( $erreur==1) { ?>
         <h3 style="color: red;"> 
-          ATTENTION : Le nombre d&apos;unité  de la commande ne correspond pas au nombre d&apos;unité attendu. Contactez le référent pour plus d&apos;information.
+          ATTENTION : Le nombre d&apos;unitÃ©  de la commande ne correspond pas au nombre d&apos;unitÃ© attendu. Contactez le rÃ©fÃ©rent pour plus d&apos;information.
         </h3>
         <?php  } ?>
    </div>
@@ -265,11 +265,11 @@ else { // le mot de passe n'est pas bon : On affiche la zone de texte pour rentr
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>

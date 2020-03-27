@@ -1,14 +1,14 @@
 <?php
 include_once("define.php"); 
-//3 paramètres : amap (quelle amap), id (quel amapien)  et etat (1 pour verrouiller, 0 pour déverrouiller)
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base
+//3 paramÃ¨tres : amap (quelle amap), id (quel amapien)  et etat (1 pour verrouiller, 0 pour dÃ©verrouiller)
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base
 
 if ( isset($_GET['etat'] )) {
     $etat =  $_GET['etat'];
 }
 else {
-    $etat =  1;// on verrouille par défaut
+    $etat =  1;// on verrouille par dÃ©faut
 }
 $question="UPDATE ".$_GET['amap']." SET Contrat_verrouille=".$etat." WHERE id=".$_GET['id'];
 $reponse=mysql_query( $question);

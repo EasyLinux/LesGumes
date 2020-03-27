@@ -8,11 +8,11 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style_webmaster.css" />
 	</head>
 	
@@ -22,7 +22,7 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			<div class="menu_fixe_droit">
 <!--
 				<p style="padding:5px; color:red; text-align:center; background:yellow">
-					<strong>Pour ajouter ou supprimer un adhérent à l'amap il faut passer par une mise à jour de l'amap générale!!</strong>
+					<strong>Pour ajouter ou supprimer un adhÃ©rent Ã  l'amap il faut passer par une mise Ã  jour de l'amap gÃ©nÃ©rale!!</strong>
 				</p>
 -->
 			</div>
@@ -33,10 +33,10 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			</p>
 			<p><strong><u>Actions possibles</u> : </strong>
 <!--				<a href="webmaster_voir_amap.php?classement=<?php //echo $_GET['classement']; ?>&amp;ordre=modifier&amp;amap=<?php //echo $_GET['amap']; ?>">modifier un enregistrement</a>------
-				<a href="webmaster_voir_amap.php?classement=<?php //echo $_GET['classement']; ?>&amp;ordre=rien&amp;amap=<?php //echo $_GET['amap']; ?>">Action annulée</a>------
+				<a href="webmaster_voir_amap.php?classement=<?php //echo $_GET['classement']; ?>&amp;ordre=rien&amp;amap=<?php //echo $_GET['amap']; ?>">Action annulÃ©e</a>------
 				<a href="javascript:location.reload()">Actualiser la page courante</a>
 			</p>
-			<p style="color:red; background:yellow"><strong>Pour mettre à jour l'affichage ==> actualiser la page courante après la modification!!</strong></p>
+			<p style="color:red; background:yellow"><strong>Pour mettre Ã  jour l'affichage ==> actualiser la page courante aprÃ¨s la modification!!</strong></p>
 	-->	</div>
 		<div class="menu_roulant">
 			<?php

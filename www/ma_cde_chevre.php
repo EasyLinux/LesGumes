@@ -1,17 +1,17 @@
 <?php
 
 //Principe de fonctionnement
-//la table "amap_chevre_cde_en_cours" doit Ítre crÈÈe en dupliquant le contenu de la table "amap_chevre_cde"
-//dans cette table le champ "Date_modif" doit Ítre remplacÈ par Date_livraison et initialisÈ ‡ NULL
+//la table "amap_chevre_cde_en_cours" doit √™tre cr√©√©e en dupliquant le contenu de la table "amap_chevre_cde"
+//dans cette table le champ "Date_modif" doit √™tre remplac√© par Date_livraison et initialis√© √† NULL
 
 include_once("webmaster/define.php");
 
 $ok=-1;/* identification non faite */
 if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 {
-	$ok=0;/* identification faite mais non inscrit ‡ l'amap */
-	mysql_connect(hote, login, mot_passe_sql); // Connexion ‡ MySQL
-	mysql_select_db(base_de_donnees); // SÈlection de la base 
+	$ok=0;/* identification faite mais non inscrit √† l'amap */
+	mysql_connect(hote, login, mot_passe_sql); // Connexion √† MySQL
+	mysql_select_db(base_de_donnees); // S√©lection de la base 
 	$id=$_COOKIE['identification_amap'];
 	$question="SELECT * FROM amap_chevre_cde WHERE id='".$id."'";
 	$reponse = mysql_query($question) or die(mysql_error());
@@ -20,23 +20,23 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
   $fields = mysql_list_fields (base_de_donnees, 'amap_chevre_cde');
   
 	if( mysql_num_rows($reponse)>0) {
-		$ok=1;/* inscrit ‡ l'amap modification possible */
+		$ok=1;/* inscrit √† l'amap modification possible */
 		$commande = mysql_fetch_array($reponse);
-    $firstField = 5;  // on passe id, Nom, Prenom, UnitÈ et dateModif
+    $firstField = 5;  // on passe id, Nom, Prenom, Unit√© et dateModif
     $nbFields =  mysql_num_fields($reponse);  // nombre de champs de la table
     $nbProduits = $nbFields - $firstField; // nombre de produits
 		$uniteCommande=$commande['Unite'];   
  
-     //on recupËre le prix d'une unitÈ en base dans la table amap_produits_laitiers  - prix du contrat en cours identique pour tous les contrats !
+     //on recup√®re le prix d'une unit√© en base dans la table amap_produits_laitiers  - prix du contrat en cours identique pour tous les contrats !
   	$questionPrix="SELECT Prix_unite FROM amap_chevre WHERE id='".$commande['id']."'";
   	$reponsePrix = mysql_query($questionPrix) or die(mysql_error());
     $reponsePrix = mysql_fetch_array($reponsePrix) ;
     $prixUnite = $reponsePrix[0];
    
 	}
-	mysql_close(); // DÈconnexion de MySQL
+	mysql_close(); // D√©connexion de MySQL
 }
-if ($ok==1) // inscrit ‡ l'amap
+if ($ok==1) // inscrit √† l'amap
 {
 //***********************************************************************
 // On a le droit
@@ -46,11 +46,11 @@ if ($ok==1) // inscrit ‡ l'amap
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert ‡ indiquer dans quelle langue est rÈdigÈe votre page -->
+<!-- xml:lang : sert √† indiquer dans quelle langue est r√©dig√©e votre page -->
 	<head>
-		<title>AMAP Saint-SÈbastien/Loire</title>
+		<title>AMAP Saint-S√©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractËres spÈcifiques au franÁais ÈËÍ‡... -->
+		<!-- meta indique que l'on utilise des caract√®res sp√©cifiques au fran√ßais √©√®√™√†... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -130,7 +130,7 @@ function MAJtableau( idUnite, idPrix, quantite, nbUnite){
 }
 
 function updateButtonsAndMessage(uniteCommande, newTotalUnite) {
-  // mise ‡ jour des boutons et du message
+  // mise √† jour des boutons et du message
   var strMsg="";
   var objElemMessage=document.getElementById('message');
   var objElemBtnValider=document.getElementById('BtnValider');
@@ -141,12 +141,12 @@ function updateButtonsAndMessage(uniteCommande, newTotalUnite) {
   if ( uniteCommande > newTotalUnite ) {
     strMsg +=  "Il faut ajouter ";
     strMsg +=   (uniteCommande -  newTotalUnite).toString()
-    strMsg += " unitÈ(s)";    
+    strMsg += " unit√©(s)";    
   }
   else if ( uniteCommande < newTotalUnite )  {
     strMsg = "Il faut enlever ";
     strMsg +=   ( newTotalUnite-  uniteCommande).toString()
-    strMsg += " unitÈ(s)";    
+    strMsg += " unit√©(s)";    
    }
   else  { // faire apparaitre les boutons de validation 
   	objElemBtnValider.style.display='inline';
@@ -159,7 +159,7 @@ function ConfirmeRecord(strID) {
 	var objForm = document.MForm ;
 	var j=0;
 	
-	if (window.confirm("Ces produits seront automatiquement reconduits d'une livraison ‡ l'autre\n\ntant que vous ne modifiez pas ce choix par cette mÍme procÈdure !")) {
+	if (window.confirm("Ces produits seront automatiquement reconduits d'une livraison √† l'autre\n\ntant que vous ne modifiez pas ce choix par cette m√™me proc√©dure !")) {
 	
   	var objForm2 = createForm("ordermanager", "post", "maj_livraison_chevre.php");
 		objForm2.appendChild(createHiddenInput("ID", strID));
@@ -185,8 +185,8 @@ function ConfirmeRecord(strID) {
 		<div id="bandeau">
 			<?php include_once("includes/bandeau.php");
 			
-//mise ‡ jour de la table_cde_en_cours par recopie de la table_cde
-//cette mise ‡ jour ne se fait que si     
+//mise √† jour de la table_cde_en_cours par recopie de la table_cde
+//cette mise √† jour ne se fait que si     
 //		[Date de la table cde_en_cours] < DateAujourd'hui
 //      et si      [datelimite] <= [date_aujourd'hui] <= [dateProchaineLivraison]
 
@@ -196,11 +196,11 @@ function ConfirmeRecord(strID) {
 //		SE METTRA A JOUR ET LE CYCLE NORMAL	DE FONCTIONNEMENT SE METTRA EN ROUTE
 
 
-//cette partie de programme se trouve aussi dans l'accËs ‡ la liste des produits rÈservÈe au producteur
-//si bien que c'est le premier accËs d'un amapien ou le premier acces du producteur aprËs la date limite qui provoque
-//la mise ‡ jour de la table cde_en_cours 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion ‡ MySQL
-		mysql_select_db(base_de_donnees); // SÈlection de la base 
+//cette partie de programme se trouve aussi dans l'acc√®s √† la liste des produits r√©serv√©e au producteur
+//si bien que c'est le premier acc√®s d'un amapien ou le premier acces du producteur apr√®s la date limite qui provoque
+//la mise √† jour de la table cde_en_cours 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion √† MySQL
+		mysql_select_db(base_de_donnees); // S√©lection de la base 
 		$question="SELECT * FROM amap_chevre_permanences WHERE Distribution=1 ORDER BY Date";
 		$tabPermanence = mysql_query($question);
 		$question="SELECT Date_livraison FROM amap_chevre_cde_en_cours";
@@ -208,8 +208,8 @@ function ConfirmeRecord(strID) {
 		$TableDateLiv=mysql_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=time();
-		$flag=0; //la date dans cde_en_cours est sup ‡ la date d'aujourd'hui
-		//on Ècrase la table cde_en_cours que si il existe une livraison plus loin que la date d'aujourd'hui et ‡ moins de 9 jours
+		$flag=0; //la date dans cde_en_cours est sup √† la date d'aujourd'hui
+		//on √©crase la table cde_en_cours que si il existe une livraison plus loin que la date d'aujourd'hui et √† moins de 9 jours
 		if(  $DateLivEnCours==NULL || $auj>$DateLivEnCours ) { 
 			$flag=-1;//impossible imprimer les amapiens peuvent encore modifier leur choix
 			while($DateLiv = mysql_fetch_array($tabPermanence)){
@@ -231,7 +231,7 @@ function ConfirmeRecord(strID) {
 			$reponse=mysql_query($question) or die(mysql_error());;
 		}
 
-//fin mise ‡ jour table_cde_en_cours
+//fin mise √† jour table_cde_en_cours
 		
     	
 			$question="SELECT * FROM amap_chevre_permanences order BY Date";
@@ -243,7 +243,7 @@ function ConfirmeRecord(strID) {
 			$auj=time();
 			$flag=0;
       
-			//il faut trouver une date de livraison telle que aujourd'hui < ‡ cette date - JOURS_MARGE_CHEVRE jours
+			//il faut trouver une date de livraison telle que aujourd'hui < √† cette date - JOURS_MARGE_CHEVRE jours
 			while($DateLiv = mysql_fetch_array($tabPermanence)) if($DateLiv['Distribution']=='1'){
 				$temp=strtotime($DateLiv['Date']);
 				$limite=$temp-JOURS_MARGE_CHEVRE*24*60*60;
@@ -254,7 +254,7 @@ function ConfirmeRecord(strID) {
         }
 			}
       
-      //  les prix des produits classÈs par id
+      //  les prix des produits class√©s par id
       $result=mysql_query("SELECT Unite FROM amap_chevre_produits ORDER BY Id") or die(mysql_error());;
       $nbProduit = mysql_num_rows($result);    
       for( $i=0; $i <$nbProduit; $i++) {
@@ -265,7 +265,7 @@ function ConfirmeRecord(strID) {
 			mysql_close();?>
 		</div>
     
-		<?php if($flag==0) echo "  Vous n'avez plus la possibilitÈ de modifier le dernier enregistrement.";
+		<?php if($flag==0) echo "  Vous n'avez plus la possibilit√© de modifier le dernier enregistrement.";
 		else { ?>
 		<div id="page_principale">
 			<form name="MForm">
@@ -284,7 +284,7 @@ function ConfirmeRecord(strID) {
 					font-weight: bold"		
 				>
 				<?php
-	   			echo 'Commande de fromages de chËvre pour la livraison du '.$ProchLiv;
+	   			echo 'Commande de fromages de ch√®vre pour la livraison du '.$ProchLiv;
 				?></caption>
 					<tr>
 					<th 	style="	text-align: center;
@@ -296,18 +296,18 @@ function ConfirmeRecord(strID) {
 					<th 	style="	text-align: center;
 									padding: 2px 5px 2px 5px;
 									border: 2px ridge white;
-									background-color: #CCCCCC">DÈsignation
+									background-color: #CCCCCC">D√©signation
 					</th>
 					<th 	style="	text-align: center;
 									padding: 2px 5px 2px 5px;
 									border: 2px ridge white;
-									background-color: #CCCCCC">QuantitÈ choisie
+									background-color: #CCCCCC">Quantit√© choisie
 					</th>
           
 				  <th 	style="	text-align: center;
 									padding: 2px 5px 2px 5px;
 									border: 2px ridge white;
-									background-color: #CCCCCC">Total en unitÈ
+									background-color: #CCCCCC">Total en unit√©
 					</th>
           <th 	style="	text-align: center;
 									padding: 2px 5px 2px 5px;
@@ -318,7 +318,7 @@ function ConfirmeRecord(strID) {
 					
 				</tr>
         
-        <!-- premiËre colonne sur 1 cellule -->
+        <!-- premi√®re colonne sur 1 cellule -->
         <tr>
           	<td style="	white-space:nowrap;
 								text-align: center;
@@ -327,20 +327,20 @@ function ConfirmeRecord(strID) {
 								background-color: white;"
 						rowspan="30">
 					 <?php 
-                echo 'votre panier est de '.$uniteCommande.' unitÈs<br />soit '; echo $prixUnite*$commande['Unite']; echo ' &euro;<br /><br />';     ?>
+                echo 'votre panier est de '.$uniteCommande.' unit√©s<br />soit '; echo $prixUnite*$commande['Unite']; echo ' &euro;<br /><br />';     ?>
 
 						<button style="display: none;" onclick="javascript:ConfirmeRecord(<?php echo $id; ?>)" id="BtnValider" name="BtnValider" type="Button" class="BtnStd">Enregistrer</button><br /><br /><br /><br />
 						<button onclick="document.location.href='index.php'" id="BtnAnnuler" name="BtnAnnuler" type="Button" class="BtnStd">Annuler</button><br /><br />
-						<button onclick="javascript:RemiseZero(<?php echo '4';?>)" name="BtnRAZ" type="Button" class="BtnStd">Mettre tout ‡ zÈro</button><br /><br />
+						<button onclick="javascript:RemiseZero(<?php echo '4';?>)" name="BtnRAZ" type="Button" class="BtnStd">Mettre tout √† z√©ro</button><br /><br />
 						<button onclick="document.location.href='mailto:sodimoreau@sfr.fr?subject=AMAP chevre'" name="BtnMail" type="Button" class="BtnStd">Ecrire au responsable</button><br />
 						<?php 
-              echo "<br />Votre derniËre modif<br />date du ".date("d-M-Y",strtotime($commande['Date_modif']));?>
+              echo "<br />Votre derni√®re modif<br />date du ".date("d-M-Y",strtotime($commande['Date_modif']));?>
 					</td>
           
 				<?php
 
-        // itÈration sur les produits  : l'ordre des champs de la table amap_chevre_cde doit correspondre ‡ 
-        // l'ordre dÈfinit par le champ Id de la table amap_chevre_produit
+        // it√©ration sur les produits  : l'ordre des champs de la table amap_chevre_cde doit correspondre √† 
+        // l'ordre d√©finit par le champ Id de la table amap_chevre_produit
         // On se servira de cela pour retrouver les prix des produits ...
         $j=-1;  
         $uniteCde = 0;             
@@ -411,7 +411,7 @@ function ConfirmeRecord(strID) {
   			  </tr>
 				<?php	}?>
         
-        <!-- derniËre ligne de total -->
+        <!-- derni√®re ligne de total -->
 				<tr>
 					<th id="message"
 							style="	text-align: center;
@@ -451,7 +451,7 @@ function ConfirmeRecord(strID) {
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas o˘ l'image ne peut pas Ítre tÈlÈchargÈe -->
+		<!-- alt indique un texte alternatif au cas o√π l'image ne peut pas √™tre t√©l√©charg√©e -->
 	</p>
 
 	</body>
@@ -459,7 +459,7 @@ function ConfirmeRecord(strID) {
 
 <?php   
 }   
-if($ok==0) // non inscrit ‡ l'amap
+if($ok==0) // non inscrit √† l'amap
 {
 //***********************************************************************
 // On affiche la zone de texte pour rentrer de nouveau le mot de passe.
@@ -469,11 +469,11 @@ if($ok==0) // non inscrit ‡ l'amap
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert ‡ indiquer dans quelle langue est rÈdigÈe votre page -->
+<!-- xml:lang : sert √† indiquer dans quelle langue est r√©dig√©e votre page -->
 	<head>
-		<title>AMAP Saint-SÈbastien/Loire</title>
+		<title>AMAP Saint-S√©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractËres spÈcifiques au franÁais ÈËÍ‡... -->
+		<!-- meta indique que l'on utilise des caract√®res sp√©cifiques au fran√ßais √©√®√™√†... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -488,14 +488,14 @@ if($ok==0) // non inscrit ‡ l'amap
 			<?php 
 				include_once("includes/menu_gauche.php"); 
 			?>
-			<h3 class="mot_passe_recette">Vous n'Ítes pas inscrit ‡ l'AMAP fromage de chËvre</h3>
+			<h3 class="mot_passe_recette">Vous n'√™tes pas inscrit √† l'AMAP fromage de ch√®vre</h3>
 		</div>		
 		<div id="pied_page">
 			<!-- <?php include_once("includes/pied_page.php") ?> -->
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas o˘ l'image ne peut pas Ítre tÈlÈchargÈe -->
+		<!-- alt indique un texte alternatif au cas o√π l'image ne peut pas √™tre t√©l√©charg√©e -->
 	</p>
 	</body>
 </html>
@@ -506,11 +506,11 @@ if($ok==-1) { //premier chargement du mot de passe
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert ‡ indiquer dans quelle langue est rÈdigÈe votre page -->
+<!-- xml:lang : sert √† indiquer dans quelle langue est r√©dig√©e votre page -->
 	<head>
-		<title>AMAP Saint-SÈbastien/Loire</title>
+		<title>AMAP Saint-S√©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractËres spÈcifiques au franÁais ÈËÍ‡... -->
+		<!-- meta indique que l'on utilise des caract√®res sp√©cifiques au fran√ßais √©√®√™√†... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -525,14 +525,14 @@ if($ok==-1) { //premier chargement du mot de passe
 			<?php 
 				include_once("includes/menu_gauche.php"); 
 			?>
-			<h3 class="mot_passe_recette">Il faut vous identifier pour accÈder ‡ ce service !!</h3>
+			<h3 class="mot_passe_recette">Il faut vous identifier pour acc√©der √† ce service !!</h3>
 		</div>		
 		<div id="pied_page">
 			<!-- <?php include_once("includes/pied_page.php") ?> -->
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas o˘ l'image ne peut pas Ítre tÈlÈchargÈe -->
+		<!-- alt indique un texte alternatif au cas o√π l'image ne peut pas √™tre t√©l√©charg√©e -->
 	</p>
 	</body>
 </html> 

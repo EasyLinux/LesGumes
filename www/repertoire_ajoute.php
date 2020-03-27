@@ -2,18 +2,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
 	<body>
 		<?php 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 		$question="SELECT * FROM amap_generale WHERE id='".$_GET['id']."'";
 		$reponse = mysql_query($question) or die(mysql_error());
 		$donnees = mysql_fetch_array($reponse);
@@ -143,12 +143,12 @@ function ADDBConfirmeRecord(code) {
 		if (e.name=='tel_1') {
 			tel_1=e.value; 
 			if(tel_1=='') j++;
-			else { if(regtel.test(tel_1)) j++; else window.alert("Format du téléphone_1 invalide");}
+			else { if(regtel.test(tel_1)) j++; else window.alert("Format du tÃ©lÃ©phone_1 invalide");}
 		}
 		if (e.name=='tel_2') {
 			tel_2=e.value;
 			if(tel_2=='') j++;
-			else {if(regtel.test(tel_2)) j++; else window.alert("Format du téléphone_2 invalide");}
+			else {if(regtel.test(tel_2)) j++; else window.alert("Format du tÃ©lÃ©phone_2 invalide");}
 		}
 		if (e.name=='mail') {
 			mail=e.value; 
@@ -156,7 +156,7 @@ function ADDBConfirmeRecord(code) {
 			else {if(regmail.test(mail)) j++; else window.alert("Format du mail invalide");}
 		}
 	}
-	if(j==5 && commune=='' && adresse=='' && tel_1=='' && tel_2=='' && mail=='') { j=0; window.alert("Aucune infos n'a été saisie!!"); }
+	if(j==5 && commune=='' && adresse=='' && tel_1=='' && tel_2=='' && mail=='') { j=0; window.alert("Aucune infos n'a Ã©tÃ© saisie!!"); }
 	if (j==5 && window.confirm("Enregistrer vos informations.")) {
 		var objForm2 = createForm("ordermanager", "post", "repertoire_enregistre.php");
 		objForm2.appendChild(createHiddenInput("CodeID", code));
@@ -185,14 +185,14 @@ function ADDBConfirmeRecord(code) {
 				<tr>
 					<td nowrap=""><label class="StaticText" for="nom">Nom :</label></td>
 					<td width="100%">
-						<span class="ADMainTxt" style="font-size:8pt;">Tel que enregistré, non modifiable<br /></span>
+						<span class="ADMainTxt" style="font-size:8pt;">Tel que enregistrÃ©, non modifiable<br /></span>
 						<input type="text" name="nom" id="nom" size="45" maxlength="40" disabled="disabled" value="<?php echo $nom; ?>" />
 					</td>
 				</tr>
 				<tr>
-					<td nowrap=""><label class="StaticText" for="prenom">Prénom :</label></td>
+					<td nowrap=""><label class="StaticText" for="prenom">PrÃ©nom :</label></td>
 					<td width="100%">
-						<span class="ADMainTxt" style="font-size:8pt;">Tel que enregistré, non modifiable<br /></span>
+						<span class="ADMainTxt" style="font-size:8pt;">Tel que enregistrÃ©, non modifiable<br /></span>
 						<input type="text" name="prenom" id="prenom" size="45" maxlength="40" disabled="disabled" value="<?php echo $prenom; ?>" />
 					</td>
 				</tr>
@@ -211,16 +211,16 @@ function ADDBConfirmeRecord(code) {
 					</td>
 				</tr>
 				<tr>
-					<td nowrap=""><label class="StaticText" for="tel_1">Téléphone_1 :</label></td>
+					<td nowrap=""><label class="StaticText" for="tel_1">TÃ©lÃ©phone_1 :</label></td>
 					<td width="100%">
-						<span class="ADMainTxt" style="font-size:8pt;">10 chiffres, séparateurs possibles : tiret, point, espace, ou rien<br /></span>
+						<span class="ADMainTxt" style="font-size:8pt;">10 chiffres, sÃ©parateurs possibles : tiret, point, espace, ou rien<br /></span>
 						<input type="text" name="tel_1" id="tel_1" size="16" maxlength="14" />
 					</td>
 				</tr>
 				<tr>
-					<td nowrap=""><label class="StaticText" for="tel_2">Téléphone_2 :</label></td>
+					<td nowrap=""><label class="StaticText" for="tel_2">TÃ©lÃ©phone_2 :</label></td>
 					<td width="100%">
-						<span class="ADMainTxt" style="font-size:8pt;">10 chiffres, séparateurs possibles : tiret, point, espace, ou rien<br /></span>
+						<span class="ADMainTxt" style="font-size:8pt;">10 chiffres, sÃ©parateurs possibles : tiret, point, espace, ou rien<br /></span>
 						<input type="text" name="tel_2" id="tel_2" size="16" maxlength="14" />
 					</td>
 				</tr>

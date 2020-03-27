@@ -1,13 +1,13 @@
 <?php
 function VoirContratTisane ( $id) { 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$table= 'amap_tisanes';
 	$question="SELECT * FROM $table WHERE id='".$id."'";  
 	$reponse = mysql_query($question) or die(mysql_error());
    	$donnees = mysql_fetch_array($reponse); 
 ?>
-	<h2 style="color:yellow; text-align:center">Vous êtes inscrit à l'AMAP Tisanes<br /> sous le nom : 
+	<h2 style="color:yellow; text-align:center">Vous Ãªtes inscrit Ã  l'AMAP Tisanes<br /> sous le nom : 
 		<?php echo $donnees['Prenom']; echo(" ")?> <?php echo $donnees['Nom']; ?></h2>
 			
 	<table class="h3" style="margin-left:5px; float:left">
@@ -48,7 +48,7 @@ function VoirContratTisane ( $id) {
       <td><?php echo $donnees["t2_sirop"];?></td>    
     </tr>
 	<tr>
-      <th style="font-size:small" rowspan='4'>troisième trimestre</th>
+      <th style="font-size:small" rowspan='4'>troisiÃ¨me trimestre</th>
 	  <td> tisane unitaire </td>
       <td><?php echo $donnees["t3_unitaire"];?></td>    
     </tr> 
@@ -65,7 +65,7 @@ function VoirContratTisane ( $id) {
       <td><?php echo $donnees["t3_sirop"];?></td>    
     </tr>
 	<tr>
-      <th style="font-size:small" rowspan='4'>quatrième trimestre</th>
+      <th style="font-size:small" rowspan='4'>quatriÃ¨me trimestre</th>
 	  <td> tisane unitaire </td>
       <td><?php echo $donnees["t4_unitaire"];?></td>    
     </tr> 
@@ -86,7 +86,7 @@ function VoirContratTisane ( $id) {
 		<td style="background-color:#FFAAFF"><?php echo $donnees["Prix"];?></td>    
     </tr>
 	<tr>
-		<th   class="h3" colspan='2' style="font-size:small"">date de début du contrat</th>
+		<th   class="h3" colspan='2' style="font-size:small"">date de dÃ©but du contrat</th>
 		<td ><?php echo date("d-M-Y",strtotime($donnees['Date_debut_contrat'])); ?></td>
 	</tr>
 	<tr>
@@ -100,7 +100,7 @@ function VoirContratTisane ( $id) {
 	
 	
 	<?php	if ( $donnees["Contrat_verrouille"]==1)  { ?>
-		<tr><td class="h3" colspan=3 style="color:red">contrat verrouillé</td></tr>
+		<tr><td class="h3" colspan=3 style="color:red">contrat verrouillÃ©</td></tr>
 	<?php } ?>
 	</table>
 	

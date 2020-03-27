@@ -28,34 +28,34 @@
 mysql_connect(hote, login, mot_passe_sql);
 mysql_select_db(base_de_donnees);
 //-----------------------------------------------------
-// Vérification 1 : est-ce qu'on veut poster une news ?
+// VÃ©rification 1 : est-ce qu'on veut poster une news ?
 //-----------------------------------------------------
 if (isset($_POST['titre']) AND isset($_POST['contenu']))
 {
     $titre = addslashes($_POST['titre']);
     $contenu = addslashes($_POST['contenu']);
-    // On vérifie si c'est une modification de news ou pas
+    // On vÃ©rifie si c'est une modification de news ou pas
     if ($_POST['id_news'] == 0)
     {
-        // Ce n'est pas une modification, on crée une nouvelle entrée dans la table
+        // Ce n'est pas une modification, on crÃ©e une nouvelle entrÃ©e dans la table
         mysql_query("INSERT INTO news(titre, contenu) VALUES('".$titre."', '".$contenu."')");
     }
     else
     {
-        // On protège la variable "id_news" pour éviter une faille SQL
+        // On protÃ¨ge la variable "id_news" pour Ã©viter une faille SQL
         $_POST['id_news'] = addslashes($_POST['id_news']);
-        // C'est une modification, on met juste à jour le titre et le contenu
+        // C'est une modification, on met juste Ã  jour le titre et le contenu
         mysql_query("UPDATE news SET titre='" . $titre . "', contenu='" . $contenu . "' WHERE id='" . $_POST['id_news'] . "'");
     }
 }
  
 //--------------------------------------------------------
-// Vérification 2 : est-ce qu'on veut supprimer une news ?
+// VÃ©rification 2 : est-ce qu'on veut supprimer une news ?
 //--------------------------------------------------------
 if (isset($_GET['supprimer_news'])) // Si on demande de supprimer une news
 {
     // Alors on supprime la news correspondante
-    // On protège la variable "id_news" pour éviter une faille SQL
+    // On protÃ¨ge la variable "id_news" pour Ã©viter une faille SQL
 //    $_GET['supprimer_news'] = addslashes($_GET['supprimer_news']);
     mysql_query("DELETE FROM news WHERE id='".$_GET['supprimer_news']."'");
 }

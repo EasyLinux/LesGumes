@@ -3,11 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -30,16 +30,16 @@
        </td>
        <td>
        <h1 class="texte"> Les vergers du moulin</h1> 
-       <p class="texte" > <strong class="texte">Marie-Paule Dugast-Sinoir</strong> a repris les vergers de son père en 1991.
-<p class="texte" > Elle y cultive pommiers, poiriers et cerisiers. Depuis 2011, son exploitation située au moulin des noues à Maisdon sur Sèvre est certifiée BIO. </p>
-<p class="texte" >Son exploitation fait 3,5 hectares. Elle travaille seule tout au long de l’année.</p>
+       <p class="texte" > <strong class="texte">Marie-Paule Dugast-Sinoir</strong> a repris les vergers de son pÃ¨re en 1991.
+<p class="texte" > Elle y cultive pommiers, poiriers et cerisiers. Depuis 2011, son exploitation situÃ©e au moulin des noues Ã  Maisdon sur SÃ¨vre est certifiÃ©e BIO. </p>
+<p class="texte" >Son exploitation fait 3,5 hectares. Elle travaille seule tout au long de lÂ’annÃ©e.</p>
 
-<p class="texte" >Marie-Paule distribue ses produits en AMAP (50% de son chiffre d’affaire) et en vente à la ferme, les lundis et vendredis de 14h à 19h et les mercredis et samedis de 9h à 12h et 14h à 18h</p>
-<h1 class="texte">Le cycle annuel se découpe en 4 phases </h1> 
- <p class="texte" >De juillet à mi-octobre : cueillette des fruits et stockage, pressage pour le jus …   </p>
- <p class="texte" >De fin août à mars : vente sur place et en AMAP   </p>
- <p class="texte" >De novembre à avril : taille des arbres, travail déterminant la saison à venir   </p>
- <p class="texte" >D’avril à juillet : prévention et suivi technique du verger (champignon, insectes, éclaircissage des pommes, attachage des pommiers, réparation de poteaux, fil de fer ...), cueillette des cerises...    </p>
+<p class="texte" >Marie-Paule distribue ses produits en AMAP (50% de son chiffre dÂ’affaire) et en vente Ã  la ferme, les lundis et vendredis de 14h Ã  19h et les mercredis et samedis de 9h Ã  12h et 14h Ã  18h</p>
+<h1 class="texte">Le cycle annuel se dÃ©coupe en 4 phases </h1> 
+ <p class="texte" >De juillet Ã  mi-octobre : cueillette des fruits et stockage, pressage pour le jus Â…   </p>
+ <p class="texte" >De fin aoÃ»t Ã  mars : vente sur place et en AMAP   </p>
+ <p class="texte" >De novembre Ã  avril : taille des arbres, travail dÃ©terminant la saison Ã  venir   </p>
+ <p class="texte" >DÂ’avril Ã  juillet : prÃ©vention et suivi technique du verger (champignon, insectes, Ã©claircissage des pommes, attachage des pommiers, rÃ©paration de poteaux, fil de fer ...), cueillette des cerises...    </p>
       </td> 
       <td align="center">
           <img style="display: inline; " title="les vergers du moulin" src="images/moulinnoues4.jpg" alt="" width="180" />
@@ -52,8 +52,8 @@
         </td>
         <td>
 <h1 class="texte">Les produits</h1>    
- <p class="texte" ><strong class="texte">Pommes, poires et jus de pommes</strong> : Marie-Paule propose un contrat pour la livraison de plateaux de fruits et de jus de pomme une fois par mois, de septembre à mars (7 distributions). </p>   
- <p class="texte" ><strong class="texte">Cerises</strong> : Elle nous propose 4 cueillettes à l'exploitation au mois de juin.  </p>
+ <p class="texte" ><strong class="texte">Pommes, poires et jus de pommes</strong> : Marie-Paule propose un contrat pour la livraison de plateaux de fruits et de jus de pomme une fois par mois, de septembre Ã  mars (7 distributions). </p>   
+ <p class="texte" ><strong class="texte">Cerises</strong> : Elle nous propose 4 cueillettes Ã  l'exploitation au mois de juin.  </p>
         </td>
          <td align="center">
              <img style="display: inline; " title="les vergers" src="images/moulinnoues6.jpg" alt="" width="160" height="120" />
@@ -75,7 +75,7 @@
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

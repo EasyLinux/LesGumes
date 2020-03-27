@@ -9,17 +9,17 @@ function insererCommande($id, $nom, $date, $type){
 	$insert = mysql_query( $question) or die(mysql_error());
 }
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base
 
 if( isset($_GET['date']) && isset($_GET['trimestre'])){
-	// il faut générer les commandes pour la date passée en paramètre
+	// il faut gÃ©nÃ©rer les commandes pour la date passÃ©e en paramÃ¨tre
 	$date = $_GET['date'];
 	$trimestre= $_GET['trimestre'];
 	$reponseCommandes = mysql_query("SELECT DISTINCT Nom FROM amap_tisanes_cde WHERE date='".$date."'") or die(mysql_error());
 	$nbAmapiens = mysql_num_rows($reponseCommandes);
 	if ( $nbAmapiens == 0) {
-		// on ajoute autant de ligne dans amap_tisane_cde que de produits commandés pour cette date dans amap_tisanes
+		// on ajoute autant de ligne dans amap_tisane_cde que de produits commandÃ©s pour cette date dans amap_tisanes
 		$question ="SELECT id, Nom, ".$trimestre."unitaire, ".$trimestre."petit, ".$trimestre."grand, ".$trimestre."sirop from amap_tisanes";
 		$contrats = mysql_query($question) or die(mysql_error());
 		while ( $contrat= mysql_fetch_array( $contrats)) {
@@ -43,11 +43,11 @@ if( isset($_GET['date']) && isset($_GET['trimestre'])){
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="styleW.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -67,9 +67,9 @@ if( isset($_GET['date']) && isset($_GET['trimestre'])){
 		<?php
 			$cpt= 0;
 			while ( $dates = mysql_fetch_array($reponseDates)) { 
-				// recupérer les commandes déjà insérer : 
-				//	si il en existe pour la date courante ajouter les noms des amapiens ayant des produits à cette commande
-				// sinon ajouter le bouton pour générer les commande de cette date
+				// recupÃ©rer les commandes dÃ©jÃ  insÃ©rer : 
+				//	si il en existe pour la date courante ajouter les noms des amapiens ayant des produits Ã  cette commande
+				// sinon ajouter le bouton pour gÃ©nÃ©rer les commande de cette date
 				$cpt ++;
 				$dateCourante =  $dates[0];
 				$questionSelectDate="SELECT DISTINCT Nom FROM amap_tisanes_cde WHERE date='$dateCourante' ORDER BY Nom";
@@ -80,7 +80,7 @@ if( isset($_GET['date']) && isset($_GET['trimestre'])){
 					<td> <?php echo $dateCourante;?> 
 					<td> 
 						<?php if ( $nbAmapiens == 0) { ?>
-							<a href="webmaster_commandes_tisanes.php?date=<?php echo $dateCourante;?>&amp;trimestre=t<?php echo $cpt;?>_"> Générer les commandes pour le <?php echo $dateCourante;?> </a>
+							<a href="webmaster_commandes_tisanes.php?date=<?php echo $dateCourante;?>&amp;trimestre=t<?php echo $cpt;?>_"> GÃ©nÃ©rer les commandes pour le <?php echo $dateCourante;?> </a>
 						<?php } else { 
 							while ($commandes = mysql_fetch_array($reponseCommandes)) {
 								echo $commandes[0].'-';
@@ -94,7 +94,7 @@ if( isset($_GET['date']) && isset($_GET['trimestre'])){
 		</table>
 		
 	<?php 
-		mysql_close(); // Déconnexion de MySQL	
+		mysql_close(); // DÃ©connexion de MySQL	
 	?>
 	</body>
 </html>

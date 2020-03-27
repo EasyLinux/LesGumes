@@ -17,11 +17,11 @@ if($ok==1)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -29,8 +29,8 @@ if($ok==1)
 	<div style="text-align: center;">
 		<?php
 		include_once("webmaster/define.php");
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 		$question="SELECT * FROM amap_produits_laitiers_permanences WHERE Distribution=1 ORDER BY Date";
 		$reponse1 = mysql_query($question)  or die(mysql_error());
 		$question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
@@ -38,8 +38,8 @@ if($ok==1)
 		$TableDateLiv=mysql_fetch_array($reponse2);
 		$DateLivEnCours=strtotime($TableDateLiv[0]);
 		$auj=strtotime(date("Y-m-d",time()));
-//mise à jour de la table_cde_en_cours par recopie de la table_cde
-//cette mise à jour ne se fait que si     
+//mise Ã  jour de la table_cde_en_cours par recopie de la table_cde
+//cette mise Ã  jour ne se fait que si     
 //		[Date de la table cde_en_cours] < DateAujourd'hui ou [Date de la table cde_en_cours] est nulle
 //      et si      [datelimite] <= [date_aujourd'hui] <= [dateProchaineLivraison]
 
@@ -47,9 +47,9 @@ if($ok==1)
 			$flag= -2;
 		} else {
 			$flag=0; 
-			//cette partie de programme se trouve aussi dans le menu d'accès à la commande perso de chaque amapien
-			//si bien que c'est le premier accès d'un amapien ou le premier acces du producteur après la date limite qui provoque
-			//la mise à jour de la table cde_en_cours 
+			//cette partie de programme se trouve aussi dans le menu d'accÃ¨s Ã  la commande perso de chaque amapien
+			//si bien que c'est le premier accÃ¨s d'un amapien ou le premier acces du producteur aprÃ¨s la date limite qui provoque
+			//la mise Ã  jour de la table cde_en_cours 
 			if($TableDateLiv[0]==NULL || $auj>$DateLivEnCours ) { 
 				$flag=-1;//impossible d'imprimer les amapiens peuvent encore modifier leur choix
 				while($DateLiv = mysql_fetch_array($reponse1)) {
@@ -78,10 +78,10 @@ if($ok==1)
 		
 		if ($flag==-1) { ?>
 			<h3 class="mot_passe_recette">
-			Récapitulatif inaccessible.<br />Les amapiens peuvent encore modifier leur choix jusqu'à la date de livraison moins 9 jours!!</h3>
+			RÃ©capitulatif inaccessible.<br />Les amapiens peuvent encore modifier leur choix jusqu'Ã  la date de livraison moins 9 jours!!</h3>
 		<?php } elseif ($flag==-2) { ?>
 			<h3 class="mot_passe_recette">
-			Plus de date de distribution de prévue.<br />voir avec le référent ou l'administateur de la base!!</h3>
+			Plus de date de distribution de prÃ©vue.<br />voir avec le rÃ©fÃ©rent ou l'administateur de la base!!</h3>
 		<?php } else {?>		
 			<button onclick="document.location.href='ImprimePDF_ProdLait V2.php'" name="BtnImprime" type="button" class="BtnStd">Enregistrer pour imprimer</button>
 		<?php } ?>
@@ -92,8 +92,8 @@ if($ok==1)
 	<?php if ($flag!=-1) { ?>
 	<div>
 	<?php
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$question="SELECT * FROM amap_produits_laitiers_cde_en_cours ORDER BY Nom"; 
 	$reponse = mysql_query($question);
 	$ligne = mysql_num_rows($reponse);
@@ -108,16 +108,16 @@ if($ok==1)
 				text-align: center;
 				padding: 0px 0px 0px 10px;
 				color: red;
-				font-weight: bold">Les produits laitiers enregistrés pour la livraison du <?php echo $ProchLiv; ?>
+				font-weight: bold">Les produits laitiers enregistrÃ©s pour la livraison du <?php echo $ProchLiv; ?>
 			</caption>
 			<tr>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Nom</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Unité</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">UnitÃ©</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="2">Beurre</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Crème</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">CrÃ¨me</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="8">Yaourts</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="2">Frg frais</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="2">Bléruchon</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="2">BlÃ©ruchon</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px; border-right-width: 2px;" colspan="3">Fromage blanc 500g</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Lait 2L</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Lait ribot<br />1,5L</th>
@@ -127,7 +127,7 @@ if($ok==1)
 			<tr>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">S</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">D</th>
-				<!--<th style="border: 1px solid black; background-color: #DDDDDD;">Crème</th>-->
+				<!--<th style="border: 1px solid black; background-color: #DDDDDD;">CrÃ¨me</th>-->
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">5nat</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">4Pch</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">4Abr</th>
@@ -141,7 +141,7 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-left-width: 2px;">petit</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">grand</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">Faisselle</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;">lissé</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;">lissÃ©</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD; border-right-width: 2px;">maigre</th>
 				<!--
 				<th style="border: 1px solid black; background-color: #DDDDDD;">lait</th>
@@ -178,11 +178,11 @@ if($ok==1)
 				<?php $totgene+=$totunit; ?>
 			</tr>
 			<?php } 
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+			mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 			?>
 			<tr>
-				<th style="border: 1px solid black; background-color: #DDDDDD;">Nombre d'unités</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;">Nombre d'unitÃ©s</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">
 				<?php		
 				$question = "SELECT SUM( Unite ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
@@ -381,7 +381,7 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2" colspan="2"></th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">S</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">D</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Crème</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">CrÃ¨me</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">5 nat</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">4Pch</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">4Ab</th>
@@ -395,7 +395,7 @@ if($ok==1)
 				<th style="border: 1px solid black; background-color: #DDDDDD;">petit</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">grand</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">Faisselle</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;">lissé</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;">lissÃ©</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;">maigre</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">lait 2L</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Lait ribot<br />1,5L</th>
@@ -405,10 +405,10 @@ if($ok==1)
 			<tr>
 				<!--<th style="border: 1px solid black; background-color: #DDDDDD;"></th>-->
 				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="2">Beurre</th>
-				<!--<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Crème</th>-->
+				<!--<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">CrÃ¨me</th>-->
 				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="8">Yaourts</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="2">Frg frais</th>
-				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="2">Bléruchon</th>
+				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="2">BlÃ©ruchon</th>
 				<th style="border: 1px solid black; background-color: #DDDDDD;" colspan="3">Frg blanc 500g</th>
 				<!--
 				<th style="border: 1px solid black; background-color: #DDDDDD;" rowspan="2">Lait</th>
@@ -435,11 +435,11 @@ else // le mot de passe n'est pas bon
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -470,7 +470,7 @@ function verifkey(boite) {
 		</div>		
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

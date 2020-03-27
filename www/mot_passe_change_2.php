@@ -22,8 +22,8 @@ if(isset($_GET['reconnu'])) {
 }
 if(isset($_POST['motpasse_1'])) {
 	$ok=0;
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motpasse_1."' AND Login='".$_POST['login_1']."'";
 	$reponse = mysql_query($question) or die(mysql_error());
 	$ligne = mysql_num_rows($reponse);
@@ -32,9 +32,9 @@ if(isset($_POST['motpasse_1'])) {
 		if(preg_match('#^[a-zA-Z0-9.@_-]{4,40}$#',$_POST['motpasse_2']) && preg_match('#^[a-zA-Z0-9.@_-]{4,40}$#',$_POST['login_2'])) {
 			$ok=2; // mot correct mais non identique
 			if($_POST['motpasse_2']==$_POST['motpasse_3']) {
-				$ok=3; //déjà utilisé
-				mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-				mysql_select_db(base_de_donnees); // Sélection de la base 
+				$ok=3; //dÃ©jÃ  utilisÃ©
+				mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+				mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 				$question="SELECT * FROM amap_generale WHERE Mot_passe='".$motpasse_2."' AND Login='".$_POST['login_2']."'";
 				$reponse = mysql_query($question) or die(mysql_error());
 				$ligne = mysql_num_rows($reponse);
@@ -54,11 +54,11 @@ if(isset($_POST['motpasse_1'])) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -71,13 +71,13 @@ if(isset($_POST['motpasse_1'])) {
 		</div>
 		<div id="page_principale">
 			<?php include("includes/menu_gauche.php"); ?>
-			<h3 class="mot_passe_recette">Ne plus être reconnu <a href="mot_passe_change_2.php?reconnu=0">cliquer ici !!</a></h3>
+			<h3 class="mot_passe_recette">Ne plus Ãªtre reconnu <a href="mot_passe_change_2.php?reconnu=0">cliquer ici !!</a></h3>
 			<h3 class="mot_passe_recette">Changer login et/ou mot de passe !!</h3><?php
 			if($ok==-1 || $ok==0 || $ok==1 || $ok==2 || $ok==3) {
-				if($ok==0) {?><h3 class="mot_passe_recette">Ancien(s) identifiant(s) incorrect(s). Ré-essayez !!</h3><?php }
-				if($ok==2) {?><h3 class="mot_passe_recette">La confirmation du nouveau mot de passe est incorrecte. Ré-essayez !!</h3><?php }
-				if($ok==1) {?><h3 class="mot_passe_recette">Mot de passe trop court (4 min), ou caractères interdits : que des lettres non accentuées, des chiffres ou @._- .<br />Recommencez !!</h3><?php } 
-				if($ok==3) {?><h3 class="mot_passe_recette">Identifiants déjà utilisés. Recommencez !!</h3><?php } ?>
+				if($ok==0) {?><h3 class="mot_passe_recette">Ancien(s) identifiant(s) incorrect(s). RÃ©-essayez !!</h3><?php }
+				if($ok==2) {?><h3 class="mot_passe_recette">La confirmation du nouveau mot de passe est incorrecte. RÃ©-essayez !!</h3><?php }
+				if($ok==1) {?><h3 class="mot_passe_recette">Mot de passe trop court (4 min), ou caractÃ¨res interdits : que des lettres non accentuÃ©es, des chiffres ou @._- .<br />Recommencez !!</h3><?php } 
+				if($ok==3) {?><h3 class="mot_passe_recette">Identifiants dÃ©jÃ  utilisÃ©s. Recommencez !!</h3><?php } ?>
 				<form class="mot_passe_recette" method="post" action="mot_passe_change.php" >
 					<p class="mot_passe_recette">
 						<label for="login_1">Votre ancien login :</label><br />
@@ -106,7 +106,7 @@ if(isset($_POST['motpasse_1'])) {
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

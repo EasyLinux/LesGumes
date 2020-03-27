@@ -26,8 +26,8 @@ $pdf->AddPage();
 $pdf->SetTopMargin(0.0);
 $pdf->SetAutoPageBreak(true,0); 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="SELECT Date_livraison FROM amap_produits_laitiers_cde_en_cours";
 $reponse = mysql_query($question);
 $donnees=mysql_fetch_array($reponse);
@@ -47,13 +47,13 @@ $pdf->Cell(278,10,'AMAP SAINT SEBASTIEN --------- LIVRAISON DU '.$ProchLiv,0,1,'
 $pdf->SetFont('Arial','',12);
 $pdf->SetFillColor(220,220,220);
 $pdf->Cell($sizeNom,10,'Nom',1,0,'C',true);
-$pdf->Cell($sizeUnite,10,'Unité',1,0,'C',true);
+$pdf->Cell($sizeUnite,10,'UnitÃ©',1,0,'C',true);
 $pdf->Cell($sizeEmargement,10,'Emarg.',1,0,'C',true);
 $pdf->Cell(14,5,'Beurre',1,0,'C',true);
-$pdf->Cell(15,10,'Crème',1,0,'C',true);
+$pdf->Cell(15,10,'CrÃ¨me',1,0,'C',true);
 $pdf->Cell(66,5,'Yaourts',1,0,'C',true);
 $pdf->Cell(18,5,'Frg frais',1,0,'C',true);
-$pdf->Cell(20,5,'Bléruchon',1,0,'C',true);
+$pdf->Cell(20,5,'BlÃ©ruchon',1,0,'C',true);
 $pdf->Cell(30,5,'Fromage blanc',1,0,'C',true);
 $pdf->Cell(10,5,'Lait','LTR',0,'C',true);
 //$pdf->SetTextColor (255,0,0);
@@ -87,7 +87,7 @@ $pdf->Cell(10,5,'ptit',1,0,'C',true);
 $pdf->Cell(10,5,'grd',1,0,'C',true);
 $pdf->Cell(10,5,'fslle',1,0,'C',true);
 //$pdf->SetTextColor (255,0,0);
-$pdf->Cell(10,5,'lissé',1,0,'C',true);
+$pdf->Cell(10,5,'lissÃ©',1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $pdf->Cell(10,5,'mgre',1,0,'C',true);
 $pdf->Cell(10,5,'2L','LBR',0,'C',true);
@@ -98,8 +98,8 @@ $pdf->Cell(12,5,'1L+2Y','LBR',0,'C',true);
 $pdf->Ln(5);
 
 //affichage de la table cde_en_cours qui contient les produits de la prochaine livraison
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="SELECT * FROM amap_produits_laitiers_cde_en_cours ORDER BY Nom";
 $reponse = mysql_query($question);
 $ligne = mysql_num_rows($reponse);
@@ -158,12 +158,12 @@ $pdf = setFonce($j, $pdf);
 }
 $pdf->SetFont('Arial','B',12);
 $pdf->SetFillColor(220,220,220);
-$pdf->Cell($sizeNom,5,"Nb unités de vente",1,0,'C',true);
+$pdf->Cell($sizeNom,5,"Nb unitÃ©s de vente",1,0,'C',true);
 
 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $question = "SELECT SUM( Unite ) AS total FROM amap_produits_laitiers_cde_en_cours ;";
 $donnees=mysql_fetch_array(mysql_query($question));
@@ -254,7 +254,7 @@ $pdf->Cell(7,5,'S',1,0,'C',true);
 //$pdf->SetTextColor (255,0,0);
 $pdf->Cell(7,5,'D',1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
-$pdf->Cell(15,10,'Crème',1,0,'C',true);
+$pdf->Cell(15,10,'CrÃ¨me',1,0,'C',true);
 $pdf->Cell(11,5,'5nat',1,0,'C',true);
 $pdf->Cell(11,5,'4suc',1,0,'C',true);
 //$pdf->SetTextColor (255,0,0);
@@ -274,7 +274,7 @@ $pdf->Cell(10,5,'ptit',1,0,'C',true);
 $pdf->Cell(10,5,'grd',1,0,'C',true);
 $pdf->Cell(10,5,'fslle',1,0,'C',true);
 //$pdf->SetTextColor (255,0,0);
-$pdf->Cell(10,5,'lissé',1,0,'C',true);
+$pdf->Cell(10,5,'lissÃ©',1,0,'C',true);
 //$pdf->SetTextColor (0,0,0);
 $pdf->Cell(10,5,'mgre',1,0,'C',true);
 $pdf->Cell(10,5,'Lait','LTR',0,'C',true);
@@ -289,7 +289,7 @@ $pdf->Cell(14,5,'Beurre',1,0,'C',true);
 $pdf->Cell(15,5,'',0,0);
 $pdf->Cell(66,5,'Yaourts',1,0,'C',true);
 $pdf->Cell(18,5,'Frg frais',1,0,'C',true);
-$pdf->Cell(20,5,'Bléruchon',1,0,'C',true);
+$pdf->Cell(20,5,'BlÃ©ruchon',1,0,'C',true);
 $pdf->Cell(30,5,'Fromage blanc',1,0,'C',true);
 $pdf->Cell(10,5,'2L','LBR',0,'C',true);
 //$pdf->SetTextColor (255,0,0);

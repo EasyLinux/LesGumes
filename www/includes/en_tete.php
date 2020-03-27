@@ -2,8 +2,8 @@
 <p style="margin:0; padding:0; float:right; position:relative; right:8px; top:10px">
 <?php
 	if(isset($_COOKIE['identification_amap'])) { 
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 		$question="SELECT * FROM amap_generale WHERE id='".$_COOKIE['identification_amap']."'";
 		$reponse = mysql_query($question) or die(mysql_error());
 		$donnees=mysql_fetch_array($reponse);
@@ -39,7 +39,7 @@
 		<img alt="Les gumes" src="images/logo_lesgumes.jpeg" title="vers accueil" />
 	</a>
 	<a class="en_tete_amap" href="index.php" title="vers accueil" style="position:relative; left:10px; bottom:10px">
-	  S<sup>t</sup> Sébastien/Loire
+	  S<sup>t</sup> SÃ©bastien/Loire
 	</a>
 </h1>
 

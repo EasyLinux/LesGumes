@@ -9,8 +9,8 @@ $pdf->SetTopMargin(0.0);
 $pdf->SetAutoPageBreak(true,5);
 $pdf->SetFont('Arial','B',10);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
 $tableLegume = $_GET['amap'];
 $question="SELECT ".$tableLegume.".*, amap_generale.e_mail, amap_generale.Telephone, amap_generale.Tel_portable FROM ".$tableLegume.", amap_generale WHERE ".$tableLegume.".id= amap_generale.id ORDER BY Nom";
@@ -23,9 +23,9 @@ $pdf->Cell(250,5,'ST SEBASTIEN '.$_GET['amap'].' --------- LISTE DES ADHERENTS -
 $pdf->SetFont('Arial','',10);
 $pdf->SetFillColor(220,220,220);
 
-$smallCellWidth = 15;  //taille par défaut des cellule
-$largeCellWidth = 50;  //taille par défaut des cellule
-$cellWidth = 30;  //taille par défaut des cellule
+$smallCellWidth = 15;  //taille par dÃ©faut des cellule
+$largeCellWidth = 50;  //taille par dÃ©faut des cellule
+$cellWidth = 30;  //taille par dÃ©faut des cellule
 
 $sautLigne=5;
 $nbligneParPage= 36;
@@ -55,7 +55,7 @@ switch ($_GET['amap']) {
 while($donnees = mysql_fetch_array($reponse)) {
 
 	if($j==0 || $j % $nbligneParPage==0) {
-		// début de page
+		// dÃ©but de page
 		if ( $j !=0 ) { //changement de page
 			  $pdf->AddPage();
 			  $pdf->Ln(5);		  
@@ -68,7 +68,7 @@ while($donnees = mysql_fetch_array($reponse)) {
 		}
 		$pdf->Cell($largeCellWidth,$sautLigne,'Nom',1,0,'C',true);
 		$pdf->Cell($largeCellWidth,$sautLigne,'Mail',1,0,'C',true);
-		$pdf->Cell($cellWidth,$sautLigne,'Téléphone',1,0,'C',true);
+		$pdf->Cell($cellWidth,$sautLigne,'TÃ©lÃ©phone',1,0,'C',true);
 		$pdf->Cell($smallCellWidth,$sautLigne,'livr',1,0,'C',true);
 		$sautLigne=5;
 		switch ($_GET['amap']) {
@@ -90,13 +90,13 @@ while($donnees = mysql_fetch_array($reponse)) {
 				$pdf->Cell($largeCellWidth*2+$cellWidth+$smallCellWidth,5,'',0,0);
 				$pdf->Cell($smallCellWidth,5,'doux',1,0,'C',true);
 				$pdf->Cell($smallCellWidth,5,'acide',1,0,'C',true);
-				$pdf->Cell($smallCellWidth,5,'alterné',1,0,'C',true);
+				$pdf->Cell($smallCellWidth,5,'alternÃ©',1,0,'C',true);
 				$pdf->Cell($smallCellWidth,5,'nature',1,0,'C',true);
 				$pdf->Cell($smallCellWidth,5,'citron',1,0,'C',true);
 				$pdf->Cell($smallCellWidth,5,'canelle',1,0,'C',true);
   			break;
 			case 'amap_produits_laitiers':
-				$pdf->Cell($cellWidth,$sautLigne,"Nb d'unité",1,0,'C',true);
+				$pdf->Cell($cellWidth,$sautLigne,"Nb d'unitÃ©",1,0,'C',true);
 				break;
 			case 'amap_pain':
 				$pdf->Cell($smallCellWidth*3,$sautLigne,"Standard",1,0,'C',true);
@@ -104,9 +104,9 @@ while($donnees = mysql_fetch_array($reponse)) {
 				$pdf->Ln(5);
 				$pdf->Cell($largeCellWidth*2+$cellWidth+$smallCellWidth,$sautLigne,'',0,0);
 				$pdf->Cell($smallCellWidth-2,$sautLigne,"1kg",1,0,'C',true);
-				$pdf->Cell($smallCellWidth+4,$sautLigne,"1kg moulé",1,0,'C',true);
+				$pdf->Cell($smallCellWidth+4,$sautLigne,"1kg moulÃ©",1,0,'C',true);
 				$pdf->Cell($smallCellWidth-2,$sautLigne,"500g",1,0,'C',true);
-				$pdf->Cell($smallCellWidth+4,$sautLigne,"1kg moulé",1,0,'C',true);
+				$pdf->Cell($smallCellWidth+4,$sautLigne,"1kg moulÃ©",1,0,'C',true);
 				$pdf->Cell($smallCellWidth-2,$sautLigne,"500g",1,0,'C',true);
 				$pdf->Cell($smallCellWidth-2,$sautLigne,"500g",1,0,'C',true);
 				break;
@@ -114,7 +114,7 @@ while($donnees = mysql_fetch_array($reponse)) {
 				$pdf->Cell($cellWidth,$sautLigne,"1/2 cagette",1,0,'C',true);
 				break;
 			case 'amap_chevre':
-				$pdf->Cell($cellWidth,$sautLigne,"Nb d'unité",1,0,'C',true);
+				$pdf->Cell($cellWidth,$sautLigne,"Nb d'unitÃ©",1,0,'C',true);
 				break;
 			case 'amap_champignons':
 				// $pdf->Cell($cellWidth,$sautLigne,"Par mois",1,0,'C',true);
@@ -123,9 +123,9 @@ while($donnees = mysql_fetch_array($reponse)) {
 		}
 		
 		if ( $_GET['amap'] != 'amap_pain' && $_GET['amap'] !='amap_pommes') {
-			$pdf->Cell($cellWidth,$sautLigne,'Début',1,0,'C',true);
+			$pdf->Cell($cellWidth,$sautLigne,'DÃ©but',1,0,'C',true);
 			$pdf->Cell($cellWidth,$sautLigne,'Fin',1,0,'C',true);
-			$pdf->Cell($smallCellWidth,$sautLigne,'Chèque',1,0,'C',true);
+			$pdf->Cell($smallCellWidth,$sautLigne,'ChÃ¨que',1,0,'C',true);
 		}
 			$pdf->Ln($sautLigne);
 	}

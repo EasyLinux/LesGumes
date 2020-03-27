@@ -3,11 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -22,19 +22,19 @@
 			<?php 
 				if($_GET['action']=="modifier") {
 					include("includes/menu_gauche.php"); 
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+					mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 					$texte = addslashes($_POST['texte_recette']);
 					$nom = addslashes($_GET['nom_recette']);
 					$question="UPDATE recettes SET Recette='".$texte."' WHERE Nom_recette='".$nom."'";
 					mysql_query( $question);
 					mysql_close();
 			?>
-					<h3 class="mot_passe_recette">La recette <span class="mot_passe_recette"><?php echo stripslashes($_GET['nom_recette']); ?></span> a bien été modifiée!</h3>
+					<h3 class="mot_passe_recette">La recette <span class="mot_passe_recette"><?php echo stripslashes($_GET['nom_recette']); ?></span> a bien Ã©tÃ© modifiÃ©e!</h3>
 			<?php } 
 				if($_GET['action']=="ajouter") {
-					mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-					mysql_select_db(base_de_donnees); // Sélection de la base 
+					mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+					mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 					$texte = $_POST['texte_recette'];
 					$nom_recette = $_POST['nom_recette'];
 					$auteur = $_POST['nom_auteur'];
@@ -51,8 +51,8 @@
 							mysql_close();
 							include("includes/menu_gauche.php"); 
 					?>
-							<h3 class="mot_passe_recette">Le nom <span class="mot_passe_recette"><?php echo $nom_recette; ?></span> est déjà utilisé!
-							<br />Ajouter un numéro au nom! Exemple : <span class="mot_passe_recette"><?php echo $nom_recette; ?> (n°)</span>
+							<h3 class="mot_passe_recette">Le nom <span class="mot_passe_recette"><?php echo $nom_recette; ?></span> est dÃ©jÃ  utilisÃ©!
+							<br />Ajouter un numÃ©ro au nom! Exemple : <span class="mot_passe_recette"><?php echo $nom_recette; ?> (nÂ°)</span>
 							<br />ou<br />Changer de nom!
 							</h3>
 							<br /><br />
@@ -63,14 +63,14 @@
 							mysql_close();
 							include("includes/menu_gauche.php"); 
 					?>
-							<h3 class="mot_passe_recette">Base de données non accessible!</h3>												
+							<h3 class="mot_passe_recette">Base de donnÃ©es non accessible!</h3>												
 					<?php
 						} }
 					else {
 						mysql_close();
 						include("includes/menu_gauche.php"); 
 			?>
-						<h3 class="mot_passe_recette">Votre recette <span class="mot_passe_recette"><?php echo stripslashes($_POST['nom_recette']); ?></span> a bien été enregistrée!</h3>
+						<h3 class="mot_passe_recette">Votre recette <span class="mot_passe_recette"><?php echo stripslashes($_POST['nom_recette']); ?></span> a bien Ã©tÃ© enregistrÃ©e!</h3>
 			<?php 	} 
 				} ?>
 		</div>		
@@ -79,7 +79,7 @@
 		</div>
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

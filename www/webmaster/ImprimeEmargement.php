@@ -7,10 +7,10 @@ $pdf->SetAutoPageBreak(false, 5);
 $pdf->AddPage();
 $pdf->SetFont('Arial','B',10);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
-// les amapiens inscrits à ce contrat : le LEFT Join permet de récupérer le nom du binôme s'il existe
+// les amapiens inscrits Ã  ce contrat : le LEFT Join permet de rÃ©cupÃ©rer le nom du binÃ´me s'il existe
 
 $question="SELECT g.id, g.Nom, g.Prenom, g.Tel_portable, g.Telephone, b.nom_binome FROM " ;
 $question=$question.$_GET['amap'];
@@ -19,13 +19,13 @@ $question=$question.$_GET['amap']."') WHERE g.id= l.id ORDER BY  g.Nom";
 $reponse = mysql_query($question) or die(mysql_error());
 $ligne = mysql_num_rows($reponse);
 
-$pdf->Cell(278,10,'AMAP LesGUMES Saint Sébastien - Contrat '.$_GET['amap'].'             '.$ligne.' INSCRITS',0,1,'C');
+$pdf->Cell(278,10,'AMAP LesGUMES Saint SÃ©bastien - Contrat '.$_GET['amap'].'             '.$ligne.' INSCRITS',0,1,'C');
 
 $pdf->SetFont('Arial','',10);
 
-$smallCellWidth = 13;  //taille par défaut des cellules
-$largeCellWidth = 60;  //taille par défaut des cellules
-$cellWidth = 30;  //taille par défaut des cellule
+$smallCellWidth = 13;  //taille par dÃ©faut des cellules
+$largeCellWidth = 60;  //taille par dÃ©faut des cellules
+$cellWidth = 30;  //taille par dÃ©faut des cellule
 $cellHeight = 8; // hauteur des lignes
 $nbLigneParPage = 22;
 $j=0;
@@ -33,20 +33,20 @@ $j=0;
 while($donnees = mysql_fetch_array($reponse)) {
 
 	if ( $donnees['id'] == '303') {
-		//ATTENTION : l'amapien 303 est mis en fin de feuille car il a des problèmes de vue ...
+		//ATTENTION : l'amapien 303 est mis en fin de feuille car il a des problÃ¨mes de vue ...
 		continue;
 	}
 
 	if(($j!=0 && $j== $nbLigneParPage)|| ((($j-$nbLigneParPage) % ($nbLigneParPage+2)) ==0)) {
-	 // 37 lignes sur la première page, 39 sur les suivantes
+	 // 37 lignes sur la premiÃ¨re page, 39 sur les suivantes
 	 $pdf->AddPage();       //changement de page
 	}
- 	if( $j ==0 || $j == $nbLigneParPage || (($j -$nbLigneParPage) % ($nbLigneParPage+2) ==0)) { //mettre l'entête du tableau
- 	  //sur la première page, la deuxième et les suivantes ...
+ 	if( $j ==0 || $j == $nbLigneParPage || (($j -$nbLigneParPage) % ($nbLigneParPage+2) ==0)) { //mettre l'entÃªte du tableau
+ 	  //sur la premiÃ¨re page, la deuxiÃ¨me et les suivantes ...
 		$pdf->SetFillColor(220,220,220);
 		$pdf->Cell(5,$cellHeight,'',1,0,'C',true);	
-		$pdf->Cell($largeCellWidth,$cellHeight,'Nom et prénom',1,0,'C',true);			
-		$pdf->Cell($cellWidth,$cellHeight,'Téléphone',1,0,'C',true);
+		$pdf->Cell($largeCellWidth,$cellHeight,'Nom et prÃ©nom',1,0,'C',true);			
+		$pdf->Cell($cellWidth,$cellHeight,'TÃ©lÃ©phone',1,0,'C',true);
                                   
 		// les dates
 		$questionDate="SELECT DATE_FORMAT(date, '%d/%m/%Y') AS date FROM ".$_GET['amap']."_permanences WHERE Date >='".date("Y-m-d")."' ";
@@ -71,15 +71,15 @@ while($donnees = mysql_fetch_array($reponse)) {
 
 	$pdf->Cell(5,$cellHeight,$j,1,0,'C',true);	
 
-	// calcul du nom à afficher 
+	// calcul du nom Ã  afficher 
 	$binome = $donnees['nom_binome'];
 	if (strlen($binome) >0) {
-		//si il y a un binome on met le nom des 2 binômes sans les prénoms
+		//si il y a un binome on met le nom des 2 binÃ´mes sans les prÃ©noms
 		$nom = $donnees['Nom'].'--'.$binome;
-	} else { //sinon on met le nom et le prénom 
+	} else { //sinon on met le nom et le prÃ©nom 
 		$nom = $donnees['Nom'].' '.$donnees['Prenom'];
 	}
-	//on tronque pour éviter les dépassements...
+	//on tronque pour Ã©viter les dÃ©passements...
 	if (strlen($nom) > 22 ) {
 		$nom = substr($nom,0,22);
 		$nom = $nom.'.';

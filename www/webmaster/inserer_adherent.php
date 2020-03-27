@@ -1,18 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style_webmaster.css" />
 <script>
    function isNumber(id)
   {
      var x=document.getElementById(id);
      if ( isNaN(x.value)) {
-        alert ("Montant erroné");
+        alert ("Montant erronÃ©");
         return false;
        }
        return true;
@@ -24,13 +24,13 @@
 
  
   function ChangeNbLiv( id, idMin, idMax, nbLigne ){
-	//on récupère la valeur à duppliquer sur les autres lignes
+	//on rÃ©cupÃ¨re la valeur Ã  duppliquer sur les autres lignes
 
 	var objLiv= document.getElementById("nbLiv"+id);	
     var nbLiv = parseInt(objLiv.value);
     for (i=idMin; i <= idMax; i++) {
-		// mise à jour des champs nbLiv et des totaux par ligne pour toutes les lignes de 
-		// idMin à idMax qui changent et pour la ligne courante
+		// mise Ã  jour des champs nbLiv et des totaux par ligne pour toutes les lignes de 
+		// idMin Ã  idMax qui changent et pour la ligne courante
 		var objLivCible= document.getElementById( "nbLiv"+i);
 		var objQuantite= document.getElementById( "nb"+i);
 		var objElemTotal= document.getElementById("total"+i); 
@@ -43,7 +43,7 @@
 		}
 	}
 	   
-	// total des prix par ligne à mettre à jour dans le champs d'id "total"
+	// total des prix par ligne Ã  mettre Ã  jour dans le champs d'id "total"
      total =0;
      for (i=1; i <= nbLigne; i++) {
            var str = 'total'+ i;
@@ -61,7 +61,7 @@
 	idSupplement.value= supplement;
     objElemTotal.innerHTML= supplement;   
     
-     // total des prix par ligne à mettre à jour dans le champs d'id "total"
+     // total des prix par ligne Ã  mettre Ã  jour dans le champs d'id "total"
      total =0;
      for (i=1; i <= nbLigne; i++) {
            var str = 'total'+ i;
@@ -82,7 +82,7 @@
     var prixUnitaire = parseFloat(objPrixUnitaire.innerHTML);
     objElemTotal.innerHTML= arrondir(prixUnitaire*nbLiv*quantite);   
     
-     // total des prix par ligne à mettre à jour dans le champs d'id "total"
+     // total des prix par ligne Ã  mettre Ã  jour dans le champs d'id "total"
      total =0;
      for (i=1; i <= nbLigne; i++) {
            var str = 'total'+ i;
@@ -98,8 +98,8 @@
 <body>
 	<?php
 	include_once("define.php"); 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$_GET['amap']." WHERE id=".$_GET['id'];
 	$reponse=mysql_query( $question);
 	if(mysql_num_rows($reponse)==0) {
@@ -108,20 +108,20 @@
 		$donnees=mysql_fetch_array($reponse);
 		$flag=0;
 		
-		// données globales aux contrats dans liste_amap
+		// donnÃ©es globales aux contrats dans liste_amap
 		$questionContrat= "SELECT * FROM liste_amap WHERE  Table_amap='".$_GET['amap']."'";
 		$reponse2 = mysql_query( $questionContrat) or die(mysql_error());
 		$infoContrat = mysql_fetch_array( $reponse2);
 		$datedeb= $infoContrat['Date_deb'];
 		$datefin= $infoContrat['Date_fin'];
 		$nbLivMax = $infoContrat['Nb_livraison'];
-		// bornage pour éviter de planter si la base est mal renseignée
+		// bornage pour Ã©viter de planter si la base est mal renseignÃ©e
 		if ( $nbLivMax < 1 )  $nbLivMax = 1;
 
 		$max =  5;      // faut-il mettre un max par produits ?
-		if ( $nbLivMax < 1 )  $nbLivMax = 1;    // par sécurité si la base est mal remplie
+		if ( $nbLivMax < 1 )  $nbLivMax = 1;    // par sÃ©curitÃ© si la base est mal remplie
 
-		// données globales aux contrats dans liste_amap
+		// donnÃ©es globales aux contrats dans liste_amap
 		$nomTableProduit = $infoContrat['Table_produit'];
 		$questionProduits= "SELECT * FROM ".$nomTableProduit." Order by id";
 
@@ -142,10 +142,10 @@
 		<tr><td>  
 			<table> 
 			<tr>
-				<th> Début du contrat </th>
+				<th> DÃ©but du contrat </th>
 				<th> Fin du contrat </th>
 				<th> Paiement </th>
-				<th> Nbre chèques </th>  
+				<th> Nbre chÃ¨ques </th>  
 			</tr>
 			<tr>   
 				<td> <input type="date" id="datedeb" name="datedeb" value="<?php echo $datedeb;?>"/>  </td>
@@ -156,7 +156,7 @@
 			</table>
 		</td></tr>
 
-		<!-- les lignes suivantes dépendent de l'amap en question ... -->
+		<!-- les lignes suivantes dÃ©pendent de l'amap en question ... -->
 		<?php switch ($_GET['amap']) {
 		case 'amap_legumes': ?>
 			<tr><td>				
@@ -175,17 +175,17 @@
 				<tr>
 					<th>Produits</th>
 					<th>Prix unitaire</th>
-					<th>Quantité/livraison</th>
+					<th>QuantitÃ©/livraison</th>
 					<th>Nbre de livraison</th>          
 					<th>Prix (euros)</th>
 				</tr>
 							  
 				<?php   
-				//il faut refaire la requête pour parcourir tous les produits
+				//il faut refaire la requÃªte pour parcourir tous les produits
 				$produits = mysql_query( $questionProduits);
 				$nbLigne = mysql_num_rows($produits);
 				$totalContrat =0;
-				$idMin = 1; $idMax= 9; // les lignes dont l'id est compris entre idMin et idMax doivent avoir le même nombre de livraison 
+				$idMin = 1; $idMax= 9; // les lignes dont l'id est compris entre idMin et idMax doivent avoir le mÃªme nombre de livraison 
 				while ($produitChevre = mysql_fetch_array($produits) ) {	
 					$id = $produitChevre['id'];
 					$produit = $produitChevre['Nom_produit'];
@@ -218,7 +218,7 @@
 							   onchange='javascript:ChangeNbLiv( <?php echo $id;?>, <?php echo $idMin;?>, <?php echo $idMax;?>, <?php echo $nbLigne;?> )'
 							   value="<?php echo $nbLivMax; ?>"/> 
 						</center> </td>
-						<?php } else { // il faut gérer à part le supplément chèvre : un nombre décimal sous forme de montant ##,##
+						<?php } else { // il faut gÃ©rer Ã  part le supplÃ©ment chÃ¨vre : un nombre dÃ©cimal sous forme de montant ##,##
 						?>
 						<td> </td>
 						<td>  <center> 
@@ -316,7 +316,7 @@
             
 		case 'amap_produits_laitiers':?>
 			<tr><td>
-				<label for="nbunite">Nombre d'unité : </label>
+				<label for="nbunite">Nombre d'unitÃ© : </label>
 				<input type="number" id="nbunite" name="nbunite" min="3" max="20" value="5" />
 			</td></tr>
 			<tr><td> 	
@@ -345,7 +345,7 @@
 				<input type="number" id="nbacide" name="nbacide" min="0" max="<?php echo $max;?>" value="0"/>
 			</td></tr>
             <tr><td> 
-				<label for="nbdoux">Nombre plateau pommes alterné/livraison : </label>
+				<label for="nbdoux">Nombre plateau pommes alternÃ©/livraison : </label>
 				<input type="number" id="nbalterne" name="nbalterne" min="0" max="<?php echo $max;?>" value="0"/>
             </td></tr>
             <tr><td>
@@ -371,13 +371,13 @@
 				<tr>
 					<th>Produits</th>
 					<th>Prix unitaire</th>
-					<th>Quantité/livraison</th>
+					<th>QuantitÃ©/livraison</th>
 					<th>Nbre de livraison</th>          
 					<th>Prix (euros)</th>
 				</tr>
 							  
 				<?php   
-				//il faut refaire la requête pour parcourir tous les produits
+				//il faut refaire la requÃªte pour parcourir tous les produits
 				$produits = mysql_query( $questionProduits);
 				$nbLigne = mysql_num_rows($produits);
 				$totalContrat =0;
@@ -388,7 +388,7 @@
 					$nbLivMax = $produitPoulet['Nbre_livraison'];
 					$maxParLivraison = $produitPoulet['Max_par_livraison'];
 					$prixUnitaire = $produitPoulet['Prix'];
-					// bornage pour éviter de planter si la base est mal renseignée
+					// bornage pour Ã©viter de planter si la base est mal renseignÃ©e
 					if ( $nbLivMax < 1 )  $nbLivMax = 1;
 						   
 					$idQuantiteProduit="nb".$id;
@@ -439,7 +439,7 @@
 			<table border='2'> 
 				<tr>
 					<th>Type de contrat</th>
-					<th>Quantité par livraison</th>
+					<th>QuantitÃ© par livraison</th>
 					<th>Nbre de livraison</th>
 				</tr>
 			  
@@ -503,13 +503,13 @@
 		} ?>   
        					
 		<tr><td>
-			<input type="submit" value="Ajouter à <?php echo $_GET['amap']; ?>"/>
+			<input type="submit" value="Ajouter Ã  <?php echo $_GET['amap']; ?>"/>
 			<input onclick="document.location.href='webmaster_infos.php?nom_amap=<?php echo $_GET['amap']; ?>'" type="Button" value="Annuler" /> 
 		</td></tr>  
 	</table>
 	<?php } 
 	else {?>
-		<p>	Cet adhérent est déjà inscrit à l'<?php echo $_GET['amap']; ?><br />
+		<p>	Cet adhÃ©rent est dÃ©jÃ  inscrit Ã  l'<?php echo $_GET['amap']; ?><br />
 		<input onclick="document.location.href='webmaster_infos.php?nom_amap=<?php echo $_GET['amap']; ?>'" type="Button" value="OK" />
 		</p>
 	<?php } 

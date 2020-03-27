@@ -41,7 +41,7 @@ function entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol) {
 		// Partie du tableau indiquant le type des produits et dessous les produits
 		for ($cpt=1; $cpt <= $nombreProd; $cpt++) {
 			$nomProd = $tabNomProduit[$cpt];
-			// extraction des 7 premiers caractères
+			// extraction des 7 premiers caractÃ¨res
 			$debut = substr($nomProd,0, 7);
 			if ($debut=="petite " || $debut=="grande " ) {
 				// on supprime le prefixe 'petite ' / 'grande '
@@ -53,7 +53,7 @@ function entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol) {
 					$nomProd = substr($nomProd,6);
 				}
 			}
-			// On ne garde que 8 caractères pour ne pas prendre trop de place
+			// On ne garde que 8 caractÃ¨res pour ne pas prendre trop de place
 			$nomProd = substr($nomProd,0,8);
 			$pdf->Cell($sizeCol,5,$nomProd,1,0,'C',true);
 		}
@@ -61,8 +61,8 @@ function entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol) {
 }
 
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
 
 $pdf->SetFont('Arial','B',12);
@@ -82,7 +82,7 @@ $tabTypeProduit= $tab['tabTypeProduit'];
 
 // Dans cette version de PHP, l'appel de fonction ne fonctionne pas avec un objet de type PDF
 //entete1($pdf, $tabTypeProduit, $sizeCol);
-// Duplication temporaire de tout le code de la méthode
+// Duplication temporaire de tout le code de la mÃ©thode
     $pdf->SetFont('Arial','',8);
 		// Partie du tableau indiquant le type des produits et dessous les produits
 		for ($cpt=1; $cpt <= 4; $cpt++) {
@@ -112,13 +112,13 @@ $pdf->Cell($sizeEmargement,5,'',0,0);
 
 // Dans cette version de PHP, l'appel de fonction ne fonctionne pas avec un objet de type PDF
 //entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol);
-// Duplication temporaire de tout le code de la méthode
+// Duplication temporaire de tout le code de la mÃ©thode
 
 		$pdf->SetFont('Arial','',8);
 		// Partie du tableau indiquant le type des produits et dessous les produits
 		for ($cpt=1; $cpt <= $nombreProd; $cpt++) {
 			$nomProd = $tabNomProduit[$cpt];
-			// extraction des 7 premiers caractères
+			// extraction des 7 premiers caractÃ¨res
 			$debut = substr($nomProd,0, 7);
 			if ($debut=="petite " || $debut=="grande " ) {
 				// on supprime le prefixe 'petite ' / 'grande '
@@ -130,7 +130,7 @@ $pdf->Cell($sizeEmargement,5,'',0,0);
 					$nomProd = substr($nomProd,6);
 				}
 			}
-			// On ne garde que 8 caractères pour ne pas prendre trop de place
+			// On ne garde que 8 caractÃ¨res pour ne pas prendre trop de place
 			$nomProd = substr($nomProd,0,8);
 			$pdf->Cell($sizeCol,5,$nomProd,1,0,'C',true);
 		}
@@ -148,7 +148,7 @@ $totalColonne = $tab['totalColonne'];
 
 mysql_close();
 
-// il ne reste plus qu'à parcourir le tableau pour afficher les commandes
+// il ne reste plus qu'Ã  parcourir le tableau pour afficher les commandes
 $total1=0;
 $j=0;
 foreach($tabCommandes as $idPers => $value) {
@@ -189,13 +189,13 @@ $pdf->Cell($sizeEmargement,10,'Emarg.',1,0,'C',true);
 
 // Dans cette version de PHP, l'appel de fonction ne fonctionne pas avec un objet de type PDF
 //entete2($pdf, $tabNomProduit, $nombreProd, $sizeCol);
-// Duplication temporaire de tout le code de la méthode
+// Duplication temporaire de tout le code de la mÃ©thode
 
 		$pdf->SetFont('Arial','',8);
 		// Partie du tableau indiquant le type des produits et dessous les produits
 		for ($cpt=1; $cpt <= $nombreProd; $cpt++) {
 			$nomProd = $tabNomProduit[$cpt];
-			// extraction des 7 premiers caractères
+			// extraction des 7 premiers caractÃ¨res
 			$debut = substr($nomProd,0, 7);
 			if ($debut=="petite " || $debut=="grande " ) {
 				// on supprime le prefixe 'petite ' / 'grande '
@@ -207,7 +207,7 @@ $pdf->Cell($sizeEmargement,10,'Emarg.',1,0,'C',true);
 					$nomProd = substr($nomProd,6);
 				}
 			}
-			// On ne garde que 8 caractères pour ne pas prendre trop de place
+			// On ne garde que 8 caractÃ¨res pour ne pas prendre trop de place
 			$nomProd = substr($nomProd,0,8);
 			$pdf->Cell($sizeCol,5,$nomProd,1,0,'C',true);
 		}
@@ -221,7 +221,7 @@ $pdf->Cell($sizeEmargement,5,'',0,0);
 
 // Dans cette version de PHP, l'appel de fonction ne fonctionne pas avec un objet de type PDF
 //entete1($pdf, $tabTypeProduit, $sizeCol);
-// Duplication temporaire de tout le code de la méthode
+// Duplication temporaire de tout le code de la mÃ©thode
     $pdf->SetFont('Arial','',8);
 		// Partie du tableau indiquant le type des produits et dessous les produits
 		for ($cpt=1; $cpt <= 4; $cpt++) {

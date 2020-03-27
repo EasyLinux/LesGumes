@@ -2,9 +2,9 @@
 fonction AfficherTable(base,table,tri,sens,adressePage)
 fonction AfficheTousLesContrats(base,table,ListeChamps,NbreChamp,ordreAffichage)
 fonction ChoixDuNom(base, table, amap_exclue, label_liste_de_choix, ordre de la liste, action)
-				affiche la liste générale en
+				affiche la liste gÃ©nÃ©rale en
 				excluant ceux de l'amap_exclue dans une liste de choix
-				action=action de la méthode POST
+				action=action de la mÃ©thode POST
 -->
 <!--***********************************************************************************************************-->
 <!-- debut fonction afficher table -->	
@@ -13,15 +13,15 @@ fonction ChoixDuNom(base, table, amap_exclue, label_liste_de_choix, ordre de la 
 
 function AfficherTable($base,$table,$tri,$sens, $adressePage)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$tri." ".$sens;
 	$reponse = mysql_query($question);
 	$ligne = mysql_num_rows($reponse);
 	$donnees = mysql_fetch_array($reponse);
 	$i=0;
 ?>
-	<h2> <?php echo $table.' - nombre d\'adhérents : '.$ligne; ?></h2>
+	<h2> <?php echo $table.' - nombre d\'adhÃ©rents : '.$ligne; ?></h2>
 	<br />
 
 	<table >
@@ -78,8 +78,8 @@ function AfficherTable($base,$table,$tri,$sens, $adressePage)
 
 function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	for($i=0; $i<$NbreChamps; $i++) {
 		if($i==0) $question="SELECT ".$ListeChamps[$i];
 		else $question.=", ".$ListeChamps[$i];
@@ -105,7 +105,7 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 			color: red;
 			font-weight: bold"		
 		>
-		<?php echo $table.' - nombre d\'adhérents : '.$ligne; ?></caption>
+		<?php echo $table.' - nombre d\'adhÃ©rents : '.$ligne; ?></caption>
 		<tr>
 			<?php
 			if($ligne>0) {
@@ -220,8 +220,8 @@ function AfficherTousLesContrats($base,$table,$ListeChamps, $NbreChamps, $ordre)
 <!--***********************************************************************************************************-->
 <?php
 function ChoixDuNom($base, $table, $amap_exclue, $message, $classement, $action) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db($base); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db($base); // SÃ©lection de la base 
 	$question="SELECT * FROM ".$table." ORDER BY ".$classement;
 	$reponse = mysql_query($question);
 ?>

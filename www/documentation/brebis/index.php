@@ -7,11 +7,11 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 	if (isset($_GET['id'])) // Si la variable existe
 	{
 		$ok=1;
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees) or die ('Impossible de sélectionner la base de données : ' . mysql_error()); // Sélection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees) or die ('Impossible de sÃ©lectionner la base de donnÃ©es : ' . mysql_error()); // SÃ©lection de la base 
 		if($_GET['reponse']=='oui') $question = "UPDATE enquete SET Ca_marche='OK' WHERE id='".$_GET['id']."'";
 		else $question = "UPDATE enquete SET Ca_marche='Pas bon!' WHERE id='".$_GET['id']."'";
-		$reponse = mysql_query($question) or die('Impossible de sélectionner la base de données : ' .mysql_error());
+		$reponse = mysql_query($question) or die('Impossible de sÃ©lectionner la base de donnÃ©es : ' .mysql_error());
 		mysql_close();
 	}
 	else
@@ -25,14 +25,14 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<meta name='keywords' content='AMAP,Saint-Sébastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, Rublé' />
-    <!-- pour le référencement google -->
+		<meta name='keywords' content='AMAP,Saint-SÃ©bastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, RublÃ©' />
+    <!-- pour le rÃ©fÃ©rencement google -->
     <meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" />		
-    <!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+    <!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />  
 	</head>
@@ -50,16 +50,16 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 			?>
 			<div>
 			  	<div id="menu_news">
-  					<h3>Dernières nouvelles</h3>
-					Problème temporaire d'accès à la base de données du site ... 
+  					<h3>DerniÃ¨res nouvelles</h3>
+					ProblÃ¨me temporaire d'accÃ¨s Ã  la base de donnÃ©es du site ... 
 					<iframe src="https://framaforms.org/inscription-au-chantier-pdt-aux-rangs-doignons-le-1409-1567517002" width="100%" height="800" border="0" ></iframe>  
   					
 					<h3>Renouvellement de contrat</h3>
-<h4 align="LEFT">					Nous re-signerons les contrats le samedi 21/09/2019 (de 10h à 12h).<br />
-Salle Poterie, à la maison des association.<br /><br />
+<h4 align="LEFT">					Nous re-signerons les contrats le samedi 21/09/2019 (de 10h Ã  12h).<br />
+Salle Poterie, Ã  la maison des association.<br /><br />
 
-Les nouveaux contrats 2019-2020 (cliquer sur le lien pour télécharger le contrat).<br />
-<a href=\"documentation/legumes/contrat.pdf\">Légumes</a><br />
+Les nouveaux contrats 2019-2020 (cliquer sur le lien pour tÃ©lÃ©charger le contrat).<br />
+<a href=\"documentation/legumes/contrat.pdf\">LÃ©gumes</a><br />
 <a href=\"documentation/ProduitsLaitiers/contrat.pdf\">Produits laitiers</a><br />
 <a href=\"documentation/viandes/contrat.pdf\">Boeuf, Porc, Veau</a><br />
 <a href=\"documentation/viandes/contratCharcuterie.pdf\">Charcuterie</a><br />
@@ -67,11 +67,11 @@ Les nouveaux contrats 2019-2020 (cliquer sur le lien pour télécharger le contrat
 <a href=\"documentation/tommes/contrat.pdf\">Tomme de vache</a> <br /><br />
 
 <a href=\"documentation/legumes/contrat.pdf\">Kiwi </a><br />
-<a href=\"http://amap.saintseb.free.fr/documentation/pates/contrat.pdf\">Pâtes</a><br />
-<a href=\"http://amap.saintseb.free.fr/documentation/bi%C3%A8res/contrat.pdf\">Bière</a> <- La nouveauté 2019 !!!<br />
-Oeufs et poulets (à venir)<br />
-Tisanes ( à venir)<br />
-Millet ( à venir)<br />
+<a href=\"http://amap.saintseb.free.fr/documentation/pates/contrat.pdf\">PÃ¢tes</a><br />
+<a href=\"http://amap.saintseb.free.fr/documentation/bi%C3%A8res/contrat.pdf\">BiÃ¨re</a> <- La nouveautÃ© 2019 !!!<br />
+Oeufs et poulets (Ã  venir)<br />
+Tisanes ( Ã  venir)<br />
+Millet ( Ã  venir)<br />
 <br />
 Les contrats que l\'on peut prendre en cours :<br />
 <a href=\"documentation/pain/contrat.pdf\">Pain</a><br />
@@ -80,10 +80,10 @@ Les contrats que l\'on peut prendre en cours :<br />
 <a href=\"documentation/champignons/contrat.pdf\">Champignons </a><br />
 <a href=\"documentation/miel/contrat.pdf\">Miel </a><br />
 <br />
-Pour les légumes et les agrumes, les places sont limitées : voir avec les référent·e·s pour une nouvelle adhésion.<br />
+Pour les lÃ©gumes et les agrumes, les places sont limitÃ©es : voir avec les rÃ©fÃ©rentÂ·eÂ·s pour une nouvelle adhÃ©sion.<br />
 
 
-Bonne reprise à tous !<br />
+Bonne reprise Ã  tous !<br />
 </h4>
 
 
@@ -91,15 +91,15 @@ Bonne reprise à tous !<br />
 <!--				
 				<div style="padding-top:10px" >
 					<h3 style="color:yellow; text-align:center;">AMAP produits laitiers.<br />
-					Après la livraison découverte du 10 décembre<br /><br />
+					AprÃ¨s la livraison dÃ©couverte du 10 dÃ©cembre<br /><br />
 					<span style="color: white;">nous vous demandons d'indiquer <a href="doodle.php">ici</a>
 					<br />quelle valeur de contrat vous comptez souscrire.
 					</span>
-					<br /><br />Ce recensement est indispensable à la mise en route de cette AMAP!!<br />
+					<br /><br />Ce recensement est indispensable Ã  la mise en route de cette AMAP!!<br />
 					</h3>
 					<h3 style="text-align:center; color:yellow;">
 						<img src="images/prod_lait.jpg" alt="" />
-						<span style="position:relative; bottom:50px;" >Début prévu mi janvier!</span><img src="images/prod_lait.jpg" alt="" />
+						<span style="position:relative; bottom:50px;" >DÃ©but prÃ©vu mi janvier!</span><img src="images/prod_lait.jpg" alt="" />
 					</h3>
 					<h3 style="text-align:center; color:yellow;">
 						<img src="images/ferme_ruble.jpg" alt="" />
@@ -119,21 +119,21 @@ Bonne reprise à tous !<br />
 		<!--	
 			<?php
 			if($ok==-1) {?>
-				<h3 class="mot_passe_recette">Site en phase de test : identifiez-vous et modifiez vos identifiants par défaut !
-				<br />Vérifiez ensuite que tout fonctionne bien et enregistrez vos observations dans le tableau !!</h3>
+				<h3 class="mot_passe_recette">Site en phase de test : identifiez-vous et modifiez vos identifiants par dÃ©faut !
+				<br />VÃ©rifiez ensuite que tout fonctionne bien et enregistrez vos observations dans le tableau !!</h3>
 				<?php }
 			if($ok==1) { ?>
 				<h3 class="mot_passe_recette">Site en phase de test : Dites si tout fonctionne bien en cliquant sur le bon bouton !!!!</h3>
 				<form class="mot_passe_recette" method="post" action="index.php" >
 					<p class="mot_passe_recette">
 						<input type="button" value="Tout marche chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=oui'" />
-						<input type="button" value="Il y a des problèmes chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=non'" />
+						<input type="button" value="Il y a des problÃ¨mes chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=non'" />
 					</p>
 				</form>
 				<?php
 			}
-		/*	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+		/*	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+			mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 			$question="SELECT * FROM enquete WHERE CA_marche='OK'";
 			$reponse = mysql_query($question);
 			$nbre_ok=mysql_num_rows($reponse);

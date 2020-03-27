@@ -9,35 +9,35 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="../espace_producteurs/style_producteurs.css" />
 	</head>
 	
 	<body>
 		<div id="page_principale">
 		<p> <strong>&nbsp;&nbsp;Navigation &nbsp;&nbsp;&nbsp;:&nbsp;</strong>
-			<input type="button" value="Retour à l'accueil" onclick="document.location.href='../index.php'"/>
+			<input type="button" value="Retour Ã  l'accueil" onclick="document.location.href='../index.php'"/>
 			<input type="button" value="Menu Webmaster" onclick="document.location.href='webmaster.php?mode=<?php echo $_GET['amap']; ?>'"/>
 		</p>
 		
-		<!-- composition de la requête SQL ... -->
+		<!-- composition de la requÃªte SQL ... -->
 		<?php 
 		$debutRequete = "Select ag.id, concat( ag.nom , ' ',ag.prenom) nom, etat_asso,	paiement, ";
 		$firstColonneContrat = 5;
 		$milieuRequete = " from amap_generale ag ";
 		$finRequete = " order by ".$tri." ".$sens;
 		
-		mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-		mysql_select_db(base_de_donnees); // Sélection de la base 
-		// parcours de chaque table d'amap listée dans la table liste_amap
+		mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+		mysql_select_db(base_de_donnees); // SÃ©lection de la base 
+		// parcours de chaque table d'amap listÃ©e dans la table liste_amap
 		$amaps =mysql_query("Select Nom_amap, Nom_court, Table_amap from liste_amap") or die(mysql_error());
 		
 		// ajout pour chaque amap 
-		// pour le début: ifNull(<Table_amap>.contrat_numero,0) <Nom_amap>,
+		// pour le dÃ©but: ifNull(<Table_amap>.contrat_numero,0) <Nom_amap>,
 		// pour le milieu : left join <Table_amap> on ag.id = <Table_amap>.id
 		$first= true;
 		while ($amap=mysql_fetch_array($amaps, MYSQL_ASSOC )) {
@@ -63,7 +63,7 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			<?php 
 			$detail=mysql_fetch_array($details, MYSQL_ASSOC); ?>
 			<tr>
-				<?php // premier parcours pour les entêtes de colonne
+				<?php // premier parcours pour les entÃªtes de colonne
 				foreach ($detail as  $cle=>$valeur) { 
 					// calcul des variables : $tri (colonne du tri)  et sens (Asc ou desc)
 					$triCol = $cle;
@@ -103,7 +103,7 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 						$nbContrats += $valeur; ?>
 						<td> <?php echo $valeur;?></td>
 					<?php } 
-					// traitement spécial pour les binômes ...
+					// traitement spÃ©cial pour les binÃ´mes ...
 					$binomes ="select count(*) nb from binome Where binome.id_binome = ".$detail["id"];
 					$binomes = mysql_query($binomes) or die(mysql_error());
 					$binome = mysql_fetch_array($binomes); 
@@ -115,11 +115,11 @@ $sens = $_GET['sens']=="DESC" ? "DESC" : "ASC";
 			<?php } ?>
 		</table>
 		<?php
-			$impayés =mysql_query("Select GROUP_CONCAT(e_mail SEPARATOR '; ') mail, COUNT(*) nb from amap_generale WHERE Etat_asso='ACTIF' AND Paiement=0") or die(mysql_error());
-			$mails= mysql_fetch_array($impayés);	
+			$impayÃ©s =mysql_query("Select GROUP_CONCAT(e_mail SEPARATOR '; ') mail, COUNT(*) nb from amap_generale WHERE Etat_asso='ACTIF' AND Paiement=0") or die(mysql_error());
+			$mails= mysql_fetch_array($impayÃ©s);	
 			mysql_close(); 
 		?>
-		<p>Liste des mails des <?php echo $mails['nb'] ?> amapiens ACTIF n'ayant pas payés leur cotisation : <br />
+		<p>Liste des mails des <?php echo $mails['nb'] ?> amapiens ACTIF n'ayant pas payÃ©s leur cotisation : <br />
 		<?php echo $mails['mail']; ?>
 		</p>
 		</div>

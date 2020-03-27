@@ -14,11 +14,11 @@ if ( $retourAMAP == "amap_legumes_liste_attente")
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="styleW.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -26,7 +26,7 @@ if ( $retourAMAP == "amap_legumes_liste_attente")
 	
 <?php
 function adresses($amap, $sep) {
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
 	mysql_select_db(base_de_donnees);
 	$question="SELECT * FROM amap_generale WHERE id IN (SELECT id FROM ".$amap.")";
 	$reponse=mysql_query($question);
@@ -42,7 +42,7 @@ function adresses($amap, $sep) {
 		}
 	}
 	
-   	//ajouter les e-mail des binômes de cette amap
+   	//ajouter les e-mail des binÃ´mes de cette amap
    	$question="SELECT e_mail FROM amap_generale WHERE id IN (SELECT id_binome FROM binome, ".$amap.
               "  WHERE binome.id_contrat=".$amap.".id  And binome.type_amap='".$amap."')";
   	$reponse=mysql_query($question);
@@ -52,7 +52,7 @@ function adresses($amap, $sep) {
   		  $adresse=$adresse.$sep.$donnees['e_mail'];
   		}
   	}
-	// il peut rester des ; insérés directement dans le champ du mail ....
+	// il peut rester des ; insÃ©rÃ©s directement dans le champ du mail ....
 	$adresse=str_replace ( ";" , $sep , $adresse);
 	mysql_close();
 	return $adresse;
@@ -66,21 +66,21 @@ function MailTo($adresses, $objet) {
 }
 
 ?>	
-	<h2> Ecrire aux adhérents de <?php  echo $_GET['amap']; ?></h2>
+	<h2> Ecrire aux adhÃ©rents de <?php  echo $_GET['amap']; ?></h2>
     <?php $adresses = adresses( $_GET['amap'], $separateur); ?>
  	<ul>
-		<li><a href="<?php echo MailTo($adresses, "") ?>">Lancer le client mail pour envoyer un mail aux adhérents</a>
+		<li><a href="<?php echo MailTo($adresses, "") ?>">Lancer le client mail pour envoyer un mail aux adhÃ©rents</a>
 		<?php if( isset($_GET['modewebmaster'])) { ?>
 		<li><a href="webmaster.php?mode=<?php echo $retourAMAP ?>">Retour au menu Webmaster</a>
 		<?php } ?>
-		<li><a href="../index.php">Retour à l'Accueil</a>	
+		<li><a href="../index.php">Retour Ã  l'Accueil</a>	
 	</ul>	
-	<p width="95%"> Adresses mail des adhérents : <br/ >	
+	<p width="95%"> Adresses mail des adhÃ©rents : <br/ >	
 	<?php echo $adresses; ?>
 	
 	<form method="post" action="webmaster_mail_to.php?amap=<?php echo $_GET['amap']; ?>">
 	<p />
-	<p> Changer le séparateur entre les adresses mails : 
+	<p> Changer le sÃ©parateur entre les adresses mails : 
 	<input style="text-align:center" type="text" name="separateur" value="<?php echo $separateur;?>" />
 	<input type="submit" value="Modifier" />
 	</p>

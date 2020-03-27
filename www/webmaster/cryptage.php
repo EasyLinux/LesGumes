@@ -1,5 +1,5 @@
-<!-- pour récupérer le code crypté d'un mot de passe et d'un login
-Attention, chez free pas de cryptage autorisé
+<!-- pour rÃ©cupÃ©rer le code cryptÃ© d'un mot de passe et d'un login
+Attention, chez free pas de cryptage autorisÃ©
 -->
 <p>
 <?php
@@ -8,7 +8,7 @@ if (isset($_POST['login']) AND isset($_POST['pass']))
     $login = $_POST['login'];
     $pass_crypte = crypt($_POST['pass']); // On crypte le mot de passe
 
-    echo 'Ligne à copier dans le .htpasswd :<br />' . $login . ':' . $pass_crypte;
+    echo 'Ligne Ã  copier dans le .htpasswd :<br />' . $login . ':' . $pass_crypte;
 }
 
 else // On n'a pas encore rempli le formulaire

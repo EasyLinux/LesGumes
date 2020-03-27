@@ -1,7 +1,7 @@
 <?php
 include_once("define.php"); 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="SELECT * FROM amap_generale WHERE id=".$_GET['id'];
 $reponse=mysql_query( $question) or die(mysql_error());
 $adherent=mysql_fetch_array($reponse);
@@ -12,7 +12,7 @@ switch ($_GET['amap']) {
 	case 'amap_legumes':
 		$insert = " Nombre_panier, Nbre_livraison";
 		$values = $_GET['nbpanier'].",".$_GET['nblivraison'];
-		// suppression de l'amapien de la liste d'attente, s'il y était ...
+		// suppression de l'amapien de la liste d'attente, s'il y Ã©tait ...
 		$question="DELETE FROM amap_legumes_liste_attente WHERE id =".$_GET['id'];
 		mysql_query( $question) or die(mysql_error());
 		break;
@@ -25,8 +25,8 @@ switch ($_GET['amap']) {
 		$values = $_GET['nbunite'].",".$_GET['nblivraison'];
 		break;	
 	case 'amap_chevre':
-		$nbLiv= $_GET['nbLiv1'];		//doivent être identique pour tous les grands et fromage blanc
-		$prixGrand = $_GET['prix1'];	//doivent être identique pour tous les grands
+		$nbLiv= $_GET['nbLiv1'];		//doivent Ãªtre identique pour tous les grands et fromage blanc
+		$prixGrand = $_GET['prix1'];	//doivent Ãªtre identique pour tous les grands
 		$nbGrand= $_GET['nb1'];	//FRAIS
 		$nbGrand= $nbGrand + $_GET['nb2']; //AFFINE
 		$nbGrand= $nbGrand + $_GET['nb3'];	//SEC
@@ -105,7 +105,7 @@ switch ($_GET['amap']) {
 		$values3 = $_GET['t3u'].",".$_GET['t3p'].",".$_GET['t3g'].",".$_GET['t3s'].",";
 		$values4 = $_GET['t4u'].",".$_GET['t4p'].",".$_GET['t4g'].",".$_GET['t4s'].",";
 		
-		// A FAIRE : récupérer les prix des produits dans la table produits_info
+		// A FAIRE : rÃ©cupÃ©rer les prix des produits dans la table produits_info
 		$questionPrices="SELECT * FROM amap_tisanes_produits_info ORDER BY id";
 		$reponsePrices=mysql_query( $questionPrices) or die(mysql_error());
 		while ($prices = mysql_fetch_array($reponsePrices) ) {

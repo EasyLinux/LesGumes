@@ -7,20 +7,20 @@ function ajouterAmap($type, $typeAmap) {
 	<td> <ul>	<?php
 	
 	if ( $typeAmap== $type ) { ?>
-		<li><a href="webmaster_infos.php?nom_amap=<?php echo $type;?>">Mise à jour des inscriptions</a></li>
-		<li><a href="webmaster_change_status_amap.php?amap=<?php echo $type;?>">Changer état des incriptions</a></li>
+		<li><a href="webmaster_infos.php?nom_amap=<?php echo $type;?>">Mise Ã  jour des inscriptions</a></li>
+		<li><a href="webmaster_change_status_amap.php?amap=<?php echo $type;?>">Changer Ã©tat des incriptions</a></li>
 		<li><a href="webmaster_maj_permanence.php?amap=<?php echo $type;?>">Modifier les dates de permanence</a></li>
 	<?php } ?>
 
-	<!-- items communs à tous -->
+	<!-- items communs Ã  tous -->
 	<li><a href="webmaster_contrat_amap.php?amap=<?php echo $type;?>&amp;ordre=rien&amp;classement=id">Voir inscriptions</a></li>
-	<li><a href="webmaster_mail_to.php?amap=<?php echo $type;?>&amp;modewebmaster=true">Ecrire aux adhérents</a></li>
+	<li><a href="webmaster_mail_to.php?amap=<?php echo $type;?>&amp;modewebmaster=true">Ecrire aux adhÃ©rents</a></li>
 	
-	<?php // items spécifiques
+	<?php // items spÃ©cifiques
 	switch ($type) {
 	case "amap_legumes" : ?>	
-		<li><a href="webmaster_contrat_amap.php?amap=amap_legumes_liste_attente&amp;ordre=rien&amp;classement=id">Mise à jour de la liste attente</a></li>
-		<li><a href="webmaster_mail_to.php?amap=amap_legumes_liste_attente">Ecrire à la liste d'attente</a></li>
+		<li><a href="webmaster_contrat_amap.php?amap=amap_legumes_liste_attente&amp;ordre=rien&amp;classement=id">Mise Ã  jour de la liste attente</a></li>
+		<li><a href="webmaster_mail_to.php?amap=amap_legumes_liste_attente">Ecrire Ã  la liste d'attente</a></li>
 	 <?php ; break;
 	case "amap_tisanes" : ?>	
 		<li><a href="webmaster_commandes_tisanes.php">Administrer les commandes</a></li>	 
@@ -40,7 +40,7 @@ if (isset($_POST['motpasse']))
 else if(isset($_GET['mode'])) {
     $type_amap=$_GET['mode'];
 	if ( $type_amap='amap_legumes_liste_attente') 
-	// en attendant de corriger le pb de contexte : le référent est perdu après action sur une autre amap ...
+	// en attendant de corriger le pb de contexte : le rÃ©fÃ©rent est perdu aprÃ¨s action sur une autre amap ...
 		$type_amap='amap_legumes';	
 	
     $ok=2;
@@ -82,32 +82,32 @@ if($ok==1 || $ok==2)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<link rel="stylesheet" type="text/css" media="all" href="styleW.css" />
 			
 	</head>
 	<body>
-	<h2> Administration de la base de données et des contrats</h2>
+	<h2> Administration de la base de donnÃ©es et des contrats</h2>
 	<p> <strong>&nbsp;&nbsp;Navigation &nbsp;&nbsp;&nbsp;:&nbsp;</strong>
-			<input type="button" value="Retour à l'accueil" onclick="document.location.href='../index.php'"/>
+			<input type="button" value="Retour Ã  l'accueil" onclick="document.location.href='../index.php'"/>
 	</p>
 	<p> 
-	<?php if ($ok==2) { ?> accès en mise à jour pour le référent de l'<?php echo $type_amap; ?> : <?php }	?>
-	<?php if ($ok==1) { ?> accès général en consultation uniquement : <?php } ?>
+	<?php if ($ok==2) { ?> accÃ¨s en mise Ã  jour pour le rÃ©fÃ©rent de l'<?php echo $type_amap; ?> : <?php }	?>
+	<?php if ($ok==1) { ?> accÃ¨s gÃ©nÃ©ral en consultation uniquement : <?php } ?>
 	</p>
 	
 		
 	<table>
-		<!--  en premier le menu général puis celui de l'amap correspondant au mot de passe -->
+		<!--  en premier le menu gÃ©nÃ©ral puis celui de l'amap correspondant au mot de passe -->
 		<tr> 
-			<th>générale</th>
+			<th>gÃ©nÃ©rale</th>
 			<td> <ul>
 				<li><a href="liste_news.php?amap=<?php echo $type_amap;?>">Gestion des news</a></li>
 				<li><a href="webmaster_amap_generale.php?amap=<?php echo $type_amap;?>&amp;ordre=rien&amp;classement=Nom">Voir table des amapiens</a></li>
-				<li><a href="detailParAmapien.php?amap=<?php echo $type_amap;?>&amp;classement=Nom">Détails des contrats par amapien</a></li>
+				<li><a href="detailParAmapien.php?amap=<?php echo $type_amap;?>&amp;classement=Nom">DÃ©tails des contrats par amapien</a></li>
 				<li><a href="mailto:amap-lesgumes@googlegroups.com">Ecrire sur la liste de diffusion amap</a></li>
 				<li><a href="mailto:inforumamapsaintseb@googlegroups.com">Ecrire sur la liste de diffusion inforum</a></li>
 				<li><a href="webmaster_gestion_login.php">Gestion des logins et mot de passe</a></li>
@@ -147,11 +147,11 @@ else // le mot de passe n'est pas bon
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 		<link rel="stylesheet" type="text/css" media="all" href="styleW.css" />
 

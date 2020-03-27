@@ -6,11 +6,11 @@ include_once("../espace_producteurs/mes_fonctions.php");
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="styleW.css" />
 	</head>
 	
@@ -57,11 +57,11 @@ function PermissionBouton(table) {
 	else {
 	 var i=document.getElementById("table_amap").selectedIndex;
 	 var text= document.getElementById("table_amap").options[i].text;
-	 if ( text.indexOf('*') != -1)  {    // contrat non verrouillé
+	 if ( text.indexOf('*') != -1)  {    // contrat non verrouillÃ©
 	     document.getElementById("verrouiller").style.visibility='visible';
  	     document.getElementById("deverrouiller").style.visibility='hidden';
    }
-   else {         // contrat verrouillé
+   else {         // contrat verrouillÃ©
     	document.getElementById("deverrouiller").style.visibility='visible';
     	document.getElementById("verrouiller").style.visibility='hidden';
    }
@@ -93,7 +93,7 @@ function Retirer(amap) {
 	var i=document.getElementById("table_amap").selectedIndex;
 	var adherent= document.getElementById("table_amap").options[i].value;
 	
-	if (window.confirm("Retirer l'adhérent "+adherent+" de l'"+amap)) {
+	if (window.confirm("Retirer l'adhÃ©rent "+adherent+" de l'"+amap)) {
 		var objForm2 = createForm("ordermanager", "get", "retirer_adherent.php");
 		objForm2.appendChild(createHiddenInput("id", adherent));
 		objForm2.appendChild(createHiddenInput("amap", amap));
@@ -106,7 +106,7 @@ function Verrouiller(amap) {
 	var i=document.getElementById("table_amap").selectedIndex;
 	var adherent= document.getElementById("table_amap").options[i].value; 
  	
-		if (window.confirm("verrouiller le contrat de l'adhérent "+adherent+" de l'"+amap)) {
+		if (window.confirm("verrouiller le contrat de l'adhÃ©rent "+adherent+" de l'"+amap)) {
   		var objForm2 = createForm("ordermanager", "get", "verrouiller_contrat.php");
   		objForm2.appendChild(createHiddenInput("id", adherent));
   		objForm2.appendChild(createHiddenInput("amap", amap));
@@ -120,7 +120,7 @@ function Deverrouiller(amap) {
 	var i=document.getElementById("table_amap").selectedIndex;
 	var adherent= document.getElementById("table_amap").options[i].value;        
 	
-		if (window.confirm("déverrouiller le contrat de l'adhérent "+adherent+" de l'"+amap)) {
+		if (window.confirm("dÃ©verrouiller le contrat de l'adhÃ©rent "+adherent+" de l'"+amap)) {
   		var objForm2 = createForm("ordermanager", "get", "verrouiller_contrat.php");
   		objForm2.appendChild(createHiddenInput("id", adherent));
   		objForm2.appendChild(createHiddenInput("amap", amap));
@@ -135,7 +135,7 @@ function Radier() {
 	var i=document.getElementById("table_ss_contrat").selectedIndex;
 	var adherent= document.getElementById("table_ss_contrat").options[i].value;
 
-	if (window.confirm("Radier l'adhérent "+adherent+" de l'association")) {
+	if (window.confirm("Radier l'adhÃ©rent "+adherent+" de l'association")) {
 		var objForm2 = createForm("ordermanager", "get", "radier_adherent.php");
 		objForm2.appendChild(createHiddenInput("id", adherent));
 		document.body.appendChild(objForm2);
@@ -149,15 +149,15 @@ function Radier() {
 
 	
 	<div id="page_principale">
-		<h2> Adhérents du contrat <?php 
-			$amap=$_GET['nom_amap'];	// /!\ attention, voir pourquoi on ne peut pas utilisé GET['amap'] ici -> pb le GET['amap'] est remis à vide dans la suite quand on ajoute un amapien dans la table
+		<h2> AdhÃ©rents du contrat <?php 
+			$amap=$_GET['nom_amap'];	// /!\ attention, voir pourquoi on ne peut pas utilisÃ© GET['amap'] ici -> pb le GET['amap'] est remis Ã  vide dans la suite quand on ajoute un amapien dans la table
 			echo $amap;?>
 			
-		<h4>Sélectionner une personne pour la retirer ou l'insérer :</h4>
+		<h4>SÃ©lectionner une personne pour la retirer ou l'insÃ©rer :</h4>
 		<form id="MForm2" action="">
 			<?php
-			mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-			mysql_select_db(base_de_donnees); // Sélection de la base 
+			mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+			mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 			$ListeGenerale=mysql_query("SELECT id, Nom, Prenom FROM amap_generale ORDER BY Nom") or die(mysql_error());
 			$NbAdherent = mysql_num_rows($ListeGenerale);
 			$question="SELECT id, Nom, Prenom, Contrat_verrouille FROM ".$amap." ORDER BY Nom";
@@ -169,7 +169,7 @@ function Radier() {
 				<tr>
 					<th>Table des amapiens (<?php echo $NbAdherent; ?>)</th>
 					<th>Actions</th>
-					<th>Table des adhérents (<?php echo $NbAmap; ?>)</th>
+					<th>Table des adhÃ©rents (<?php echo $NbAmap; ?>)</th>
 				</tr>
 				<tr >
 					<td>
@@ -180,13 +180,13 @@ function Radier() {
 						</select>
 					</td>
 					<td style="text-align:center">
-						<input style="visibility:hidden" name="inserer" id="inserer" type="button" value="Insérer dans <?php echo $amap; ?> &mdash;&rsaquo;" onclick="javascript:Inserer('<?php echo $amap; ?>')"/><br />
+						<input style="visibility:hidden" name="inserer" id="inserer" type="button" value="InsÃ©rer dans <?php echo $amap; ?> &mdash;&rsaquo;" onclick="javascript:Inserer('<?php echo $amap; ?>')"/><br />
 						<input style="visibility:hidden" name="retirer" id="retirer" type="button" value="&lsaquo;&mdash; Retirer de <?php echo $amap; ?>" onclick="javascript:Retirer('<?php echo $amap; ?>')"/><br /><br />
 						<input style="visibility:hidden" name="verrouiller" id="verrouiller" type="button" value="Verrouiller contrat" onclick="javascript:Verrouiller('<?php echo $amap; ?>')"/><br />
 						<input style="visibility:hidden" name="deverrouiller" id="deverrouiller" type="button" value="Deverrouiller contrat" onclick="javascript:Deverrouiller('<?php echo $amap; ?>')"/><br /><br />
 						<input name="imprimerAM" id="imprimerAM" type="button" value="Tous les amapiens" onclick="document.location.href='ImprimeAM.php?amap=<?php echo $amap; ?>'"/><br />
-						<input name="imprimerLG" id="imprimerLG" type="button" value="Liste des adhérents" onclick="document.location.href='ImprimeLG.php'"/><br /><br />
-						<input type="button" value="Retour à l'accueil" onclick="document.location.href='../index.php'"/><br />
+						<input name="imprimerLG" id="imprimerLG" type="button" value="Liste des adhÃ©rents" onclick="document.location.href='ImprimeLG.php'"/><br /><br />
+						<input type="button" value="Retour Ã  l'accueil" onclick="document.location.href='../index.php'"/><br />
 						<input type="button" value="Menu webmaster" onclick="document.location.href='webmaster.php?mode=<?php echo $_GET['nom_amap']; ?>'"/>
 					</td>
 					<td>                                                                                      

@@ -6,8 +6,8 @@ $pdf->AddPage();
 $pdf->SetTopMargin(0.0);
 $pdf->SetFont('Arial','B',14);
 
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="SELECT id, Nom, Prenom, e_mail, Telephone, Tel_portable, Date_inscription FROM amap_generale ORDER BY Nom";
 $reponse = mysql_query($question);
 $ligne = mysql_num_rows($reponse);

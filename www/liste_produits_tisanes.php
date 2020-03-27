@@ -40,7 +40,7 @@ function entete2($tabNomProduit, $nombreProd) {
 		<?php
 		for ($cpt=1; $cpt <= $nombreProd; $cpt++) {
 			$nomProd = $tabNomProduit[$cpt];
-			// extraction des 7 premiers caractères
+			// extraction des 7 premiers caractÃ¨res
 			$debut = substr($nomProd,0, 7);
 			if ($debut=="petite " || $debut=="grande " ) {
 				// on supprime le prefixe 'petite ' / 'grande '
@@ -69,8 +69,8 @@ function getDateProchaineCommande() {
 	//echo "auj : ".$auj."<BR>"; 
 	//echo "aujSQL : ".$aujSQL."<BR>"; ;
 	
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	$questionProchaineCommande="SELECT Min(Date) FROM amap_tisanes_permanences where Date>'".$aujSQL."'";
 	//echo "questionProchaineCommande:".$questionProchaineCommande."<BR>"; 
 	$tabProchaineCommande = mysql_query($questionProchaineCommande) or die(mysql_error());
@@ -100,11 +100,11 @@ if($ok==1)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -115,16 +115,16 @@ if($ok==1)
 		$dateProchaineCommande=getDateProchaineCommande();
 		//echo "date prochaine commande : *".$dateProchaineCommande."*<BR>"; 
 		if (strlen($dateProchaineCommande)==0) {
-			// Affichage d'un message spécifique si plus de distribution prévue
+			// Affichage d'un message spÃ©cifique si plus de distribution prÃ©vue
 			?>
-			<h3 class="mot_passe_recette">Plus de date de distribution de prévue.<br />voir avec le référent ou l'administateur de la base!!</h3><?php 
+			<h3 class="mot_passe_recette">Plus de date de distribution de prÃ©vue.<br />voir avec le rÃ©fÃ©rent ou l'administateur de la base!!</h3><?php 
 		} else {
-			// Début des traitement pour affichage de la prochaine commande
+			// DÃ©but des traitement pour affichage de la prochaine commande
 			if (commandesEnCours($dateProchaineCommande)) {	
 			?>
 				<h3 class="mot_passe_recette">
-				 ATTENTION : Les amapiens peuvent encore modifier leur choix jusqu'à la date de livraison moins 9 jours !!<br />
-				 Ce récapitulatif n'est pas définitif
+				 ATTENTION : Les amapiens peuvent encore modifier leur choix jusqu'Ã  la date de livraison moins 9 jours !!<br />
+				 Ce rÃ©capitulatif n'est pas dÃ©finitif
 				</h3>
 			<?php } else { 
 			?>
@@ -133,13 +133,13 @@ if($ok==1)
 				<button onclick="document.location.href='index.php'" name="BtnRetour" type="button" class="BtnStd">Retour</button><br />
 	</div>
 	<div id='page_recap_tisane'><?php
-	// Création de l'entête du tableau $tabNomProduit $tabIndice avec les colonnes-produits et $tabTypeProduit pour les types des produits corespondant
+	// CrÃ©ation de l'entÃªte du tableau $tabNomProduit $tabIndice avec les colonnes-produits et $tabTypeProduit pour les types des produits corespondant
 	?><table>
-		<caption> Les produits commandés pour la livraison du <?php echo $dateProchaineCommande; ?> </caption>
+		<caption> Les produits commandÃ©s pour la livraison du <?php echo $dateProchaineCommande; ?> </caption>
 	<?php
 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 	
 	$tab = computeProducts($dateProchaineCommande);
 	$nombreProd= $tab['nombreProd'];
@@ -156,7 +156,7 @@ if($ok==1)
 	entete1($tabTypeProduit);
 	entete2($tabNomProduit, $nombreProd);
 	
-	// il ne reste plus qu'à parcourir le tableau pour afficher les commandes
+	// il ne reste plus qu'Ã  parcourir le tableau pour afficher les commandes
 	$total1=0;
 	$j=0;
 	foreach($tabCommandes as $idPers => $value) {
@@ -179,7 +179,7 @@ if($ok==1)
 	?> <tr> 
 		<th>Total</th>
 		<?php
-		// la dernière ligne des totaux : 
+		// la derniÃ¨re ligne des totaux : 
 		$total2 =0;
 		for ($cpt=1; $cpt <= $nombreProd; $cpt++) {
 			$quantite = $totalColonne[$tabIndice[$cpt]];
@@ -211,11 +211,11 @@ else // le mot de passe n'est pas bon
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert à indiquer dans quelle langue est rédigée votre page -->
+<!-- xml:lang : sert Ã  indiquer dans quelle langue est rÃ©digÃ©e votre page -->
 	<head>
-		<title>AMAP Saint-Sébastien/Loire</title>
+		<title>AMAP Saint-SÃ©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<!-- meta indique que l'on utilise des caractères spécifiques au français éèêà... -->
+		<!-- meta indique que l'on utilise des caractÃ¨res spÃ©cifiques au franÃ§ais Ã©Ã¨ÃªÃ ... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />
 	</head>
@@ -246,7 +246,7 @@ function verifkey(boite) {
 		</div>		
 	<p>
 		<!--<img src="images/logo_lesgumes.jpeg" alt="Logo de l'AMAP" title="Groupement Uni pour un Meilleur Environnement Solidaire" /> -->
-		<!-- alt indique un texte alternatif au cas où l'image ne peut pas être téléchargée -->
+		<!-- alt indique un texte alternatif au cas oÃ¹ l'image ne peut pas Ãªtre tÃ©lÃ©chargÃ©e -->
 	</p>
 	</body>
 </html>

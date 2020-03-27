@@ -7,11 +7,11 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 	if (isset($_GET['id'])) // Si la variable existe
 	{
 		$ok=1;
-		mysql_connect(hote, login, mot_passe_sql); // Connexion ‡ MySQL
-		mysql_select_db(base_de_donnees) or die ('Impossible de sÈlectionner la base de donnÈes : ' . mysql_error()); // SÈlection de la base 
+		mysql_connect(hote, login, mot_passe_sql); // Connexion √† MySQL
+		mysql_select_db(base_de_donnees) or die ('Impossible de s√©lectionner la base de donn√©es : ' . mysql_error()); // S√©lection de la base 
 		if($_GET['reponse']=='oui') $question = "UPDATE enquete SET Ca_marche='OK' WHERE id='".$_GET['id']."'";
 		else $question = "UPDATE enquete SET Ca_marche='Pas bon!' WHERE id='".$_GET['id']."'";
-		$reponse = mysql_query($question) or die('Impossible de sÈlectionner la base de donnÈes : ' .mysql_error());
+		$reponse = mysql_query($question) or die('Impossible de s√©lectionner la base de donn√©es : ' .mysql_error());
 		mysql_close();
 	}
 	else
@@ -25,14 +25,14 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
 <!-- xmlns indique une adresse traitant du xHTML -->
-<!-- xml:lang : sert ‡ indiquer dans quelle langue est rÈdigÈe votre page -->
+<!-- xml:lang : sert √† indiquer dans quelle langue est r√©dig√©e votre page -->
 	<head>
-		<title>AMAP Saint-SÈbastien/Loire</title>
+		<title>AMAP Saint-S√©bastien/Loire</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<meta name='keywords' content='AMAP,Saint-SÈbastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, RublÈ' />
-    <!-- pour le rÈfÈrencement google -->
+		<meta name='keywords' content='AMAP,Saint-S√©bastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, Rubl√©' />
+    <!-- pour le r√©f√©rencement google -->
     <meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" />		
-    <!-- meta indique que l'on utilise des caractËres spÈcifiques au franÁais ÈËÍ‡... -->
+    <!-- meta indique que l'on utilise des caract√®res sp√©cifiques au fran√ßais √©√®√™√†... -->
 		<link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" />
 		<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" />  
 	</head>
@@ -50,24 +50,24 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 			?>
 			<div>
 			  	<div id="menu_news">
-  					<h3>DerniËres nouvelles</h3>
+  					<h3>Derni√®res nouvelles</h3>
   					<?php
-  					mysql_connect(hote, login, mot_passe_sql)  or die ('Impossible de sÈlectionner la base de donnÈes : ' . mysql_error());;
+  					mysql_connect(hote, login, mot_passe_sql)  or die ('Impossible de s√©lectionner la base de donn√©es : ' . mysql_error());;
   					mysql_select_db(base_de_donnees);
-  					// On rÈcupËre les 5 derniËres news
+  					// On r√©cup√®re les 5 derni√®res news
   					$reponse = mysql_query('SELECT * FROM news ORDER BY id DESC LIMIT 0, 5');
   					?>
   					<!--	<h1>Bienvenue sur mon site !</h1>
-  					<p>Voici les derniËres news :</p>-->
+  					<p>Voici les derni√®res news :</p>-->
   					<?php while ($donnees = mysql_fetch_array($reponse))
   					{
   					?>
   					<div class="news">
   						<h3><?php echo $donnees['titre']; ?></h3>
-  						<p style="font-size: 12px;text-align:center;padding:0px"><em><strong>postÈ le <?php echo date("d/m/Y ‡ H\hi", strtotime($donnees['date'])); ?></strong></em></p>
+  						<p style="font-size: 12px;text-align:center;padding:0px"><em><strong>post√© le <?php echo date("d/m/Y √† H\hi", strtotime($donnees['date'])); ?></strong></em></p>
   						<p>
   						<?php
-  						// On enlËve les Èventuels antislash PUIS on crÈe les entrÈes en HTML (<br />)
+  						// On enl√®ve les √©ventuels antislash PUIS on cr√©e les entr√©es en HTML (<br />)
   						$contenu = nl2br(stripslashes($donnees['contenu']));
   						echo $contenu;
   						?>
@@ -79,15 +79,15 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 <!--				
 				<div style="padding-top:10px" >
 					<h3 style="color:yellow; text-align:center;">AMAP produits laitiers.<br />
-					AprËs la livraison dÈcouverte du 10 dÈcembre<br /><br />
+					Apr√®s la livraison d√©couverte du 10 d√©cembre<br /><br />
 					<span style="color: white;">nous vous demandons d'indiquer <a href="doodle.php">ici</a>
 					<br />quelle valeur de contrat vous comptez souscrire.
 					</span>
-					<br /><br />Ce recensement est indispensable ‡ la mise en route de cette AMAP!!<br />
+					<br /><br />Ce recensement est indispensable √† la mise en route de cette AMAP!!<br />
 					</h3>
 					<h3 style="text-align:center; color:yellow;">
 						<img src="images/prod_lait.jpg" alt="" />
-						<span style="position:relative; bottom:50px;" >DÈbut prÈvu mi janvier!</span><img src="images/prod_lait.jpg" alt="" />
+						<span style="position:relative; bottom:50px;" >D√©but pr√©vu mi janvier!</span><img src="images/prod_lait.jpg" alt="" />
 					</h3>
 					<h3 style="text-align:center; color:yellow;">
 						<img src="images/ferme_ruble.jpg" alt="" />
@@ -107,21 +107,21 @@ if (isset($_COOKIE['identification_amap'])) // Si la variable existe
 		<!--	
 			<?php
 			if($ok==-1) {?>
-				<h3 class="mot_passe_recette">Site en phase de test : identifiez-vous et modifiez vos identifiants par dÈfaut !
-				<br />VÈrifiez ensuite que tout fonctionne bien et enregistrez vos observations dans le tableau !!</h3>
+				<h3 class="mot_passe_recette">Site en phase de test : identifiez-vous et modifiez vos identifiants par d√©faut !
+				<br />V√©rifiez ensuite que tout fonctionne bien et enregistrez vos observations dans le tableau !!</h3>
 				<?php }
 			if($ok==1) { ?>
 				<h3 class="mot_passe_recette">Site en phase de test : Dites si tout fonctionne bien en cliquant sur le bon bouton !!!!</h3>
 				<form class="mot_passe_recette" method="post" action="index.php" >
 					<p class="mot_passe_recette">
 						<input type="button" value="Tout marche chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=oui'" />
-						<input type="button" value="Il y a des problËmes chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=non'" />
+						<input type="button" value="Il y a des probl√®mes chez moi" onclick="window.location.href='index.php?id=<?php echo $id; ?>&amp;reponse=non'" />
 					</p>
 				</form>
 				<?php
 			}
-		/*	mysql_connect(hote, login, mot_passe_sql); // Connexion ‡ MySQL
-			mysql_select_db(base_de_donnees); // SÈlection de la base 
+		/*	mysql_connect(hote, login, mot_passe_sql); // Connexion √† MySQL
+			mysql_select_db(base_de_donnees); // S√©lection de la base 
 			$question="SELECT * FROM enquete WHERE CA_marche='OK'";
 			$reponse = mysql_query($question);
 			$nbre_ok=mysql_num_rows($reponse);

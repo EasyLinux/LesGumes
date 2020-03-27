@@ -1,7 +1,7 @@
 <?php
 include("webmaster/define.php");
-mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-mysql_select_db(base_de_donnees); // Sélection de la base 
+mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 $question="DELETE FROM repertoire WHERE Code='".$_GET['id']."'";
 $reponse = mysql_query($question) or die(mysql_error());
 mysql_close();

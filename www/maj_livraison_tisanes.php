@@ -1,11 +1,11 @@
 <?php
 	include_once("webmaster/define.php");
 
-	// mise à jour de la commande de tisanes pour l'amapien d'id = $id et pour la date de commande $dateDerniereCommande
-	// Les valeurs de champs doivent être mis dans le formulaire dans le même ordre que les champs de la table
+	// mise Ã  jour de la commande de tisanes pour l'amapien d'id = $id et pour la date de commande $dateDerniereCommande
+	// Les valeurs de champs doivent Ãªtre mis dans le formulaire dans le mÃªme ordre que les champs de la table
 
-	mysql_connect(hote, login, mot_passe_sql); // Connexion à MySQL
-	mysql_select_db(base_de_donnees); // Sélection de la base 
+	mysql_connect(hote, login, mot_passe_sql); // Connexion Ã  MySQL
+	mysql_select_db(base_de_donnees); // SÃ©lection de la base 
 
 	$id = $_POST['ID'];
 	$dateDerniereCommande = $_POST['dateDerniereCommande'];
@@ -18,7 +18,7 @@
 	
 	$questionUpdate="UPDATE amap_tisanes_cde SET " ;
 
-	// dans les champs cachés, on a les informations :
+	// dans les champs cachÃ©s, on a les informations :
 	// name (=Indice) -> value (=Id_Produit)
 	$reponse = mysql_query($questionChoix) or die(mysql_error());
 	while ($choix=mysql_fetch_array($reponse)) { 
@@ -28,7 +28,7 @@
 		$question.=", Date_modif='".date("Y-m-d",time())."' WHERE Id_Personne='".$id."' AND Indice=".$choix["Indice"];  
 		//echo("Question : ".$question."<BR />");
 		$reponse2=mysql_query($question) ;
-		//echo("Réponse à l'update: ".$reponse2."<BR />");
+		//echo("RÃ©ponse Ã  l'update: ".$reponse2."<BR />");
 	} 
   
 	mysql_close();

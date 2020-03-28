@@ -20,6 +20,10 @@
   color: white;
 }
 
+.amap-btn {
+  margin: 10px;
+}
+
 /*
  * Barre de menu horizontale
  */
@@ -50,109 +54,75 @@
   text-decoration: none;
 } 
 
-
-
-
-
-
-
-
-
-
-
-
-
-.menu-right {
+/* menu vertical de gauche */
+.amap-vmenu {
+  color: white;
   background-color: #004d40;
-  margin: -15px 0px 0px -15px;
-  width: 100%;
-  float: right;
-}
-
-#principal {
-  clear: right;
-}
-.head-menu {
-  color: white;
-  font-weight: bold;
-}
-
-#btn-info {
-    color: white; 
-    font-weight:bold; 
-    position:relative; 
-    margin: 10px; 
-    padding: 10px;
-}
-
-.bandeau {
-    position:relative; 
-    padding:10px; 
-    color: white;
-}
-
-.vertical-menu {
-    width: 100%; /* Set a width if you like */
-    padding: 10px 10px 10px 10px;
-    background-color: #009688;
-    border-radius: 0px 0px 5px 5px;
-  }
-
-.submenu {
-    border-radius: 2px;
-  }
-
-  .vertical-menu .vtitle {
-    background-color: #b2dfdb;
-    font-weight: bold;
-    border-radius: 5px 5px 0px 0px;
-}
-  
-  .vertical-menu a {
-    background-color: #eee; /* Grey background color */
-    color: black; /* Black text color */
-    display: block; /* Make the links appear below each other */
-    padding: 5px 2px 3px 0px;
-    text-decoration: none; /* Remove underline from links */
-  }
-  
-  .vertical-menu a:hover {
-    background-color: #4db6ac; /* Dark grey background on mouse-over */
-  }
-  
-  .vertical-menu a.active {
-    background-color: #009688; /* Add a green color to the "active/current" link */
-    color: white;
-  }
-
-.vmenu {
-  background-color: #004d40; 
-  color: white;
-  padding: 10px;
-  margin-bottom: 0px;
-  margin-top: 15px;
   border-radius: 5px 5px 0px 0px;
+  padding: 5px 0px 5px 10px;
+  margin: 10px 0px 0px 0px;
 }
 
+.amap-vmenu-sub {
+  margin: 0px;
+  padding: 0px 2px 2px 2px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #4db6ac;  
+}
 
-.vmenu-sub {
-  background-color: #009688; 
-  color: white;
+.amap-venu-sub-content {
+  margin: 0px;
   padding: 10px;
-  margin-bottom: 0px;
+  background-color: #b2dfdb;
 }
 
-.vmenu-subtitle {
-  width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
+.amap-vmenu-sub-border {
+  border: 1px solid  #009688;
+  border-radius: 5px 5px 0px 0px;
+  padding: 0px;
 }
 
-.vmenu-item {
+.amap-vmenu-sub-title {
+  background-color:  #009688;
+  margin: 0px;
+  padding: 5px;
+  color: white;
   width: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
+  display: block;
+  text-decoration: none;
 }
+
+.amap-vmenu-sub-title a:hover {
+  background-color:  #009688;
+  margin: 0px;
+  padding: 5px;
+  color: red;
+  width: 100%;
+  display: block;
+  text-decoration: none;
+}
+
+.amap-vmenu-sub-items {
+  width: 100%;
+  color: black;
+  /* background-color: #b2dfdb;
+  background-color: aliceblue; */
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+} 
+
+.amap-vmenu-sub-item a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+} 
+
+.amap-vmenu-sub-item a:hover {
+  background-color: #4db6ac;
+} 
+
 
 body {
   background-image: url("/images/main/amap_bg2.jpg"); 
@@ -160,39 +130,56 @@ body {
   background-attachment:fixed;
 }
 
+/* 
+ * contenu 
+ */
 .information {
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
 }
 
 .information-title {
   background-color: #004d40; 
   color: white;
   padding: 10px;
-  margin: 10px 0px 0px 0px;
+  margin: 0px;
   border-radius: 5px 5px 0px 0px;
 }
 
+.information div {
+  background-color:  #009688;
+  padding: 2px;
+}
+
+.information div div {
+  padding: 10px;
+  background-color: #b2dfdb;
+}
+
+.information div div h3 {
+  padding: 10px;
+  background-color:  #009688;
+  border-radius: 5px 5px 0px 0px;
+  margin: 0px;
+  color: white;
+  font-size: 1.3em;
+}
+
+.information div div div {
+  padding: 0px;
+  margin-bottom: 10px;
+  border: 1px solid  #009688;
+  font-size: 1em;
+}
+
+.information div div div p {
+  padding-left: 20px;
+}
+
 .information-content {
-  width: 100%;
-  padding: 10px 10px 10px 10px; 
-  background-color: #009688;
-  border-radius: 0px 0px 5px 5px;
+  padding-left: 10px;  
+  border: 0px;
 }
 
-.information-content label{
-  padding: 10px; 
-}
-
-.information-item input{
-  padding: 10px; 
-}
-
-.information-item {
-  background-color: #b2dfdb; 
-  color: black; /* Black text color */
-  display: block; /* Make the links appear below each other */
-  padding: 5px 10px 10px 0px;
-}
 
 /*
  * Formulaires 

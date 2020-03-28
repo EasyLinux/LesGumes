@@ -1,37 +1,16 @@
 			<div class="information">
 				<h4 class="information-title">Dernières nouvelles</h4>
-				<div class="information-content">
-				<p class="information-item">Le COVID</p>
+				<div>
+					<div>
+{foreach from=$News item=New}				
+						<h3>{$New.titre}</h3>
+						<div>
+							<p>Message publié le : {$New.date|date_format:"%d/%m/%Y"} à {$New.date|date_format:"%H:%M"}</p>
+							<div class="information-content" style="border: 0px; padding: 5px">{$New.contenu}</div>
+						</div>
+{/foreach}
+					</div>
 				</div>
 			</div>
 
 
-
-
-
-
-
-				{* <?php
-  					mysqli_connect(hote, login, mot_passe_sql)  or die ('Impossible de sélectionner la base de données : ' . mysqli_error());;
-  					mysqli_select_db(base_de_donnees);
-  					// On récupère les 5 dernières news
-  					$reponse = mysqli_query('SELECT * FROM news ORDER BY id DESC LIMIT 0, 5');
-  					?>
-
-				<?php while ($donnees = mysqli_fetch_array($reponse))
-  					{
-  					?>
-				<div class="news">
-					<h3><?php echo $donnees['titre']; ?></h3>
-					<p style="font-size: 12px;text-align:center;padding:0px"><em><strong>posté le
-								<?php echo date("d/m/Y à H\hi", strtotime($donnees['date'])); ?></strong></em></p>
-					<p>
-						<?php
-  						// On enlève les éventuels antislash PUIS on crée les entrées en HTML (<br />)
-  						$contenu = nl2br(stripslashes($donnees['contenu']));
-  						echo $contenu;
-  						?>
-					</p>
-				</div>
-				<?php
-  					} // Fin de la boucle des news ?> *}

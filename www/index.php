@@ -8,7 +8,7 @@
 // 	die("Upgrade required");
 // }
 // TODO supprimer l'include
-include_once("webmaster/define.php");
+//include_once("webmaster/define.php");
 include_once("config/config.php");
 
 require_once("class/autoload.php");
@@ -58,7 +58,12 @@ if( isset($aMenu["Errno"]))
 	die("ERREUR: Table sys_menu, veuillez contacter le responsable du site");
 }
 $tmpl->assign("Menu",$aMenu);
-// echo nl2br(print_r($aMenu,true));
+
+$aNews = $system->getNews(5);
+echo "<!-- ";
+echo nl2br(print_r($aNews,true));
+echo "-->";
+$tmpl->assign("News",$aNews);
 
 
 // Afficher la page principale

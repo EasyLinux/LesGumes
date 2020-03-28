@@ -42,4 +42,42 @@ class system
         return $aRet; 
     }
 
+    /**
+     * getNews
+     * 
+     * Cette fonction interroge la base de données et renvoi le nombre de nouvelles
+     * passé en paramètres
+     * 
+     * @param   int      $nbre    Nombre de nouvelles désiré
+     * @return  array    tableau associatif des nouvelles
+     */
+    function getNews($iNbre)
+    {
+        $aRet = [];
+        $sSQL = "SELECT * FROM news ORDER BY id DESC LIMIT 0, $iNbre";
+        if( isset($this->Db) )
+        {
+            if (!$aResult = $this->Db->query($sSQL)) {
+                $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
+                return $aRet;
+            }
+            if ($aResult->num_rows === 0) {
+                $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => "Table news vide !"];
+                return $aRet;
+            }
+            $aRet = $aResult->fetch_all(MYSQLI_ASSOC);
+            $aResult->free();   
+            // foreach( $aResult as $aNew )
+            // {
+            //     $aRet[] = [
+            //         "titre"   => $aNew["titre"],
+            //         "date"    => $aNew["date"],
+            //         "content" => nl2br(stripslashes($aNew["contenu"] ))
+            //     ];
+
+            // }    
+        }
+        return $aRet;
+
+    }
 }

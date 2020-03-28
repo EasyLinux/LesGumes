@@ -15,7 +15,7 @@
 	<div class="container-fluid" id="principal">
 		<div class="row">
 			<div class="col-md-3" id="leftmenu">
-					<!-- menu de gauche -->
+				<!-- menu de gauche -->
 				{include file="menu.smarty"}
 			</div>
 			<div class="col-md-9" id="content">

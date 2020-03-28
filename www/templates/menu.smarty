@@ -1,6 +1,5 @@
 {* Le menu est créé dynamiquement en fonction de la table sys_menu *}
 
-
 {foreach from=$Menu item=line}
   {if $line.droits eq 'public' && $line.type eq 'gauche' && $line.parent == 0}
 			<h3 class='vmenu'>{$line.label}</h3>

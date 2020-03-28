@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Copie des fichiers"
+rsync -rltv --exclude templates_c/* ../www/* root@Scaleway:/Data/Apps/LesGumes/dev

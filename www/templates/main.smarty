@@ -4,17 +4,17 @@
 
 	<div class="container-fluid" id="titre">
 		<!-- barre de titre -->
-		{include file="titre.smarty"}
+{include file="titre.smarty"}
 	</div>
 
 	<div class="container-fluid" id="menu">
 		<!-- Barre de menu -->
-		{include file="menubar.smarty"}
+{include file="menubar.smarty"}
 	</div>
 
 	<div class="container-fluid" id="principal">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3" id="leftmenu">
 					<!-- menu de gauche -->
 				{include file="menu.smarty"}
 			</div>

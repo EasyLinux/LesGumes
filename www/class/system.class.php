@@ -31,11 +31,11 @@ class system
         $sSQL = "SELECT * FROM sys_menu;";
         if (!$oResult = $this->Db->query($sSQL)) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
-            return $aRet;;
+            return $aRet;
         }
         if ($oResult->num_rows === 0) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => "Table sys_menu vide !"];
-            return $aRet;;
+            return $aRet;
         }
         $aRet = $oResult->fetch_all(MYSQLI_ASSOC);
         $oResult->free();   

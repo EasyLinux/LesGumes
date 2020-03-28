@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+
+  Amap:
+    # rest server
+    image: easylinux/apache:5.6.40.1
+    depends_on:
+      - AmapDb
+    volumes:
+      - /home/snoel/Documents/Projets/Amap-LesGumes/www:/var/www/html
+    networks:
+      - extBackend
+      - default
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=Backend
+        - traefik.http.services.amap.loadbalancer.server.port=80
+        - traefik.http.routers.amap.rule=Host(`amap.easylinux.lan`)
+        # Entrée via https
+        - traefik.http.routers.amap-secure.entrypoints=https
+        - traefik.http.routers.amap-secure.rule=Host(`amap.easylinux.lan`)
+        - traefik.http.routers.amap-secure.tls=true
+        - traefik.http.routers.amap.service=rest@docker
+        
+  AmapDb:
+    image: easylinux/mariadb:10.4.12
+    volumes:
+      - /home/snoel/Documents/Projets/Amap-LesGumes/Db:/var/lib/mysql
+    networks:
+      - extBackend
+      - default
+    deploy:
+      labels:
+        - traefik.enable=false
+
+  AmapAdmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - AmapDb
+    networks:
+      - default
+      - extBackend
+    environment:
+      - "PMA_HOST=AmapDb"
+      - "PMA_ABSOLUTE_URI=http://admin.easylinux.lan"
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=Backend
+        - traefik.http.services.AmapAdmin.loadbalancer.server.port=80
+        - traefik.http.routers.AmapAdmin.rule=Host(`admin.easylinux.lan`)
+
+
+networks:
+  extBackend:
+    external:
+      name: Backend
+

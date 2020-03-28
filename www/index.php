@@ -2,12 +2,18 @@
 /**
  * Main page
  */
+//include_once("config/config.php");
+// if( !defined("VERSION") )
+// {
+// 	die("Upgrade required");
+// }
 // TODO supprimer l'include
 include_once("webmaster/define.php");
+include_once("config/config.php");
 
 require_once("class/autoload.php");
 require_once("vendor/autoload.php");
-$db = new MariaDb();
+$db = new MariaDb($Cfg);
 $system = new System($db->getDb());
 // Generateur de templates
 $tmpl = new Smarty();

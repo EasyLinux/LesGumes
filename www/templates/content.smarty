@@ -1,13 +1,8 @@
-			<div class="alert alert-dismissable alert-info">
-				 
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-					×
-				</button>
-				<h4>Dernières nouvelles</h4>
-				 <strong>Informations</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
-			</div>
-			<div class="alert-info">
-			les infos du jour
+			<div class="information">
+				<h4 class="information-title">Dernières nouvelles</h4>
+				<div class="information-content">
+				<p class="information-item">Le COVID</p>
+				</div>
 			</div>
 
 
@@ -40,4 +35,3 @@
 				</div>
 				<?php
   					} // Fin de la boucle des news ?> *}
-			</div>

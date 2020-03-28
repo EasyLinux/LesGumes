@@ -1,21 +1,69 @@
+/* 
+ * Palette des couleurs
+ */
+.sample {
+  color: #004d40; /* teal darken-4  */
+  color: #009688; /* teal           */
+  color: #b2dfdb; /* teal lighten-4 */
+  color: #4db6ac; /* teal lighten-2 */
+}
 
+.amap-test {
+  border: 1px solid red;
+}
+
+/* 
+ * Barre de titre
+ */
 .amap-title {
   padding: 10px;
-}
-
-
-
-#titre {
-  color: white; 
-}
-
-#menu {
   color: white;
-  background-color: #4CAF50;
 }
+
+/*
+ * Barre de menu horizontale
+ */
+.amap-menu-top {
+  color: white;
+  background-color: #004d40;
+  padding: 5px;
+}
+
+.amap-menu-top a {
+  color: white;
+  /* background-color: #004d40; */
+  padding: 5px;
+  text-decoration: none;
+}
+
+.amap-menu-top a:hover {
+  color: white;
+  background-color: #009688;
+  padding: 5px;
+  text-decoration: none;
+} 
+
+
+.amap-menu-top li.active {
+  color: white;
+  background-color: #009688;
+  text-decoration: none;
+} 
+
+
+
+
+
+
+
+
+
+
+
+
 
 .menu-right {
-  background-color: #4CAF50;
+  background-color: #004d40;
   margin: -15px 0px 0px -15px;
   width: 100%;
   float: right;
@@ -46,17 +94,16 @@
 .vertical-menu {
     width: 100%; /* Set a width if you like */
     padding: 10px 10px 10px 10px;
-    background-color: rgb(134, 226, 137);
+    background-color: #009688;
     border-radius: 0px 0px 5px 5px;
   }
 
 .submenu {
-    border: 1px solid black;
     border-radius: 2px;
   }
 
   .vertical-menu .vtitle {
-    background-color: rgb(144, 144, 144);
+    background-color: #b2dfdb;
     font-weight: bold;
     border-radius: 5px 5px 0px 0px;
 }
@@ -65,24 +112,21 @@
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
     display: block; /* Make the links appear below each other */
-  /* padding-right: 10px;  Add some padding 
-  padding-left: 10px;
-  padding-top: 5px; */
-    padding: 5px 10px 10px 0px;
+    padding: 5px 2px 3px 0px;
     text-decoration: none; /* Remove underline from links */
   }
   
   .vertical-menu a:hover {
-    background-color: #ccc; /* Dark grey background on mouse-over */
+    background-color: #4db6ac; /* Dark grey background on mouse-over */
   }
   
   .vertical-menu a.active {
-    background-color: #4CAF50; /* Add a green color to the "active/current" link */
+    background-color: #009688; /* Add a green color to the "active/current" link */
     color: white;
   }
 
 .vmenu {
-  background-color: #4CAF50; /* Add a green color to the "active/current" link */
+  background-color: #004d40; 
   color: white;
   padding: 10px;
   margin-bottom: 0px;
@@ -92,7 +136,7 @@
 
 
 .vmenu-sub {
-  background-color: rgb(122, 228, 126); /* Add a green color to the "active/current" link */
+  background-color: #009688; 
   color: white;
   padding: 10px;
   margin-bottom: 0px;
@@ -111,7 +155,71 @@
 }
 
 body {
-  background-image: url("/images/main/amap_bg2.jpg");
+  background-image: url("/images/main/amap_bg2.jpg"); 
   background-size: cover;
   background-attachment:fixed;
+}
+
+.information {
+  padding: 10px;
+}
+
+.information-title {
+  background-color: #004d40; 
+  color: white;
+  padding: 10px;
+  margin: 10px 0px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.information-content {
+  width: 100%;
+  padding: 10px 10px 10px 10px; 
+  background-color: #009688;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.information-content label{
+  padding: 10px; 
+}
+
+.information-item input{
+  padding: 10px; 
+}
+
+.information-item {
+  background-color: #b2dfdb; 
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 5px 10px 10px 0px;
+}
+
+/*
+ * Formulaires 
+ */
+.amap-form {
+  margin: 10px;
+  padding: 0px;
+  border-radius: 5px;
+}
+
+.amap-form-title {
+  margin: 0px;
+  padding: 10px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: #004d40;
+  color: white;
+}
+
+.amap-form-border {
+  margin: 0px;
+  padding: 0px 2px 2px 2px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #4db6ac;
+}
+
+.amap-form-content {
+  margin: 0px;
+  padding: 10px;
+  background-color: #b2dfdb;
 }

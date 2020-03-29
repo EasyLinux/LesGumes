@@ -31,3 +31,7 @@ function getSQL()
       
 }
  
+function changeLook()
+{
+  $('body').load('/tools/tmpl/look.tmpl');
+}

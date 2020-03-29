@@ -26,3 +26,59 @@ function loadContent(content)
     }
     
 }
+
+/**
+ * authenticate
+ * 
+ * Authentification d'un utilisateur par appel Ajax
+ * 
+ * @param {void}
+ */
+function authenticate()
+{
+    var login = $("#login").val();
+    var passw = $("#password").val();
+    if( login == "" || passw == "" ){
+        $("#ErrMsg").text('Vous devez saisir un login et un mot de passe');
+        $("#ErrBox").show();
+        setTimeout(function(){
+            $("#ErrBox").fadeOut(1000);
+        },3000);  
+        return false;  
+    }
+    data = {
+        Action: "Login",
+        login: login,
+        passw: passw
+    };
+    $.post("/ajax/index.php",data,
+        function(data, status){
+            if( data.Errno == -1)
+            {
+                $("#ErrMsg").text(data.ErrMsg);
+                $("#ErrBox").show();
+                setTimeout(function(){
+                    $("#ErrBox").fadeOut(1000);
+                },3000);  
+            }
+            else {
+                alert('OK');
+            }
+        });
+    //alert("Authentification en cours");
+
+}
+
+function passwordLost()
+{
+    var login = $("#login").val();
+    if( login == ""){
+        $("#ErrMsg").text('Vous devez saisir un login');
+        $("#ErrBox").show();
+        setTimeout(function(){
+            $("#ErrBox").fadeOut(1000);
+        },3000);  
+        return false;  
+    }
+    //alert("mot de passe oublié");
+}

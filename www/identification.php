@@ -1,4 +1,5 @@
 <?php 
+error_log("Dans identification",3,__DIR__."/logs/usage.log");
 if (isset($_POST['motpasse']))
 	$motpasse = $_POST['motpasse'];
 else

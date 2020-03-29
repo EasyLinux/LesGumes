@@ -48,6 +48,10 @@ $User="";
 //$User = "Serge NOEL";
 
 
+
+
+
+
 $tmpl->assign("Connected",$Connected);
 $tmpl->assign("User",$User);
 
@@ -60,9 +64,7 @@ if( isset($aMenu["Errno"]))
 $tmpl->assign("Menu",$aMenu);
 
 $aNews = $system->getNews(5);
-echo "<!-- ";
-echo nl2br(print_r($aNews,true));
-echo "-->";
+
 $tmpl->assign("News",$aNews);
 
 

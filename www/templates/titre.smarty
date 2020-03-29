@@ -12,7 +12,7 @@
 					Connecté en tant que : {$User}
 				</button>
 			{else} *}
-				<button type="button" class="btn btn-primary amap-btn"  id='btn-info' onClick="loadContent('identification.php'); return false;">
+				<button type="button" class="btn btn-primary amap-btn"  id='btn-info' onClick="loadContent('templates/login'); return false;">
 					Identifiez vous!!
 				</button>
 		{*	{/if} *}

@@ -8,7 +8,7 @@
 /**
  * 
  */
-class MariaDb
+class cMariaDb
 {
     private $Db;
     private $Result;

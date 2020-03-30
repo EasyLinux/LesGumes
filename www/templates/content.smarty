@@ -1,16 +1,8 @@
-			<div class="information">
-				<h4 class="information-title">Dernières nouvelles</h4>
-				<div>
-					<div>
 {foreach from=$News item=New}				
-						<h3>{$New.titre}</h3>
-						<div>
-							<p>Message publié le : {$New.date|date_format:"%d/%m/%Y"} à {$New.date|date_format:"%H:%M"}</p>
-							<div class="information-content" style="border: 0px; padding: 5px">{$New.contenu}</div>
-						</div>
+<div class="jumbotron">
+  <h2>{$New.titre}</h2>
+  <p class="amap-info">Message publié le : <span>{$New.date|date_format:"%d/%m/%Y"}</span> à <span>{$New.date|date_format:"%H:%M"}</span></p>
+	<p>{$New.contenu}</p>
+</div>
 {/foreach}
-					</div>
-				</div>
-			</div>
-
 

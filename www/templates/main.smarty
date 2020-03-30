@@ -1,34 +1,29 @@
 {include file="header.smarty"}
 
 <body>
-
-	<div class="container-fluid" id="titre">
-		<!-- barre de titre -->
+    <div class="container-fluid">
+        <div class="row" id="titre">
 {include file="titre.smarty"}
-	</div>
-
-	<div class="container-fluid" id="menu">
-		<!-- Barre de menu -->
+        </div>
+        <div class="row" id="menubar">
 {include file="menubar.smarty"}
-	</div>
-
-	<div class="container-fluid" id="principal">
-		<div class="row">
-			<div class="col-md-3" id="leftmenu">
-				<!-- menu de gauche -->
-				{include file="menu.smarty"}
-			</div>
-			<div class="col-md-9" id="content">
-				<!-- le contenu -->
-				{include file="content.smarty"}
-			</div>
-		</div>
-	</div>
-
-  <div id="pied_page">
-	{include file="footer.smarty"}
-
-	</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" id="leftmenu">
+{include file="menu.smarty"}
+                <div class="flex-column">
+                </div>
+            </div>
+            <div class="col-md-9" id="content">
+{include file="content.smarty"}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="footer">
+{include file="footer.smarty"}
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

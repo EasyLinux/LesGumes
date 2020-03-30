@@ -1,20 +1,8 @@
-		<div class="row">
-			<div class="col-md-8">
-				<h1 class='amap-title'>
-					AMAP 
-					<img alt="Les gumes" src="images/logo_lesgumes.jpeg" width="80px" /> 
-					S<sup>t</sup> Sébastien/Loire
-				</h1>        
-			</div>
-			<div class="col-md-4">
-{*		   {if $Connected == true }
-				<button type="button" class="btn btn-outline-info" id='btn-info' onClick="loadContent('mot_passe_change_2.php'); return false;">
-					Connecté en tant que : {$User}
-				</button>
-			{else} *}
-				<button type="button" class="btn btn-primary amap-btn"  id='btn-info' onClick="loadContent('identification.php'); return false;">
-					Identifiez vous!!
-				</button>
-		{*	{/if} *}
-			</div>
-		</div>
+            <div class="col-md-8">
+                <h3>
+                    Amap <img src='/images/main/logo_lesgumes.png' height='40px'> S<sup>t</sup> Sebastien / Loire
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary"  id='btn-info' onClick="loadContent('Login'); return false;">Indentifiez vous !!</button>
+            </div>

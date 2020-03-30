@@ -33,5 +33,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
 	<link href="css/style.css" rel="stylesheet">
+	<link href="tools/css/editor.css" rel="stylesheet">
 	<script src="js/amap.js"></script>
+	<script src="tools/js/editor.js"></script>
+	<script src="tools/js/tools.js"></script>
+	<script src="tools/js/ckeditor.js"></script>
+<!--	<script src="js/amap.js"></script> -->
 </head>

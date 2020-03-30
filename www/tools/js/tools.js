@@ -30,4 +30,68 @@ function getSQL()
         });
       
 }
+
+function ActiveEditor()
+{
+  ClassicEditor
+			.create( document.querySelector( '.editor' ), {
+        ckfinder: {
+          uploadUrl: '/tools/ckfinder.php?command=QuickUpload&type=Files&responseType=json',
+        },
+   
+				// extraPlugins: [ myCustomUploadAdapterPlugin ],
+				toolbar: {
+					items: [
+            'ckfinder',
+						'heading',
+						'|',
+						'bold',
+						'italic',
+						'link',
+						'bulletedList',
+						'numberedList',
+						'|',
+						'indent',
+						'outdent',
+						'|',
+						'imageUpload',
+						'blockQuote',
+						'insertTable',
+						'mediaEmbed',
+						'undo',
+						'redo'
+					]
+				},
+				language: 'fr',
+				image: {
+					toolbar: [
+						'imageTextAlternative',
+						'imageStyle:full',
+						'imageStyle:side'
+					]
+				},
+				table: {
+					contentToolbar: [
+						'tableColumn',
+						'tableRow',
+						'mergeTableCells',
+						'tableCellProperties',
+						'tableProperties'
+					]
+				},
+				licenseKey: '',
+				
+			} )
+			.then( editor => {
+				window.editor = editor;
+		
+				
+				
+				
+			} )
+			.catch( error => {
+				console.error( error );
+      } );
+      
+}
  

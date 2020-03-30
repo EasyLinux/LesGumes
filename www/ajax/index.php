@@ -23,6 +23,20 @@ switch($_POST["Action"])
       echo loadContent($_POST["Content"]);
       break;
 
+    case 'Upload':
+      $sTargetFile = basename($_FILES['upload']['name']	);
+      if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
+      {
+        $aResult["url"] = "/media/$sTargetFile";
+      }
+      else
+      {
+        $aResult["error"]["message"]="Pas bon";
+      }
+      header('content-type:application/json');
+      echo json_encode($aResult);
+      break;
+
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
       break;
@@ -93,6 +107,12 @@ function loadContent($Content)
       $aNews = $sys->getNews(5);
       $tpl->assign("News",$aNews);
       $sHtml = $tpl->display("content.smarty");
+      break;
+
+    case 'Admin':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sHtml = $tpl->display("admin.smarty");
       break;
 
     default:

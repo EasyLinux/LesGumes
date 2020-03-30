@@ -1,0 +1,20 @@
+/* Nothing */
+
+.amap-login {
+    margin: 10px;
+    float: right;
+}
+
+.amap-top-menu {
+    background-color: #e9ecef;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.amap-top-menu li {
+    display: in-line;
+}
+
+.jumbotron {
+    padding: 10px;
+}

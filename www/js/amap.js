@@ -22,19 +22,21 @@ function loadContent(content)
         $.post("/ajax/index.php",data, function(data,status){
             $("#content").html(data);
         });
+        return true;
     }
-    console.log(content);
     if( content.indexOf(".php") != -1 ) {
         window.location.reload(content);
-    } else {
-        if( content.indexOf(".pdf") != -1) {
-            window.open(content); 
-        }
-        else {
-            $('#content').load(content +".tmpl");
-        }
+        return true;
     }
-    
+    if( content.indexOf(".pdf") != -1) {
+        window.open(content); 
+        return true;
+    }
+    if( content.indexOf(".pdf") != -1) {
+        window.open(content); 
+        return true;
+    }
+ 
 }
 
 /**
@@ -49,7 +51,10 @@ function authenticate()
     var login = $("#login").val();
     var passw = $("#password").val();
     if( login == "" || passw == "" ){
-        $("#ErrMsg").text('Vous devez saisir un login et un mot de passe');
+        $("#ErrMsg").text('Vous devez saisir un login et un mot de passe !');
+        $("#ErrBox").addClass('alert-danger');
+        $('#ErrTitle').text('Erreur');
+        $("#ErrMsg").removeClass('alert-success');
         $("#ErrBox").show();
         setTimeout(function(){
             $("#ErrBox").fadeOut(1000);
@@ -72,7 +77,12 @@ function authenticate()
                 },3000);  
             }
             else {
-                alert('OK');
+                $("#btn-info").removeClass("btn-primary");
+                $("#btn-info").addClass("btn-success");
+                $("#btn-info").text("Connecté en tant que " + data.User.Prenom + " " + data.User.Nom);
+                $("#btn-info").attr("onclick","loadContent('ChgPwd'); return false;");
+                // recharge la page d'accueil
+                loadContent("Main");
             }
         });
     //alert("Authentification en cours");

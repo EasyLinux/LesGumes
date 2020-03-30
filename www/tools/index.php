@@ -14,14 +14,14 @@ switch( $_POST["Action"])
       $sSQL  = "INSERT INTO sys_db_update (id,description,version,sql_text) VALUES ";
       $sSQL .= "(NULL,'".$_POST["Desc"]."','".$_POST["Version"]."','".base64_encode($_POST["SQL"])."');";
       //error_log($sSQL);
-      $db = new MariaDb($Cfg);
+      $db = new cMariaDb($Cfg);
       $db->Query($sSQL);
       break;
 
     case 'getSQL';
       $sReturn = "";
       $sSQL = "SELECT id,sql_text FROM sys_db_update WHERE version='".$_POST["Version"]."';";
-      $db = new MariaDb($Cfg);
+      $db = new cMariaDb($Cfg);
       $aResult = $db->getAllFetch($sSQL);
 
       foreach($aResult as $aSQL)

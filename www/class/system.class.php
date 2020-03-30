@@ -3,7 +3,7 @@
 /**
  * Fonctionnalitées lièes au système du site
  */
-class system 
+class cSystem 
 {
     private $Db;
     private $Error;
@@ -69,6 +69,40 @@ class system
             $aResult->free();   
         }
         return $aRet;
-
     }
+
+    /**
+     * getUser
+     * 
+     * Retreive users informations, use user credentials
+     * 
+     * @param string $login  Compte utilisateur
+     * @param string $mdp    Mot de passe utilisateur
+     * @return array         identification, Errno != 0 en cas d'erreur
+     */
+    function getUser($sLogin, $sPass)
+    {
+        // Le mot de passe est stocké encrypté en sha1
+        $sSha1Pass = sha1($sPass);
+        // Construire la requête
+        $sSQL = "SELECT * FROM sys_user WHERE Mot_passe='$sSha1Pass' AND Login='$sLogin'";
+        // Le résultat doit retourner une seule ligne
+        $oResult = $this->Db->query($sSQL);
+        if( $oResult->num_rows != 1) {
+            $aResult = [
+                "Errno"   => -1,
+                "ErrMsg"  => "Compte ou mot de passe incorrect !"
+            ];
+        }
+        else {
+            $aResult = [
+                "Errno" => 0,
+                "ErrMsg" => "OK",
+                "User" => $oResult->fetch_all(MYSQLI_ASSOC)[0]
+            ];
+            unset($aResult["User"]["Mot_passe"]);
+        }
+        return($aResult);     
+    }
+
 }

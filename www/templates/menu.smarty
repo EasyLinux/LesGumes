@@ -1,76 +1,26 @@
-{* Le menu est créé dynamiquement en fonction de la table sys_menu *}
-
-<!--
-<h3 class="amap-vmenu">Titre</h3>
-<div class="amap-vmenu-sub">
-  <div class="amap-venu-sub-content">
-	  <ul class="amap-vmenu-sub-border">
-		   <a class="amap-vmenu-sub-title" href="#">sous-titre</a>
-			 <ul class="amap-vmenu-sub-items">
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 1</a>
-				 </li>
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 2</a>
-				 </li>
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 3</a>
-				 </li>
-			 </ul>
-		</ul>
-	</div>
-</div>
-
-		
-<h3 class="amap-vmenu">Titre 2</h3>
-<div class="amap-vmenu-sub">
-  <div class="amap-venu-sub-content">
-	  <ul class="amap-vmenu-sub-border">
-		   <a class="amap-vmenu-sub-title" href="#">sous-titre 2</a>
-			 <ul  class="amap-vmenu-sub-items">
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 11</a>
-				 </li>
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 12</a>
-				 </li>
-			   <li class="amap-vmenu-sub-item">
-				   <a href='#'>Lien 13</a>
-				 </li>
-			 </ul>
-		</ul>
-	</div>
-</div>
--->
-
-
-
-
+{* Le menu est créé dynamiquement en fonction de la table sys_menu 
+   TODO menu.smarty - Pas très élégant, à revoir 
+*}
 {foreach from=$Menu item=line}
   {if $line.droits eq 'public' && $line.type eq 'gauche' && $line.parent == 0}
-			<h3 class="amap-vmenu">{$line.label}</h3>
+<ul class="nav flex-column">	
+  <li class="nav-item">
+		<a class="nav-link active" href="#" onClick='return false;'>{$line.label}</a>
+  </li>
 	{foreach from=$Menu item=level2}
 		{if $level2.droits eq 'public' && $level2.type eq 'gauche' && $line.id == $level2.parent}
-		    <div class="amap-vmenu-sub">
-          <div class="amap-venu-sub-content">
-						<ul class="amap-vmenu-sub-border">
-			<a href='#' onclick="loadContent('{$level2.link}'); return false;" class="amap-vmenu-sub-title">{$level2.label}</a>
-			<ul class="amap-vmenu-sub-items">
+	<li class="nav-item">
+		<a class="nav-link" href='#' onclick="loadContent('{$level2.link}'); return false;">{$level2.label}</a>
+		<ul>
 		{foreach from=$Menu item=level3}
 			{if $level3.droits eq 'public' && $level3.type eq 'gauche' && $level2.id == $level3.parent}
-			<li class="amap-vmenu-sub-item">
-				<a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a>
-				</li>
-			{/if}
-			
-		{/foreach}
+				<li><a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a></li>
+			{/if}			
+		{/foreach} 
 		</ul>
-              </ul>
-        	</div>
-				</div>
+	</li>
 		 {/if}
-	{/foreach}
-
+	{/foreach} 
+</ul>
   {/if}
 {/foreach}
-

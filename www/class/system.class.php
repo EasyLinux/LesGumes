@@ -67,15 +67,6 @@ class system
             }
             $aRet = $aResult->fetch_all(MYSQLI_ASSOC);
             $aResult->free();   
-            // foreach( $aResult as $aNew )
-            // {
-            //     $aRet[] = [
-            //         "titre"   => $aNew["titre"],
-            //         "date"    => $aNew["date"],
-            //         "content" => nl2br(stripslashes($aNew["contenu"] ))
-            //     ];
-
-            // }    
         }
         return $aRet;
 

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Ajax
+ * 
+ * Ce fichier pilote les demandes Ajax réalisées par le site, il constitue le
+ * véritable moteur de l'application
+ */
 
 if( !isset($_POST["Action"])) {
     die("Direct access refused");
@@ -6,9 +12,13 @@ if( !isset($_POST["Action"])) {
 
 switch($_POST["Action"])
 {
-    case 'Login';
+    case 'Login':
       header('content-type:application/json');
       echo Authenticate($_POST["login"],$_POST["passw"]);
+      break;
+
+    case 'Content':
+      echo "Ecran de login";
       break;
 
     default:

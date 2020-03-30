@@ -13,6 +13,16 @@
  */
 function loadContent(content)
 {
+    if( content.indexOf(".") == -1 ){
+        // Case where Ajax must be called
+        data = {
+            Action: "Content",
+            Content: content
+        };
+        $.post("/ajax/index.php",data, function(data,status){
+            $("#content").html(data);
+        });
+    }
     console.log(content);
     if( content.indexOf(".php") != -1 ) {
         window.location.reload(content);

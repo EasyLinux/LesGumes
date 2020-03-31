@@ -3,8 +3,7 @@
     "description": "Site Web Amap LesGumes",
     "type": "project",
     "require": {
-        "smarty/smarty": "^3.1",
-        "ckfinder/ckfinder-symfony-bundle": "3.5.1.2"
+        "smarty/smarty": "^3.1"
     },
     "license": "GNU GPL",
     "authors": [

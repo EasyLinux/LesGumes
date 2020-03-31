@@ -1,3 +1,7 @@
+$(function(){
+	// CKFinder.start();
+});
+
 function insertSQL()
 {
     var description = $("#description").val();
@@ -35,14 +39,14 @@ function ActiveEditor()
 {
   ClassicEditor
 			.create( document.querySelector( '.editor' ), {
-        ckfinder: {
-          uploadUrl: '/tools/ckfinder.php?command=QuickUpload&type=Files&responseType=json',
-        },
+				// myFinder: {
+				// 	uploadUrl: '/tools/myFinder.php?Action=Load&type=File&response=json',	
+				// },
    
-				// extraPlugins: [ myCustomUploadAdapterPlugin ],
+				extraPlugins: [ myCustomUploadAdapterPlugin ],
 				toolbar: {
 					items: [
-            'ckfinder',
+            // 'myFinder',
 						'heading',
 						'|',
 						'bold',
@@ -55,6 +59,7 @@ function ActiveEditor()
 						'outdent',
 						'|',
 						'imageUpload',
+						'insertImage',
 						'blockQuote',
 						'insertTable',
 						'mediaEmbed',
@@ -84,9 +89,7 @@ function ActiveEditor()
 			} )
 			.then( editor => {
 				window.editor = editor;
-		
-				
-				
+
 				
 			} )
 			.catch( error => {

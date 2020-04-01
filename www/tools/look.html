@@ -57,59 +57,110 @@
                         <a class="nav-link" href="#">Menu 2</a>
                     </li>
                 </ul>
-    
+
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Menu V1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu niveau 2 drop</a>
-                        <ul>
-                            <li><a href='#'>Menu 111</a></li>
-                            <li><a href='#'>Menu 112</a></li>
-                            <li><a href='#'>Menu 113</a></li>
-                            <li><a href='#'>Menu 114</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu niveau 2 drop</a>
-                        <ul>
-                            <li><a href='#'>Menu 121</a></li>
-                            <li><a href='#'>Menu 122</a></li>
-                            <li><a href='#'>Menu 123</a></li>
-                            <li><a href='#'>Menu 124</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Menu V2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu niveau 2 drop</a>
-                        <ul>
-                            <li><a href='#'>Menu 211</a></li>
-                            <li><a href='#'>Menu 212</a></li>
-                            <li><a href='#'>Menu 213</a></li>
-                            <li><a href='#'>Menu 214</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu niveau 2 drop</a>
-                        <ul>
-                            <li><a href='#'>Menu 221</a></li>
-                            <li><a href='#'>Menu 222</a></li>
-                            <li><a href='#'>Menu 223</a></li>
-                            <li><a href='#'>Menu 224</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="flex-column">
+
+                <h3>
+                    Menu1
+                </h3>
+
+                <div id="Menu-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link" data-toggle="collapse" data-parent="#Menu-1" href="#Menu-11">Menu
+                                11</a>
+                        </div>
+                        <div id="Menu-11" class="collapse show">
+                            <div class="card-body">
+                                <ul>
+                                    <li>
+                                        <a href='#'>Menu 111</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>Menu 112</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>Menu 113</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link" data-toggle="collapse" data-parent="#Menu-1" href="#Menu-12">Menu
+                                12</a>
+                        </div>
+                        <div id="Menu-12" class="collapse show">
+                            <div class="card-body">
+                                <ul>
+                                    <li>
+                                        <a href='#'>Menu 121</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>Menu 122</a>
+                                    </li>
+                                    <li>
+                                        <a href='#'>Menu 123</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <h3>
+                        Menu2
+                    </h3>
+    
+                    <div id="Menu-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" data-parent="#Menu-2" href="#Menu-21">Menu
+                                    21</a>
+                            </div>
+                            <div id="Menu-21" class="collapse show">
+                                <div class="card-body">
+                                    <ul>
+                                        <li>
+                                            <a href='#'>Menu 211</a>
+                                        </li>
+                                        <li>
+                                            <a href='#'>Menu 212</a>
+                                        </li>
+                                        <li>
+                                            <a href='#'>Menu 213</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" data-parent="#Menu-2" href="#Menu-22">Menu
+                                    22</a>
+                            </div>
+                            <div id="Menu-12" class="collapse show">
+                                <div class="card-body">
+                                    <ul>
+                                        <li>
+                                            <a href='#'>Menu 221</a>
+                                        </li>
+                                        <li>
+                                            <a href='#'>Menu 222</a>
+                                        </li>
+                                        <li>
+                                            <a href='#'>Menu 223</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
             </div>
             <div class="col-md-9">
                 <div class="jumbotron">
@@ -121,7 +172,8 @@
                         <h2>Titre dans le doc niveau 2</h2>
                         <h3>Titre dans le doc niveau 3</h3>
                         <h2>Qu'est-ce que le Lorem Ipsum?</h2>
-                        <p>Le <b>Lorem Ipsum</b> est simplement du <i>faux</i> texte employé dans la composition et la mise
+                        <p>Le <b>Lorem Ipsum</b> est simplement du <i>faux</i> texte employé dans la composition et la
+                            mise
                             en page
                             avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les
                             années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour
@@ -137,12 +189,13 @@
                             College, en Virginie, s'est intéressé à un des mots latins les plus obscurs,
                             consectetur, extrait d'un passage du Lorem Ipsum, et en étudiant tous les usages
                             de ce mot dans la littérature classique, découvrit la source incontestable du
-                            <a href='https://fr.lipsum.com/'>Lorem Ipsum</a>. Il provient en fait des sections 1.10.32 et
+                            <a href='https://fr.lipsum.com/'>Lorem Ipsum</a>. Il provient en fait des sections 1.10.32
+                            et
                             1.10.33 du "De Finibus Bonorum et Malorum" (Des Suprêmes Biens et des Suprêmes
                             Maux) de Cicéron. Cet ouvrage, très populaire pendant la Renaissance, est un
                             traité sur la théorie de l'éthique. Les premières lignes du Lorem Ipsum,
                             "Lorem ipsum dolor sit amet...", proviennent de la section 1.10.32.
-    
+
                             <p> Une image
                                 <img src='/images/avenirbio.jpg' alt='avenir bio' />
                                 <ul>
@@ -181,7 +234,7 @@
                         Titre Formulaire
                     </h2>
                     <form role="form">
-                        <div class="form-group">    
+                        <div class="form-group">
                             <label for="exampleInputEmail1">
                                 Adress mail (obligatoire)
                             </label>
@@ -223,9 +276,10 @@
                         </button>
                         <h4>
                             Alerte
-                        </h4> <strong>Attention</strong> Message lié au formulaire (en bas) <a href="#" class="alert-link">alert link</a>
-                    </div>    
-                </div>   
+                        </h4> <strong>Attention</strong> Message lié au formulaire (en bas) <a href="#"
+                            class="alert-link">alert link</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">

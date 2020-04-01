@@ -1,6 +1,5 @@
-$(function(){
-	// CKFinder.start();
-});
+var toolbarType='complete';
+var CkEditor;
 
 function insertSQL()
 {
@@ -35,66 +34,13 @@ function getSQL()
       
 }
 
-function ActiveEditor()
+function editContent()
 {
-  ClassicEditor
-			.create( document.querySelector( '.editor' ), {
-				// myFinder: {
-				// 	uploadUrl: '/tools/myFinder.php?Action=Load&type=File&response=json',	
-				// },
-   
-				extraPlugins: [ myCustomUploadAdapterPlugin ],
-				toolbar: {
-					items: [
-            // 'myFinder',
-						'heading',
-						'|',
-						'bold',
-						'italic',
-						'link',
-						'bulletedList',
-						'numberedList',
-						'|',
-						'indent',
-						'outdent',
-						'|',
-						'imageUpload',
-						'insertImage',
-						'blockQuote',
-						'insertTable',
-						'mediaEmbed',
-						'undo',
-						'redo'
-					]
-				},
-				language: 'fr',
-				image: {
-					toolbar: [
-						'imageTextAlternative',
-						'imageStyle:full',
-						'imageStyle:side'
-					]
-				},
-				table: {
-					contentToolbar: [
-						'tableColumn',
-						'tableRow',
-						'mergeTableCells',
-						'tableCellProperties',
-						'tableProperties'
-					]
-				},
-				licenseKey: '',
-				
-			} )
-			.then( editor => {
-				window.editor = editor;
-
-				
-			} )
-			.catch( error => {
-				console.error( error );
-      } );
-      
+  // TODO a changer
+  $('#Popup').modal('show');
 }
- 
+
+function getImage()
+{
+  return prompt("URL image : ");
+}

@@ -34,6 +34,17 @@ function getSQL()
       
 }
 
+function editRights()
+{
+  var data = "{}";
+  $('#holder').load('/tools/templates/popup.tmpl',data,function (){
+    $('#pop-title').text('Edition des droits');
+    $('#pop-all').modal('show');
+  });
+
+
+}
+
 function editContent()
 {
   // TODO a changer

@@ -34,4 +34,5 @@
 
 	<link href="css/style.css" rel="stylesheet">
 	<script src="js/amap.js"></script>
+	<script src="tools/js/tools.js"></script>
 </head>

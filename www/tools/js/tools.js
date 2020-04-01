@@ -1,3 +1,6 @@
+var toolbarType='complete';
+var CkEditor;
+
 function insertSQL()
 {
     var description = $("#description").val();
@@ -30,4 +33,14 @@ function getSQL()
         });
       
 }
- 
+
+function editContent()
+{
+  // TODO a changer
+  $('#Popup').modal('show');
+}
+
+function getImage()
+{
+  return prompt("URL image : ");
+}

@@ -18,3 +18,7 @@
 .jumbotron {
     padding: 10px;
 }
+
+.pagination .info {
+    padding: 5px 10px 15px 20px;
+}

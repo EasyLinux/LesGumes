@@ -1,3 +1,7 @@
+$().ready(function(){
+    loadContent('Main');
+});
+
 // Amap special code 
 $(function () {
     $.loadScript = function (url, callback) {

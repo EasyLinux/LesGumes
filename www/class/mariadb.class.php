@@ -60,7 +60,7 @@ class cMariaDb
      */
     function Query($sSQL)
     {
-        $this->Db->query($sSQL);
+        $this->Result = $this->Db->query($sSQL);
         if( $this->Db->errno )
         {
             $this->Errno = $this->Db->errno;
@@ -103,4 +103,25 @@ class cMariaDb
         $oResult->free();   
         return $aRet; 
     }    
+
+    /**
+     * getLastId
+     * 
+     * renvoi l'id du dernier enregistrement 
+     * 
+     * @param  void
+     * @return int   id de l'enregistrement
+     */
+    function getLastId()
+    {
+        return mysqli_insert_id($this->Db);
+    }
+
+    /** getNumRows
+     * 
+     */
+    function getNumRows()
+    {
+        return $this->Result->num_rows;
+    }
 }

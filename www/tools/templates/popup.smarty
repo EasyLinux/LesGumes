@@ -16,14 +16,14 @@
                     
                     <div class="modal-footer" id="pop-foot">
                             
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+<!--                        <button type="button" class="btn btn-primary" data-dismiss="modal">
                             Enregistrer
                         </button>
                             
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Quitter
                         </button>
-                        
+-->                        
                     </div>
                 </div>
                 

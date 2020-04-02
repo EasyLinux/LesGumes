@@ -31,8 +31,11 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- google roboto font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="css/glyphicons.css" rel="stylesheet" />
 
 	<link href="css/style.css" rel="stylesheet">
+
+	<link href="tools/css/style.css" rel="stylesheet">
 	<script src="js/amap.js"></script>
 	<script src="tools/js/tools.js"></script>
 </head>

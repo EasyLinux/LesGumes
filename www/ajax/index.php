@@ -1,4 +1,6 @@
 <?php
+
+// TODO must be connected with right
 /**
  * Ajax
  * 
@@ -10,12 +12,16 @@ if( !isset($_POST["Action"])) {
     die("Direct access refused");
 }
 
+session_start();
+error_log("Variable de session ");
+error_log(print_r($_SESSION,true));
+
 switch($_POST["Action"])
 {
     case 'Login':
       // Tentative de connexion
       header('content-type:application/json');
-      echo Authenticate($_POST["login"],$_POST["passw"]);
+      echo json_encode(Authenticate($_POST["login"],$_POST["passw"]));
       break;
 
     case 'Content':
@@ -23,13 +29,57 @@ switch($_POST["Action"])
       echo loadContent($_POST["Content"]);
       break;
 
+    case 'Upload':
+      $sTargetFile = basename($_FILES['upload']['name']	);
+      if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
+      {
+        $aResult["url"] = "/media/$sTargetFile";
+      }
+      else
+      {
+        $aResult["error"]["message"]="Pas bon";
+      }
+      header('content-type:application/json');
+      echo json_encode($aResult);
+      break;
+
+    case 'listRights':
+      include_once(__DIR__."/manageRights.php");
+      // renvoyer la table des droits
+      header('content-type:application/json');
+      echo json_encode(listRights());
+      break; 
+      
+    case 'saveRights':
+      include_once(__DIR__."/manageRights.php");
+      header('content-type:application/json');
+      echo json_encode(saveRights($_POST["id"],$_POST["label"],$_POST["desc"]));
+      break;
+
+    case 'delRight':
+      include_once(__DIR__."/manageRights.php");
+      header('content-type:application/json');
+      echo json_encode(delRights($_POST["id"]));
+      break;   
+
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
       break;
 }
 
+/*==================================================================================================
+  =                                Gestion des utilisateurs                                        =
+  ==================================================================================================*/  
+
 /**
- * Authentification
+ * Authentificate
+ * 
+ * Authentifie un couple login/mot de passe si le couple est valide, positionne la
+ * variable de session User avec les coordonnées de la personne connectée
+ * 
+ * @param  string $login   Login
+ * @param  string $mdp     Mot de passe
+ * @return array  Contenu de User
  */
 function Authenticate($login,$mdp)
 {
@@ -48,7 +98,7 @@ function Authenticate($login,$mdp)
   $_SESSION["User"] = $aUser;
   error_log("Session ID :". session_id());
   setcookie('Amap-session',session_id());
-  return json_encode($aData);
+  return $aData;
     //setcookie('identification_amap',$donnees['id']);
 
     // validation du mot de passe
@@ -62,6 +112,9 @@ function Authenticate($login,$mdp)
 
 }
 
+/*==================================================================================================
+  =                                Gestion du contenu                                              =
+  ==================================================================================================*/  
 /**
  * loadContent
  * 
@@ -95,9 +148,17 @@ function loadContent($Content)
       $sHtml = $tpl->display("content.smarty");
       break;
 
+    case 'Admin':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sHtml = $tpl->display("admin.smarty");
+      break;
+
     default:
       $sHtml = "Ne peut charger $Content";
       break;
   }
 return $sHtml;
 }
+
+

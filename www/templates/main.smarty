@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="col-md-9" id="content">
-{include file="content.smarty"}
+                <h1>Chargement du site</h1>
             </div>
         </div>
         <div class="row">
@@ -24,6 +24,9 @@
             </div>
         </div>
     </div>
+{* Pour pouvoir utiliser l'editeur *}
+{include file="popup.smarty"}			
+<script src="/tools/js/myeditor.js" ></script>
 </body>
 
 </html>

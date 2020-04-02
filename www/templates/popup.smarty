@@ -1,0 +1,33 @@
+        <div class="modal fade" id="Popup" role="dialog" aria-labelledby="myPopup" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myPopup">
+                            Editeur
+                        </h5>
+                            
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="editor">
+                        Texte à éditer
+                    </div>
+                    
+                    <div class="modal-footer" id="Pop-footer">
+                            
+                        <button type="button" class="btn btn-primary">
+                            Enregistrer
+                        </button>
+                            
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Quitter
+                        </button>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div id="holder"></div>

@@ -1,5 +1,18 @@
-// Amap special code 
+$().ready(function(){
+    loadContent('Main');
+});
 
+// Amap special code 
+$(function () {
+    $.loadScript = function (url, callback) {
+        jQuery.ajax({
+            url: url,
+            dataType: 'script',
+            success: callback,
+            async: true
+        });
+    }
+});
 
 /**
  * loadContent
@@ -14,6 +27,7 @@
 function loadContent(content)
 {
     if( content.indexOf(".") == -1 ){
+        // Pas de . dans la chaine -> appel Ajax
         // Case where Ajax must be called
         data = {
             Action: "Content",
@@ -32,11 +46,17 @@ function loadContent(content)
         window.open(content); 
         return true;
     }
-    if( content.indexOf(".pdf") != -1) {
-        window.open(content); 
+    if( content.indexOf(".tmpl") != -1) {
+        $("#content").load(content); 
         return true;
     }
- 
+
+    if( content.indexOf(".js") != -1) {
+        // Chargement d'une fonction Javascript, 
+        eval(content.replace(".js","") + "()");      
+        return true;
+    }
+
 }
 
 /**

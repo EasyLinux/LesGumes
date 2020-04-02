@@ -1,0 +1,50 @@
+<form role="form">
+	<div class="form-group">
+
+		<label for="label">
+			Label
+		</label>
+		<input type="text" class="form-control" id="sRecLabel" />
+	</div>
+	<div class="form-group">
+
+		<label for="sRecDesc">
+			Description
+		</label>
+		<textarea id="sRecDesc" rows="3" cols="50" class="form-control"></textarea>
+	</div>
+</form>
+<nav>
+	<ul class="pagination" id="myUL">
+		<li class="page-item">
+			<a class="page-link" href="#" onClick="goFirstRight();"><span class="glyphicon glyphicon-fast-backward"></span></a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#" onClick='goPreviousRight();'><span class="glyphicon glyphicon-step-backward"></span></a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#" onClick='goNextRight();'><span class="glyphicon glyphicon-step-forward"></span></a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#" onClick='goLastRight();'><span class="glyphicon glyphicon-fast-forward"></span></a>
+		</li>
+		<li class="page-item info">
+				Enregistrement <span id="curRecord">?</span> sur <span id="maxRecord">?</span>
+			</li>
+	</ul>
+
+</nav>
+<div class="alert alert-dismissable alert-info" id="right-info">
+
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+		×
+	</button>
+	<h4>
+		Droits utilisateurs
+	</h4> 
+	<p>
+	  <strong>Attention</strong> Cette table contient la liste de droits applicables pour un utilisateur.
+	</p>
+</div>
+<div class="alert-info">
+</div>

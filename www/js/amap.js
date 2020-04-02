@@ -1,3 +1,7 @@
+$().ready(function(){
+    loadContent('Main');
+});
+
 // Amap special code 
 $(function () {
     $.loadScript = function (url, callback) {
@@ -23,6 +27,7 @@ $(function () {
 function loadContent(content)
 {
     if( content.indexOf(".") == -1 ){
+        // Pas de . dans la chaine -> appel Ajax
         // Case where Ajax must be called
         data = {
             Action: "Content",
@@ -45,7 +50,13 @@ function loadContent(content)
         $("#content").load(content); 
         return true;
     }
- 
+
+    if( content.indexOf(".js") != -1) {
+        // Chargement d'une fonction Javascript, 
+        eval(content.replace(".js","") + "()");      
+        return true;
+    }
+
 }
 
 /**

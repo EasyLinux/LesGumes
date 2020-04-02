@@ -32,7 +32,7 @@
     <!-- google roboto font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 	<script src="/js/amap.js"></script>
 	<script src="/tools/js/tools.js"></script>
 </head>
@@ -55,6 +55,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" onClick="loadContent('/tools/tmpl/formGET.tmpl');">Liste SQL</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onClick="changeLook();return false;">Look</a>
                             </li>
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="http://example.com"

@@ -1,38 +1,36 @@
-var toolbarType='complete';
+var toolbarType = 'complete';
 var CkEditor;
 var aRecords;
 
-function insertSQL()
-{
-    var description = $("#description").val();
-    var version = $("#version").val();
-    var sql = $("#sql").val();
-    data = {
-        Action: "SQL",
-        Desc: description,
-        Version: version,
-        SQL: sql
-    };
-    $.post("/tools/index.php",data,
-        function(data, status){
-          //console.log("Etat: "+ status);
-        });
-      
+function insertSQL() {
+  var description = $("#description").val();
+  var version = $("#version").val();
+  var sql = $("#sql").val();
+  data = {
+    Action: "SQL",
+    Desc: description,
+    Version: version,
+    SQL: sql
+  };
+  $.post("/tools/index.php", data,
+    function (data, status) {
+      //console.log("Etat: "+ status);
+    });
+
 }
 
-function getSQL()
-{
-    var version = $("#version").val();
-    data = {
-        Action: "getSQL",
-        Version: version,
-    };
-    $.post("/tools/index.php",data,
-        function(data, status){
-          $("#sql").text(data);
-          //console.log("Etat: "+ status);
-        });
-      
+function getSQL() {
+  var version = $("#version").val();
+  data = {
+    Action: "getSQL",
+    Version: version,
+  };
+  $.post("/tools/index.php", data,
+    function (data, status) {
+      $("#sql").text(data);
+      //console.log("Etat: "+ status);
+    });
+
 }
 
 /*==========================================================================================
@@ -46,10 +44,9 @@ function getSQL()
  * @param {void}
  * @return {void}
  */
-function editRights()
-{
+function editRights() {
   // Charger le Popup formulaire
-  $('#holder').load('/tools/templates/popup.smarty',function (){
+  $('#holder').load('/tools/templates/popup.smarty', function () {
     // Changer le titre
     $('#pop-title').text('Edition des droits');
     // Charger le contenu
@@ -58,14 +55,6 @@ function editRights()
     createRightButtonBar();
     // Charger les enregistrements
     loadRightTable('show');
-      // setTimeout(function() {
-      //   $('#right-info').fadeOut('slow');
-      // },5000);
-      // hide.bs.modal
-      // $("#pop-all").on('shown.bs.modal', function(){
-      //   setTimeout(setRightsEvents(),250); 
-      // });
-    
   });
 }
 
@@ -82,16 +71,14 @@ function editRights()
  * @param {void}
  * @return {void}
  */
-function createRightButtonBar()
-{
+function createRightButtonBar() {
   // Création de la barre de boutons
   //   Nouveau  
   var Btn = document.createElement('button');
   Btn.id = "Add";
   Btn.innerHTML = "Nouveau";
   Btn.onclick = function () {
-    if( aRecords.Status ==  "Saved")
-    {
+    if (aRecords.Status == "Saved") {
       // Sur appui 'Nouveau' Ajoute un élément à la liste, le déclare
       //     non sauvegardé
       aRecords.Status = "Not saved";
@@ -103,7 +90,7 @@ function createRightButtonBar()
       });
       // Pointe sur cet enregistrement 
       //    (id mis à zéro signifie nouveau pour la partie ajax)
-      aRecords[Idx-1].Id = 0;
+      aRecords[Idx - 1].Id = 0;
       $('#sRecLabel').val("");
       $('#sRecDesc').val("");
     }
@@ -114,7 +101,7 @@ function createRightButtonBar()
   var Btn = document.createElement('button');
   Btn.id = "Save";
   Btn.innerHTML = "Enregistrer";
-  Btn.onclick =function () {
+  Btn.onclick = function () {
     // Paramètres à envoyer à ajax
     data = {
       Action: 'saveRights',
@@ -123,7 +110,7 @@ function createRightButtonBar()
       desc: $('#sRecDesc').val()
     };
     // Appel ajax
-    $.post("/ajax/index.php",data, function(data){
+    $.post("/ajax/index.php", data, function (data) {
       // Mettre à jour aRecords
       aRecords[aRecords.Idx].Id = data.id.toString();
       aRecords[aRecords.Idx].Label = $('#sRecLabel').val();
@@ -131,13 +118,13 @@ function createRightButtonBar()
       // Mise à jour de l'affichage
       updateRightRecord();
       aRecords.Status = "Saved";
-      if( data.Errno == 0 ){
+      if (data.Errno == 0) {
         $('#right-info').removeClass('alert-info');
         $('#right-info').addClass('alert-success');
         $('#right-info').children('h4').text('Exécuté');
         $('#right-info').children('p').html("Modification sauvagardée");
       }
-    });   
+    });
   };
   Btn.className = "btn btn-info";
   $("#pop-foot").append(Btn);
@@ -145,14 +132,14 @@ function createRightButtonBar()
   var Btn = document.createElement('button');
   Btn.id = "Del";
   Btn.innerHTML = "Supprimer";
-  Btn.onclick =function () {
+  Btn.onclick = function () {
     // Supprimer un enregistrement
     data = {
       Action: "delRight",
       id: aRecords[aRecords.Idx].Id
     };
-    $.post("/ajax/index.php",data, function(data){
-      if( data.Errno == -1 ){
+    $.post("/ajax/index.php", data, function (data) {
+      if (data.Errno == -1) {
         $('#right-info').removeClass('alert-info');
         $('#right-info').addClass('alert-danger');
         $('#right-info').children('h4').text('Erreur');
@@ -175,7 +162,7 @@ function createRightButtonBar()
   Btn.innerHTML = "Quitter";
   Btn.className = "btn btn-secondary";
   // Ce bouton ferme le popup
-  Btn.setAttribute('data-dismiss','modal');
+  Btn.setAttribute('data-dismiss', 'modal');
   $("#pop-foot").append(Btn);
 }
 
@@ -188,10 +175,9 @@ function createRightButtonBar()
  * @param {void}
  * @return {void}
  */
-function updateRightRecord()
-{
+function updateRightRecord() {
   $('#maxRecord').text(aRecords.length);
-  $("#curRecord").text(aRecords.Idx+1);
+  $("#curRecord").text(aRecords.Idx + 1);
   $('#sRecLabel').val(aRecords[aRecords.Idx].Label);
   $('#sRecDesc').val(aRecords[aRecords.Idx].Description);
 }
@@ -204,9 +190,8 @@ function updateRightRecord()
  * @param {void}
  * @return {void}
  */
-function goFirstRight()
-{
-  aRecords.Idx=0;
+function goFirstRight() {
+  aRecords.Idx = 0;
   updateRightRecord();
 }
 
@@ -218,14 +203,12 @@ function goFirstRight()
  * @param {void}
  * @return {void}
  */
-function goPreviousRight()
-{
-  if( aRecords.Idx > 0)
-  {
+function goPreviousRight() {
+  if (aRecords.Idx > 0) {
     aRecords.Idx--;
     updateRightRecord();
   }
-  
+
 }
 
 /**
@@ -236,10 +219,8 @@ function goPreviousRight()
  * @param {void}
  * @return {void}
  */
-function goNextRight()
-{
-  if( aRecords.Idx < aRecords.length-1)
-  {
+function goNextRight() {
+  if (aRecords.Idx < aRecords.length - 1) {
     aRecords.Idx++;
     updateRightRecord();
   }
@@ -253,9 +234,8 @@ function goNextRight()
  * @param {void}
  * @return {void}
  */
-function goLastRight()
-{
-  aRecords.Idx=aRecords.length-1;
+function goLastRight() {
+  aRecords.Idx = aRecords.length - 1;
   updateRightRecord();
 }
 
@@ -267,33 +247,25 @@ function goLastRight()
  * @param {string} whendone si 'show' alors affiche le popup
  * @return {void}
  */
-function loadRightTable(whendone)
-{
+function loadRightTable(whendone) {
   // Récupérer le contenu de la table sys_right dans aRecords
   data = {
     Action: 'listRights'
   };
-  $.post("/ajax/index.php",data, function(data, status){
-    aRecords=data;
-      // Pointe sur le premier enregistrement
+  $.post("/ajax/index.php", data, function (data, status) {
+    aRecords = data;
+    // Pointe sur le premier enregistrement
     aRecords.Idx = 0;
     aRecords.Status = "Saved";
     // Afficher la première fiche
     updateRightRecord();
-    if( whendone == 'show'){
+    if (whendone == 'show') {
       // Le popup est prêt, on l'affiche
       $('#pop-all').modal('show');
     }
-    
+
   });
 }
-
-
-
-
-
-
-
 
 
 /*==========================================================================================
@@ -301,13 +273,121 @@ function loadRightTable(whendone)
  ===========================================================================================*/
 
 
-function editContent()
-{
+function editContent() {
   // TODO a changer
   $('#Popup').modal('show');
 }
 
-function getImage()
-{
+function getImage() {
   return prompt("URL image : ");
+}
+
+/*==========================================================================================
+ =                               Sauvegarde / Restauration                                 =
+ ===========================================================================================*/
+// TODO Mettre un progress
+function Backup() {
+  $("#backup-buttons").fadeOut('slow');
+  data = {
+    Action: 'doBackup'
+  }
+  $("#sub-msg-1").text("Sauvegarde en cours");
+
+  $.post("/ajax/index.php", data, function (data) {
+    $("#sub-msg-1").text("Sauvegarde terminée");
+    $("#sub-msg-2").html("Fichier de sauvegarde : <a href='" + data.File + "'>" + data.File + "</a>");
+  });
+}
+
+/**
+ * Restore
+ * 
+ * Affiche les options de restauration
+ * 
+ * @param   void
+ * @return  void
+ */
+function Restore() {
+  loadBackupList();
+  $("#backup-buttons").fadeOut('slow');
+  $("#restore-options").fadeIn();
+  $('#loadBackup').change(function () {
+    var file_data = $('#loadBackup').prop('files')[0];
+    var form_data = new FormData();
+    console.log(file_data);
+    if (file_data.type != "application/zip") {
+      alert("Ce n'est pas un fichier.zip");
+      return false;
+    }
+    form_data.append('file', file_data);
+    form_data.append('Action', 'loadFile');
+    form_data.append('Where', '_Backup');
+    $.ajax({
+      url: "/ajax/index.php",
+      data: form_data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'post',
+      success: function () {
+        loadBackupList();
+      }
+    });
+  });
+
+}
+
+/**
+ * loadBackupList
+ * 
+ * Charge la liste selectBackup avec la liste des fichiers de sauvegarde
+ * présents dans ./_Backup 
+ * @param   void
+ * @return  void
+ */
+function loadBackupList() {
+  data = {
+    Action: 'loadBackupList'
+  };
+  $.post('/ajax/index.php', data, function (data) {
+    console.log(data);
+    var listitems;
+    data.forEach((item) => {
+      listitems += '<option value=' + item.id + '>' + item.label + '</option>';
+    });
+    $("#selectBackup").append(listitems);
+
+  });
+}
+
+/**
+ * restoreNow
+ * 
+ * Lance la restauration du fichier choisi
+ */
+function restoreNow() {
+  console.log("restoreNow");
+  if ($('#selectType').val() == 0) {
+    alert("Veuillez choisir un type de restauration !");
+    return false;
+  }
+  if( $('#selectBackup option:selected').val() == undefined )
+  {
+    alert('Choisissez une sauvegarde à restaurer');
+    return false;
+  }
+  // console.log("debut de restauration ");
+  // console.log("Type de restauration : "+$('#selectType').val());
+  // console.log("Fichier à restaurer : "+$('#selectBackup option:selected').val())
+  $("#sub-msg-1").text("Restauration en cours ...");
+  data = {
+    Action: "restoreNow",
+    Type: $('#selectType').val(),
+    Id: $('#selectBackup option:selected').val()
+  }
+  $.post('/ajax/index.php', data, function(data){
+    console.log(data);
+    $("#sub-msg-1").text("Restauration terminée");
+    $("#sub-msg-2").html("Statut: "+ data.ErrMsg);
+  });
 }

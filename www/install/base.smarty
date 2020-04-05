@@ -1,0 +1,41 @@
+<form class="form-horizontal">
+<fieldset>
+
+<h4 id="cnxOk">Connexion à la base</h4>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="host">Serveur</label>  
+  <div class="col-md-4">
+  <input id="host" name="host" type="text" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="user">Utilisateur</label>  
+  <div class="col-md-4">
+  <input id="user" name="user" type="text" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="pass">Mot de passe</label>
+  <div class="col-md-4">
+    <input id="pass" name="pass" type="password" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="base">Base</label>  
+  <div class="col-md-4">
+  <input id="base" name="base" type="text" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+</fieldset>
+</form>

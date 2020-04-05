@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-fr" lang="fr-fr" dir="ltr">
+
+<head>
+	<title>AMAP Saint-Sébastien/Loire</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name='keywords'
+		content='AMAP,Saint-Sébastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, Rublé' />
+	<!-- pour le référencement google 
+	<meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" /> 
+	 meta indique que l'on utilise des caractères spécifiques au français éèêà... 
+	 <link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" /> 
+	<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" /> -->
+
+	<meta name="author" content="Serge NOEL" />
+	<meta name="generator" content="Hand made" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="favicon.ico" />
+<!--	<link href="favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" /> -->
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<!-- font icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- google roboto font -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="css/glyphicons.css" rel="stylesheet" />
+
+	{* <link href="css/style.css" rel="stylesheet">
+
+	<link href="tools/css/style.css" rel="stylesheet">
+	<script src="js/amap.js"></script>
+	<script src="tools/js/tools.js"></script> *}
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			
+			<div class="modal fade" id="install-popup" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+				<div class="modal-dialog" role="document" >
+					<div class="modal-content" style="width: 800px" >
+						<div class="modal-header">
+							<h5 class="modal-title" id="myModalLabel">
+								Installation du site
+							</h5>
+							 
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body" id='install-body' style='minHeight: 350px; Height: 350px;''>
+							<h4>Bonjour</h4>
+              Le site n'est pas encore pleinement opérationnel, il va procéder à une série de modifications, 
+              pour vous assister dans la démarche.
+              Cliquer sur suivant pour continuer
+						</div>
+            <div class="progress">
+              <div class="progress-bar w-0">
+              </div>					
+            </div>	
+						<div class="modal-footer">
+							 
+							<button type="button" class="btn btn-primary" onClick='nextStep();' id='btn-step'>
+								Suivant &gt;
+							</button>
+							 
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">
+								Abandon
+							</button>
+							
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+</div>
+<script>
+var Step=2;
+var Step_Ok=false;
+var Cfg;
+
+$('#install-popup').modal('show');
+$("#install-popup").on('shown.bs.modal', function(){
+      //  Popup ready 
+ });
+
+function nextStep()
+{
+  if( Step_Ok ){
+    Step++;
+  }
+  if( Step == 2){
+    Step_Ok=false;
+    Step2();
+  }
+  if( Step == 3){
+    Step_Ok=false;
+    Step3();
+  }
+  if( Step == 4){
+    Step_Ok=false;
+    Step4();
+  }
+  if( Step == 5){
+    Step_Ok=false;
+    Step5();
+  }
+
+}
+
+ function Step2()
+ {
+  // Control: php version, php modules, folder rights
+  data = {
+    Action: "Step2"
+  }
+  $.post("/install/ajax.php",data,
+  function(data, status){
+    $('#install-body').html(data.Message);
+    if( data.Errno == 0 ){
+      Step_Ok = true;
+    }
+  });
+ }
+
+function Step3()
+{
+  data = {
+    Action: "Step3"
+  }
+  $("#install-body").load("/install/base.smarty");
+  Step_Ok = true;
+}
+
+function Step4()
+{
+  Cfg = {
+    Action: "Step4",
+    Host: $('#host').val(),
+    User: $('#user').val(),
+    Pass: $('#pass').val(),
+    Base: $('#base').val()
+  };
+  console.log(Cfg);
+  $.post("/install/ajax.php",Cfg, function(data, status){
+    if( data.Errno != 0) {
+      alert("ERREUR: "+data.ErrMsg);
+    }
+    else {
+      data = {
+        Action: Step5
+      }
+      $.post("/install/ajax.php",data, function(data, status){
+        $("#install-body").load("/install/step5.smarty");
+        Step_Ok = true;
+      });
+    }
+  });
+}
+
+function Step5()
+{
+  console.log("Injection SQL");
+}
+</script>
+</body>
+</html>

@@ -99,7 +99,7 @@ switch($_POST["Action"])
       break;
 
     case 'restoreNow':
-      include_once(__DIR__."backup.php");
+      include_once(__DIR__."/backup.php");
       ini_set('max_execution_time', 600);
       ini_set('memory_limit','1024M');
       $aRet = restoreNow("backup-".$_POST["Id"].".zip",$_POST['Type']);

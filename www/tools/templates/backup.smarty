@@ -1,0 +1,55 @@
+<div class='jumbotron'>
+  
+  <h4>Sauvegarde / Restauration</h4>
+
+  <div class="form-group">
+
+  <div class="col-md-8" id="backup-buttons">
+    <button id="backup" onClick="Backup();" class="btn btn-info">Sauvegarde</button>
+    <button id="restore" onClick="Restore();" class="btn btn-info">Restauration</button>
+  </div>
+  <div id="restore-options" style="padding: 10px; display: none;">
+    <h4>Options de restauration</h4>
+    <div class="form-group">
+      <div class="col-md-4">
+        <select id="selectType" class="form-control">
+        <option value="0">Veuillez choisir</option>
+          <option value="dbonly">Base de données uniquement</option>
+          <option value="dbuser">Base et fichiers </option>
+          <option value="all">Tout - voir documentation</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="selectBackup">Choix de la sauvegarde</label>
+      <div class="col-md-4">
+        <select id="selectBackup" class="form-control" multiple="multiple">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="loadBackup">Charger une sauvegarde</label>
+      <div class="col-md-4">
+        <input id="loadBackup" class="input-file" type="file">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <button id="restore" onClick="restoreNow();" class="btn btn-info">Lancer la restauration</button>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <p>&nbsp;</p>
+    <p id="sub-msg-1">&nbsp;</p>
+    <p id="sub-msg-2">&nbsp;</p>
+  </div>
+
+
+<!--  <div class="progress col-md-8">
+    <div class="progress-bar" role="progressbar" aria-valuenow="100" id="bkp-progress"
+  aria-valuemin="0" aria-valuemax="100" style="width:100%; border-radius: 5px; minHeight: 18px; padding: 5px">
+    </div>
+  </div> -->
+
+</div>
+ 
+</div>

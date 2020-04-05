@@ -1,5 +1,7 @@
 #!/bin/bash
 
 cd /home/snoel/Documents/Projets/Amap-LesGumes/Tools
+
 echo "Copie des fichiers"
 rsync -rltv --exclude templates_c/* --delete ../www/* root@Scaleway:/Data/Apps/LesGumes/dev
+

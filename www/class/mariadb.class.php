@@ -60,6 +60,8 @@ class cMariaDb
      */
     function Query($sSQL)
     {
+        $this->Errno = 0;
+        $this->ErrMsg = "OK";
         $this->Result = $this->Db->query($sSQL);
         if( $this->Db->errno )
         {
@@ -78,6 +80,18 @@ class cMariaDb
     function getErrorMsg()
     {
         return $this->ErrMsg;
+    }
+
+    /**
+     * getErrno
+     * 
+     * retreive error of last SQL command
+     * @param  void
+     * @return int  SQL Message code
+     */
+    function getErrno()
+    {
+        return $this->Errno;
     }
 
     /**

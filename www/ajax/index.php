@@ -1,6 +1,4 @@
 <?php
-
-// TODO must be connected with right
 /**
  * Ajax
  * 
@@ -11,11 +9,9 @@
 if( !isset($_POST["Action"])) {
     die("Direct access refused");
 }
+// TODO must be connected with right
 
 session_start();
-error_log("Variable de session ");
-error_log(print_r($_SESSION,true));
-
 switch($_POST["Action"])
 {
     case 'Login':
@@ -29,19 +25,19 @@ switch($_POST["Action"])
       echo loadContent($_POST["Content"]);
       break;
 
-    case 'Upload':
-      $sTargetFile = basename($_FILES['upload']['name']	);
-      if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
-      {
-        $aResult["url"] = "/media/$sTargetFile";
-      }
-      else
-      {
-        $aResult["error"]["message"]="Pas bon";
-      }
-      header('content-type:application/json');
-      echo json_encode($aResult);
-      break;
+    // case 'Upload':
+    //   $sTargetFile = basename($_FILES['upload']['name']	);
+    //   if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
+    //   {
+    //     $aResult["url"] = "/media/$sTargetFile";
+    //   }
+    //   else
+    //   {
+    //     $aResult["error"]["message"]="Pas bon";
+    //   }
+    //   header('content-type:application/json');
+    //   echo json_encode($aResult);
+    //   break;
 
     case 'listRights':
       include_once(__DIR__."/manageRights.php");
@@ -61,6 +57,55 @@ switch($_POST["Action"])
       header('content-type:application/json');
       echo json_encode(delRights($_POST["id"]));
       break;   
+
+    case 'doBackup':
+      include_once(__DIR__."/../config/config.php");
+      include_once(__DIR__."/../class/backup.class.php");
+      // Autoriser l'utilisation d'un temps d'exécution long et de consommation mémoire plus important
+      ini_set('max_execution_time', 600);
+      ini_set('memory_limit','1024M');
+      $Bkp = new Backup($Cfg);
+      $Bkp->backupFiles("/var/www/html");
+      header('content-type:application/json');
+      echo json_encode(["Errno" => 0, "File" => $Bkp->getBackupFileName()]);      
+      break;
+
+    case 'loadFile':
+      $sTargetFile = __DIR__."/../". $_POST["WHERE"];
+      $sTargetFile .= basename($_FILES['file']['name']	);
+      if( move_uploaded_file($_FILES['file']['tmp_name'],$sTargetFile) ){
+        echo "OK";
+      } else {
+        echo "BAD";
+      }
+      break;
+
+    case 'loadBackupList':
+      $sFolder = $_SERVER["DOCUMENT_ROOT"]."/_Backup";
+      $aFiles = array_diff(scandir($sFolder), array('..', '.'));
+      foreach($aFiles as $aFile)
+      {
+        if( substr($aFile,0,6) == "backup")
+        {
+          $sIdent = substr($aFile,7,15);
+          $sLabel = "Sauvegarde du ".substr($sIdent,6,2)."/".substr($sIdent,4,2)."/".substr($sIdent,0,4);
+          $sLabel .= " à ".substr($sIdent,9,2).":".substr($sIdent,11,2).":".substr($sIdent,13,2);
+          $aRet[] =["id" => $sIdent, "label" => $sLabel];
+        }        
+      }
+      //$aRet = ["1" => "Test1", "2" => "test2" ];
+      header('content-type:application/json');
+      echo json_encode($aRet);      
+      break;
+
+    case 'restoreNow':
+      include_once(__DIR__."backup.php");
+      ini_set('max_execution_time', 600);
+      ini_set('memory_limit','1024M');
+      $aRet = restoreNow("backup-".$_POST["Id"].".zip",$_POST['Type']);
+      header('content-type:application/json');
+      echo json_encode($aRet); 
+      break;
 
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
@@ -154,11 +199,16 @@ function loadContent($Content)
       $sHtml = $tpl->display("admin.smarty");
       break;
 
+    case 'Backup':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sHtml = $tpl->display("backup.smarty");
+      break;
+
     default:
       $sHtml = "Ne peut charger $Content";
       break;
   }
 return $sHtml;
 }
-
 

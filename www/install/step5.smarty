@@ -1,0 +1,20 @@
+<h4>Chargement de la base</h4>
+Veuillez créer un fichier <i>config.php</i> et le placer
+dans config/ <br/>
+Contenu du fichier : 
+<div id="config-php" style="boder: 1px solid gray; border-radius: 5px">
+<pre>
+&lt;?php
+
+$Cfg = [
+    "MariaDb" => [
+        "Host" => "AmapDb",
+        "User" => "Amap",
+        "Pass" => "Secr3t",
+        "Base" => "Amap"    
+    ],
+    "JOURS_MARGE_CHEVRE" => 5,
+    "JOURS_MARGE_PDT_LAITIER" => 8   
+];
+</pre>
+</div>

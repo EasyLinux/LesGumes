@@ -107,6 +107,16 @@ switch($_POST["Action"])
       echo json_encode($aRet); 
       break;
 
+    case 'paramTables':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/parameters.php");
+      paramTables();
+      break;
+
+    case 'updateParameters':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/parameters.php");
+      updateParameters($_POST["Type"],$_POST["Id"],$_POST["Value"],$_POST["Table"]);
+      break;
+    
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
       break;

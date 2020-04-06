@@ -122,3 +122,31 @@ function passwordLost()
     }
     //alert("mot de passe oublié");
 }
+
+function afficherPopupInformation(message) {
+    // crée la division qui sera convertie en popup
+    $("#popupinformation").html(message);
+    // transforme la division en popup
+    var popup = $("#popupinformation").dialog({
+        autoOpen: true,
+        width: 400,
+        dialogClass: 'dialogstyleperso',
+        modal: true,
+        buttons: [
+            {
+                text: "OK",
+                "class": 'ui-state-information',
+                click: function () {
+                    $(this).dialog("close");
+                    $('#popupinformation').hide();
+                }
+            }
+        ]
+    });
+
+    // ajouter le style à la barre de titre
+    // note : on n'utilise pas .dialogClass dans la définition de la boîte de dialogue car mettrait tout le fond en couleur
+    $("#popupinformation").prev().addClass('ui-state-information');
+    return popup;
+
+}

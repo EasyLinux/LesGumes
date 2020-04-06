@@ -1,0 +1,40 @@
+<div class="form-group">
+  <label class="col-md-12 control-label" for="selectTable">Table</label>
+  <div class="col-md-12">
+    <select id="selectTable" class="form-control" onChange="updateParameter();">
+    </select>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="col-md-12 control-label" for="tableDesc">Description</label>
+  <div class="col-md-12">                     
+    <textarea class="form-control" id="tableDesc" name="tableDesc">Description de la table</textarea>
+  </div>
+</div>
+
+<!-- Select Multiple -->
+<div class="form-group">
+  <label class="col-md-12 control-label" for="selectItem">Contenu</label>
+  <div class="col-md-12">
+    <select id="selectItem" class="form-control" multiple="multiple">
+    </select>
+  </div>
+</div>
+<div id="dialog"></div>
+<div class="col-md-12">
+  <nav>
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" onClick="editParameter('add');"><span class="glyphicon glyphicon-plus"></span></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" onClick="editParameter('del');"><span class="glyphicon glyphicon-trash"></span></a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" onClick="editParameter('edit');"><span class="glyphicon glyphicon-pencil"></span></a>
+      </li>
+    </ul>				
+  </nav>
+</div>

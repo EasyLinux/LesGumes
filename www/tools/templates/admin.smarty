@@ -23,7 +23,14 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#" onClick="editContent();">Editeur</a>
                             </li>
-                            <!-- <li class="nav-item dropdown">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onClick="editParameters();">Edition des paramètres</a>
+                            </li>
+
+
+<!--
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="http://example.com"
                                     id="navbarDropdownMenuLink" data-toggle="dropdown">Dropdown link</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

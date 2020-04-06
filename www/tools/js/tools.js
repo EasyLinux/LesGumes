@@ -12,10 +12,7 @@ function insertSQL() {
     Version: version,
     SQL: sql
   };
-  $.post("/tools/index.php", data,
-    function (data, status) {
-      //console.log("Etat: "+ status);
-    });
+  $.post("/tools/index.php", data);
 
 }
 
@@ -28,7 +25,6 @@ function getSQL() {
   $.post("/tools/index.php", data,
     function (data, status) {
       $("#sql").text(data);
-      //console.log("Etat: "+ status);
     });
 
 }
@@ -258,10 +254,12 @@ function loadRightTable(whendone) {
     aRecords.Idx = 0;
     aRecords.Status = "Saved";
     // Afficher la première fiche
-    updateRightRecord();
     if (whendone == 'show') {
       // Le popup est prêt, on l'affiche
+      $('#pop-all').on("show.bs.modal",updateRightRecord());
       $('#pop-all').modal('show');
+    } else {
+      updateRightRecord();
     }
 
   });
@@ -314,7 +312,6 @@ function Restore() {
   $('#loadBackup').change(function () {
     var file_data = $('#loadBackup').prop('files')[0];
     var form_data = new FormData();
-    console.log(file_data);
     if (file_data.type != "application/zip") {
       alert("Ce n'est pas un fichier.zip");
       return false;
@@ -350,7 +347,6 @@ function loadBackupList() {
     Action: 'loadBackupList'
   };
   $.post('/ajax/index.php', data, function (data) {
-    console.log(data);
     var listitems;
     data.forEach((item) => {
       listitems += '<option value=' + item.id + '>' + item.label + '</option>';
@@ -366,28 +362,195 @@ function loadBackupList() {
  * Lance la restauration du fichier choisi
  */
 function restoreNow() {
-  console.log("restoreNow");
   if ($('#selectType').val() == 0) {
     alert("Veuillez choisir un type de restauration !");
     return false;
   }
-  if( $('#selectBackup option:selected').val() == undefined )
-  {
+  if ($('#selectBackup option:selected').val() == undefined) {
     alert('Choisissez une sauvegarde à restaurer');
     return false;
   }
-  // console.log("debut de restauration ");
-  // console.log("Type de restauration : "+$('#selectType').val());
-  // console.log("Fichier à restaurer : "+$('#selectBackup option:selected').val())
   $("#sub-msg-1").text("Restauration en cours ...");
   data = {
     Action: "restoreNow",
     Type: $('#selectType').val(),
     Id: $('#selectBackup option:selected').val()
   }
-  $.post('/ajax/index.php', data, function(data){
-    console.log(data);
+  $.post('/ajax/index.php', data, function (data) {
     $("#sub-msg-1").text("Restauration terminée");
-    $("#sub-msg-2").html("Statut: "+ data.ErrMsg);
+    $("#sub-msg-2").html("Statut: " + data.ErrMsg);
+  });
+}
+
+/* =====================================================================================
+  =                                   Edition des pseudo tables                        =
+  ======================================================================================*/
+/**
+ * editParameters
+ * 
+ * permet d'éditer les pseudo tables et les paramètres
+ */
+function editParameters() 
+{
+  // Charger le Popup formulaire
+  $('#holder').load('/tools/templates/popup.smarty', function () {
+    // Changer le titre
+    $('#pop-title').text('Edition des paramètres');
+    // Charger le contenu
+    $('#pop-content').load('/tools/templates/parameters.smarty');
+    // Bouton  Quitter
+    var Btn = document.createElement('button');
+    Btn.id = "Quit";
+    Btn.innerHTML = "Quitter";
+    Btn.className = "btn btn-secondary";
+    // Ce bouton ferme le popup
+    Btn.setAttribute('data-dismiss', 'modal');
+    $("#pop-foot").append(Btn);
+    // charger les tables
+    data = {
+      Action: "paramTables"
+    };
+    $.post('/ajax/index.php',data,function(data){
+      aRecords = data;
+      aRecords.Idx = 0;
+      // Attendre que la fenêtre modale soit chargée, pour afficher les éléments
+      $('#pop-all').on("show.bs.modal",function(){
+        var first=true;  // pour sélectionner la première table
+        aRecords.forEach(function(item){
+          // pour chacune des entrées de sys_parameter où name='pseudo'
+          if( item.link == '#') {
+            // link='#' siginfie qu'on désigne une table, ajout dans select
+            html = "<option value='"+item.id+"'>"+item.value+"</option>"
+            $('#selectTable').append(html);
+            if( first ){
+              // première table -> extraire la description
+              first=false;
+              $('#tableDesc').val(item.description);
+              // ajouter les entrées de la table dans le selectItem
+              sSearch = 'table'+item.value;
+              aRecords.forEach(function(item2){
+                if(item2.link == sSearch){
+                  html2 = "<option value='"+item2.id+"'>"+item2.value+"</option>";
+                  $('#selectItem').append(html2);
+                }
+              });
+            }
+          }
+        });
+      });
+      // Le popup est prêt, on l'affiche
+      $('#pop-all').modal('show');
+    });
+  });
+}
+
+/**
+ * updateParameter
+ * 
+ * Mise à jour de la table affichée dans le modal
+ * 
+ * @parameter {void}
+ * @return    {void}
+ */
+function updateParameter()
+{
+  var id; // @var int id 
+  var sSearch; // @var string  nom de la table à chercher
+  // Récupérer l'Id
+  id = $('#selectTable :selected').val();
+  // Récupérer le nom de la pseudo table
+  aRecords.forEach(function (item){
+    if( item.id == id ){
+      sSearch = 'table'+ item.value;
+      $('#tableDesc').val(item.description);
+    }
+  });
+  // vider la liste
+  $('#selectItem').empty();
+
+  aRecords.forEach(function(item2){
+    if(item2.link == sSearch){
+      html2 = "<option value='"+item2.id+"'>"+item2.value+"</option>";
+      $('#selectItem').append(html2);
+    }
+  });
+
+}
+
+/**
+ * editParameter
+ * 
+ * Modifie un élément d'une pseudo table 
+ * 
+ * @parameter {string}    type : <add|del|edit> action à réaliser
+ * @return    {void}
+ */
+function editParameter(type)
+{
+  if( type == 'del'){
+    id = $('#selectItem :selected').val();
+    aRecords.forEach(function(item){
+      if( item.id == id){
+        valeur = item.value;
+      }
+    });
+    ret = confirm("Effacer "+valeur+ " ?");
+    updateParameters('del',id,'','');
+  }
+  if( type == 'add' ){
+    idTable = $('#selectTable :selected').val();
+    aRecords.forEach(function(item){
+      if( item.id == idTable){
+        table = item.value;
+      }
+    });
+    ret = prompt("Nouvelle valeur");
+    updateParameters('add',0,ret,table);
+  }
+  if( type == 'edit'){
+    id = $('#selectItem :selected').val();
+    
+    aRecords.forEach(function(item){
+      if( item.id == id){
+        valeur = item.value;
+      }
+    });
+    ret = prompt("Nouvelle valeur",valeur);
+    updateParameters('edit',id,ret,'');
+  }
+  
+  // ret = prompt("Agir");
+//  afficherPopupInformation("Ajout test",this);
+//  $("#popupinformation").modal("show");
+}
+
+function updateParameters(type,id,value,table)
+{
+  data = {
+    Action: 'updateParameters',
+    Type:  type,
+    Id:    id,
+    Value: value,
+    Table: table
+  }
+  $.post('/ajax/index.php',data,function(data){
+    aRecords = data;
+    refreshParameters($('#selectTable :selected').val());
+  });
+}
+
+function refreshParameters(id)
+{
+  $('#selectItem').empty();
+  aRecords.forEach(function(item){
+    if(item.id == id){
+      sSearch = 'table'+item.value;
+    }
+  });
+  aRecords.forEach(function(item){
+    if(item.link == sSearch){
+      html = "<option value='"+item.id+"'>"+item.value+"</option>";
+      $('#selectItem').append(html);
+    }
   });
 }

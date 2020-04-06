@@ -8,6 +8,12 @@ include_once("config/config.php");
 
 require_once("class/autoload.php");
 require_once("vendor/autoload.php");
+
+session_start();
+// Pas d'utilisateur connecté
+$_SESSION["User"] = "None";
+// Accès 'public' uniquement
+$_SESSION["Access"] = ["Public"];
 $db = new cMariaDb($Cfg);
 $sys = new cSystem($db->getDb());
 // Generateur de templates
@@ -21,6 +27,7 @@ if( isset($aMenu["Errno"]))
 {
 	die("ERREUR: Table sys_menu, veuillez contacter le responsable du site");
 }
+
 $tmpl->assign("Menu",$aMenu);
 // Récupérer les news
 $aNews = $sys->getNews(5);

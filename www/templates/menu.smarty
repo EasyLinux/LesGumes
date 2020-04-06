@@ -1,11 +1,10 @@
 {* Le menu est créé dynamiquement en fonction de la table sys_menu 
    TODO menu.smarty - Pas très élégant, à revoir 
 *}
-{foreach from=$Menu item=line}
-  {if $line.droits eq 'public' && $line.type eq 'gauche' && $line.parent == 0}
-	<h3>{$line.label}</h3>
-	{foreach from=$Menu item=level2}
-		{if $level2.droits eq 'public' && $level2.type eq 'gauche' && $line.id == $level2.parent}
+
+{foreach from=$Menu.gauche item=level1}
+	<h3>{$level1.label}</h3>
+	{foreach from=$level1.childs item=level2}
 <div id="Menu-{$level2.id}">
 	<div class="card">
 		<div class="card-header">
@@ -20,17 +19,13 @@
     <div id="Menu-2-{$level2.id}" class="collapse show">
       <div class="card-body">
         <ul>
-		{foreach from=$Menu item=level3}
-			{if $level3.droits eq 'public' && $level3.type eq 'gauche' && $level2.id == $level3.parent}
+		{foreach from=$level2.childs item=level3}
 				<li><a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a></li>
-			{/if}			
 		{/foreach} 
         </ul>
       </div>
     </div>
   </div>
 </div>
-		 {/if}
 	{/foreach} 
-  {/if}
 {/foreach}

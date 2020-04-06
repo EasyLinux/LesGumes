@@ -1,4 +1,12 @@
 <?php
+/**
+ * Point d'entrée du site
+ * 
+ * Ce site est basé sur une utilisation intensive de php / jQuery / jQuery UI / Bootstrap / Smarty
+ * 
+ * @author Serge NOEL <serge.noel@easylinux.fr>
+ * 
+ */
 // TODO ces fichiers seront retirés pour la mise en production
 if( !isset($_POST["Action"]) ) {
     echo file_get_contents("tmpl/main.tmpl");

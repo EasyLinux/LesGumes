@@ -28,7 +28,39 @@ class cSystem
     function getMenu()
     {
         $aRet = [];
-        $sSQL = "SELECT * FROM sys_menu;";
+        /* Recherche du menu Up
+        SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link 
+            FROM sys_right, sys_menu_rights, sys_menu
+                WHERE type='up' 
+	                AND sys_menu.id=idMenu 
+                    AND idRights= sys_right.Id 
+                    AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
+        */
+        $sSQL  = "SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link ";
+        $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
+        $sSQL .= "WHERE type='up' ";
+        $sSQL .= "AND sys_menu.id=idMenu ";
+        $sSQL .= "AND idRights= sys_right.Id ";
+        if( count($_SESSION["Access"]) < 1 ){
+            die("Youston: we've got a problem !");
+        } 
+        if( count($_SESSION["Access"]) == 1){
+            $sOR = "AND sys_right.Label='public'";
+        } else {
+            $sOR = "AND (";
+            $bFirst = true;
+            foreach($_SESSION["Access"] as $sAccess )
+            {
+                if( $bFirst){
+                    $bFirst=false;
+                    $sOR .= "sys_right.Label='$sAccess' ";
+                } else {
+                    $sOR .= "OR sys_right.Label='$sAccess' ";
+                }
+            }
+            $sOR .= ")";
+        }
+        $sSQL .= $sOR . ";";
         if (!$oResult = $this->Db->query($sSQL)) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
             return $aRet;
@@ -37,9 +69,80 @@ class cSystem
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => "Table sys_menu vide !"];
             return $aRet;
         }
-        $aRet = $oResult->fetch_all(MYSQLI_ASSOC);
-        $oResult->free();   
-        return $aRet; 
+        $aRet['up'] = $oResult->fetch_all(MYSQLI_ASSOC);
+
+        /* Recherche du menu gauche
+        SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link 
+            FROM sys_right, sys_menu_rights, sys_menu
+                WHERE type='up' 
+	                AND sys_menu.id=idMenu 
+                    AND idRights= sys_right.Id 
+                    AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
+        */
+        $sSQL  = "SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, parent, type, link ";
+        $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
+        $sSQL .= "WHERE type='gauche' ";
+        $sSQL .= "AND sys_menu.id=idMenu ";
+        $sSQL .= "AND idRights= sys_right.Id ";
+        if( count($_SESSION["Access"]) < 1 ){
+            die("Youston: we've got a problem !");
+        } 
+        if( count($_SESSION["Access"]) == 1){
+            $sOR = "AND sys_right.Label='public'";
+        } else {
+            $sOR = "AND (";
+            $bFirst = true;
+            foreach($_SESSION["Access"] as $sAccess )
+            {
+                if( $bFirst){
+                    $bFirst=false;
+                    $sOR .= "sys_right.Label='$sAccess' ";
+                } else {
+                    $sOR .= "OR sys_right.Label='$sAccess' ";
+                }
+            }
+            $sOR .= ")";
+        }
+        $sSQL .= $sOR . ";";
+        $oResult = $this->Db->query($sSQL); 
+        $aTmp = $oResult->fetch_all(MYSQLI_ASSOC);
+        // réorganisation des données pour avoir une vue hiérarchique
+        foreach($aTmp AS $menuItem )
+        {
+            if( $menuItem["parent"] == 0){
+                $aRet['gauche'][] = $menuItem;
+            }
+        }  
+        // Deuxième niveau / troisème niveau
+       $Idx=0;
+       while( $Idx < count($aRet['gauche']))
+       {
+            // Parcours menu de niveau 0
+            $Idy=0;
+            $IdNew=0;
+            while( $Idy < count($aTmp) )
+            {
+                // S'il existe des sous-menu
+                if( $aTmp[$Idy]["parent"] == $aRet['gauche'][$Idx]["id"]){
+                    // Entree de second niveau
+                    $aRet['gauche'][$Idx]["childs"][]=$aTmp[$Idy];
+                    
+                    $Idz = 0;
+                    while( $Idz < count($aTmp) )
+                    {
+                        if($aTmp[$Idz]["parent"] == $aTmp[$Idy]["id"]){
+                            $aRet['gauche'][$Idx]["childs"][$IdNew]["childs"][]=$aTmp[$Idz];
+                    }
+                    $Idz++;
+                    }
+                $IdNew++;
+                }
+                $Idy++;
+        }
+        $Idx++;
+       }
+       $oResult->free();   
+       return $aRet; 
     }
 
     /**

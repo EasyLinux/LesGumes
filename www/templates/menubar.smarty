@@ -1,7 +1,7 @@
 {assign var=first value=true}
     		<div class="col-md-12">
                 <ul class="nav amap-top-menu">
-{foreach from=$Menu item=line}
+{foreach from=$Menu.up item=line}
   {if $line.type eq 'up'}
 	  {if $first}
 		  {assign var=auto value=" ml-auto"}{assign var=active value=" active"}{assign var=first value=false}

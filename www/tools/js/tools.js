@@ -270,18 +270,12 @@ function loadRightTable(whendone) {
 /*==========================================================================================
  =                               Edition de contenu                                        =
  ===========================================================================================*/
-
-
+var imgSelected;                    // @var string imgSelected  Image sélectionnée
+var curFolder='';                   // @var string curFolder    Répertoire affiché
+var sourceFolder= '/media/images';  // @var string sourceFolder Répertoire racine
 function editContent() {
   // TODO a changer
   $('#Popup').modal('show');
-  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-  // $.magnificPopup.instance._onFocusIn = function(e) {
-  //   if( $(e.target).hasClass('ck-input') ) {
-  //      return true;
-  //   } 
-  //   $.magnificPopup.proto._onFocusIn.call(this,e);
-  // };
 }
 
 /**
@@ -294,13 +288,21 @@ function editContent() {
  */
 function getImage() 
 {
+  imgSelected="";  // Pas d'image sélectionnée
+  curFolder=sourceFolder; // répertoire origine images
   // afficher popup
   $('#holder').load('/tools/templates/image.smarty', function(){
     $('#image').on('show.bs.modal', function () {
       $('#Popup').css('opacity', 0.5);
+      goImage('refresh','');
     });  
     $('#image').on('hidden.bs.modal', function () {
       $('#Popup').css('opacity', 1);
+    });
+
+    // on télécharge un fichier
+    $('#fileInput').change(function() {
+      goImage("doUpload",'');
     });
 
     $('#image').modal('show');
@@ -326,13 +328,147 @@ function setImage(imageURL)
 }
 
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
+/**
+ * goImage
+ * 
+ * Traitement du popup de sélection d'image les actions possibles <choose|upload|newFolder|trash|select>
+ * 
+ * @param {string} action   action requise
+ * @param {object} objet    objet sélectionné 
+ */
+function goImage(action,objet)
+{
+  //console.log(objet);
+  switch(action)
+  {
+    case 'choose':
+      console.log(curFolder+"/"+imgSelected);
+      if( imgSelected.indexOf(".pdf") ){
+        CkEditor.execute( 'link', curFolder+"/"+imgSelected ,{ linkIsExternal: true });
+        $('#image').modal('hide');
+        return;
+      }
+      if( imgSelected.indexOf(".") > 0 && imgSelected.indexOf(".." == 0) ){
+        setImage(curFolder+"/"+imgSelected);
+        $('#image').modal('hide');
+      }
       break;
-    }
+
+    case 'upload':
+      document.getElementById('fileInput').click();
+      break;
+
+    case 'doUpload':
+      var file_data = $('#fileInput').prop('files')[0];
+      var form_data = new FormData();
+      form_data.append('file', file_data);
+      form_data.append('Action', 'loadFile');
+      form_data.append('Where', curFolder+"/");
+      $.ajax({
+        url: "/ajax/index.php",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function () {
+          goImage('refresh','');
+        }
+      });
+  
+      break;
+
+    case 'newFolder':
+      console.log("newFolder");
+      folder = prompt("Nom du répertoire");
+      data = {
+        Action: 'doEditor',
+        Sub:    'newFolder',
+        Folder: curFolder,
+        File:   folder
+      };
+      $.post('/ajax/index.php', data, function(){
+        goImage('refresh','');
+      });
+      break;
+
+    case 'trash':
+      if( imgSelected == "" ){
+        console.log("Pas d'image sélectionnée");
+        return false;
+      }
+        data = {
+          Action: 'doEditor',
+          Sub:    'delFile',
+          Folder: curFolder,
+          File:   imgSelected
+        };
+        if (confirm('Effacer '+imgSelected + " ?") ){
+          $.post('/ajax/index.php', data, function(){
+            goImage('refresh','');
+          });
+        }
+        break;
+
+    case 'select':
+      sPtr = $(objet).text().trim();
+      imgSelected = sPtr;
+      console.log($(objet).text().trim());
+      $('.imgShow a').removeClass('active');
+      $(objet).addClass('active');
+      break;
+
+    case "chdir":
+      if( imgSelected.indexOf(".") == -1 || imgSelected.indexOf(".." == 0) ){
+        // Pas de . dans le nom ou ".." -> cas d'un répertoire
+        
+        console.log("chdir "+sPtr);
+        if( sPtr.indexOf(".") == -1 ){
+          curFolder='/media/images/'+imgSelected;
+          imgSelected=""; // vide l'image sélectionnée au cas où
+        } else {
+          // ..
+          curFolder='/media/images'; // TODO
+        }
+        
+        // chgFolder
+        goImage('refresh','');
+      }
+      break;
+
+    case 'refresh':
+      data = {
+        Action: 'doEditor',
+        Sub:    'getFiles',
+        Folder: curFolder,
+        File:   ''
+      };
+      $.post('/ajax/index.php', data, function(resp){
+        var html="";
+        console.log(resp);
+        resp.forEach(function(file){
+          html += "<a class='float-left' href='#' onClick=\"goImage('select',this);\">";
+          if( file.name.indexOf("..") == 0 || file.name.indexOf(".") == -1 ){
+            // .. ou pas de point   -> répertoire
+            html += "<div><img src=\"images/folderOpen.png\"></div>"+file.name+"</a>";
+          } else {
+            // Cas d'un fichier 
+            if( file.name.indexOf(".pdf") > 0 ){
+              // fichier .pdf
+              html += "<div><img src=\"images/pdfFile.png\"></div>"+file.name+"</a>";
+            } else {
+              // autre fichier
+              html += "<div><img src=\""+file.folder+"/"+file.name+"\"></div>"+file.name+"</a>";
+            }
+          }
+          
+        });
+        $('#imgShow').html(html);
+      })
+      
+      break;
   }
+  return false;
 }
 
 /*==========================================================================================
@@ -373,7 +509,7 @@ function Restore() {
     }
     form_data.append('file', file_data);
     form_data.append('Action', 'loadFile');
-    form_data.append('Where', '_Backup');
+    form_data.append('Where', '/_Backup/');
     $.ajax({
       url: "/ajax/index.php",
       data: form_data,

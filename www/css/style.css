@@ -13,28 +13,27 @@ body {
 /*  hauteur de la boite ckeditor */
 .ck-editor__editable_inline {
   min-height: 400px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.ck-content .image.image_resized {
+  display: block;
+  box-sizing: border-box;
+}
+
+.ck-content .image.image_resized img {
+  width: 100%;
+}
+
+.ck-content .image.image_resized > figcaption {
+  display: block;
 }
 
 .editor {
   display: block;
 }
 
-
-.Full {
-  display: block;
-  background-image: url('/images/main/amap_bg.jpg');
-  background-size: cover;
-  z-index: 100; 
-  position: absolute; 
-  top: 0px; 
-  bottom: 0px; 
-  left: 0px; 
-  right: 0px;
+img {
+  width: 100%;
 }
-
-.Full h1 {
-  text-align: center;
-  color: white;
-  padding-top: 200px;
-}
-

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd /home/snoel/Documents/Projets/Amap-LesGumes/
+
+rm -rf Tools/Doc/*
+./www/vendor/bin/phpdoc -t Tools/Doc -d www --ignore "www/vendor/" --ignore "www/templates_c/"

@@ -71,8 +71,9 @@ switch($_POST["Action"])
       break;
 
     case 'loadFile':
-      $sTargetFile = __DIR__."/../". $_POST["WHERE"];
+      $sTargetFile = $_SERVER["DOCUMENT_ROOT"].$_POST["Where"];
       $sTargetFile .= basename($_FILES['file']['name']	);
+      error_log("Fichier cible : ".$sTargetFile);
       if( move_uploaded_file($_FILES['file']['tmp_name'],$sTargetFile) ){
         echo "OK";
       } else {
@@ -126,6 +127,11 @@ switch($_POST["Action"])
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
       doNews($_POST["Want"],$_POST["Titre"], $_POST["Id"],$_POST["Contenu"]);
       break;
+      
+      case 'doEditor':
+        include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/editor.php");
+        doEditor($_POST["Sub"],$_POST["Folder"],$_POST["File"]);
+        break;
       
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");

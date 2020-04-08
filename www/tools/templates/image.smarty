@@ -11,37 +11,26 @@
       <!-- Modal body -->
       <div class="modal-body" id="image_body">
         <div class="toolbar">
-          <button onClick="goImage('choose');" title="Choisir" class="btn btn-outline-primary">
+          <button onClick="goImage('choose','');" title="Choisir" class="btn btn-outline-primary">
             <span class="glyphicon glyphicon-thumbs-up"></span> Choisir
           </button>
           <input id="fileInput" type="file" style="display:none;" />
-          <button onclick="document.getElementById('fileInput').click();" title="Télécharger" class="btn btn-outline-primary">
+          <button onclick="goImage('upload','');" title="Télécharger" class="btn btn-outline-primary">
             <span class="glyphicon glyphicon-save"></span> Télécharger
           </button>
-          <button onClick="goImage('newFolder');" title="Nouveau dossier" class="btn btn-outline-primary">
+          <button onClick="goImage('newFolder','');" title="Nouveau dossier" class="btn btn-outline-primary">
             <span class="glyphicon glyphicon-plus"></span> Nouveau dossier
           </button>
-          <button onClick="goImage('trash');" title="Supprimer" class="btn btn-outline-primary">
+          <button onClick="goImage('chdir','');" title="Aller dans" class="btn btn-outline-primary">
+            <span class="glyphicon glyphicon-folder-open"></span> Aller dans
+          </button>
+          <button onClick="goImage('trash','');" title="Supprimer" class="btn btn-outline-danger">
             <span class="glyphicon glyphicon-trash"></span> Supprimer
           </button>
         </div>
         <br />
-        <div class="imgShow">
-          <a class="float-left" href='#'>
-            <div>
-              <img src="/media/images/Image1.jpg">
-            </div>Image1.jpg
-          </a>
-          <a class="float-left" href='#'>
-            <div>
-              <img src="/media/images/Image2.png" >
-            </div>Image2.png
-          </a>
-          <a class="float-left" href='#'>
-            <div>
-              <img src="/media/folderOpen.png">
-            </div>Repertoire
-          </a>
+        <div class="imgShow" id="imgShow">
+
         </div>
       </div>
 

@@ -1,5 +1,5 @@
         <div class="modal fade" id="Popup" role="dialog" aria-labelledby="myPopup" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myPopup">
@@ -10,15 +10,12 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
+                    <div class="modal-body" id="before-editor">
+                    </div>
                     <div class="modal-body" id="editor">
-                        Texte à éditer
                     </div>
                     
                     <div class="modal-footer" id="Pop-footer">
-                            
-                        <button type="button" class="btn btn-primary">
-                            Enregistrer
-                        </button>
                             
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Quitter

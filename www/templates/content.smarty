@@ -2,7 +2,7 @@
 <div class="jumbotron">
   <h2>{$New.titre}</h2>
   <p class="amap-info">Message publié le : <span>{$New.date|date_format:"%d/%m/%Y"}</span> à <span>{$New.date|date_format:"%H:%M"}</span></p>
-	<!-- <p>{$New.contenu}</p> -->
+	<p>{$New.contenu}</p>
 </div>
 {/foreach}
 

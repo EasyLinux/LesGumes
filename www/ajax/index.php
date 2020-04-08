@@ -116,7 +116,17 @@ switch($_POST["Action"])
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/parameters.php");
       updateParameters($_POST["Type"],$_POST["Id"],$_POST["Value"],$_POST["Table"]);
       break;
-    
+
+    case 'listNews':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
+      listNews();
+      break;
+
+      case 'doNews':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
+      doNews($_POST["Want"],$_POST["Titre"], $_POST["Id"],$_POST["Contenu"]);
+      break;
+      
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
       break;

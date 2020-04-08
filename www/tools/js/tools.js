@@ -1,5 +1,6 @@
 var toolbarType = 'complete';
 var CkEditor;
+var editor;
 var aRecords;
 
 function insertSQL() {
@@ -274,10 +275,64 @@ function loadRightTable(whendone) {
 function editContent() {
   // TODO a changer
   $('#Popup').modal('show');
+  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+  // $.magnificPopup.instance._onFocusIn = function(e) {
+  //   if( $(e.target).hasClass('ck-input') ) {
+  //      return true;
+  //   } 
+  //   $.magnificPopup.proto._onFocusIn.call(this,e);
+  // };
 }
 
-function getImage() {
-  return prompt("URL image : ");
+/**
+ * getImage
+ * 
+ * Cette fonction est appelée par l'éditeur CkEditor lors d'une demande d'insertion
+ * d'image. L'image sera renvoyée par la fonction setImage
+ * @param  {void}
+ * @return {void}
+ */
+function getImage() 
+{
+  // afficher popup
+  $('#holder').load('/tools/templates/image.smarty', function(){
+    $('#image').on('show.bs.modal', function () {
+      $('#Popup').css('opacity', 0.5);
+    });  
+    $('#image').on('hidden.bs.modal', function () {
+      $('#Popup').css('opacity', 1);
+    });
+
+    $('#image').modal('show');
+  });
+}
+
+/**
+ * setImage
+ * 
+ * Renvoi l'URL de l'image sélectionnée par l'utilisateur
+ * 
+ * @param {string} imageURL    URL relative de l'image
+ */
+function setImage(imageURL)
+{
+  CkEditor.model.change(writer => {
+    const imageElement = writer.createElement('image', {
+      src: imageURL
+    });
+    // Insert the image in the current selection location.
+    CkEditor.model.insertContent(imageElement, CkEditor.model.document.selection);
+  });
+}
+
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }
 
 /*==========================================================================================
@@ -388,7 +443,7 @@ function restoreNow() {
 /**
  * editParameters
  * 
- * permet d'éditer les pseudo tables et les paramètres
+ * Ouvre un popup qui permet d'éditer les pseudo tables et les paramètres
  */
 function editParameters() 
 {
@@ -411,6 +466,7 @@ function editParameters()
       Action: "paramTables"
     };
     $.post('/ajax/index.php',data,function(data){
+      // TODO bug, parfois aRecords peut ne pas être chargé
       aRecords = data;
       aRecords.Idx = 0;
       // Attendre que la fenêtre modale soit chargée, pour afficher les éléments
@@ -553,4 +609,111 @@ function refreshParameters(id)
       $('#selectItem').append(html);
     }
   });
+}
+
+/* =================================================================================================
+ =                                     Gestion des news                                            =
+ ===================================================================================================*/
+function editNews()
+{
+  $('#myPopup').text("Edition des news");
+  $("#before-editor").load("/tools/templates/news.smarty",function(){
+    data = {
+      Action: 'listNews'
+    }
+    $.post('/ajax/index.php',data,function(data){
+      $aRecords = data;
+      data.forEach(function(option){
+        html = "<option value='"+option.id+"'>"+option.date+" - "+option.titre+"</option>";
+        $('#selectNew').append(html);  
+      });
+      $('#Popup').on('show.bs.modal',function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      $('#Popup').modal({
+        focus: false,
+        show: true
+      });
+
+    });
+  
+  });
+
+}
+
+/**
+ * doNews
+ * 
+ * Agit sur une nouvelle en fonction de la demande
+ * @param {string} action <add|del|edit|load|save>
+ */
+function doNews(action)
+{
+  switch(action)
+  {
+    case 'add':
+      titre = prompt('Nom de la nouvelle');
+      data = {
+        Action: 'doNews',
+        Want: 'add',
+        Titre: titre,
+        Id: 0
+      };
+      $.post('/ajax/index.php',data,function(resp){
+        // Ajouter option
+        html = "<option value='"+resp[0].id+"'>"+resp[0].display+"</option>";
+        $('#selectNew').prepend(html);
+      });
+      break;
+
+    case 'del':
+        data = {
+          Action: 'doNews',
+          Want: 'del',
+          Id: $('#selectNew :selected').val()
+        };
+        $.post('/ajax/index.php',data);
+        $('#selectNew :selected').remove();
+        break;
+
+    case 'edit':
+      text = $('#selectNew :selected').text();
+      date = text.substring(0,21);
+      titre = text.substring(24);
+      newTitre = prompt('Titre',titre);
+      data = {
+        Action: 'doNews',
+        Want: 'edit',
+        Titre: newTitre,
+        Id: $('#selectNew :selected').val()
+      };
+      $.post('/ajax/index.php',data);
+      $('#selectNew :selected').text(date+" - "+newTitre);
+    break;
+
+    case 'load':
+      data = {
+          Action: 'doNews',
+          Want: 'load',
+          Id: $('#selectNew :selected').val()
+        };
+        $.post('/ajax/index.php',data,function (resp){
+          CkEditor.setData(resp[0].contenu);
+        });
+      break;
+
+    case 'save':
+      data = {
+          Action: 'doNews',
+          Want: 'save',
+          Id: $('#selectNew :selected').val(),
+          Contenu: CkEditor.getData()
+        };
+        $.post('/ajax/index.php',data);
+    break;
+
+    default:
+      alert(action);
+      break;
+  }
 }

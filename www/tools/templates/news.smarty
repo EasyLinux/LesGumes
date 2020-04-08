@@ -1,0 +1,39 @@
+                        <div class="form-group">
+                            <label class="col-md-12 control-label" for="selectbasic">Choisir une nouvelle</label>
+                            <div class="col-md-12">
+                                <select id="selectNew" class="form-control" multiple="multiple" onClick="doNews('load');">
+                                </select>
+                                <br />
+                                <nav>
+                                    <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" 
+                                           onClick="doNews('add');" data-toggle="tooltip" 
+                                           title="Ajouter une nouvelle">
+
+                                          <span class="glyphicon glyphicon-plus"></span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" 
+                                           onClick="doNews('del');" data-toggle="tooltip" 
+                                           title="Supprimer la nouvelle"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" 
+                                           onClick="doNews('edit');" data-toggle="tooltip" 
+                                           title="Editer le titre"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" 
+                                           onClick="doNews('load');" data-toggle="tooltip" 
+                                           title="Ouvrir dans l'éditeur"><span class="glyphicon glyphicon-open"></span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" 
+                                           onClick="doNews('save');" data-toggle="tooltip" 
+                                           title="Enregisrer les modifications"><span class="glyphicon glyphicon-save"></span></a>
+                                    </li>
+                                    </ul>				
+                                </nav>
+                            </div>
+                        </div>

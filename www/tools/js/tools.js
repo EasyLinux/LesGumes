@@ -1,5 +1,6 @@
 var toolbarType = 'complete';
 var CkEditor;
+var editor;
 var aRecords;
 
 function insertSQL() {
@@ -269,15 +270,205 @@ function loadRightTable(whendone) {
 /*==========================================================================================
  =                               Edition de contenu                                        =
  ===========================================================================================*/
-
-
+var imgSelected;                    // @var string imgSelected  Image sélectionnée
+var curFolder='';                   // @var string curFolder    Répertoire affiché
+var sourceFolder= '/media/images';  // @var string sourceFolder Répertoire racine
 function editContent() {
   // TODO a changer
   $('#Popup').modal('show');
 }
 
-function getImage() {
-  return prompt("URL image : ");
+/**
+ * getImage
+ * 
+ * Cette fonction est appelée par l'éditeur CkEditor lors d'une demande d'insertion
+ * d'image. L'image sera renvoyée par la fonction setImage
+ * @param  {void}
+ * @return {void}
+ */
+function getImage() 
+{
+  imgSelected="";  // Pas d'image sélectionnée
+  curFolder=sourceFolder; // répertoire origine images
+  // afficher popup
+  $('#holder').load('/tools/templates/image.smarty', function(){
+    $('#image').on('show.bs.modal', function () {
+      $('#Popup').css('opacity', 0.5);
+      goImage('refresh','');
+    });  
+    $('#image').on('hidden.bs.modal', function () {
+      $('#Popup').css('opacity', 1);
+    });
+
+    // on télécharge un fichier
+    $('#fileInput').change(function() {
+      goImage("doUpload",'');
+    });
+
+    $('#image').modal('show');
+  });
+}
+
+/**
+ * setImage
+ * 
+ * Renvoi l'URL de l'image sélectionnée par l'utilisateur
+ * 
+ * @param {string} imageURL    URL relative de l'image
+ */
+function setImage(imageURL)
+{
+  CkEditor.model.change(writer => {
+    const imageElement = writer.createElement('image', {
+      src: imageURL
+    });
+    // Insert the image in the current selection location.
+    CkEditor.model.insertContent(imageElement, CkEditor.model.document.selection);
+  });
+}
+
+
+/**
+ * goImage
+ * 
+ * Traitement du popup de sélection d'image les actions possibles <choose|upload|newFolder|trash|select>
+ * 
+ * @param {string} action   action requise
+ * @param {object} objet    objet sélectionné 
+ */
+function goImage(action,objet)
+{
+  //console.log(objet);
+  switch(action)
+  {
+    case 'choose':
+      console.log(curFolder+"/"+imgSelected);
+      if( imgSelected.indexOf(".pdf") ){
+        CkEditor.execute( 'link', curFolder+"/"+imgSelected ,{ linkIsExternal: true });
+        $('#image').modal('hide');
+        return;
+      }
+      if( imgSelected.indexOf(".") > 0 && imgSelected.indexOf(".." == 0) ){
+        setImage(curFolder+"/"+imgSelected);
+        $('#image').modal('hide');
+      }
+      break;
+
+    case 'upload':
+      document.getElementById('fileInput').click();
+      break;
+
+    case 'doUpload':
+      var file_data = $('#fileInput').prop('files')[0];
+      var form_data = new FormData();
+      form_data.append('file', file_data);
+      form_data.append('Action', 'loadFile');
+      form_data.append('Where', curFolder+"/");
+      $.ajax({
+        url: "/ajax/index.php",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function () {
+          goImage('refresh','');
+        }
+      });
+  
+      break;
+
+    case 'newFolder':
+      console.log("newFolder");
+      folder = prompt("Nom du répertoire");
+      data = {
+        Action: 'doEditor',
+        Sub:    'newFolder',
+        Folder: curFolder,
+        File:   folder
+      };
+      $.post('/ajax/index.php', data, function(){
+        goImage('refresh','');
+      });
+      break;
+
+    case 'trash':
+      if( imgSelected == "" ){
+        console.log("Pas d'image sélectionnée");
+        return false;
+      }
+        data = {
+          Action: 'doEditor',
+          Sub:    'delFile',
+          Folder: curFolder,
+          File:   imgSelected
+        };
+        if (confirm('Effacer '+imgSelected + " ?") ){
+          $.post('/ajax/index.php', data, function(){
+            goImage('refresh','');
+          });
+        }
+        break;
+
+    case 'select':
+      sPtr = $(objet).text().trim();
+      imgSelected = sPtr;
+      console.log($(objet).text().trim());
+      $('.imgShow a').removeClass('active');
+      $(objet).addClass('active');
+      break;
+
+    case "chdir":
+      if( imgSelected.indexOf(".") == -1 || imgSelected.indexOf(".." == 0) ){
+        // Pas de . dans le nom ou ".." -> cas d'un répertoire
+        
+        console.log("chdir "+sPtr);
+        if( sPtr.indexOf(".") == -1 ){
+          curFolder='/media/images/'+imgSelected;
+          imgSelected=""; // vide l'image sélectionnée au cas où
+        } else {
+          // ..
+          curFolder='/media/images'; // TODO
+        }
+        
+        // chgFolder
+        goImage('refresh','');
+      }
+      break;
+
+    case 'refresh':
+      data = {
+        Action: 'doEditor',
+        Sub:    'getFiles',
+        Folder: curFolder,
+        File:   ''
+      };
+      $.post('/ajax/index.php', data, function(resp){
+        var html="";
+        console.log(resp);
+        resp.forEach(function(file){
+          html += "<a class='float-left' href='#' onClick=\"goImage('select',this);\">";
+          if( file.name.indexOf("..") == 0 || file.name.indexOf(".") == -1 ){
+            // .. ou pas de point   -> répertoire
+            html += "<div><img src=\"images/folderOpen.png\"></div>"+file.name+"</a>";
+          } else {
+            // Cas d'un fichier 
+            if( file.name.indexOf(".pdf") > 0 ){
+              // fichier .pdf
+              html += "<div><img src=\"images/pdfFile.png\"></div>"+file.name+"</a>";
+            } else {
+              // autre fichier
+              html += "<div><img src=\""+file.folder+"/"+file.name+"\"></div>"+file.name+"</a>";
+            }
+          }
+          
+        });
+        $('#imgShow').html(html);
+      })
+      
+      break;
+  }
+  return false;
 }
 
 /*==========================================================================================
@@ -318,7 +509,7 @@ function Restore() {
     }
     form_data.append('file', file_data);
     form_data.append('Action', 'loadFile');
-    form_data.append('Where', '_Backup');
+    form_data.append('Where', '/_Backup/');
     $.ajax({
       url: "/ajax/index.php",
       data: form_data,
@@ -388,7 +579,7 @@ function restoreNow() {
 /**
  * editParameters
  * 
- * permet d'éditer les pseudo tables et les paramètres
+ * Ouvre un popup qui permet d'éditer les pseudo tables et les paramètres
  */
 function editParameters() 
 {
@@ -411,6 +602,7 @@ function editParameters()
       Action: "paramTables"
     };
     $.post('/ajax/index.php',data,function(data){
+      // TODO bug, parfois aRecords peut ne pas être chargé
       aRecords = data;
       aRecords.Idx = 0;
       // Attendre que la fenêtre modale soit chargée, pour afficher les éléments
@@ -553,4 +745,111 @@ function refreshParameters(id)
       $('#selectItem').append(html);
     }
   });
+}
+
+/* =================================================================================================
+ =                                     Gestion des news                                            =
+ ===================================================================================================*/
+function editNews()
+{
+  $('#myPopup').text("Edition des news");
+  $("#before-editor").load("/tools/templates/news.smarty",function(){
+    data = {
+      Action: 'listNews'
+    }
+    $.post('/ajax/index.php',data,function(data){
+      $aRecords = data;
+      data.forEach(function(option){
+        html = "<option value='"+option.id+"'>"+option.date+" - "+option.titre+"</option>";
+        $('#selectNew').append(html);  
+      });
+      $('#Popup').on('show.bs.modal',function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      $('#Popup').modal({
+        focus: false,
+        show: true
+      });
+
+    });
+  
+  });
+
+}
+
+/**
+ * doNews
+ * 
+ * Agit sur une nouvelle en fonction de la demande
+ * @param {string} action <add|del|edit|load|save>
+ */
+function doNews(action)
+{
+  switch(action)
+  {
+    case 'add':
+      titre = prompt('Nom de la nouvelle');
+      data = {
+        Action: 'doNews',
+        Want: 'add',
+        Titre: titre,
+        Id: 0
+      };
+      $.post('/ajax/index.php',data,function(resp){
+        // Ajouter option
+        html = "<option value='"+resp[0].id+"'>"+resp[0].display+"</option>";
+        $('#selectNew').prepend(html);
+      });
+      break;
+
+    case 'del':
+        data = {
+          Action: 'doNews',
+          Want: 'del',
+          Id: $('#selectNew :selected').val()
+        };
+        $.post('/ajax/index.php',data);
+        $('#selectNew :selected').remove();
+        break;
+
+    case 'edit':
+      text = $('#selectNew :selected').text();
+      date = text.substring(0,21);
+      titre = text.substring(24);
+      newTitre = prompt('Titre',titre);
+      data = {
+        Action: 'doNews',
+        Want: 'edit',
+        Titre: newTitre,
+        Id: $('#selectNew :selected').val()
+      };
+      $.post('/ajax/index.php',data);
+      $('#selectNew :selected').text(date+" - "+newTitre);
+    break;
+
+    case 'load':
+      data = {
+          Action: 'doNews',
+          Want: 'load',
+          Id: $('#selectNew :selected').val()
+        };
+        $.post('/ajax/index.php',data,function (resp){
+          CkEditor.setData(resp[0].contenu);
+        });
+      break;
+
+    case 'save':
+      data = {
+          Action: 'doNews',
+          Want: 'save',
+          Id: $('#selectNew :selected').val(),
+          Contenu: CkEditor.getData()
+        };
+        $.post('/ajax/index.php',data);
+    break;
+
+    default:
+      alert(action);
+      break;
+  }
 }

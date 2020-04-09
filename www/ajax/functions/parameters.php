@@ -20,7 +20,7 @@ function paramTables()
   include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
   $db = new cMariaDb($Cfg);
-  $sSQL = "SELECT id, value, link, description FROM sys_parameter WHERE name='pseudo';";
+  $sSQL = "SELECT id, value, type, link, description FROM sys_parameter WHERE name IS NULL;";
   header('content-type:application/json');
   echo json_encode($db->getAllFetch($sSQL)); 
 }
@@ -43,7 +43,7 @@ function updateParameters($Type,$Id,$Value,$Table)
   switch($Type)
   {
     case 'add':
-      $sSQL = "INSERT INTO sys_parameter SET name='pseudo', value='$Value', type='string', link='table$Table',description='';";
+      $sSQL = "INSERT INTO sys_parameter SET name=NULL, value='$Value', type='string', link='table$Table',description=NULL;";
       $db->Query($sSQL);
       break;
 
@@ -62,7 +62,7 @@ function updateParameters($Type,$Id,$Value,$Table)
       break;
   }
   // rafraichir les données
-  $sSQL = "SELECT id, value, link, description FROM sys_parameter WHERE name='pseudo';";
+  $sSQL = "SELECT id, value, type, link, description FROM sys_parameter WHERE name IS NULL;";
   header('content-type:application/json');
   echo json_encode($db->getAllFetch($sSQL)); 
 }

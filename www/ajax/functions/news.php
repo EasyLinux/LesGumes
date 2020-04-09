@@ -21,14 +21,15 @@ function listNews()
   include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
   $db = new cMariaDb($Cfg);
-  $sSQL = "SELECT id, titre, date FROM sys_news ORDER BY date DESC;";
+  $sSQL = "SELECT id, sTitre, dateCreation FROM sys_news ORDER BY dateCreation DESC;";
+  error_log("listNews SQL : $sSQL");
   $aResponse = $db->getAllFetch($sSQL);
   foreach($aResponse as $aRec)
   {
-    $sDate = substr($aRec["date"],8,2) . "/" . substr($aRec["date"],5,2) . "/";
-    $sDate .= substr($aRec["date"],0,4) . " à " . substr($aRec["date"],11,8);
+    $sDate = substr($aRec["dateCreation"],8,2) . "/" . substr($aRec["dateCreation"],5,2) . "/";
+    $sDate .= substr($aRec["dateCreation"],0,4) . " à " . substr($aRec["dateCreation"],11,8);
     $aRet[] = ["id" => $aRec["id"],
-               "titre" => $aRec["titre"],
+               "titre" => $aRec["sTitre"],
                "date" => $sDate];
   }
   header('content-type:application/json');
@@ -53,16 +54,16 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
       include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
       include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
       $db = new cMariaDb($Cfg);
-      $sSQL = "INSERT INTO sys_news SET titre=\"$sTitre\";";
+      $sSQL = "INSERT INTO sys_news SET sTitre=\"$sTitre\";";
       // Lancer requete
       $db->Query($sSQL);
       // récupérer id, date
       $iId = $db->getLastId();
-      $sSQL = "SELECT id,titre,date FROM sys_news WHERE titre=\"$sTitre\";";
+      $sSQL = "SELECT id,sTitre,dateCreation FROM sys_news WHERE sTitre=\"$sTitre\";";
       $aRet = $db->getAllFetch($sSQL);
-      $aRet[0]["display"]  = substr($aRet[0]["date"],8,2) . "/" . substr($aRet[0]["date"],5,2) . "/";
-      $aRet[0]["display"] .= substr($aRet[0]["date"],0,4) . " à " . substr($aRet[0]["date"],11,8);
-      $aRet[0]["display"] .= " - ".$aRet[0]["titre"];
+      $aRet[0]["display"]  = substr($aRet[0]["dateCreation"],8,2) . "/" . substr($aRet[0]["dateCreation"],5,2) . "/";
+      $aRet[0]["display"] .= substr($aRet[0]["dateCreation"],0,4) . " à " . substr($aRet[0]["dateCreation"],11,8);
+      $aRet[0]["display"] .= " - ".$aRet[0]["sTitre"];
       header('content-type:application/json');
       echo json_encode($aRet); 
       break;
@@ -83,7 +84,7 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
       include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
       include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
       $db = new cMariaDb($Cfg);
-      $sSQL = "UPDATE sys_news SET titre=\"$sTitre\" WHERE id=$iId;";
+      $sSQL = "UPDATE sys_news SET sTitre=\"$sTitre\" WHERE id=$iId;";
       // Lancer requete
       $db->Query($sSQL);
       $aRet = ["Errno" => 0,"ErrMsg" => "OK"];
@@ -95,10 +96,10 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
         include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
         include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
         $db = new cMariaDb($Cfg);
-        $sSQL = "SELECT id, contenu FROM sys_news WHERE id=$iId;";
+        $sSQL = "SELECT id, tContenu FROM sys_news WHERE id=$iId;";
         // Lancer requete
         $aRet = $db->getAllFetch($sSQL);
-        $aRet[0]["contenu"] = stripslashes($aRet[0]["contenu"]);
+        $aRet[0]["contenu"] = stripslashes($aRet[0]["tContenu"]);
         header('content-type:application/json');
         echo json_encode($aRet); 
         break;
@@ -107,7 +108,7 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
         include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
         include_once($_SERVER["DOCUMENT_ROOT"]."/class/mariadb.class.php");
         $db = new cMariaDb($Cfg);
-        $sSQL = "UPDATE sys_news set contenu=\"".addslashes($sContenu).".\" WHERE id=$iId;";
+        $sSQL = "UPDATE sys_news set tContenu=\"".addslashes($sContenu).".\" WHERE id=$iId;";
         // Lancer requete
         error_log("SQL: ".$sSQL);
         $db->Query($sSQL);
@@ -115,6 +116,10 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
         header('content-type:application/json');
         echo json_encode($aRet); 
         break;
+
+    case 'listNews':
+      listNews();
+      break;
 
   }
 }

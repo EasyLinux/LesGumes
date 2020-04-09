@@ -6,6 +6,38 @@
  * il agit sur la table sys_right
  */
  
+function doRights($sAction, $id, $sLabel, $sDesc)
+{
+  switch($sAction)
+  {
+    case 'listRights':
+      header('content-type:application/json');
+      echo json_encode(listRights());
+      break;
+
+    case 'saveRights':
+      header('content-type:application/json');
+      echo json_encode(saveRights($id,$sLabel,$sDesc));
+      break;
+
+    case 'delRight':
+      header('content-type:application/json');
+      echo json_encode(delRights($id));
+      break;
+    
+
+    default:
+      error_log("ERREUR managerRights.php appel de $sAction ");
+      break;
+  }
+}
+
+
+
+
+
+
+
 /**
  * listRights
  * 
@@ -16,9 +48,8 @@
  */
 function listRights()
 {
-  require_once(__DIR__."/../config/config.php");
-  require_once(__DIR__."/../vendor/autoload.php");
-  require_once(__DIR__."/../class/autoload.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
   $db = new cMariaDb($Cfg);
 
@@ -39,21 +70,21 @@ function listRights()
 function saveRights($id,$label,$desc)
 {
   $aRet = ["Errno" => 0];
-  require_once(__DIR__."/../config/config.php");
-  require_once(__DIR__."/../vendor/autoload.php");
-  require_once(__DIR__."/../class/autoload.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
   $db = new cMariaDb($Cfg);
-  if( $i == 0 ) {
-    $sSQL = "INSERT INTO sys_right SET Label='$label', Description='$desc';";
+  if( $id == 0 ) {
+    $sSQL = "INSERT INTO sys_right SET sLabel='$label', sDescription='$desc';";
     $db->Query($sSQL);
     $aRet = ["Errno" => 0,"id" => $db->getLastId()];
   }
   else {
-    $sSQL = "UPDATE sys_right SET Label='$label', Description='$desc' WHERE id=$id;";
+    $sSQL = "UPDATE sys_right SET sLabel='$label', sDescription='$desc' WHERE id=$id;";
     $db->Query($sSQL);
     $aRet = ["Errno" => 0,"id" => $id];
   }
+  error_log("modif : $sSQL");
   return $aRet;
 }
 
@@ -70,9 +101,8 @@ function delRights($id)
 {
   $iErrno = 0;
   $sErrMsg = "Ce droit est utilisé : <ul>";
-  require_once(__DIR__."/../config/config.php");
-  require_once(__DIR__."/../vendor/autoload.php");
-  require_once(__DIR__."/../class/autoload.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
   $db = new cMariaDb($Cfg);
   // Utilisé dans un menu ?

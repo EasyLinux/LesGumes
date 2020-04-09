@@ -81,13 +81,13 @@ function createRightButtonBar() {
       aRecords.Status = "Not saved";
       aRecords.Idx = aRecords.length;
       Idx = aRecords.push({
-        Id: 0,
-        Label: "",
-        Description: ""
+        iId: 0,
+        sLabel: "",
+        sDescription: ""
       });
       // Pointe sur cet enregistrement 
       //    (id mis à zéro signifie nouveau pour la partie ajax)
-      aRecords[Idx - 1].Id = 0;
+      aRecords[Idx - 1].id = 0;
       $('#sRecLabel').val("");
       $('#sRecDesc').val("");
     }
@@ -101,17 +101,18 @@ function createRightButtonBar() {
   Btn.onclick = function () {
     // Paramètres à envoyer à ajax
     data = {
-      Action: 'saveRights',
-      id: aRecords[aRecords.Idx].Id,
-      label: $('#sRecLabel').val(),
-      desc: $('#sRecDesc').val()
+      Action: 'doRights',
+      Sub:    'saveRights',
+      id:     aRecords[aRecords.Idx].id,
+      label:  $('#sRecLabel').val(),
+      desc:   $('#sRecDesc').val()
     };
     // Appel ajax
     $.post("/ajax/index.php", data, function (data) {
       // Mettre à jour aRecords
-      aRecords[aRecords.Idx].Id = data.id.toString();
-      aRecords[aRecords.Idx].Label = $('#sRecLabel').val();
-      aRecords[aRecords.Idx].Description = $('#sRecDesc').val();
+      aRecords[aRecords.Idx].id = data.id.toString();
+      aRecords[aRecords.Idx].sLabel = $('#sRecLabel').val();
+      aRecords[aRecords.Idx].sDescription = $('#sRecDesc').val();
       // Mise à jour de l'affichage
       updateRightRecord();
       aRecords.Status = "Saved";
@@ -132,8 +133,9 @@ function createRightButtonBar() {
   Btn.onclick = function () {
     // Supprimer un enregistrement
     data = {
-      Action: "delRight",
-      id: aRecords[aRecords.Idx].Id
+      Action: "doRights",
+      Sub:    "delRight",
+      id:     aRecords[aRecords.Idx].id
     };
     $.post("/ajax/index.php", data, function (data) {
       if (data.Errno == -1) {
@@ -175,8 +177,8 @@ function createRightButtonBar() {
 function updateRightRecord() {
   $('#maxRecord').text(aRecords.length);
   $("#curRecord").text(aRecords.Idx + 1);
-  $('#sRecLabel').val(aRecords[aRecords.Idx].Label);
-  $('#sRecDesc').val(aRecords[aRecords.Idx].Description);
+  $('#sRecLabel').val(aRecords[aRecords.Idx].sLabel);
+  $('#sRecDesc').val(aRecords[aRecords.Idx].sDescription);
 }
 
 /**
@@ -247,7 +249,11 @@ function goLastRight() {
 function loadRightTable(whendone) {
   // Récupérer le contenu de la table sys_right dans aRecords
   data = {
-    Action: 'listRights'
+    Action: 'doRights',
+    Sub:    'listRights',
+    id:     0,
+    label:  '',
+    desc:   ''
   };
   $.post("/ajax/index.php", data, function (data, status) {
     aRecords = data;
@@ -583,6 +589,7 @@ function restoreNow() {
  */
 function editParameters() 
 {
+  console.log('Edition des pseudo-tables');
   // Charger le Popup formulaire
   $('#holder').load('/tools/templates/popup.smarty', function () {
     // Changer le titre
@@ -601,17 +608,20 @@ function editParameters()
     data = {
       Action: "paramTables"
     };
-    $.post('/ajax/index.php',data,function(data){
+    $.post('/ajax/index.php',data,function(resp){
+      console.log('Chargement de la liste des tables');
+      console.log(resp);
       // TODO bug, parfois aRecords peut ne pas être chargé
-      aRecords = data;
+      aRecords = resp;
       aRecords.Idx = 0;
       // Attendre que la fenêtre modale soit chargée, pour afficher les éléments
       $('#pop-all').on("show.bs.modal",function(){
         var first=true;  // pour sélectionner la première table
         aRecords.forEach(function(item){
           // pour chacune des entrées de sys_parameter où name='pseudo'
-          if( item.link == '#') {
-            // link='#' siginfie qu'on désigne une table, ajout dans select
+          console.log(item.type);
+          if( item.type == 'pseudoTable') {
+            // type == 'pseudoTable' signifie qu'on désigne une table, ajout dans select
             html = "<option value='"+item.id+"'>"+item.value+"</option>"
             $('#selectTable').append(html);
             if( first ){
@@ -620,6 +630,7 @@ function editParameters()
               $('#tableDesc').val(item.description);
               // ajouter les entrées de la table dans le selectItem
               sSearch = 'table'+item.value;
+              console.log("Recherche de "+sSearch);
               aRecords.forEach(function(item2){
                 if(item2.link == sSearch){
                   html2 = "<option value='"+item2.id+"'>"+item2.value+"</option>";
@@ -755,10 +766,15 @@ function editNews()
   $('#myPopup').text("Edition des news");
   $("#before-editor").load("/tools/templates/news.smarty",function(){
     data = {
-      Action: 'listNews'
+      Action:  'doNews',
+      Want:    'listNews',
+      Id:      0,
+      Titre:   '',
+      Contenu: ''
     }
     $.post('/ajax/index.php',data,function(data){
       $aRecords = data;
+      console.log(data);
       data.forEach(function(option){
         html = "<option value='"+option.id+"'>"+option.date+" - "+option.titre+"</option>";
         $('#selectNew').append(html);  

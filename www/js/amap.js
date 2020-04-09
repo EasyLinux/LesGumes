@@ -44,7 +44,7 @@ function loadContent(content)
         return true;
     }
     if( content.indexOf(".pdf") != -1) {
-        window.open(content); 
+        window.open(content,"_blank"); 
         return true;
     }
     if( content.indexOf(".tmpl") != -1) {

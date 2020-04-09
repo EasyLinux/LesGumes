@@ -38,25 +38,10 @@ switch($_POST["Action"])
     //   header('content-type:application/json');
     //   echo json_encode($aResult);
     //   break;
-
-    case 'listRights':
-      include_once(__DIR__."/manageRights.php");
-      // renvoyer la table des droits
-      header('content-type:application/json');
-      echo json_encode(listRights());
-      break; 
-      
-    case 'saveRights':
-      include_once(__DIR__."/manageRights.php");
-      header('content-type:application/json');
-      echo json_encode(saveRights($_POST["id"],$_POST["label"],$_POST["desc"]));
+    case 'doRights':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/manageRights.php");
+      doRights($_POST['Sub'],$_POST["id"],$_POST["label"],$_POST["desc"]);
       break;
-
-    case 'delRight':
-      include_once(__DIR__."/manageRights.php");
-      header('content-type:application/json');
-      echo json_encode(delRights($_POST["id"]));
-      break;   
 
     case 'doBackup':
       include_once(__DIR__."/../config/config.php");
@@ -118,20 +103,15 @@ switch($_POST["Action"])
       updateParameters($_POST["Type"],$_POST["Id"],$_POST["Value"],$_POST["Table"]);
       break;
 
-    case 'listNews':
-      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
-      listNews();
-      break;
-
-      case 'doNews':
+    case 'doNews':
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
       doNews($_POST["Want"],$_POST["Titre"], $_POST["Id"],$_POST["Contenu"]);
       break;
       
-      case 'doEditor':
-        include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/editor.php");
-        doEditor($_POST["Sub"],$_POST["Folder"],$_POST["File"]);
-        break;
+    case 'doEditor':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/editor.php");
+      doEditor($_POST["Sub"],$_POST["Folder"],$_POST["File"]);
+      break;
       
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");

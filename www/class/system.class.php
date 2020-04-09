@@ -36,16 +36,16 @@ class cSystem
                     AND idRights= sys_right.Id 
                     AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
         */
-        $sSQL  = "SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link ";
+        $sSQL  = "SELECT sys_right.id, sys_right.sLabel, idRights, idMenu, sys_menu.id, sys_menu.label, type, link ";
         $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
         $sSQL .= "WHERE type='up' ";
         $sSQL .= "AND sys_menu.id=idMenu ";
-        $sSQL .= "AND idRights= sys_right.Id ";
+        $sSQL .= "AND idRights= sys_right.id ";
         if( count($_SESSION["Access"]) < 1 ){
             die("Youston: we've got a problem !");
         } 
         if( count($_SESSION["Access"]) == 1){
-            $sOR = "AND sys_right.Label='public'";
+            $sOR = "AND sys_right.sLabel='public'";
         } else {
             $sOR = "AND (";
             $bFirst = true;
@@ -53,14 +53,15 @@ class cSystem
             {
                 if( $bFirst){
                     $bFirst=false;
-                    $sOR .= "sys_right.Label='$sAccess' ";
+                    $sOR .= "sys_right.sLabel='$sAccess' ";
                 } else {
-                    $sOR .= "OR sys_right.Label='$sAccess' ";
+                    $sOR .= "OR sys_right.sLabel='$sAccess' ";
                 }
             }
             $sOR .= ")";
         }
         $sSQL .= $sOR . ";";
+        error_log("SQL : ".$sSQL);
         if (!$oResult = $this->Db->query($sSQL)) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
             return $aRet;
@@ -79,16 +80,16 @@ class cSystem
                     AND idRights= sys_right.Id 
                     AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
         */
-        $sSQL  = "SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, parent, type, link ";
+        $sSQL  = "SELECT sys_right.id, sys_right.sLabel, idRights, idMenu, sys_menu.id, sys_menu.label, parent, type, link ";
         $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
         $sSQL .= "WHERE type='gauche' ";
         $sSQL .= "AND sys_menu.id=idMenu ";
-        $sSQL .= "AND idRights= sys_right.Id ";
+        $sSQL .= "AND idRights= sys_right.id ";
         if( count($_SESSION["Access"]) < 1 ){
             die("Youston: we've got a problem !");
         } 
         if( count($_SESSION["Access"]) == 1){
-            $sOR = "AND sys_right.Label='public'";
+            $sOR = "AND sys_right.sLabel='public'";
         } else {
             $sOR = "AND (";
             $bFirst = true;
@@ -104,6 +105,8 @@ class cSystem
             $sOR .= ")";
         }
         $sSQL .= $sOR . ";";
+        error_log("SQL : ".$sSQL);
+
         $oResult = $this->Db->query($sSQL); 
         $aTmp = $oResult->fetch_all(MYSQLI_ASSOC);
         // réorganisation des données pour avoir une vue hiérarchique
@@ -172,9 +175,9 @@ class cSystem
             foreach($aTmps as $aTmp )
             {
                 $aRet[] = ["id" => $aTmp["id"],
-                           "titre" => $aTmp["titre"],
-                           "contenu" => stripslashes($aTmp["contenu"]),
-                           "date" => $aTmp["date"]
+                           "titre" => $aTmp["sTitre"],
+                           "contenu" => stripslashes($aTmp["tContenu"]),
+                           "date" => $aTmp["dateCreation"]
                     ];
             }            
             $aResult->free();   

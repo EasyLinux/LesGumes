@@ -1,5 +1,6 @@
 $().ready(function(){
     loadContent('Main');
+
 });
 
 // Amap special code 
@@ -33,7 +34,7 @@ function loadContent(content)
             Action: "Content",
             Content: content
         };
-        $.post("/ajax/index.php",data, function(data,status){
+        $.post("/ajax/index.php",data, function(data){
             $("#content").html(data);
         });
         return true;

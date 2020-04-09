@@ -157,7 +157,7 @@ class cSystem
     function getNews($iNbre)
     {
         $aRet = [];
-        $sSQL = "SELECT * FROM news ORDER BY id DESC LIMIT 0, $iNbre";
+        $sSQL = "SELECT * FROM sys_news ORDER BY id DESC LIMIT 0, $iNbre";
         if( isset($this->Db) )
         {
             if (!$aResult = $this->Db->query($sSQL)) {
@@ -168,7 +168,15 @@ class cSystem
                 $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => "Table news vide !"];
                 return $aRet;
             }
-            $aRet = $aResult->fetch_all(MYSQLI_ASSOC);
+            $aTmps = $aResult->fetch_all(MYSQLI_ASSOC);
+            foreach($aTmps as $aTmp )
+            {
+                $aRet[] = ["id" => $aTmp["id"],
+                           "titre" => $aTmp["titre"],
+                           "contenu" => stripslashes($aTmp["contenu"]),
+                           "date" => $aTmp["date"]
+                    ];
+            }            
             $aResult->free();   
         }
         return $aRet;

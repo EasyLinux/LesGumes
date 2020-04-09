@@ -484,7 +484,10 @@ function goImage(action,objet)
 function Backup() {
   $("#backup-buttons").fadeOut('slow');
   data = {
-    Action: 'doBackup'
+    Action: 'doBackup',
+    Want:   'makeIt',
+    Type:   '',
+    id:     ''
   }
   $("#sub-msg-1").text("Sauvegarde en cours");
 
@@ -541,7 +544,10 @@ function Restore() {
  */
 function loadBackupList() {
   data = {
-    Action: 'loadBackupList'
+    Action:   'doBackup',
+    Want:     'loadBackupList',
+    Type:     '',
+    id:       0
   };
   $.post('/ajax/index.php', data, function (data) {
     var listitems;
@@ -569,9 +575,10 @@ function restoreNow() {
   }
   $("#sub-msg-1").text("Restauration en cours ...");
   data = {
-    Action: "restoreNow",
-    Type: $('#selectType').val(),
-    Id: $('#selectBackup option:selected').val()
+    Action:   "doBackup",
+    Want:     "doRestore",
+    Type:     $('#selectType').val(),
+    id:       $('#selectBackup option:selected').val()
   }
   $.post('/ajax/index.php', data, function (data) {
     $("#sub-msg-1").text("Restauration terminée");

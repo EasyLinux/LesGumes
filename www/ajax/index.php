@@ -25,34 +25,14 @@ switch($_POST["Action"])
       echo loadContent($_POST["Content"]);
       break;
 
-    // case 'Upload':
-    //   $sTargetFile = basename($_FILES['upload']['name']	);
-    //   if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
-    //   {
-    //     $aResult["url"] = "/media/$sTargetFile";
-    //   }
-    //   else
-    //   {
-    //     $aResult["error"]["message"]="Pas bon";
-    //   }
-    //   header('content-type:application/json');
-    //   echo json_encode($aResult);
-    //   break;
     case 'doRights':
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/manageRights.php");
       doRights($_POST['Sub'],$_POST["id"],$_POST["label"],$_POST["desc"]);
       break;
 
     case 'doBackup':
-      include_once(__DIR__."/../config/config.php");
-      include_once(__DIR__."/../class/backup.class.php");
-      // Autoriser l'utilisation d'un temps d'exécution long et de consommation mémoire plus important
-      ini_set('max_execution_time', 600);
-      ini_set('memory_limit','1024M');
-      $Bkp = new Backup($Cfg);
-      $Bkp->backupFiles("/var/www/html");
-      header('content-type:application/json');
-      echo json_encode(["Errno" => 0, "File" => $Bkp->getBackupFileName()]);      
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/backup.php");
+      doBackup($_POST["Want"],$_POST['Type'],$_POST['id']);     
       break;
 
     case 'loadFile':
@@ -64,33 +44,6 @@ switch($_POST["Action"])
       } else {
         echo "BAD";
       }
-      break;
-
-    case 'loadBackupList':
-      $sFolder = $_SERVER["DOCUMENT_ROOT"]."/_Backup";
-      $aFiles = array_diff(scandir($sFolder), array('..', '.'));
-      foreach($aFiles as $aFile)
-      {
-        if( substr($aFile,0,6) == "backup")
-        {
-          $sIdent = substr($aFile,7,15);
-          $sLabel = "Sauvegarde du ".substr($sIdent,6,2)."/".substr($sIdent,4,2)."/".substr($sIdent,0,4);
-          $sLabel .= " à ".substr($sIdent,9,2).":".substr($sIdent,11,2).":".substr($sIdent,13,2);
-          $aRet[] =["id" => $sIdent, "label" => $sLabel];
-        }        
-      }
-      //$aRet = ["1" => "Test1", "2" => "test2" ];
-      header('content-type:application/json');
-      echo json_encode($aRet);      
-      break;
-
-    case 'restoreNow':
-      include_once(__DIR__."/backup.php");
-      ini_set('max_execution_time', 600);
-      ini_set('memory_limit','1024M');
-      $aRet = restoreNow("backup-".$_POST["Id"].".zip",$_POST['Type']);
-      header('content-type:application/json');
-      echo json_encode($aRet); 
       break;
 
     case 'paramTables':
@@ -113,6 +66,22 @@ switch($_POST["Action"])
       doEditor($_POST["Sub"],$_POST["Folder"],$_POST["File"]);
       break;
       
+
+
+    // case 'Upload':
+    //   $sTargetFile = basename($_FILES['upload']['name']	);
+    //   if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
+    //   {
+    //     $aResult["url"] = "/media/$sTargetFile";
+    //   }
+    //   else
+    //   {
+    //     $aResult["error"]["message"]="Pas bon";
+    //   }
+    //   header('content-type:application/json');
+    //   echo json_encode($aResult);
+    //   break;
+
     default:
       die("Action: ".$_POST["Action"] ." non utilisable");
       break;

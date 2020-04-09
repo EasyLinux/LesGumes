@@ -25,43 +25,31 @@ class cSystem
      * @param void
      * @return array Résultats
      */
-    function getMenu()
+    function getMenu($aRights)
     {
         $aRet = [];
-        /* Recherche du menu Up
-        SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link 
-            FROM sys_right, sys_menu_rights, sys_menu
-                WHERE type='up' 
-	                AND sys_menu.id=idMenu 
-                    AND idRights= sys_right.Id 
-                    AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
-        */
-        $sSQL  = "SELECT sys_right.id, sys_right.sLabel, idRights, idMenu, sys_menu.id, sys_menu.label, type, link ";
-        $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
-        $sSQL .= "WHERE type='up' ";
-        $sSQL .= "AND sys_menu.id=idMenu ";
-        $sSQL .= "AND idRights= sys_right.id ";
-        if( count($_SESSION["Access"]) < 1 ){
+        $sSQL  = "SELECT * FROM sys_menu WHERE type='up' ";
+        if( count($aRights) < 1 ){
             die("Youston: we've got a problem !");
         } 
-        if( count($_SESSION["Access"]) == 1){
-            $sOR = "AND sys_right.sLabel='public'";
+        if( count($aRights) == 1){
+            $sOR = "AND idRight=".$aRights[0]["id"];
         } else {
             $sOR = "AND (";
             $bFirst = true;
-            foreach($_SESSION["Access"] as $sAccess )
+            foreach($aRights as $sAccess )
             {
                 if( $bFirst){
                     $bFirst=false;
-                    $sOR .= "sys_right.sLabel='$sAccess' ";
+                    $sOR .= "idRight=".$sAccess["id"]." ";
                 } else {
-                    $sOR .= "OR sys_right.sLabel='$sAccess' ";
+                    $sOR .= "OR idRight=".$sAccess["id"]." ";
                 }
             }
             $sOR .= ")";
         }
         $sSQL .= $sOR . ";";
-        error_log("SQL : ".$sSQL);
+        // SELECT * FROM sys_menu WHERE type='up' AND (idRight=5 OR idRight=1 OR idRight=3 ) 
         if (!$oResult = $this->Db->query($sSQL)) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
             return $aRet;
@@ -72,41 +60,7 @@ class cSystem
         }
         $aRet['up'] = $oResult->fetch_all(MYSQLI_ASSOC);
 
-        /* Recherche du menu gauche
-        SELECT sys_right.Id, sys_right.Label, idRights, idMenu, sys_menu.id, sys_menu.label, type, link 
-            FROM sys_right, sys_menu_rights, sys_menu
-                WHERE type='up' 
-	                AND sys_menu.id=idMenu 
-                    AND idRights= sys_right.Id 
-                    AND (sys_right.Label='public' OR sys_right.Label='admin' OR ...);
-        */
-        $sSQL  = "SELECT sys_right.id, sys_right.sLabel, idRights, idMenu, sys_menu.id, sys_menu.label, parent, type, link ";
-        $sSQL .= "FROM sys_right, sys_menu_rights, sys_menu ";
-        $sSQL .= "WHERE type='gauche' ";
-        $sSQL .= "AND sys_menu.id=idMenu ";
-        $sSQL .= "AND idRights= sys_right.id ";
-        if( count($_SESSION["Access"]) < 1 ){
-            die("Youston: we've got a problem !");
-        } 
-        if( count($_SESSION["Access"]) == 1){
-            $sOR = "AND sys_right.sLabel='public'";
-        } else {
-            $sOR = "AND (";
-            $bFirst = true;
-            foreach($_SESSION["Access"] as $sAccess )
-            {
-                if( $bFirst){
-                    $bFirst=false;
-                    $sOR .= "sys_right.Label='$sAccess' ";
-                } else {
-                    $sOR .= "OR sys_right.Label='$sAccess' ";
-                }
-            }
-            $sOR .= ")";
-        }
-        $sSQL .= $sOR . ";";
-        error_log("SQL : ".$sSQL);
-
+        $sSQL = str_replace("up", "gauche", $sSQL);
         $oResult = $this->Db->query($sSQL); 
         $aTmp = $oResult->fetch_all(MYSQLI_ASSOC);
         // réorganisation des données pour avoir une vue hiérarchique
@@ -183,6 +137,23 @@ class cSystem
             $aResult->free();   
         }
         return $aRet;
+    }
+
+    /**
+     * getPublicRight
+     * 
+     * Cette fonction interroge la base de données et renvoi l'identifiant corrsepondant à
+     * un accès publique
+     * 
+     * @param   void
+     * @return  array    tableau associatif
+     */
+    function getPublicRight()
+    {
+        $aRet = [];
+        $sSQL = "SELECT id FROM sys_right WHERE sLabel='Public';";
+        $aResult = $this->Db->query($sSQL);
+        return $aResult->fetch_all(MYSQLI_ASSOC);
     }
 
     /**

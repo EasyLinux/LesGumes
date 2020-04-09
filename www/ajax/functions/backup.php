@@ -1,7 +1,42 @@
 <?php
-/*==================================================================================================
-  =                                Gestion des sauvegardes                                         =
-  ==================================================================================================*/  
+/**
+ *  Ce fichier contient la logique de gestion des sauvegardes 
+ * 
+ * 
+ */
+
+ // TODO a valider
+
+/**
+ * doBackup
+ * 
+ * Actions liées à la sauvegarde 
+ */
+function doBackup($sAction, $sType, $id)
+{
+  switch($sAction)
+  {
+    case 'makeIt':
+      makeIt();
+      break;
+
+    case 'loadBackupList':
+      loadBackupList();
+      break;
+
+    case 'doRestore':
+      error_log("demande restauration de $id en tant que $sType ");
+      ini_set('max_execution_time', 600);
+      ini_set('memory_limit','1024M');
+      $aRet = restoreNow("backup-$id.zip",$sType);
+      header('content-type:application/json');
+      echo json_encode($aRet); 
+      break;
+  }
+
+}
+
+
 /**
  * restoreNow
  * 
@@ -18,8 +53,8 @@
  */
 function restoreNow($sFile, $sType)
 {
-  require_once(__DIR__."/../config/config.php");
-  require_once(__DIR__."/../class/autoload.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
   $sSearch="";     // @var string  $sSearch    Répertoire à extraire
   $oZip = new ZipArchive;
   $oRes = $oZip->open($_SERVER["DOCUMENT_ROOT"]."/_Backup/".$sFile);
@@ -42,13 +77,13 @@ function restoreNow($sFile, $sType)
         }            
 
       case "dbonly":        
-        $sBaseSql = $_SERVER["DOCUMENT_ROOT"]."/tmp/base.sql";  // @var string Chemin du fichier .sql
+        $sBaseSql = $_SERVER["DOCUMENT_ROOT"]."/tools/_Backup/base.sql";  // @var string Chemin du fichier .sql
         $sTmp = $_SERVER["DOCUMENT_ROOT"]."/tmp";
-        $oZip->extractTo($sTmp,"tools/_Backup/base.sql");
+        $oZip->extractTo($_SERVER["DOCUMENT_ROOT"],"tools/_Backup/base.sql");
         $oZip->close();
-        // base.sql est dans <root>/tmp/tools/_Backup/base.sql, on le déplace
+        // base.sql est dans tools/_Backup/base.sql, on le déplace
         // puis on fait du ménage
-        rename($sTmp."/tools/_Backup/base.sql",$sBaseSql);
+        // rename($sTmp."/tools/_Backup/base.sql",$sBaseSql);
         // Récupérer le contenu du fichier SQL
         $sSqlLines = file($sBaseSql);
         if( $sSqlLines == false ){
@@ -108,3 +143,34 @@ function restoreNow($sFile, $sType)
 
 }
 
+function makeIt()
+{
+  include_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  include_once($_SERVER["DOCUMENT_ROOT"]."/class/backup.class.php");
+  // Autoriser l'utilisation d'un temps d'exécution long et de consommation mémoire plus important
+  ini_set('max_execution_time', 600);
+  ini_set('memory_limit','1024M');
+  $Bkp = new Backup($Cfg);
+  $Bkp->backupFiles("/var/www/html");
+  header('content-type:application/json');
+  echo json_encode(["Errno" => 0, "File" => $Bkp->getBackupFileName()]); 
+}
+
+function loadBackupList()
+{
+  $sFolder = $_SERVER["DOCUMENT_ROOT"]."/_Backup";
+  $aFiles = array_diff(scandir($sFolder), array('..', '.'));
+  foreach($aFiles as $aFile)
+  {
+    if( substr($aFile,0,6) == "backup")
+    {
+      $sIdent = substr($aFile,7,15);
+      $sLabel = "Sauvegarde du ".substr($sIdent,6,2)."/".substr($sIdent,4,2)."/".substr($sIdent,0,4);
+      $sLabel .= " à ".substr($sIdent,9,2).":".substr($sIdent,11,2).":".substr($sIdent,13,2);
+      $aRet[] =["id" => $sIdent, "label" => $sLabel];
+    }        
+  }
+  //$aRet = ["1" => "Test1", "2" => "test2" ];
+  header('content-type:application/json');
+  echo json_encode($aRet);      
+}

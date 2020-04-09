@@ -12,17 +12,18 @@ require_once("vendor/autoload.php");
 session_start();
 // Pas d'utilisateur connecté
 $_SESSION["User"] = "None";
-// Accès 'public' uniquement
-$_SESSION["Access"] = ["Public"];
+
 $db = new cMariaDb($Cfg);
 $sys = new cSystem($db->getDb());
+// Accès 'public' uniquement
+$_SESSION["Access"] = $sys->getPublicRight();
 // Generateur de templates
 $tmpl = new Smarty();
 
 // Pas encore connecté
 $tmpl->assign("Connected",false);
 // Récupérer les éléments de menu
-$aMenu = $sys->getMenu();
+$aMenu = $sys->getMenu($_SESSION["Access"]);
 if( isset($aMenu["Errno"])) 
 {
 	die("ERREUR: Table sys_menu, veuillez contacter le responsable du site");

@@ -27,7 +27,8 @@ class cSystem
      */
     function getMenu($aRights)
     {
-        $aRet = [];
+        $aRet = ["Errno" => 0, "ErrMsg" => ""];
+
         $sSQL  = "SELECT * FROM sys_menu WHERE type='up' ";
         if( count($aRights) < 1 ){
             die("Youston: we've got a problem !");
@@ -49,6 +50,7 @@ class cSystem
             $sOR .= ")";
         }
         $sSQL .= $sOR . ";";
+       
         // SELECT * FROM sys_menu WHERE type='up' AND (idRight=5 OR idRight=1 OR idRight=3 ) 
         if (!$oResult = $this->Db->query($sSQL)) {
             $aRet = ["Errno" => $this->Db->errno, "ErrMsg" => $this->Db->error];
@@ -152,6 +154,23 @@ class cSystem
     {
         $aRet = [];
         $sSQL = "SELECT id FROM sys_right WHERE sLabel='Public';";
+        $aResult = $this->Db->query($sSQL);
+        return $aResult->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * getUserRights
+     * 
+     * Cette fonction interroge la base de données et renvoi l'identifiant corrsepondant à
+     * un accès publique
+     * 
+     * @param   int      $idUser    identifiant de l'utilisateur
+     * @return  array    tableau associatif
+     */
+    function getUserRights($idUser)
+    {
+        $aRet = [];
+        $sSQL = "SELECT idRights AS id FROM sys_user_rights WHERE idUser=$idUser;";
         $aResult = $this->Db->query($sSQL);
         return $aResult->fetch_all(MYSQLI_ASSOC);
     }

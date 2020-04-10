@@ -3,7 +3,8 @@
     "description": "Site Web Amap LesGumes",
     "type": "project",
     "require": {
-        "smarty/smarty": "^3.1"
+        "smarty/smarty": "^3.1",
+        "phpmailer/phpmailer": "6.1.*"
     },
     "license": "GNU GPL",
     "authors": [

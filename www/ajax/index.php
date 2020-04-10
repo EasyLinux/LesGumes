@@ -16,8 +16,15 @@ switch($_POST["Action"])
 {
     case 'Login':
       // Tentative de connexion
-      header('content-type:application/json');
-      echo json_encode(Authenticate($_POST["login"],$_POST["passw"]));
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/users.php");
+      error_log(print_r($_POST,true));
+      doUser('Login',$_POST["Login"],$_POST["Passwd"]);
+      break;
+
+    case 'doUser':
+      // Tentative de connexion
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/users.php");
+      doUser($_POST["Want"],$_POST["Login"],$_POST["Passwd"]);
       break;
 
     case 'Content':
@@ -65,6 +72,12 @@ switch($_POST["Action"])
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/editor.php");
       doEditor($_POST["Sub"],$_POST["Folder"],$_POST["File"]);
       break;
+
+    case 'doMenu':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/menu.php");
+      doMenu($_POST["Want"]);
+      break;
+    
       
 
 
@@ -83,54 +96,11 @@ switch($_POST["Action"])
     //   break;
 
     default:
-      die("Action: ".$_POST["Action"] ." non utilisable");
+      header('content-type:application/json');
+      echo json_encode(["Errno" => -1, "ErrMsg" => "Action: ".$_POST["Action"] ." non utilisable"]);
       break;
 }
 
-/*==================================================================================================
-  =                                Gestion des utilisateurs                                        =
-  ==================================================================================================*/  
-
-/**
- * Authentificate
- * 
- * Authentifie un couple login/mot de passe si le couple est valide, positionne la
- * variable de session User avec les coordonnées de la personne connectée
- * 
- * @param  string $login   Login
- * @param  string $mdp     Mot de passe
- * @return array  Contenu de User
- */
-function Authenticate($login,$mdp)
-{
-  require_once(__DIR__."/../config/config.php");
-  require_once(__DIR__."/../vendor/autoload.php");
-  require_once(__DIR__."/../class/autoload.php");
-
-  $db = new cMariaDb($Cfg);
-  $sys = new cSystem($db->getDb());
-
-  $aData = $sys->getUser($login,$mdp);
-
-  $aUser = $aData["User"];
-  // Sauvegarde des informations de login
-  session_start();
-  $_SESSION["User"] = $aUser;
-  error_log("Session ID :". session_id());
-  setcookie('Amap-session',session_id());
-  return $aData;
-    //setcookie('identification_amap',$donnees['id']);
-
-    // validation du mot de passe
-    //preg_match('#^[a-zA-Z0-9.@_-]{4,40}$#',$motdp);
-    
-    // $Data = [
-    //     "Errno"   => -1,
-    //     "ErrMsg"  => "Compte ou mot de passe incorrect !"
-    // ];
-    // return json_encode($Data);
-
-}
 
 /*==================================================================================================
   =                                Gestion du contenu                                              =
@@ -157,6 +127,23 @@ function loadContent($Content)
     case 'Login':
       // Boite de dialogue Login
       $sHtml = $tpl->display("login.smarty");
+      break;
+
+    case 'Logout':  
+      $_SESSION = array();
+      
+      // If it's desired to kill the session, also delete the session cookie.
+      // Note: This will destroy the session, and not just the session data!
+      if (ini_get("session.use_cookies")) {
+          $params = session_get_cookie_params();
+          setcookie(session_name(), '', time() - 42000,
+              $params["path"], $params["domain"],
+              $params["secure"], $params["httponly"]
+          );
+      }
+      
+      // Finally, destroy the session.
+      session_destroy();   
       break;
 
     case 'Main':
@@ -186,4 +173,6 @@ function loadContent($Content)
   }
 return $sHtml;
 }
+
+
 

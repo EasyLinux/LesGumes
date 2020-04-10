@@ -37,3 +37,38 @@ body {
 img {
   width: 100%;
 }
+
+.glyphicon-user {
+  padding-right: 10px;
+}
+
+.password, .password:focus {   
+  border-color: rgba(229, 23, 23, 0.8);
+  box-shadow: 0 1px 1px rgba(229, 23, 23, 0.075) inset, 0 0 8px rgba(229, 23, 23, 0.6);
+  outline: 0 none;
+}
+
+.password-Ok, .password-Ok:focus {   
+  border-color: rgba(17, 224, 10, 0.8);
+  box-shadow: 0 1px 1px rgba(17, 224, 10, 0.075) inset, 0 0 8px rgba(17, 224, 10, 0.6);
+  outline: 0 none;
+}
+
+.myProgress {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.myBar {
+  width: 1%;
+  height: 30px;
+  background-color: #4CAF50;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: #4CAF50;
+}

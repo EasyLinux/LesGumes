@@ -38,6 +38,9 @@ img {
   width: 100%;
 }
 
+.glyphicon-user {
+  padding-right: 10px;
+}
 
 .password, .password:focus {   
   border-color: rgba(229, 23, 23, 0.8);

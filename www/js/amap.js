@@ -98,7 +98,7 @@ function authenticate() {
             else {
                 $("#btn-info").removeClass("btn-primary");
                 $("#btn-info").addClass("btn-success");
-                $("#btn-info").text("Connecté en tant que " + resp.User.Prenom + " " + resp.User.Nom);
+                $("#btn-info").html(" <span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom);
                 $("#btn-info").attr("onclick", "loadContent('ChgPwd.js'); return false;");
                 // recharge la page d'accueil
                 loadContent("Main");
@@ -261,13 +261,26 @@ function Validate()
         $('#maj').removeClass("green");
         $('#maj').addClass("red");
     }
-    if(curPass1.match( /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g)){
+    if(curPass1.match( /[!@#$%^&*()_+\-=\[\]{};:\|,.<>\/?]/g)){
         valid += 20;
         $('#spec').removeClass("red");
         $('#spec').addClass("green");
     } else {
         $('#spec').removeClass("green");
         $('#spec').addClass("red");
+    }
+    if(curPass1.match( /['\"']/g)){
+        valid = 0;
+        $('#spec').removeClass("green");
+        $('#spec').addClass("red");
+        $("#ErrTitle").text("ERREUR");
+        $("#ErrMsg").text("Votre mot de passe contient des caractères interdits (' ou \")");
+        $("#ErrBox").removeClass('alert-success');
+        $("#ErrBox").addClass('alert-danger');
+        $("#ErrBox").show();
+        setTimeout(function () {
+            $("#ErrBox").fadeOut(1000);
+        }, 3000);
     }
     if(curPass1.length > 7){
         valid += 20;
@@ -332,7 +345,7 @@ function changePass()
     Msg += "   - contenir au moins une minuscule\n";
     Msg += "   - contenir au moins une majuscule\n";
     Msg += "   - contenir au moins un chiffre\n";
-    Msg += "   - contenir au moins un caractère spécial !@#$%^&*()_+-=[]{};':\"\\|,.<>\/?\n";
+    Msg += "   - contenir au moins un caractère spécial !@#$%^&*()_+-=[]{};:\\|,.<>\/?\n";
     Msg += "   - avoir une taille minimale de 8 caractères\n";
     Msg += "\nLes deux mots de passe doivent coincider\n";
     Msg += "Ex: Pa$$w0Ord - est un mot de passe compatible, ne l'utilisez pas, il est mondialement connu !";

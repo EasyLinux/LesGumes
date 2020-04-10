@@ -5,8 +5,12 @@
 </div>
 <div class="col-md-4">
 {if $Connected eq true}
-  <button class="btn btn-success"  id='btn-info' onClick="loadContent('ChgPwd.js'); return false;">Connecté en tant que {$Raisoc}</button>
+  <button class="btn btn-success"  id='btn-info' 
+          onClick="loadContent('ChgPwd.js'); return false;"> 
+          <span class="glyphicon glyphicon-user"></span> {$Raisoc}</button>
 {else}
-  <button class="btn btn-primary"  id='btn-info' onClick="loadContent('Login'); return false;">Indentifiez vous !!</button>
+  <button class="btn btn-primary"  id='btn-info' 
+          onClick="loadContent('Login'); return false;">
+          <span class="glyphicon glyphicon-user"></span> Identifiez vous</button>
 {/if}
 </div>

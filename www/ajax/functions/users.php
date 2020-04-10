@@ -56,11 +56,17 @@ function Authenticate($login,$mdp)
     }
 
   // Sauvegarde des informations de login
-  $_SESSION["User"] = $aUser;
-  $_SESSION["Access"] = $sys->getUserRights($aUser["id"]);
+  $_SESSION["User"] = $aUser["User"];
+  $_SESSION["Access"] = $sys->getUserRights($aUser["User"]["id"]);
 
   header('content-type:application/json');
-  echo json_encode($aData);
+  echo json_encode([
+    "Errno"   => 0,
+    "ErrMsg"  => "OK",
+    "User"    => [
+      "Nom"    => $aUser["User"]["Nom"],
+      "Prenom" => $aUser["User"]["Prenom"] 
+    ]]);
 }
 
 /**
@@ -136,9 +142,10 @@ function changePass($sPassword)
 
   $db = new cMariaDb($Cfg);
   $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-  $sSQL = "SELECT * FROM sys_users SET Mot_passe=SHA1('$sPassword') WHERE id=".$_SESSION["User"]["id"].";";
+  $sSQL = "UPDATE sys_user SET Mot_passe=SHA1('$sPassword') WHERE id=".$_SESSION["User"]["id"].";";
   $db->Query($sSQL);
-  $aRet["ErrMsg"] = "Votre mot de passe a été changé";
+  $aRet["ErrMsg"] = $sSQL;
+  //$aRet["ErrMsg"] = "Votre mot de passe a été changé";
   header('content-type:application/json');
   echo json_encode($aRet);
 }

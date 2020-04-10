@@ -10,21 +10,27 @@ require_once("class/autoload.php");
 require_once("vendor/autoload.php");
 
 session_start();
-// Pas d'utilisateur connecté
-$_SESSION["User"] = "None";
+// Generateur de templates
 
+$tmpl = new Smarty();
 $db = new cMariaDb($Cfg);
 $sys = new cSystem($db->getDb());
-// Accès 'public' uniquement
-$_SESSION["Access"] = $sys->getPublicRight();
-// Generateur de templates
-$tmpl = new Smarty();
 
-// Pas encore connecté
-$tmpl->assign("Connected",false);
+error_log(print_r($_SESSION,true));
+if( !isset($_SESSION["User"]) || $_SESSION["User"] == "None" ) {
+	// Pas d'utilisateur connecté
+	$_SESSION["User"] = "None";
+	$_SESSION["Access"] = $sys->getPublicRight();
+	$tmpl->assign("Connected",false);
+} else {
+	error_log("SESSION" . print_r($_SESSION,true));
+	$tmpl->assign("Connected",true);
+	$tmpl->assign("Raisoc",$_SESSION["User"]["Prenom"]." ".$_SESSION["User"]["Nom"]);
+}
+
 // Récupérer les éléments de menu
 $aMenu = $sys->getMenu($_SESSION["Access"]);
-if( isset($aMenu["Errno"])) 
+if( $aMenu["Errno"] != 0 ) 
 {
 	die("ERREUR: Table sys_menu, veuillez contacter le responsable du site");
 }

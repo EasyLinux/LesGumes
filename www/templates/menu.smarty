@@ -1,31 +1,25 @@
 {* Le menu est créé dynamiquement en fonction de la table sys_menu 
    TODO menu.smarty - Pas très élégant, à revoir 
-*}
+*} 
 
 {foreach from=$Menu.gauche item=level1}
-	<h3>{$level1.label}</h3>
+	<h1>{$level1.label}</h1>
 	{foreach from=$level1.childs item=level2}
-<div id="Menu-{$level2.id}">
-	<div class="card">
-		<div class="card-header">
-			<a class="card-link" 
-			   data-toggle="collapse" 
-				 data-parent="#Menu-{$level2.id}" 
-				 href="#Menu-2-{$level2.id}"
-				 onclick="loadContent('{$level2.link}'); return false;">
-				   {$level2.label}
+	<div id="menu-{$level2.id}">
+		<h2>
+			<a role="button" href="javascript:;" data-toggle="collapse" data-target="#menu-{$level2.id}-content"
+ 				 aria-expanded="false" aria-controls="menu-{$level2.id}-content" onclick="loadContent('{$level2.link}'); return false;">
+				{$level2.label}
+				<span class="material-icons" aria-hidden="true">
+					keyboard_arrow_down
+				</span>
 			</a>
-    </div>
-    <div id="Menu-2-{$level2.id}" class="collapse show">
-      <div class="card-body">
-        <ul>
+		</h2>
+		<ul id="menu-{$level2.id}-content" class="collapse">
 		{foreach from=$level2.childs item=level3}
-				<li><a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a></li>
+      <li><a href='#' onclick="loadContent('{$level3.link}'); return false;">{$level3.label}</a></li>
 		{/foreach} 
-        </ul>
-      </div>
-    </div>
+    </ul>
   </div>
-</div>
 	{/foreach} 
 {/foreach}

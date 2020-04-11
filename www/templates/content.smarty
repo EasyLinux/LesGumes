@@ -1,8 +1,10 @@
 {foreach from=$News item=New}				
-<div class="jumbotron">
-  <h2>{$New.titre}</h2>
+<article> 
+ <header>
+  <h1>{$New.titre}</h1>
   <p class="amap-info">Message publié le : <span>{$New.date|date_format:"%d/%m/%Y"}</span> à <span>{$New.date|date_format:"%H:%M"}</span></p>
+ </header>
 	<p>{$New.contenu}</p>
-</div>
+</article>
 {/foreach}
 

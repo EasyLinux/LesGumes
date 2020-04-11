@@ -1,0 +1,19 @@
+# Exclure la base de données
+Db/*
+# Historique ne pas enregistrer
+www/anciennes_pages/*
+# configuration pour la bdd
+www/webmaster/define.php
+www/config/config.php
+# framework - utiliser composer update pour les régénérer
+www/vendor/*
+# fichiers temporaires générés par smarty
+www/templates_c/*
+# sauvegardes réalisées par l'appli
+www/_Backup/*
+# fichiers utlisateurs (images, documents, ...)
+www/media/*
+# fichiers temporaires
+www/tmp/*
+# Documentation générée
+Tools/Doc/*

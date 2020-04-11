@@ -1,18 +1,17 @@
 {assign var=first value=true}
-    		<div class="col-md-12">
-                <ul class="nav amap-top-menu">
+<div>
+	<nav role="navigation">
+			<ul class="navbar-nav">
 {foreach from=$Menu.up item=line}
-  {if $line.type eq 'up'}
-	  {if $first}
-		  {assign var=auto value=" ml-auto"}{assign var=active value=" active"}{assign var=first value=false}
-		{else}
-		  {assign var=auto value=""}{assign var=active value=""}{assign var=first value=false}
-		{/if}
-<li class="nav-item{$auto}">
-						<a class="nav-link{$active}" href="#" onclick="loadContent('{$line.link}');return false;">{$line.label}</a>
-					</li>
-  {/if}
+	{if $first}
+		{assign var=active value=" active"}{assign var=first value=false}
+	{else}
+		{assign var=active value=""}
+	{/if}
+			<li class="nav-item{$active}">
+				<a class="nav-link" href="#" onclick="loadContent('{$line.link}');return false;">{$line.label}</a>
+			</li>
 {/foreach}
-</ul>
-            </div>
-
+			</ul>
+	</nav>
+</div>

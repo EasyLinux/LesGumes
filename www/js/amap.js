@@ -99,7 +99,11 @@ function authenticate() {
                 $("#btn-info").removeClass("btn-primary");
                 $("#btn-info").addClass("btn-success");
                 $("#btn-info").html(" <span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom);
-                $("#btn-info").attr("onclick", "loadContent('ChgPwd.js'); return false;");
+                $("#btn-info").on("click", function(){
+                    loadContent('Logout.js');
+                    //logout(); 
+                    return false;
+                });
                 // recharge la page d'accueil
                 loadContent("Main");
                 // recharger le menu

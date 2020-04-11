@@ -189,7 +189,7 @@ class cSystem
         // Le mot de passe est stocké encrypté en sha1
         $sSha1Pass = sha1($sPass);
         // Construire la requête
-        $sSQL = "SELECT * FROM sys_user WHERE Mot_passe='$sSha1Pass' AND Login='$sLogin'";
+        $sSQL = "SELECT * FROM sys_user WHERE bActive=1 AND pMotPasse='$sSha1Pass' AND sLogin='$sLogin'";
         // Le résultat doit retourner une seule ligne
         $oResult = $this->Db->query($sSQL);
         if( $oResult->num_rows != 1) {

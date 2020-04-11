@@ -1,0 +1,61 @@
+<div class="tabbable" id="editUsr">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active show" href="#tabUser" data-toggle="tab">Utilisateur</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " href="#tabAmap" data-toggle="tab">Amap</a>
+    </li>
+  </ul>
+  <!-- Utilisateur -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabUser">
+      <div class="mygroup">
+        <label for="email">Email</label>  
+        <input id="email" type="text" onchange="userAction('uniqueEmail',this.value,0);" >
+      </div>
+      <div class="mygroup">
+        <label for="Nom">Nom</label>  
+        <input id="name" type="text" required="" onkeyup="upper(this);">
+      </div>
+      <div class="mygroup">
+        <label for="Prenom">Prenom</label>  
+        <input id="given" type="text">
+      </div>
+      <div class="mygroup">
+        <label for="address">Adresse</label>  
+        <input id="address" type="text">
+      </div>
+      <div class="mygroup">
+        <label for="zip">C.postal / ville</label>  
+        <input id="zip" type="text" style="width: 15%" onchange="getZip(this.value);">
+        <input id="city" type="text" style="width: 44%" onkeyup="upper(this);">
+      </div>
+      <div class="mygroup">
+        <label for="phone">Téléphone</label>  
+        <input id="phone" type="text">
+      </div>
+      <div class="mygroup">
+        <label for="mobile">Tél. Mobile</label>  
+        <input id="mobile" type="text">
+      </div>
+      <div class="mygroup">
+        <label for="login">Login</label>  
+        <input id="login" type="text" required="">
+      </div>
+    </div>
+
+    <!-- Amap -->
+    <div class="tab-pane" id="tabAmap">
+      <div class="mygroup">
+        <label for="dateIns">Inscrit le : </label>  
+        <input id="dateIns" type="text" disabled="" />
+      </div>
+      <div class="mygroup" >
+        <label >Droits</label>
+        <div class="mycheck" id="checkRights">
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" id="id" />

@@ -100,9 +100,10 @@ class cMariaDb
      * Do a sql request and return an array with results
      * 
      * @param   string    $sSQL  sql request
+     * @param   string    $Type  Type de fetch (MSQLI_ASSOC par défaut)
      * @return  array     result
      */
-    function getAllFetch($sSQL)
+    function getAllFetch($sSQL,$Type=MYSQLI_ASSOC)
     {
         $aRet = [];
         if (!$oResult = $this->Db->query($sSQL)) {
@@ -113,7 +114,7 @@ class cMariaDb
         if ($oResult->num_rows === 0) {
             return [];
         }
-        $aRet = $oResult->fetch_all(MYSQLI_ASSOC);
+        $aRet = $oResult->fetch_all($Type);
         $oResult->free();   
         return $aRet; 
     }    

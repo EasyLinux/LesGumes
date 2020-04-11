@@ -25,7 +25,7 @@ if( !isset($_SESSION["User"]) || $_SESSION["User"] == "None" ) {
 } else {
 	error_log("SESSION" . print_r($_SESSION,true));
 	$tmpl->assign("Connected",true);
-	$tmpl->assign("Raisoc",$_SESSION["User"]["Prenom"]." ".$_SESSION["User"]["Nom"]);
+	$tmpl->assign("Raisoc",$_SESSION["User"]["sPrenom"]." ".$_SESSION["User"]["sNom"]);
 }
 
 // Récupérer les éléments de menu

@@ -48,6 +48,7 @@ function editRights() {
     $('#pop-title').text('Edition des droits');
     // Charger le contenu
     $('#pop-content').load('/tools/templates/edit-rights.smarty');
+    $("#pop-foot").html("");
     // charger les boutons
     createRightButtonBar();
     // Charger les enregistrements
@@ -73,7 +74,7 @@ function createRightButtonBar() {
   //   Nouveau  
   var Btn = document.createElement('button');
   Btn.id = "Add";
-  Btn.innerHTML = "Nouveau";
+  Btn.innerHTML = "<span class='glyphicon glyphicon-plus'></span>  Nouveau";
   Btn.onclick = function () {
     if (aRecords.Status == "Saved") {
       // Sur appui 'Nouveau' Ajoute un élément à la liste, le déclare
@@ -97,7 +98,7 @@ function createRightButtonBar() {
   //  Enregistrer 
   var Btn = document.createElement('button');
   Btn.id = "Save";
-  Btn.innerHTML = "Enregistrer";
+  Btn.innerHTML = "<span class='glyphicon glyphicon-save'></span> Enregistrer";
   Btn.onclick = function () {
     // Paramètres à envoyer à ajax
     data = {
@@ -129,7 +130,7 @@ function createRightButtonBar() {
   //   Supprimer
   var Btn = document.createElement('button');
   Btn.id = "Del";
-  Btn.innerHTML = "Supprimer";
+  Btn.innerHTML = "<span class='glyphicon glyphicon-trash'></span> Supprimer";
   Btn.onclick = function () {
     // Supprimer un enregistrement
     data = {
@@ -157,8 +158,8 @@ function createRightButtonBar() {
   $("#pop-foot").append(Btn);
   //   Quitter
   var Btn = document.createElement('button');
-  Btn.id = "Quit";
-  Btn.innerHTML = "Quitter";
+  Btn.id = "<span class='glyphicon glyphicon-log-out'></span> Quit";
+  Btn.innerHTML = "<span class='glyphicon glyphicon-log-out'></span> Quitter";
   Btn.className = "btn btn-secondary";
   // Ce bouton ferme le popup
   Btn.setAttribute('data-dismiss', 'modal');
@@ -344,12 +345,10 @@ function setImage(imageURL)
  */
 function goImage(action,objet)
 {
-  //console.log(objet);
   switch(action)
   {
     case 'choose':
-      console.log(curFolder+"/"+imgSelected);
-      if( imgSelected.indexOf(".pdf") ){
+      if( imgSelected.indexOf(".pdf") > 0){
         CkEditor.execute( 'link', curFolder+"/"+imgSelected ,{ linkIsExternal: true });
         $('#image').modal('hide');
         return;
@@ -385,7 +384,6 @@ function goImage(action,objet)
       break;
 
     case 'newFolder':
-      console.log("newFolder");
       folder = prompt("Nom du répertoire");
       data = {
         Action: 'doEditor',
@@ -400,7 +398,6 @@ function goImage(action,objet)
 
     case 'trash':
       if( imgSelected == "" ){
-        console.log("Pas d'image sélectionnée");
         return false;
       }
         data = {
@@ -419,7 +416,6 @@ function goImage(action,objet)
     case 'select':
       sPtr = $(objet).text().trim();
       imgSelected = sPtr;
-      console.log($(objet).text().trim());
       $('.imgShow a').removeClass('active');
       $(objet).addClass('active');
       break;
@@ -428,7 +424,6 @@ function goImage(action,objet)
       if( imgSelected.indexOf(".") == -1 || imgSelected.indexOf(".." == 0) ){
         // Pas de . dans le nom ou ".." -> cas d'un répertoire
         
-        console.log("chdir "+sPtr);
         if( sPtr.indexOf(".") == -1 ){
           curFolder='/media/images/'+imgSelected;
           imgSelected=""; // vide l'image sélectionnée au cas où
@@ -451,7 +446,6 @@ function goImage(action,objet)
       };
       $.post('/ajax/index.php', data, function(resp){
         var html="";
-        console.log(resp);
         resp.forEach(function(file){
           html += "<a class='float-left' href='#' onClick=\"goImage('select',this);\">";
           if( file.name.indexOf("..") == 0 || file.name.indexOf(".") == -1 ){
@@ -596,17 +590,17 @@ function restoreNow() {
  */
 function editParameters() 
 {
-  console.log('Edition des pseudo-tables');
   // Charger le Popup formulaire
   $('#holder').load('/tools/templates/popup.smarty', function () {
     // Changer le titre
     $('#pop-title').text('Edition des paramètres');
     // Charger le contenu
     $('#pop-content').load('/tools/templates/parameters.smarty');
+    $("#pop-foot").html("");
     // Bouton  Quitter
     var Btn = document.createElement('button');
     Btn.id = "Quit";
-    Btn.innerHTML = "Quitter";
+    Btn.innerHTML = "<span class='glyphicon  glyphicon-log-out'> Quitter";
     Btn.className = "btn btn-secondary";
     // Ce bouton ferme le popup
     Btn.setAttribute('data-dismiss', 'modal');
@@ -616,8 +610,6 @@ function editParameters()
       Action: "paramTables"
     };
     $.post('/ajax/index.php',data,function(resp){
-      console.log('Chargement de la liste des tables');
-      console.log(resp);
       // TODO bug, parfois aRecords peut ne pas être chargé
       aRecords = resp;
       aRecords.Idx = 0;
@@ -626,7 +618,6 @@ function editParameters()
         var first=true;  // pour sélectionner la première table
         aRecords.forEach(function(item){
           // pour chacune des entrées de sys_parameter où name='pseudo'
-          console.log(item.type);
           if( item.type == 'pseudoTable') {
             // type == 'pseudoTable' signifie qu'on désigne une table, ajout dans select
             html = "<option value='"+item.id+"'>"+item.value+"</option>"
@@ -637,7 +628,6 @@ function editParameters()
               $('#tableDesc').val(item.description);
               // ajouter les entrées de la table dans le selectItem
               sSearch = 'table'+item.value;
-              console.log("Recherche de "+sSearch);
               aRecords.forEach(function(item2){
                 if(item2.link == sSearch){
                   html2 = "<option value='"+item2.id+"'>"+item2.value+"</option>";
@@ -781,7 +771,6 @@ function editNews()
     }
     $.post('/ajax/index.php',data,function(data){
       $aRecords = data;
-      console.log(data);
       data.forEach(function(option){
         html = "<option value='"+option.id+"'>"+option.date+" - "+option.titre+"</option>";
         $('#selectNew').append(html);  
@@ -875,4 +864,400 @@ function doNews(action)
       alert(action);
       break;
   }
+}
+
+/* ==================================================================================================
+   =                                  Gestion des utilisateurs                                      =
+   ==================================================================================================*/
+var uid=0;          // @var int user id
+var user;           // @var objet utilisateur sélectionné
+var zipCodes=[];    // Tableau des codes postaux   
+var inputToField=[  // @var tableau de conversion    input <-> champs de la table
+  ["id","id"],
+  ["email","sEmail"],
+  ["name","sNom"],
+  ["given","sPrenom"],
+  ["address","sAdresse"],
+  ["zip","sCodePostal"],
+  ["city","sVille"],
+  ["phone","sTelephone"],
+  ["mobile","sTelMobile"],
+  ["login","sLogin"]];
+
+
+/**
+ * editUsers
+ * 
+ * Fonction appelée par le menu d'édition des utilisateurs
+ */
+function editUsers()
+{
+  $("#content").load("/tools/templates/popup.smarty", function(){
+    $(".modal-dialog").addClass("modal-xl");
+    $("#pop-title").text("Gestion des utilisateurs");
+    $("#pop-content").addClass('myModal-body');
+    $('#pop-foot').html('');
+
+    var Btn = document.createElement('button');
+    Btn.setAttribute("type","button");
+    Btn.className="btn btn-info";
+    Btn.innerHTML ="<span class='glyphicon glyphicon-lock'></span> Mot de passe";
+    Btn.onclick = function () {
+      userAction('chpwd');
+    };
+    $("#pop-foot").append(Btn);
+    var Btn = document.createElement('button');
+    Btn.id = "add";
+    Btn.innerHTML = "<span class='glyphicon glyphicon-plus'></span> Ajouter";
+    Btn.className = "btn btn-info";
+    Btn.onclick = function () {
+      userAction('add');
+    };
+    $("#pop-foot").append(Btn);
+    var Btn = document.createElement('button');
+    Btn.id = "edit";
+    Btn.innerHTML = "<span class='glyphicon glyphicon-pencil'></span> Modifier";
+    Btn.className = "btn btn-info";
+    Btn.onclick = function () {
+      userAction('edit');
+    };
+    $("#pop-foot").append(Btn);
+    var Btn = document.createElement('button');
+    Btn.id = "del";
+    Btn.innerHTML = "<span class='glyphicon glyphicon-trash'></span> Supprimer";
+    Btn.className = "btn btn-danger";
+    Btn.onclick = function () {
+      userAction('del');
+    };
+    $("#pop-foot").append(Btn);
+    var Btn = document.createElement('button');
+    Btn.id = "quit";
+    Btn.innerHTML = "<span class='glyphicon glyphicon-log-out'></span> Quitter";
+    Btn.className = "btn btn-secondary";
+    // Ce bouton ferme le popup
+    Btn.setAttribute('data-dismiss', 'modal');
+    $("#pop-foot").append(Btn);
+
+    data={
+      Action:  "doUser",
+      Want:    "listUsers",
+      Login:   "",
+      Passwd:  ""
+    };
+    $.post('/ajax/index.php',data, function(resp){
+      $("#pop-content").html(resp.html);
+      $('#pop-all').modal({
+        focus: false,
+        show: true
+      });  
+    });
+    // $('#pop-all').on('show.bs.modal',function(){
+    //   $('[data-toggle="tooltip"]').tooltip();
+    // });
+  });
+}
+
+function userAction(sAction,arg1,id)
+{
+  switch(sAction)
+  {
+    case 'Select':
+      $('.tableFixHead tr').removeClass('myActive');
+      $(arg1).addClass('myActive');
+      uid=id;
+
+      user = arg1.innerText.split("\t");
+      break;
+
+    case 'del':
+      if( ! $(".tableFixHead tr").hasClass('myActive') ){
+        // Pas de ligne choisie
+        return false;
+      }
+      Msg  = "Effacer "+user[0]+ " " + user[1]+ " ?";
+      if( confirm(Msg) )
+      // Effacer
+      data={
+        Action:  "doUser",
+        Want:    "delUser",
+        Login:   uid,
+        Passwd:  ""
+      };
+      $.post('/ajax/index.php',data);
+      userAction('refresh');
+      break;
+
+    case 'add':
+      $('#userEdit').remove();
+      openModal('pop-all','userEdit',"Edition utilisateur");
+      $('#userEdit').modal('show');
+      $('#userEdit-content').load("/tools/templates/userEdit.smarty", function(){
+        $('#userEdit').modal('show');
+      });
+      break;
+
+    case 'uniqueEmail':
+      // Vérifions que c'est un email
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(arg1)) {
+        // OK return (true)
+      } else {
+        alert("Ce n'est pas un email valide !");
+        $('#email').val('').focus();
+        return false;
+      }
+      // Vérfication que l'email est unique, appelé lors 
+      // d'un changement du champs Email
+      data={
+        Action:  "doUser",
+        Want:    "testEmail",
+        Login:   arg1,         // envoi de l'Email
+        Passwd:  ""
+      };
+      $.post("/ajax/index.php",data,function(resp){
+        console.log(resp);
+        if( resp.Errno != 0){
+          if( confirm(resp.ErrMsg) ){
+            console.log("on bascule");
+            userAction('loadUser',null,resp.id);
+          } else {
+            $('#email').val('').focus();
+          }
+          return false;
+        }
+        if ( $('#login').val() == "" ){
+          $('#login').val($('#email').val());
+        }
+      });
+      break;
+
+    case 'loadUser':
+      data={
+        Action:   "doUser",
+        Want:     "loadUserId",
+        Login:    id,
+        Passwd:   ''
+      }
+      $.post("/ajax/index.php",data, function(resp){
+        if( resp.Errno != 0){
+          alert('ERR: '+resp.ErrMsg);
+          return false;
+        }
+        // Remplacer les données du formulaire avec celles de la table
+        inputToField.forEach(function(item){
+          $('#'+item[0]).val(resp.User[item[1]]);
+        });
+        $("#dateIns").val(dateConvert(resp.User['dDateInscription']));
+        // gestion des droits
+        resp.Rights.forEach(function(right){
+          var Div = document.createElement('div');
+          var input = document.createElement('input');
+          var label = document.createElement('label');
+          input.value = right.idRight;
+          input.type = 'checkbox';
+          input.name = 'rights';
+          input.checked = right.gotRight;
+          Div.appendChild(input);
+          label.setAttribute("for",right.idRight);
+          label.innerText = right.sLabel;
+          Div.appendChild(label);
+          document.getElementById('checkRights').appendChild(Div);
+        });
+      });
+      break;
+
+    case 'edit':
+      openModal('pop-all','userEdit',"Edition utilisateur");
+      $('#userEdit').modal('show');
+      $('#userEdit-content').load("/tools/templates/userEdit.smarty", function(){
+        if( uid != 0){
+          userAction('loadUser',null,uid);
+        }
+        //userAction('loadUser',null,uid);
+        $('#userEdit').modal('show');
+      });
+      break;
+
+    case 'save':
+      // {"User":{"id":1,"sNom":"Noel"}}
+      var data="{\"User\":{";
+      // Remplacer les données du formulaire avec celles de la table
+      inputToField.forEach(function(item){
+        //console.log("\""+item[1]+"\":\""+$('#'+item[0]).val()+"\",");
+        data += "\""+item[1]+"\":\""+$('#'+item[0]).val()+"\",";
+      });
+      // La dernière virgule est en trop
+      data = data.substring(0,data.length-1);
+      data += "},\"Rights\":[";
+      // Récupérer les droits
+      var exist=false;
+      $('#checkRights input:checked').each(function() {
+          //selected.push($(this).val());
+          data += '"'+$(this).val()+'",';
+          exist=true;
+      });
+      if(exist){
+        data = data.substring(0,data.length-1);
+      }
+      data += "]}";
+      console.log(data);
+      var form_data = new FormData();
+      form_data.append('Action', 'doUser');
+      form_data.append('Want', 'save');
+      form_data.append('Login', data);
+      form_data.append('Passwd', '');
+      $.ajax({
+        url: "/ajax/index.php",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (resp) {
+          if( resp.Errno != 0 ){
+            alert(resp.ErrMsg);
+          }
+          console.log(resp.SQL);
+        }
+      });
+      userAction('refresh');
+      break;
+
+    case 'refresh':
+      data={
+        Action:  "doUser",
+        Want:    "listUsers",
+        Login:   "",
+        Passwd:  ""
+      };
+      $.post('/ajax/index.php',data, function(resp){
+        $("#pop-content").html(resp.html);
+        $('#pop-all').modal({
+          focus: false,
+          show: true
+        });  
+      });
+      break;
+    
+    case 'chpwd':
+      Msg = "Nouveau mot de passe pour : "+user[0]+ " " + user[1];
+      ret  = prompt(Msg);
+      if( ret ){
+        console.log("new pass ("+uid+"): "+ret);
+        data={
+          Action: 'doUser',
+          Want:   'changePassId',
+          Login:  uid,
+          Passwd: ret
+      }
+      $.post("/ajax/index.php",data);  
+      }
+      break;
+      
+    default:
+      console.log("userAction: Action demandée: "+sAction);
+      break;
+  }
+}
+
+function openModal(parent, id, titre)
+{
+  var Div = document.createElement('div');
+  Div.className = "modal fade";
+  Div.id=id;
+  Div.setAttribute("role","dialog");
+  Div.setAttribute("aria-labelledby",id);
+  Div.setAttribute("aria-hidden","true");
+  document.body.appendChild(Div);
+  var Div2 = document.createElement('div');
+  Div2.className = "modal-dialog";
+  Div2.setAttribute("role","document");
+  Div.appendChild(Div2);
+  var Div3 = document.createElement('div');
+  Div3.className = "modal-content";
+  Div2.appendChild(Div3);
+  var Div4 = document.createElement('div');
+  Div4.className = "modal-header";
+  Div3.appendChild(Div4);
+  var Header = document.createElement('h5');
+  Header.className = "modal-title";
+  Header.innerText =titre;
+  Div4.appendChild(Header);
+  var Btn = document.createElement('button');
+  Btn.setAttribute("type","button");
+  Btn.setAttribute("data-dismiss","modal");
+  Btn.className="close";
+  Div4.appendChild(Btn);
+  var Span = document.createElement('span');
+  Span.setAttribute("aria-hidden","true"); 
+  Span.innerText = "x";
+  Btn.appendChild(Span);
+  var DivContent = document.createElement('div');
+  DivContent.className="modal-body";
+  DivContent.id=id+'-content';
+  Div3.appendChild(DivContent);
+  var DivFoot = document.createElement('div');
+  DivFoot.className="modal-footer";
+  DivFoot.id=id+"-footer";
+  Div3.appendChild(DivFoot);
+
+  var Btn = document.createElement('button');
+  Btn.setAttribute("type","button");
+  Btn.onclick = function () {
+    userAction('save');
+  };
+  Btn.className="btn btn-info";
+  Btn.innerHTML ="<span class='glyphicon glyphicon-save'></span> Enregistrer";
+  Btn.setAttribute("data-dismiss","modal");
+  DivFoot.appendChild(Btn);
+  var Btn = document.createElement('button');
+  Btn.setAttribute("type","button");
+  Btn.className="btn btn-secondary";
+  Btn.setAttribute("data-dismiss","modal");
+  Btn.innerHTML ="<span class='glyphicon glyphicon-log-out'></span> Quitter";
+  DivFoot.appendChild(Btn);
+
+  $('#'+id).on('show.bs.modal', function () {
+    $('#'+parent).css('opacity', 0.5);
+  });  
+  $('#'+id).on('hidden.bs.modal', function () {
+    $('#'+parent).css('opacity', 1);
+    $('#'+id).remove();
+  });
+
+  // $('#'+id).modal('show');
+}
+
+
+function upper(object)
+{
+  object.value = object.value.toUpperCase();
+  //console.log($(object).val());
+}
+
+function getZip(num)
+{
+  value='';
+  // TODO add running
+  switch(num)
+  {
+    case '44230':
+      value = "SAINT SEBASTIEN/LOIRE";
+      break;
+    case '44115':
+      value = "BASSE GOULAINE";
+      break;
+    case '44400':
+      value='REZE';
+      break;
+  }
+  if( value != "" ){
+    $('#city').val(value);
+  }
+}
+
+function dateConvert(sDate)
+{
+  ret = sDate.substr(8,2)+"/"+sDate.substr(5,2)+"/"+sDate.substr(0,4);
+  ret += " à "+ sDate.substr(11);
+  return ret;
 }

@@ -18,7 +18,7 @@
                     <div class="modal-footer" id="Pop-footer">
                             
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            Quitter
+                           <span class="glyphicon glyphicon-log-out"></span> Quitter
                         </button>
                         
                     </div>

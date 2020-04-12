@@ -1,5 +1,5 @@
 {assign var=first value=true}
-<div>
+<!-- <div class="container"> -->
 	<nav role="navigation">
 			<ul class="navbar-nav">
 {foreach from=$Menu.up item=line}
@@ -14,4 +14,4 @@
 {/foreach}
 			</ul>
 	</nav>
-</div>
+<!-- </div> -->

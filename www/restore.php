@@ -1,5 +1,5 @@
 <?php
-$sFile = "backup-20200408-184040.zip";
+$sFile = "/tmp/backup-20200411-175357.zip";
 
 echo "Restauration de : $sFile <br />";
 echo "Restauration des fichiers...";
@@ -9,8 +9,12 @@ $oRes = $oZip->open($sFile);
 for($i = 0; $i < $oZip->numFiles; $i++) 
 {
   $sFileName = $oZip->getNameIndex($i);
+  
   // si fichier commence par (media/ dans le cas de 'dbuser', rien pour 'all')
-  $oZip->extractTo($_SERVER["DOCUMENT_ROOT"],$sFileName);
+  if($sFileName != "restore.php"){
+    $oZip->extractTo($_SERVER["DOCUMENT_ROOT"],$sFileName);
+  }
+  
 }            
 $oZip->close();
 
@@ -45,10 +49,7 @@ foreach ($sSqlLines as $sLine)
     $db->query($sSql);
 
     if( $db->getErrno() != 0 ){
-      $aRet = ["Errno" =>$db->getErrno(), 
-                "ErrMsg" => $db->getErrorMsg(). "($sSql)"
-              ];
-      return $aRet;
+      echo "ErrMsg: ".$db->getErrorMsg(). "($sSql)";
     }
     
     $sSql= '';		

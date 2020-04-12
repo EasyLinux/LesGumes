@@ -3,6 +3,7 @@ var CkEditor;
 var editor;
 var aRecords;
 
+/*
 function insertSQL() {
   var description = $("#description").val();
   var version = $("#version").val();
@@ -29,7 +30,7 @@ function getSQL() {
     });
 
 }
-
+*/
 /*==========================================================================================
  =                               Gestion des droits                                        =
  ===========================================================================================*/
@@ -749,21 +750,24 @@ function refreshParameters(id) {
 /* =================================================================================================
  =                                     Gestion des news                                            =
  ===================================================================================================*/
-function editNews() {
-  $('#myPopup').text("Edition des news");
-  $("#before-editor").load("/tools/templates/news.smarty", function () {
+function openEditor(params)
+{
+  $('#myPopup').text(params.Title);
+  // Remplacer par Ajax
+//  $("#before-editor").load("/tools/templates/editor.smarty", function () {
+
+  $("#before-editor").load("/ajax/index.php", function () {
     data = {
-      Action: 'doNews',
-      Want: 'listNews',
-      Id: 0,
-      Titre: '',
-      Contenu: ''
+      Action:   params.Action,
+      Want:     params.Want,
+      Vars:     params.Vars
+      }
     }
     $.post('/ajax/index.php', data, function (data) {
       $aRecords = data;
       data.forEach(function (option) {
         html = "<option value='" + option.id + "'>" + option.date + " - " + option.titre + "</option>";
-        $('#selectNew').append(html);
+        $('#selectArt').append(html);
       });
       $('#Popup').on('show.bs.modal', function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -772,12 +776,77 @@ function editNews() {
         focus: false,
         show: true
       });
-
     });
-
   });
+}
+
+
+
+
+
+function editNews() {
+  data={
+    Title:   "Edition des news",
+    Action:  "doNews",
+    Want:    "listNews",  
+    Vars:    {
+      selectLabel:   "Choisir une nouvelle",
+      dispatch:      "doNews",
+      buttons: {[
+        Action:  'add',
+        Title:   'Ajouter une nouvelle',
+        Glyph:   'plus'
+      ],[
+        Action:  'del',
+        Title:   'Supprimer la nouvelle',
+        Glyph:   'trash'
+      ],[
+        Action:  'edit',
+        Title:   'Editer le titre',
+        Glyph:   'pencil'
+      ],[
+        Action:  'load',
+        Title:   "Ouvrir dans l'éditeur",
+        Glyph:   'open'
+      ],[
+        Action:  'save',
+        Title:   "Enregistrer le contenu",
+        Glyph:   'save'
+      ]}  
+    }
+  }
+  openEditor(data);
+  // $('#myPopup').text("Edition des news");
+  // $("#before-editor").load("/tools/templates/news.smarty", function () {
+  //   data = {
+  //     Action: 'doNews',
+  //     Want: 'listNews',
+  //     Id: 0,
+  //     Titre: '',
+  //     Contenu: ''
+  //   }
+  //   $.post('/ajax/index.php', data, function (data) {
+  //     $aRecords = data;
+  //     data.forEach(function (option) {
+  //       html = "<option value='" + option.id + "'>" + option.date + " - " + option.titre + "</option>";
+  //       $('#selectNew').append(html);
+  //     });
+  //     $('#Popup').on('show.bs.modal', function () {
+  //       $('[data-toggle="tooltip"]').tooltip();
+  //     });
+  //     $('#Popup').modal({
+  //       focus: false,
+  //       show: true
+  //     });
+
+  //   });
+
+  // });
 
 }
+
+
+
 
 /**
  * doNews

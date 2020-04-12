@@ -1,10 +1,12 @@
 /* Style */
 
 body {
-	/* We need to assaign this CSS Custom property to the body instead of :root, because of CSS Specificity and codepen stylesheet placement before loaded CKE5 content. */
+  /* We need to assaign this CSS Custom property to the body instead of :root, 
+    because of CSS Specificity and codepen stylesheet placement before loaded CKE5 content. */
 	--ck-z-default: 100;
 	--ck-z-modal: calc( var(--ck-z-default) + 999 );
 }
+
 .amap-alert {
   margin-top: 20px;
   display: none;
@@ -78,12 +80,36 @@ img {
   color: #4CAF50;
 }
 
-.my-2 {
+/* .my-2 {
   margin-top: 5px;
   margin-bottom: 5px;
   float: right;
+} */
+
+#content {
+  margin-top: 5px;
+}
+
+#leftmenu {
+  border: 1px solid #cecece;
+  background: white;
+  margin-left: 5px;
+  margin-top: 5px;
+  max-width: 24%;
 }
 
 #leftmenu div {
   padding-left: 10px;
+  color: #212529;
+}
+
+#leftmenu div a {
+  color: #212529;
+}
+
+#leftmenu h1 {
+  color: #45824f;
+  font-family: 'Roboto';
+  font-size: 2.2rem;
+  padding-top: 2.5rem; 
 }

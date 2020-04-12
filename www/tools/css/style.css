@@ -16,7 +16,6 @@ body {
 /** HEADER **/
 .navbar.navbar-light {
     border-bottom: 1px solid #cecece;
-    position: sticky;
     top: 0;
     z-index: 999;
     background: white;
@@ -200,50 +199,6 @@ article a:not(.btn):hover {
     padding: 5px 10px 15px 20px;
 }
 
-
-
-/* .btn-primary
-{
-  display:block;
-  border-radius:0px;
-  box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
-  margin-top:-5px;
-}
-.imgUp
-{
-  margin-bottom:15px;
-}
-.del
-{
-  position:absolute;
-  top:0px;
-  right:15px;
-  width:30px;
-  height:30px;
-  text-align:center;
-  line-height:30px;
-  background-color:rgba(255,255,255,0.6);
-  cursor:pointer;
-}
-.imgAdd
-{
-  width:30px;
-  height:20px;
-  border-radius:50%;
-  background-color:#4bd7ef;
-  color:#fff;
-  box-shadow:0px 0px 2px 1px rgba(0,0,0,0.2);
-  text-align:center;
-  line-height:30px;
-  margin-top:0px;
-  cursor:pointer;
-  font-size:15px;
-}
-
-.img {
-  padding: 10px;
-} */
-
 /*    Choix d'image */
 .imgShow {
   height: 250px;
@@ -252,19 +207,6 @@ article a:not(.btn):hover {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-
-/* .imgShow img{
-  max-height: 100%;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-} */
 
 .imgShow a{
   text-align: center;
@@ -347,56 +289,56 @@ th     { background:#eee; }
     width: 100%;
   }
   
-  .mygroup label {
-    width: 30%;
-  }
+.mygroup label {
+  width: 30%;
+}
   
-  .mygroup input {
-    width: 60%;
-  }
-  
-  .mygroup .mycheck {
-    display: inline-block;
-    width: 60%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    height: 80px; 
-    overflow-y: auto;
-  }
-  
-  .mygroup .mycheck input {
-    width: 10px;
-  }
-  
-  .mygroup .mycheck div {
-    padding: 0px; 
-    margin: 0px
-  }
-  
-  .mygroup .mycheck div label {
-    padding: 0px; 
-    margin: 0px
-  }
-  
-  .editMenu {
-      padding: 10px;
-  }
+.mygroup input {
+  width: 60%;
+}
 
-  .editMenu div {
-    font-size: 1.3em;
-    border-bottom: 1px solid rgb(57, 57, 255);
-    color: rgb(57, 57, 255);
-  }
+.mygroup .mycheck {
+  display: inline-block;
+  width: 60%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 80px; 
+  overflow-y: auto;
+}
+  
+.mygroup .mycheck input {
+  width: 10px;
+}
+
+.mygroup .mycheck div {
+  padding: 0px; 
+  margin: 0px
+}
+
+.mygroup .mycheck div label {
+  padding: 0px; 
+  margin: 0px
+}
+
+.editMenu {
+    padding: 10px;
+}
+
+.editMenu div {
+  font-size: 1.3em;
+  border-bottom: 1px solid rgb(57, 57, 255);
+  color: rgb(57, 57, 255);
+}
 
 
-  .editMenu div div{
-    font-size: 1.1rem;
-    padding-left: 15px;
-    color: black;
-    border-bottom: 0px;
-  }
+.editMenu div div{
+  font-size: 1.1rem;
+  padding-left: 15px;
+  color: black;
+  border-bottom: 0px;
+}
 
-  .editMenu div {
-    font-size: 1rem;
-    padding-left: 15px;
-  }
+.editMenu div {
+  font-size: 1rem;
+  padding-left: 15px;
+}

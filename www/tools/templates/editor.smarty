@@ -1,0 +1,20 @@
+<div class="form-group">
+  <label class="col-md-12 control-label" for="selectbasic">{$var.selectLabel}</label>
+  <div class="col-md-12">
+    <select id="selectArt" class="form-control" multiple="multiple" onClick="{$var.dispatch}('load');">
+    </select>
+    <br />
+    <nav>
+      <ul class="pagination">
+{foreach from=$var.buttons item=btn}      
+        <li class="page-item">
+            <a class="page-link" href="#" 
+              onClick="{$var.dispatch}({$btn.Action});" data-toggle="tooltip" 
+              title="{$btn.Title}">
+              <span class="glyphicon glyphicon-{$btn.Glyph}"></span></a>
+        </li>
+{/foreach}            
+        </ul>				
+      </nav>
+    </div>
+  </div>

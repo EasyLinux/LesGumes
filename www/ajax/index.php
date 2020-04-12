@@ -11,6 +11,13 @@ if( !isset($_POST["Action"])) {
 }
 // TODO must be connected with right
 
+/**
+ * appel de /ajax/index.php
+ * 
+ * @param  string  $_POST["Action"]  -> premier niveau de dispatch
+ * @param  string  $_POST["Want"]    -> second niveau passé à /functions/<fonctionnalite.php>
+ * @param  array   $_POST["Vars"]    -> Variables à passer 
+ */
 session_start();
 switch($_POST["Action"])
 {

@@ -121,5 +121,10 @@ function doNews($sAction,$sTitre,$iId,$sContenu)
       listNews();
       break;
 
+    default:
+      $aRet = ["Errno" => -1, "ErrMsg" => "Action non implémentée dans news.php"];    
+      header('content-type:application/json');
+      echo json_encode($aRet); 
+      break;
   }
 }

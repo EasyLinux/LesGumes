@@ -270,10 +270,10 @@ function getImage() {
   imgSelected = "";  // Pas d'image sélectionnée
   curFolder = sourceFolder; // répertoire origine images
   // afficher popup
-  $('#holder').load('/tools/templates/image.smarty', function () {
+  $('#holder').load('/tools/templates/image.html', function () {
     $('#image').on('show.bs.modal', function () {
       $('#Popup').css('opacity', 0.5);
-      goImage('refresh', '');
+      //goImage('refresh', '');
     });
     $('#image').on('hidden.bs.modal', function () {
       $('#Popup').css('opacity', 1);

@@ -9,8 +9,7 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body" id="pop-content">
-                    </div>
+                    <div class="modal-body" id="pop-content"></div>
                     <div class="modal-footer" id="pop-foot">    
                     </div>
                 </div>               

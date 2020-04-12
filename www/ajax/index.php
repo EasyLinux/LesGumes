@@ -72,7 +72,7 @@ switch($_POST["Action"])
 
     case 'doNews':
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/news.php");
-      doNews($_POST["Want"],$_POST["Titre"], $_POST["Id"],$_POST["Contenu"]);
+      doNews($_POST["Want"],$_POST["Vars"]);
       break;
       
     case 'doEditor':
@@ -85,7 +85,10 @@ switch($_POST["Action"])
       doMenu($_POST["Want"]);
       break;
     
-      
+    case 'gestArticle':  
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/articles.php");
+      doArticle($_POST["Want"],$_POST["Vars"]);
+      break;
 
 
     // case 'Upload':
@@ -104,7 +107,7 @@ switch($_POST["Action"])
 
     default:
       header('content-type:application/json');
-      echo json_encode(["Errno" => -1, "ErrMsg" => "Action: ".$_POST["Action"] ." non utilisable"]);
+      echo json_encode(["Errno" => -1, "ErrMsg" => "Action: ".$_POST["Action"] ." non utilisable (ajax/index.php)"]);
       break;
 }
 
@@ -175,11 +178,25 @@ function loadContent($Content)
       break;
 
     default:
-      $sHtml = "Ne peut charger $Content";
+      if( strpos($Content,"_") ){
+        //$sHtml = "Charger $Content";
+        $id = substr($Content,strpos($Content,"_")+1);
+        $db = new cMariaDb($Cfg);
+        $sSQL = "SELECT tContenu FROM sys_articles WHERE id=$id;";
+        $aResp = $db->getAllFetch($sSQL); 
+        $sHtml  = "<article>\n";
+        $sHtml .= stripslashes($aResp[0][tContenu]);
+        $Html  .= "</article>";
+      } else {
+        $sHtml = "Ne peut charger $Content";
+      }
       break;
   }
 return $sHtml;
 }
 
 
+function loadArticle($id)
+{
 
+}

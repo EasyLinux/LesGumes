@@ -9,7 +9,7 @@
 {foreach from=$var.buttons item=btn}      
         <li class="page-item">
             <a class="page-link" href="#" 
-              onClick="{$var.dispatch}({$btn.Action});" data-toggle="tooltip" 
+              onClick="{$var.dispatch}('{$btn.Action}');" data-toggle="tooltip" 
               title="{$btn.Title}">
               <span class="glyphicon glyphicon-{$btn.Glyph}"></span></a>
         </li>

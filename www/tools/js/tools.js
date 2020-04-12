@@ -3,34 +3,6 @@ var CkEditor;
 var editor;
 var aRecords;
 
-/*
-function insertSQL() {
-  var description = $("#description").val();
-  var version = $("#version").val();
-  var sql = $("#sql").val();
-  data = {
-    Action: "SQL",
-    Desc: description,
-    Version: version,
-    SQL: sql
-  };
-  $.post("/tools/index.php", data);
-
-}
-
-function getSQL() {
-  var version = $("#version").val();
-  data = {
-    Action: "getSQL",
-    Version: version,
-  };
-  $.post("/tools/index.php", data,
-    function (data, status) {
-      $("#sql").text(data);
-    });
-
-}
-*/
 /*==========================================================================================
  =                               Gestion des droits                                        =
  ===========================================================================================*/
@@ -278,9 +250,9 @@ function loadRightTable(whendone) {
 /*==========================================================================================
  =                               Edition de contenu                                        =
  ===========================================================================================*/
-var imgSelected;                    // @var string imgSelected  Image sélectionnée
+var imgSelected;                      // @var string imgSelected  Image sélectionnée
 var curFolder = '';                   // @var string curFolder    Répertoire affiché
-var sourceFolder = '/media/images';  // @var string sourceFolder Répertoire racine
+var sourceFolder = '/media/images';   // @var string sourceFolder Répertoire racine
 function editContent() {
   // TODO a changer
   $('#Popup').modal('show');
@@ -750,22 +722,32 @@ function refreshParameters(id) {
 /* =================================================================================================
  =                                     Gestion des news                                            =
  ===================================================================================================*/
-function openEditor(params)
-{
+function openEditor(params) {
   $('#myPopup').text(params.Title);
-  // Remplacer par Ajax
-//  $("#before-editor").load("/tools/templates/editor.smarty", function () {
-
-  $("#before-editor").load("/ajax/index.php", function () {
-    data = {
-      Action:   params.Action,
-      Want:     params.Want,
-      Vars:     params.Vars
-      }
+  data = {
+    Action: params.Action,
+    Want: 'loadHeader',
+    Vars: JSON.stringify(params.Vars)
+  };
+  $.post("/ajax/index.php", data, function (resp) {
+    if (resp.Errno != 0) {
+      alert(resp.ErrMsg);
+      return false;
+    } else {
+      $("#before-editor").html(resp.html);
     }
-    $.post('/ajax/index.php', data, function (data) {
-      $aRecords = data;
-      data.forEach(function (option) {
+    data = {
+      Action: params.Action,
+      Want: params.Want,
+      Vars: params.Vars
+    };
+    $.post('/ajax/index.php', data, function (resp) {
+      if (resp.Errno != 0) {
+        alert(resp.ErrMsg);
+        return false;
+      }
+      $aRecords = resp;
+      resp.news.forEach(function (option) {
         html = "<option value='" + option.id + "'>" + option.date + " - " + option.titre + "</option>";
         $('#selectArt').append(html);
       });
@@ -785,68 +767,38 @@ function openEditor(params)
 
 
 function editNews() {
-  data={
-    Title:   "Edition des news",
-    Action:  "doNews",
-    Want:    "listNews",  
-    Vars:    {
-      selectLabel:   "Choisir une nouvelle",
-      dispatch:      "doNews",
-      buttons: {[
-        Action:  'add',
-        Title:   'Ajouter une nouvelle',
-        Glyph:   'plus'
-      ],[
-        Action:  'del',
-        Title:   'Supprimer la nouvelle',
-        Glyph:   'trash'
-      ],[
-        Action:  'edit',
-        Title:   'Editer le titre',
-        Glyph:   'pencil'
-      ],[
-        Action:  'load',
-        Title:   "Ouvrir dans l'éditeur",
-        Glyph:   'open'
-      ],[
-        Action:  'save',
-        Title:   "Enregistrer le contenu",
-        Glyph:   'save'
-      ]}  
+  data = {
+    Title: "Edition des news",
+    Action: "doNews",
+    Want: "listNews",
+    Vars: {
+      selectLabel: "Choisir une nouvelle",
+      dispatch: "doNews",
+      buttons: [{
+        Action: 'add',
+        Title: 'Ajouter une nouvelle',
+        Glyph: 'plus'
+      }, {
+        Action: 'del',
+        Title: 'Supprimer la nouvelle',
+        Glyph: 'trash'
+      }, {
+        Action: 'edit',
+        Title: 'Editer le titre',
+        Glyph: 'pencil'
+      }, {
+        Action: 'load',
+        Title: "Ouvrir dans l'éditeur",
+        Glyph: 'open'
+      }, {
+        Action: 'save',
+        Title: "Enregistrer le contenu",
+        Glyph: 'save'
+      }]
     }
   }
   openEditor(data);
-  // $('#myPopup').text("Edition des news");
-  // $("#before-editor").load("/tools/templates/news.smarty", function () {
-  //   data = {
-  //     Action: 'doNews',
-  //     Want: 'listNews',
-  //     Id: 0,
-  //     Titre: '',
-  //     Contenu: ''
-  //   }
-  //   $.post('/ajax/index.php', data, function (data) {
-  //     $aRecords = data;
-  //     data.forEach(function (option) {
-  //       html = "<option value='" + option.id + "'>" + option.date + " - " + option.titre + "</option>";
-  //       $('#selectNew').append(html);
-  //     });
-  //     $('#Popup').on('show.bs.modal', function () {
-  //       $('[data-toggle="tooltip"]').tooltip();
-  //     });
-  //     $('#Popup').modal({
-  //       focus: false,
-  //       show: true
-  //     });
-
-  //   });
-
-  // });
-
 }
-
-
-
 
 /**
  * doNews
@@ -861,13 +813,12 @@ function doNews(action) {
       data = {
         Action: 'doNews',
         Want: 'add',
-        Titre: titre,
-        Id: 0
+        Vars: titre
       };
       $.post('/ajax/index.php', data, function (resp) {
         // Ajouter option
-        html = "<option value='" + resp[0].id + "'>" + resp[0].display + "</option>";
-        $('#selectNew').prepend(html);
+        html = "<option value='" + resp.id + "'>" + resp.Display + "</option>";
+        $('#selectArt').prepend(html);
       });
       break;
 
@@ -875,44 +826,52 @@ function doNews(action) {
       data = {
         Action: 'doNews',
         Want: 'del',
-        Id: $('#selectNew :selected').val()
+        Vars: $('#selectArt :selected').val()
       };
       $.post('/ajax/index.php', data);
-      $('#selectNew :selected').remove();
+      $('#selectArt :selected').remove();
       break;
 
     case 'edit':
-      text = $('#selectNew :selected').text();
+      text = $('#selectArt :selected').text();
       date = text.substring(0, 21);
       titre = text.substring(24);
       newTitre = prompt('Titre', titre);
+      sVars = JSON.stringify({ Titre: newTitre, id: $('#selectArt :selected').val() });
       data = {
         Action: 'doNews',
         Want: 'edit',
-        Titre: newTitre,
-        Id: $('#selectNew :selected').val()
+        Vars: sVars
       };
       $.post('/ajax/index.php', data);
-      $('#selectNew :selected').text(date + " - " + newTitre);
+      $('#selectArt :selected').text(date + " - " + newTitre);
       break;
 
     case 'load':
+      //console.log("Choisi"+$('#selectArt :selected').val());
       data = {
         Action: 'doNews',
         Want: 'load',
-        Id: $('#selectNew :selected').val()
+        Vars: $('#selectArt :selected').val()
       };
       $.post('/ajax/index.php', data, function (resp) {
-        CkEditor.setData(resp[0].contenu);
+        if (resp.Errno != 0) {
+          alert(resp.ErrMsg);
+        }
+        CkEditor.setData(resp.html);
       });
       break;
 
     case 'save':
+      Vars = {
+        id: $('#selectArt :selected').val(),
+        Contenu: CkEditor.getData()
+      }
+      sVars = JSON.stringify(Vars);
       data = {
         Action: 'doNews',
         Want: 'save',
-        Id: $('#selectNew :selected').val(),
-        Contenu: CkEditor.getData()
+        Vars: sVars
       };
       $.post('/ajax/index.php', data);
       break;
@@ -1043,7 +1002,7 @@ function userAction(sAction, arg1, id) {
 
     case 'add':
       $('#userEdit').remove();
-      openModal('pop-all', 'userEdit', "Edition utilisateur");
+      createModal('pop-all', 'userEdit', "Edition utilisateur");
       $('#userEdit').modal('show');
       $('#userEdit-content').load("/tools/templates/userEdit.smarty", function () {
         $('#userEdit').modal('show');
@@ -1120,7 +1079,7 @@ function userAction(sAction, arg1, id) {
       break;
 
     case 'edit':
-      openModal('pop-all', 'userEdit', "Edition utilisateur");
+      createModal('pop-all', 'userEdit', "Edition utilisateur");
       $('#userEdit').modal('show');
       $('#userEdit-content').load("/tools/templates/userEdit.smarty", function () {
         if (uid != 0) {
@@ -1213,7 +1172,13 @@ function userAction(sAction, arg1, id) {
   }
 }
 
-function openModal(parent, id, titre) {
+/**
+ * 
+ * @param {*} parent 
+ * @param {*} id 
+ * @param {*} titre 
+ */
+function createModal(parent, id, titre) {
   var Div = document.createElement('div');
   Div.className = "modal fade";
   Div.id = id;
@@ -1317,38 +1282,38 @@ function dateConvert(sDate) {
 function editMenu() {
   Data = {
     dialogClass: '',
-    popTitle: 'Gestion du menu',
+    popTitle: 'Gestion du menu (non fonctionnel)',
     popContentClass: 'myModal-body editMenu',
     Dispatch: 'menuAction',
     Buttons: [{
       Type: 'info',
       Glyph: 'plus',
       Label: 'Ajouter',
-      Want:  "menuAction('add');"
+      Want: "menuAction('add');"
     }, {
       Type: 'info',
       Glyph: 'pencil',
       Label: 'Editer',
-      Want:  "menuAction('edit');"
+      Want: "menuAction('edit');"
     }, {
-      Type:  'secondary',
+      Type: 'secondary',
       Glyph: 'log-out',
       Label: 'Quitter',
-      Want:  '' 
+      Want: ''
     }],
     Content: {
       Action: 'doMenu',
       Want: 'listMenu'
     }
   };
-  openModal(Data);
+  openPopup(Data);
 }
 
 /**
  * 
  * @param {object} oData 
  */
-function openModal(oData) {
+function openPopup(oData) {
   // Load Popup
   $("#content").load("/tools/templates/popup.smarty", function () {
     $(".modal-dialog").addClass(oData.dialogClass);
@@ -1361,8 +1326,8 @@ function openModal(oData) {
       Button.setAttribute("type", "button");
       Button.className = "btn btn-" + Btn.Type;
       Button.innerHTML = "<span class='glyphicon glyphicon-" + Btn.Glyph + "'> " + Btn.Label;
-      Button.setAttribute("onClick",Btn.Want);
-      if( Btn.Glyph == 'log-out' ){
+      Button.setAttribute("onClick", Btn.Want);
+      if (Btn.Glyph == 'log-out') {
         Button.setAttribute("data-dismiss", "modal");
       }
       $("#pop-foot").append(Button);
@@ -1374,7 +1339,7 @@ function openModal(oData) {
     };
     console.log(data);
     $.post('/ajax/index.php', data, function (resp) {
-      if( resp.Errno != 0 ){
+      if (resp.Errno != 0) {
         alert(resp.ErrMsg);
       }
       $("#pop-content").html(resp.html);
@@ -1387,3 +1352,125 @@ function openModal(oData) {
   });
 }
 
+/* ==========================================================================================================
+   =                                 Gestion des articles                                                   =
+   ==========================================================================================================*/
+
+function gestArticle(Action, Params) {
+  if (Action == undefined) {
+    console.log('Depuis le menu');
+    Action = 'init';
+  }
+
+  switch (Action) {
+    case 'init':
+      data = {
+        Title: "Edition des articles",
+        Action: "gestArticle",
+        Want: "listArticles",
+        Vars: {
+          selectLabel: "Choisir un article",
+          dispatch: "gestArticle",
+          buttons: [{
+            Action: 'add',
+            Title: 'Ajouter un article',
+            Glyph: 'plus'
+          }, {
+            Action: 'del',
+            Title: 'Supprimer un article',
+            Glyph: 'trash'
+          }, {
+            Action: 'edit',
+            Title: 'Editer le titre',
+            Glyph: 'pencil'
+          }, {
+            Action: 'load',
+            Title: "Ouvrir dans l'éditeur",
+            Glyph: 'open'
+          }, {
+            Action: 'save',
+            Title: "Enregistrer le contenu",
+            Glyph: 'save'
+          }]
+        }
+      }
+      openEditor(data);
+      break;
+
+    case 'add':
+      titre = prompt("Nom de l'article'");
+      data = {
+        Action: 'gestArticle',
+        Want: 'add',
+        Vars: titre
+      };
+      $.post('/ajax/index.php', data, function (resp) {
+        if(resp.Errno != 0){
+          alert(resp.ErrMsg);
+          return false;
+        }
+        // Ajouter option
+        html = "<option value='" + resp.id + "'>" + resp.Display + "</option>";
+        $('#selectArt').prepend(html);
+      });
+      break;
+
+    case 'del':
+      data = {
+        Action: 'gestArticle',
+        Want: 'del',
+        Vars: $('#selectArt :selected').val()
+      };
+      $.post('/ajax/index.php', data);
+      $('#selectArt :selected').remove();
+      break;
+
+    case 'edit':
+      text = $('#selectArt :selected').text();
+      date = text.substring(0, 21);
+      titre = text.substring(24);
+      newTitre = prompt('Titre', titre);
+      sVars = JSON.stringify({ Titre: newTitre, id: $('#selectArt :selected').val() });
+      data = {
+        Action: 'gestArticle',
+        Want: 'edit',
+        Vars: sVars
+      };
+      $.post('/ajax/index.php', data);
+      $('#selectArt :selected').text(date + " - " + newTitre);
+      break;
+
+    case 'load':
+      //console.log("Choisi"+$('#selectArt :selected').val());
+      data = {
+        Action: 'gestArticle',
+        Want: 'load',
+        Vars: $('#selectArt :selected').val()
+      };
+      $.post('/ajax/index.php', data, function (resp) {
+        if (resp.Errno != 0) {
+          alert(resp.ErrMsg);
+        }
+        CkEditor.setData(resp.html);
+      });
+      break;
+
+    case 'save':
+      Vars = {
+        id: $('#selectArt :selected').val(),
+        Contenu: CkEditor.getData()
+      }
+      sVars = JSON.stringify(Vars);
+      data = {
+        Action: 'gestArticle',
+        Want: 'save',
+        Vars: sVars
+      };
+      $.post('/ajax/index.php', data);
+      break;
+
+    default:
+      console.log('Action ' + Action + " non définie dans gestArticles");
+      break;
+  }
+}   

@@ -17,3 +17,5 @@ www/media/*
 www/tmp/*
 # Documentation générée
 Tools/Doc/*
+# Exclude adminer
+www/tools/adminer.php

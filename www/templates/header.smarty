@@ -39,5 +39,6 @@
 
 	<link href="tools/css/style.css" rel="stylesheet">
 	<script src="js/amap.js"></script>
-	<script src="tools/js/tools.js"></script>
+<!--  <script src="js/tools.js"></script> -->
+	<script src="tools/js/tools.js" ></script>
 </head>

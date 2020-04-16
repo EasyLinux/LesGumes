@@ -8,11 +8,11 @@
 </div>
 <div class="col-md-4">
 {if $Connected eq true}
-  <button class="btn btn-success my-2"  id='btn-info' 
+  <button class="btn btn-success amap-login"  id='btn-info' 
           onClick="loadContent('Logout.js'); return false;"> 
           <span class="glyphicon glyphicon-user"></span> {$Raisoc}</button>
 {else}
-  <button class="btn btn-primary my-2"  id='btn-info' 
+  <button class="btn btn-primary amap-login"  id='btn-info' 
           onClick="loadContent('Login'); return false;">
           <span class="glyphicon glyphicon-user"></span> Identifiez vous</button>
 {/if}

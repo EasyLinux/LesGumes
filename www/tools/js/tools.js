@@ -250,14 +250,6 @@ function loadRightTable(whendone) {
 /*==========================================================================================
  =                               Edition de contenu                                        =
  ===========================================================================================*/
-var imgSelected;                      // @var string imgSelected  Image sélectionnée
-var curFolder = '';                   // @var string curFolder    Répertoire affiché
-var sourceFolder = '/media/images';   // @var string sourceFolder Répertoire racine
-function editContent() {
-  // TODO a changer
-  $('#Popup').modal('show');
-}
-
 /**
  * getImage
  * 
@@ -267,13 +259,37 @@ function editContent() {
  * @return {void}
  */
 function getImage() {
-  imgSelected = "";  // Pas d'image sélectionnée
-  curFolder = sourceFolder; // répertoire origine images
+  getFinder('art');
+}
+
+/**
+ * getFinder
+ * 
+ * Cette fonction est appelée par l'éditeur CkEditor lors d'une demande d'insertion
+ * d'image. L'image sera renvoyée par la fonction setImage
+ * @param  {void}
+ * @return {void}
+ */
+function getFinder(article) {
+
   // afficher popup
-  $('#holder').load('/tools/templates/image.html', function () {
+  $('#holder').load('/tools/templates/image.smarty', function () {
     $('#image').on('show.bs.modal', function () {
+      if (article == undefined) { // Gestion de fichier
+        $('.imgShow-left-art').hide();
+        $('#btn-ok-finder').hide();
+      } else { // sélection editeur
+        // Appelé depuis l'éditeur, liste les articles de la base
+        $('.imgShow-left-art').show();
+        $('#btn-ok-finder').show();
+      }
+      // Pas d'image sélectionnée
+      document.getElementById('img-files').dataset.obj='';
+      document.getElementById('img-files').dataset.id='';
+      // Pas de répertoire sélectionné
+      document.getElementById('img-files').dataset.cur='';
+      $('#toolbar-folder').hide();
       $('#Popup').css('opacity', 0.5);
-      //goImage('refresh', '');
     });
     $('#image').on('hidden.bs.modal', function () {
       $('#Popup').css('opacity', 1);
@@ -281,7 +297,7 @@ function getImage() {
 
     // on télécharge un fichier
     $('#fileInput').change(function () {
-      goImage("doUpload", '');
+      doFinder("doUpload", '');
     });
 
     $('#image').modal('show');
@@ -296,6 +312,7 @@ function getImage() {
  * @param {string} imageURL    URL relative de l'image
  */
 function setImage(imageURL) {
+  console.log("imageURL: "+imageURL);
   CkEditor.model.change(writer => {
     const imageElement = writer.createElement('image', {
       src: imageURL
@@ -307,37 +324,65 @@ function setImage(imageURL) {
 
 
 /**
- * goImage
+ * doFinder
  * 
- * Traitement du popup de sélection d'image les actions possibles <choose|upload|newFolder|trash|select>
+ * Traitement du popup de sélection d'image, cette fonction gère  
+ * la boîte modale /tools/templates/image.smarty
+ * Lors de l'affichage de cette boîte de dialogue, nous avons besoin
+ * de savoir quel répertoire ou quel objet est actuellement désigné.
+ * Ces deux informations sont stockées dans data-cur (pour le répertoire)
+ * et data-obj (pour l'objet) placé dans le div img-files 
  * 
  * @param {string} action   action requise
- * @param {object} objet    objet sélectionné 
+ * @param {void} id    id sélectionné 
  */
-function goImage(action, objet) {
+function doFinder(action, id) {
   switch (action) {
-    case 'choose':
-      if (imgSelected.indexOf(".pdf") > 0) {
-        CkEditor.execute('link', curFolder + "/" + imgSelected, { linkIsExternal: true });
-        $('#image').modal('hide');
-        return;
-      }
-      if (imgSelected.indexOf(".") > 0 && imgSelected.indexOf(".." == 0)) {
-        setImage(curFolder + "/" + imgSelected);
+    case 'getIt':  
+      // doc/image/article choisi -> envoi à ckEditor
+      sObject = document.getElementById('img-files').dataset.obj;
+      sCurFolder = document.getElementById('img-files').dataset.cur;
+      if( sObject != "" ){
+        console.log("sObject: "+sObject+" folder "+sCurFolder); 
+        if( sObject.substring(0,1) == 'a'){
+          sLink = 'index.php?art='+sObject.substring(2);
+          CkEditor.execute( 'link', sLink );
+        }
+        if( sCurFolder.substring(0,1) == 'i'){
+          setImage(sObject);
+        }
+        if( sCurFolder.substring(0,1) == 'f'){
+          CkEditor.execute( 'link', sObject, { linkIsExternal: true } );
+        }
+
+        
         $('#image').modal('hide');
       }
       break;
 
     case 'upload':
+      // Actionne le bouton de sélection de fichier
+      sWhere = document.getElementById('img-files').dataset.cur;
+      if( sWhere == "" ){
+        alert('Veuillez choisir un répertoire cible');
+        return false;
+      }  
       document.getElementById('fileInput').click();
       break;
 
     case 'doUpload':
+      // Charge le fichier 
       var file_data = $('#fileInput').prop('files')[0];
       var form_data = new FormData();
+      sWhere = document.getElementById('img-files').dataset.cur;
+      sWhere = sWhere.replace("i-",'-');
+      sWhere = sWhere.replace("f-",'-');
+      targetFolder  = sWhere.replace(/-/g,"/");
+      targetFolder += "/";
       form_data.append('file', file_data);
       form_data.append('Action', 'loadFile');
-      form_data.append('Where', curFolder + "/");
+      form_data.append('Where', targetFolder);
+      // Demande à .php le chargement du fichier
       $.ajax({
         url: "/ajax/index.php",
         data: form_data,
@@ -346,95 +391,246 @@ function goImage(action, objet) {
         processData: false,
         type: 'post',
         success: function () {
-          goImage('refresh', '');
+          sTarget = document.getElementById('img-files').dataset.cur;
+          // Rafraichi le div de droite
+          console.log('Refresh');
+          if(sTarget.substring(0,1) == 'i'){
+            doFinder('refresh-img',sTarget);
+          } else {
+            doFinder('refresh-file', sTarget);
+          }
+          
         }
       });
-
       break;
 
-    case 'newFolder':
-      folder = prompt("Nom du répertoire");
-      data = {
-        Action: 'doEditor',
-        Sub: 'newFolder',
-        Folder: curFolder,
-        File: folder
-      };
-      $.post('/ajax/index.php', data, function () {
-        goImage('refresh', '');
+    case 'select-art':
+      // On a cliqué sur un objet (article)
+      $('#toolbar-file').show();
+      $('#toolbar-folder').hide();
+      document.getElementById('img-files').dataset.obj = id;
+      document.getElementById('img-files').dataset.id = id;
+      span = document.getElementById('cur-Object');
+      span.innerHTML = " Article - "+document.getElementById(id).innerHTML;
+      break;
+    
+    case 'select-img':
+    case 'select-file':
+      // On a cliqué sur un objet (image ou doc)
+      $('#toolbar-file').show();
+      $('#toolbar-folder').hide();
+      document.getElementById('img-files').dataset.obj = id;
+      span = document.getElementById('cur-Object');
+      span.innerHTML = id;
+      break;
+
+    case 'trash-img':
+      // Suppression d'une image
+      sObject = document.getElementById('img-files').dataset.obj;
+      data = { Action: 'Finder', Want: 'delFile', Vars: sObject };
+      $.post('/ajax/index.php', data, function (resp) {
+        if (resp.Errno != 0) {
+          alert(resp.ErrMsg);
+          return false;
+        }
+        // Rafraichir le div de droite
+        sCurFolder = document.getElementById('img-files').dataset.cur;
+        var dirname = ''+sObject.match(/.*\//);
+        var dir2 = dirname.substring(0, dirname.length -1);
+        newId = "i"+dir2.replace(/\//g,"-");
+        doFinder('refresh-img',newId);
+        });
+      break;
+
+    case 'refresh-img':
+      // Basculer sur la toolbar Folder
+      $('#toolbar-file').hide();
+      $('#toolbar-folder').show();
+      document.getElementById('img-files').dataset.cur=id;
+      sCurFolder=id.replace(/-/g,"/");
+      sCurFolder=sCurFolder.replace("i/media/images","/");
+      sCurFolder=sCurFolder.replace("//","/");
+      sObject='{"Type":"Img","Path":"'+sCurFolder+'"}';
+      data = { Action: 'Finder', Want: 'getFiles', Vars: sObject };
+      // Demande à ajax le contenu du répertoire
+      $.post('/ajax/index.php', data, function (resp) {
+        if (resp.Errno != 0) {
+          alert(resp.ErrMsg);
+          return false;
+        }
+        // Vide le div
+        $('#img-files').html('');
+        resp.Files.forEach(function(file){
+          // crée la vignette
+          createImage(file);
+        });
+        var curElement = document.getElementById(id+"-ul");
+        if( curElement != null ){
+          curElement.innerHTML="";
+        } else {
+          var el = document.getElementById(id);
+          var ul = document.createElement('ul');
+          ul.id=id+"-ul"; 
+          // insérer après l'élément
+          el.parentNode.insertBefore(ul, el.nextSibling);
+        }
+        resp.Folders.forEach(function(folder){
+          createFolder('i',id+"-ul",resp.Folder,folder);
+        });
       });
       break;
 
-    case 'trash':
-      if (imgSelected == "") {
+      case 'refresh-file':
+        // Basculer sur la toolbar File
+        $('#toolbar-file').hide();
+        $('#toolbar-folder').show();
+        // Met le répertoire courant en mémoire
+        document.getElementById('img-files').dataset.cur=id;
+        // Remplacer l'id f-media-documents-test en /documents
+        sCurFolder=id.replace(/-/g,"/");
+        sCurFolder=sCurFolder.replace("f/media/documents","/");
+        sCurFolder=sCurFolder.replace("//","/");
+        sObject='{"Type":"File","Path":"'+sCurFolder+'"}';
+        data = { Action: 'Finder', Want: 'getFiles', Vars: sObject };
+        // Demande à ajax le contenu du répertoire
+        $.post('/ajax/index.php', data, function (resp) {
+          if (resp.Errno != 0) {
+            alert(resp.ErrMsg);
+            return false;
+          }
+          // Vide le div
+          $('#img-files').html('');
+          resp.Files.forEach(function(file){
+            // crée la vignette
+            createFile(file);
+          });
+          var curElement = document.getElementById(id+"-ul");
+          if( curElement != null ){
+            curElement.innerHTML="";
+          } else {
+            console.log(id);
+            var el = document.getElementById(id);
+            var ul = document.createElement('ul');
+            ul.id=id+"-ul"; 
+            // insérer après l'élément
+            el.parentNode.insertBefore(ul, el.nextSibling);
+          }
+          resp.Folders.forEach(function(folder){
+            createFolder('f',id+"-ul",resp.Folder,folder);
+          });
+        });
+        break;
+  
+      case 'refresh-art':
+        // Basculer sur la toolbar File
+        $('#toolbar-file').hide();
+        $('#toolbar-folder').show();
+        data = { Action: 'Finder', Want: 'getArticles', Vars: '' };
+        // Demande à ajax la liste des articles
+        $.post('/ajax/index.php', data, function (resp) {
+          if (resp.Errno != 0) {
+            alert(resp.ErrMsg);
+            return false;
+          }
+          // Vide le div
+          var imgFiles = document.getElementById('img-files');
+          imgFiles.innerHTML = "";
+          var ul = document.createElement('ul');
+          imgFiles.appendChild(ul);
+          resp.Articles.forEach(function(article){
+            // Ajoute l'entrée
+            var li = document.createElement('li');
+            li.id = 'a-'+article.id;
+            li.innerHTML = article.sTitre;
+            $(li).on("click",function(){
+              newId = "a-"+article.id;
+              doFinder('select-art',newId);
+            });
+            ul.appendChild(li);
+          });
+        });
+        break;
+    
+    case 'afficher':
+      sObject = document.getElementById('img-files').dataset.obj;
+      sCurFolder = document.getElementById('img-files').dataset.cur;
+      console.log(sObject+ " dans "+ sCurFolder);
+      if( sCurFolder.substring(0,1) == 'f'){
+        window.open(sObject);
+      } else {
+        createModalImage("img-display",sObject);
+        document.getElementById('img-display').style.display='block';  
+      }
+      break;   
+    
+    case 'newFolder':
+      sFolder = document.getElementById('img-files').dataset.cur;
+      sCurId = sFolder;
+      sFolder=sFolder.substring(1);
+      sCurFolder=sFolder.replace(/-/g,"/");
+      sCurFolder=sCurFolder.replace("//","/");
+      if( sCurId.substring(0,1) == 'i' ){
+        sType = "img";
+        sCurFolder=sCurFolder.replace("/media/images","/");
+      } else {
+        sType = "file";
+        sCurFolder=sCurFolder.replace("/media/documents","/");
+      }
+      newFolder = prompt("Nom du répertoire");
+      console.log('Créer '+newFolder+" dans "+sCurFolder);
+      sObject='{"Type":"'+sType+'","Path":"'+sCurFolder+'","Folder":"'+newFolder+'"}';
+      data = { Action: 'Finder', Want: 'addFolder', Vars: sObject };
+      $.post('/ajax/index.php',data,function(resp){
+        if(resp.Errno != 0){
+          alert(resp.ErrMsg);
+        }
+        if( sCurId.substring(0,1) == 'i' ){
+          doFinder('refresh-img',sCurId);
+        } else {
+          console.log("Refresh-file "+sCurId);
+          doFinder('refresh-file',sCurId);
+        }
+      });
+      break;
+
+  case 'trash-folder':
+      sFolder = document.getElementById('img-files').dataset.cur;
+      sFolder=sFolder.substring(1);
+      sCurFolder=sFolder.replace(/-/g,"/");
+      sCurFolder=sCurFolder.replace("//","/");
+      if( sFolder.substring(0,1) == "i"){
+        sType="img";
+        sCurFolder=sCurFolder.replace("/media/images","/");
+      } else {
+        sType="folder";
+        sCurFolder=sCurFolder.replace("/media/documents","/");
+      }
+      if( sCurFolder == "/" ){
+        alert("ERREUR: il n'est pas possible de supprimer la racine !");
         return false;
       }
-      data = {
-        Action: 'doEditor',
-        Sub: 'delFile',
-        Folder: curFolder,
-        File: imgSelected
-      };
-      if (confirm('Effacer ' + imgSelected + " ?")) {
-        $.post('/ajax/index.php', data, function () {
-          goImage('refresh', '');
-        });
-      }
-      break;
-
-    case 'select':
-      sPtr = $(objet).text().trim();
-      imgSelected = sPtr;
-      $('.imgShow a').removeClass('active');
-      $(objet).addClass('active');
-      break;
-
-    case "chdir":
-      if (imgSelected.indexOf(".") == -1 || imgSelected.indexOf(".." == 0)) {
-        // Pas de . dans le nom ou ".." -> cas d'un répertoire
-
-        if (sPtr.indexOf(".") == -1) {
-          curFolder = '/media/images/' + imgSelected;
-          imgSelected = ""; // vide l'image sélectionnée au cas où
-        } else {
-          // ..
-          curFolder = '/media/images'; // TODO
-        }
-
-        // chgFolder
-        goImage('refresh', '');
-      }
-      break;
-
-    case 'refresh':
-      data = {
-        Action: 'doEditor',
-        Sub: 'getFiles',
-        Folder: curFolder,
-        File: ''
-      };
-      $.post('/ajax/index.php', data, function (resp) {
-        var html = "";
-        resp.forEach(function (file) {
-          html += "<a class='float-left' href='#' onClick=\"goImage('select',this);\">";
-          if (file.name.indexOf("..") == 0 || file.name.indexOf(".") == -1) {
-            // .. ou pas de point   -> répertoire
-            html += "<div><img src=\"images/folderOpen.png\"></div>" + file.name + "</a>";
-          } else {
-            // Cas d'un fichier 
-            if (file.name.indexOf(".pdf") > 0) {
-              // fichier .pdf
-              html += "<div><img src=\"images/pdfFile.png\"></div>" + file.name + "</a>";
-            } else {
-              // autre fichier
-              html += "<div><img src=\"" + file.folder + "/" + file.name + "\"></div>" + file.name + "</a>";
-            }
+      if( confirm("Supprimer "+sCurFolder+ " ainsi que ses sous-répertoires ?") ){
+        console.log('Suppression');        
+        sObject='{"Path":"'+sCurFolder+'","Type":"+sType+"}';
+        data = { Action: 'Finder', Want: 'delFolder', Vars: sObject };
+        $.post('/ajax/index.php',data,function(resp){
+          if(resp.Errno != 0){
+            alert(resp.ErrMsg);
           }
-
+          id = document.getElementById('img-files').dataset.cur;
+          id = ''+id.match(/.*-/);
+          id = id.substring(0,id.length-1);
+          if( sType == 'img' ){
+            doFinder('refresh-img',id);
+          } else {
+            doFinder('refresh-file',id);
+          }
         });
-        $('#imgShow').html(html);
-      })
-
+      }
+      break;
+    
+    default:
+      console.log("Dans doFinder(" + action + ") indéfini");
       break;
   }
   return false;
@@ -452,10 +648,10 @@ function Backup() {
     Type: '',
     id: ''
   }
-  $("#sub-msg-1").text("Sauvegarde en cours");
+  alertBox('info', "Sauvegarde en cours", "INFO", 50000);
 
   $.post("/ajax/index.php", data, function (data) {
-    $("#sub-msg-1").text("Sauvegarde terminée");
+    alertBox('success', "Sauvegarde terminée", "SUCCESS", 50000);
     $("#sub-msg-2").html("Fichier de sauvegarde : <a href='" + data.File + "'>" + data.File + "</a>");
   });
 }
@@ -684,10 +880,6 @@ function editParameter(type) {
     ret = prompt("Nouvelle valeur", valeur);
     updateParameters('edit', id, ret, '');
   }
-
-  // ret = prompt("Agir");
-  //  afficherPopupInformation("Ajout test",this);
-  //  $("#popupinformation").modal("show");
 }
 
 function updateParameters(type, id, value, table) {
@@ -1245,6 +1437,35 @@ function createModal(parent, id, titre) {
   // $('#'+id).modal('show');
 }
 
+function createModalImage(idModal, imgSrc)
+{
+  var div = document.getElementById(idModal);
+  if( div == undefined ){
+    var div = document.createElement('div');
+    div.className="modal-img";
+    div.id = idModal;
+    var span = document.createElement('span');
+    span.className = "close-img";
+    span.id='close-img';
+    span.innerHTML = "&times;";
+    span.onclick= function(){
+      this.parentNode.style.display = 'none';
+    };
+    div.appendChild(span);
+    img = document.createElement('img');
+    img.className="modal-content-img";
+    img.id=idModal+"img";
+    img.src=imgSrc;
+    div.appendChild(img);
+    // <div id=caption>/div>
+    document.body.appendChild(div);  
+  }
+  else {
+    var img = document.getElementById(idModal+"img");
+    img.src=imgSrc;
+  }
+}
+
 
 function upper(object) {
   object.value = object.value.toUpperCase();
@@ -1271,8 +1492,8 @@ function getZip(num) {
 }
 
 function dateConvert(sDate) {
-  ret = sDate.substr(8, 2) + "/" + sDate.substr(5, 2) + "/" + sDate.substr(0, 4);
-  ret += " à " + sDate.substr(11);
+  ret = sDate.substring(8, 2) + "/" + sDate.substring(5, 2) + "/" + sDate.substring(0, 4);
+  ret += " à " + sDate.substring(11);
   return ret;
 }
 
@@ -1405,7 +1626,7 @@ function gestArticle(Action, Params) {
         Vars: titre
       };
       $.post('/ajax/index.php', data, function (resp) {
-        if(resp.Errno != 0){
+        if (resp.Errno != 0) {
           alert(resp.ErrMsg);
           return false;
         }
@@ -1474,3 +1695,82 @@ function gestArticle(Action, Params) {
       break;
   }
 }   
+
+/**
+ * createImage
+ * 
+ * Crée une entrée image dans le finder
+ * @param {string} sFileName    chemin relatif de l'image
+ */
+function createImage(sFileName)
+{
+  var div = document.createElement('div');
+  $('#img-files').append(div);
+  var a = document.createElement('a');
+  a.setAttribute('href','#');
+  a.className='img-thumb';
+  div.appendChild(a);
+  var img = document.createElement('img');
+  img.setAttribute('src',sFileName);
+  a.appendChild(img);
+  var div2 = document.createElement('div');
+  div2.innerText=sFileName.replace(/.*\//, ''); 
+  div2.className='img-txt';
+  a.appendChild(div2);
+  // TODO a.addEventListener("click",doFinder('refresh-img', data));
+  
+  $(a).on("click",function(){
+    doFinder('select-img',sFileName);
+  });
+}
+
+/**
+ * createFolder, crée le div où se site le chemin
+ * 
+ * 
+ * @param {string} path 
+ * @param {string} folder 
+ */
+function createFolder(sType,idParent,path,folder)
+{
+  var li = document.createElement('li');
+  li.innerText=folder;
+  fullPath = path+folder;
+  id = sType+fullPath.replace(/\//g, '-');
+  li.id= id;
+  if( sType == 'i'){
+    li.setAttribute("onclick","doFinder('refresh-img', '"+id+"')");
+  } else {
+    li.setAttribute("onclick","doFinder('refresh-file', '"+id+"')");
+  }
+  document.getElementById(idParent).appendChild(li);
+}
+
+/**
+ * createFile
+ * 
+ * Crée une entrée document dans le finder
+ * @param {string} sFileName    chemin relatif du document
+ */
+function createFile(sFileName)
+{
+  var div = document.createElement('div');
+  $('#img-files').append(div);
+  var a = document.createElement('a');
+  a.setAttribute('href','#');
+  a.className='img-thumb';
+  div.appendChild(a);
+  var img = document.createElement('img');
+  fileType = sFileName.substr(sFileName.length-3);
+  img.setAttribute('src','/assets/images/filetype/'+fileType+'File.png');
+  a.appendChild(img);
+  var div2 = document.createElement('div');
+  div2.innerText=sFileName.replace(/.*\//, '');
+  div2.className='img-txt';
+  a.appendChild(div2);
+  // TODO a.addEventListener("click",doFinder('refresh-img', data));
+  
+  $(a).on("click",function(){
+    doFinder('select-file',sFileName);
+  });
+}

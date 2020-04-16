@@ -42,6 +42,7 @@ function loadContent(content) {
     return true;
   }
   if (content.indexOf(".php") != -1) {
+//    $("#content").load(content);
     window.location.reload(content);
     return true;
   }

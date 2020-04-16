@@ -1,0 +1,29 @@
+{
+  "name": "lesgumes",
+  "version": "2.0.0",
+  "description": "Gestion Amap",
+  "main": "www/tools/js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyLinux/LesGumes.git"
+  },
+  "keywords": [
+    "webpack",
+    "php",
+    "jquery",
+    "bootstrap",
+    "smarty"
+  ],
+  "author": "Serge NOEL <serge.noel@easylinux.fr>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EasyLinux/LesGumes/issues"
+  },
+  "homepage": "https://github.com/EasyLinux/LesGumes#readme",
+  "devDependencies": {
+    "webpack-dashboard": "^3.2.0"
+  }
+}

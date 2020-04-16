@@ -90,7 +90,11 @@ switch($_POST["Action"])
       doArticle($_POST["Want"],$_POST["Vars"]);
       break;
 
-
+    case 'Finder':
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/finder.php");
+      Finder($_POST["Want"],$_POST["Vars"]);
+      break;
+    
     // case 'Upload':
     //   $sTargetFile = basename($_FILES['upload']['name']	);
     //   if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )

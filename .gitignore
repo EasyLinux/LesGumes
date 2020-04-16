@@ -19,3 +19,5 @@ www/tmp/*
 Tools/Doc/*
 # Exclude adminer
 www/tools/adminer.php
+# modules nodesjs/webpack
+node_modules/*

@@ -1,44 +1,62 @@
+<!-- 
+  Pour savoir quel objet ou quel répertoire est actuellement désigné,
+  il faut pouvoir stocker ces deux valeurs durant toute la durée 
+  d'affichage de la boîte modale. 
+  Ceci est fait via des attributs data dans le div d'affichage de contenu,
+  nous avons respectivement 
+    - data-cur pour le répertoire actif
+    - data-obj pour l'objet actif 
+-->
 <div class="modal" id="image">
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Sélection d'une image</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body" id="image_body">
-        <div class="toolbar">
-          <button onClick="goImage('choose','');" title="Choisir" class="btn btn-outline-primary">
-            <span class="glyphicon glyphicon-thumbs-up"></span> Choisir
+      <div class="modal-header finder">
+        <div class="toolbar file" id="toolbar-file">
+          <button onClick="doFinder('getIt','');" title="Choisir" class="btn btn-outline-secondary" id="btn-ok-finder">
+            <span class="glyphicon glyphicon-ok"></span> Choisir
           </button>
           <input id="fileInput" type="file" style="display:none;" />
-          <button onclick="goImage('upload','');" title="Télécharger" class="btn btn-outline-primary">
-            <span class="glyphicon glyphicon-save"></span> Télécharger
+          <button onClick="doFinder('afficher','');" title="Afficher" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-eye-open"></span> Afficher
           </button>
-          <button onClick="goImage('newFolder','');" title="Nouveau dossier" class="btn btn-outline-primary">
-            <span class="glyphicon glyphicon-plus"></span> Nouveau dossier
+<!--          <button onClick="doFinder('copier','');" title="Copier" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-duplicate"></span> Copier
           </button>
-          <button onClick="goImage('chdir','');" title="Aller dans" class="btn btn-outline-primary">
-            <span class="glyphicon glyphicon-folder-open"></span> Aller dans
+          <button onClick="doFinder('move','');" title="Déplacer" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-import"></span> Déplacer
           </button>
-          <button onClick="goImage('trash','');" title="Supprimer" class="btn btn-outline-danger">
+          <button onClick="doFinder('rename','');" title="Renommer" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-transfer"></span> Renommer
+          </button> -->
+          <button onClick="doFinder('trash-img','');" title="Supprimer" class="btn btn-outline-secondary">
             <span class="glyphicon glyphicon-trash"></span> Supprimer
           </button>
         </div>
-        <br />
-        <div class="imgShow" id="imgShow">
-
+        <div class="toolbar folder" id='toolbar-folder'>
+          <button onclick="doFinder('upload','');" title="Télécharger" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-save"></span> Télécharger
+          </button>
+          <button onClick="doFinder('newFolder','');" title="Nouveau dossier" class="btn btn-outline-secondary">
+            <span class="glyphicon glyphicon-plus"></span> Nouveau dossier
+          </button>
+          <button onClick="doFinder('trash-folder','');" title="Supprimer" class="btn btn-outline-danger">
+            <span class="glyphicon glyphicon-trash"></span> Supprimer
+          </button>
+        </div>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="imgShow">
+        <div class='imgShow-left' id='img-folders'>
+          <ul>
+            <li onClick="doFinder('refresh-file','f-media-documents');" id="f-media-documents"><span class="glyphicon glyphicon-file"></span> Fichiers</li>
+            <li onClick="doFinder('refresh-img','i-media-images');" id='i-media-images'><span class="glyphicon glyphicon-picture"></span> Images</li>
+            <li class='imgShow-left-art' id='imgShow-left-art-id' onClick="doFinder('refresh-art','');"><span class="glyphicon glyphicon-book"></span> Articles</li>
+          </ul>
+        </div>
+        <div class='imgShow-right' id='img-files' data-cur="" data-obj="" data-id="">
         </div>
       </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">Quitter</button>
-      </div>
-
+      <div class='imgStatus'>Objet: <span id='cur-Object'></span></div>
     </div>
   </div>
 </div>

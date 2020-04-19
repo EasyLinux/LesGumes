@@ -1,5 +1,7 @@
 <?php
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 function doUser($sAction,$sLogin,$sPassword)
 {
@@ -109,7 +111,7 @@ function resetPwd($login)
 {
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
-  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/vendor/autoload.php");
 
   $db = new cMariaDb($Cfg);
 
@@ -128,24 +130,56 @@ function resetPwd($login)
   $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('$newPass') WHERE id=$id;";
   $db->Query($sSQL);
 
-    // TODO a completer - envoi du mail
+  // TODO a completer - envoi du mail
   // Envoyer le nouveau mot de passe à l'utilisateur
-  $to = $login;
-  $subject = "Site AMAP - Reinitialisation du mot de passe";
-  $message  = "<html><head></head><body>Bonjour";
-  $message .= "Votre mot de passe a été ré-initialisé: $newPass<br />Vous pouvez vour rendre sur <a href='".$_SERVER['SERVER_NAME']."'>";
-  $message .= $_SERVER['SERVER_NAME']."</a><br />";
-  $message .= "Vous pouvez vous connecter sur le site puis changer de mot de passe.<br />";
-  $message .= "Ce mail est un message automatique, merci de ne pas y répondre</body></html>";
 
-  $headers  = 'MIME-Version: 1.0' . "\r\n";
-  $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+  error_log("Mail: ".$Cfg["Smtp"]["Host"].":".$Cfg["Smtp"]["Port"]);
 
-  mail($to, $subject, $message, $headers);
-  $aRet = ["Errno" => 0, "Email" => $aTmp[0]["Login"]];
+
+  $mail = new PHPMailer(true);
+  //Server settings
+  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                   // Enable verbose debug output
+  $mail->isSMTP();                                            // Send using SMTP
+  $mail->Host       = $Cfg["Smtp"]["Host"];                   // Set the SMTP server to send through
+  $mail->SMTPAuth   = $Cfg["Smtp"]["SmtpAuth"];               // Enable SMTP authentication
+  if( $mail->SMTPAuth ){
+    $mail->Username   = $Cfg["Smtp"]["User"];                 // SMTP username
+    $mail->Password   = $Cfg["Smtp"]["Pass"];                 // SMTP password
+  }
+  $mail->Port       = $Cfg["Smtp"]["Port"];                   // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+  if($mail->Port == 25){
+    $mail->SMTPAutoTLS = false;
+    $mail->SMTPSecure = false;
+  } else {
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+  }
+  
+
+  //Recipients
+  $mail->setFrom($Cfg["Smtp"]["FromEmail"], $Cfg["Smtp"]["FromName"]);
+  $mail->addAddress($login, 'Joe User');     // Add a recipient
+
+  // Content
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'Site AMAP - Reinitialisation du mot de passe';
+  $message  = "<html><head></head><body>Bonjour<br />";
+  $message .= "<p>Votre mot de passe a &eacute;t&eacute; r&eacute;-initialis&eacute;: $newPass</p><p>Vous pouvez vour rendre sur <a href='".$_SERVER['SERVER_NAME']."'>";
+  $message .= $_SERVER['SERVER_NAME']."</a></p>";
+  $message .= "<p>Vous pouvez vous connecter sur le site puis changer de mot de passe.<br />";
+  $message .= "Ce mail est un message automatique, merci de ne pas y r&eacute;pondre</p></body></html>";
+  $mail->Body    = $message;
+  $message  = "Bonjour\n";
+  $message .= "Votre mot de passe a et re-initialise: $newPass</p><p>Vous pouvez vour rendre sur ".$_SERVER['SERVER_NAME']."\n";
+  $message .= "Vous pouvez vous connecter sur le site puis changer de mot de passe.\n";
+  $message .= "Ce mail est un message automatique, merci de ne pas y r&eacute;pondre\n";
+  $mail->AltBody = $message;
+
+  $mail->send();
+
+  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
 
   header('content-type:application/json');
-   echo json_encode($aRet);
+  echo json_encode($aRet);
 }
 
 

@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<article>
 	<h2>
 		Connexion à l'Amap Les Gumes
 	</h2>
@@ -35,4 +35,4 @@
 		  <!-- <strong>Attention</strong> Message lié au formulaire (en bas) <a href="#" class="alert-link"></a> -->
 			<p id="ErrMsg"></p>
 	</div>    
-</div>
+</article>

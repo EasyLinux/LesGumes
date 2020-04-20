@@ -33,6 +33,12 @@
     </div>
 
     <div id="popupinformation" title="Information"></div>
+    <div id="cookieConsent">
+    <div id="closeCookieConsent">x</div>
+      Ce site utilise des cookies. <a href="#" onClick="loadContent('Legals');">
+      Plus d'informations</a>. <a class="cookieConsentOK">Accepter</a>
+    </div>
+
 {* Pour pouvoir utiliser l'editeur *}
 {include file="popup.smarty"}			
 <script src="/tools/js/myeditor.js" ></script>

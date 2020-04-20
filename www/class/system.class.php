@@ -144,7 +144,7 @@ class cSystem
     /**
      * getPublicRight
      * 
-     * Cette fonction interroge la base de données et renvoi l'identifiant corrsepondant à
+     * Cette fonction interroge la base de données et renvoi l'identifiant correspondant à
      * un accès publique
      * 
      * @param   void

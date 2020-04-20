@@ -8,12 +8,10 @@
 </div>
 <div class="col-md-4">
 {if $Connected eq true}
-  <button class="btn btn-success amap-login"  id='btn-info' 
-          onClick="loadContent('Logout.js'); return false;"> 
+  <button class="btn btn-success amap-login"  id='btn-info' onClick="Login();" data-connected="1"> 
           <span class="glyphicon glyphicon-user"></span> {$Raisoc}</button>
 {else}
-  <button class="btn btn-primary amap-login"  id='btn-info' 
-          onClick="loadContent('Login'); return false;">
+  <button class="btn btn-primary amap-login"  id='btn-info' onClick="Login();" data-connected="0">
           <span class="glyphicon glyphicon-user"></span> Identifiez vous</button>
 {/if}
 </div>

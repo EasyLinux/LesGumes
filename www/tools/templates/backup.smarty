@@ -1,8 +1,8 @@
 <article>
   <h1>Sauvegarde / Restauration</h1>
   <div id="backup-buttons">
-    <button id="backup" onClick="Backup();" class="btn btn-info">Sauvegarde</button>
-    <button id="restore" onClick="Restore();" class="btn btn-info">Restauration</button>
+    <button id="backup" onClick="Backup();" class="btn btn-primary">Sauvegarde</button>
+    <button id="restore" onClick="Restore();" class="btn btn-primary">Restauration</button>
   </div>
   <div id="restore-options" style="padding: 10px; display: none;">
     <h4>Options de restauration</h4>
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="col-md-8">
-      <button id="restore" onClick="restoreNow();" class="btn btn-info">Lancer la restauration</button>
+      <button id="restore" onClick="restoreNow();" class="btn btn-primary">Lancer la restauration</button>
     </div>
   </div>
   <div class="alert alert-success alert-dismissable amap-alert" id="ErrBox" style="margin-top: 20px">

@@ -2,7 +2,7 @@ var cookieOk=false;
 $().ready(function () {
   loadContent('Main');
 
-  if( document.getElementById("btn-info").dataset.connected =="0" && !cookieOk){
+  if( document.getElementById("btn-primary").dataset.connected =="0" && !cookieOk){
     setTimeout(function () {
       $("#cookieConsent").fadeIn(200);
      }, 4000);
@@ -55,7 +55,8 @@ function loadContent(content) {
   }
   if (content.indexOf(".php") != -1) {
 //    $("#content").load(content);
-    window.location.reload(content);
+    console.log("Ouvrir: "+content);
+    location.replace(content);
     return true;
   }
   if (content.indexOf(".pdf") != -1) {
@@ -81,7 +82,7 @@ function loadContent(content) {
 
 function Login()
 {
-  if( document.getElementById("btn-info").dataset.connected =="0" ){
+  if( document.getElementById("btn-primary").dataset.connected =="0" ){
     loadContent('Login');
   } else {
     ChgPwd();
@@ -116,10 +117,10 @@ function authenticate() {
         alertBox("danger",resp.ErrMsg,'ERREUR');
       }
       else {
-        $("#btn-info").removeClass("btn-primary");
-        $("#btn-info").addClass("btn-success");
-        $("#btn-info").html(" <span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom);
-        document.getElementById("btn-info").dataset.connected="1";
+        $("#btn-primary").removeClass("btn-primary");
+        $("#btn-primary").addClass("btn-success");
+        $("#btn-primary").html(" <span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom);
+        document.getElementById("btn-primary").dataset.connected="1";
         // // TODO charger en fonction des droits
         // Si membre du groupe admin, il faut charger tools.js ...
         //$.loadScript("/js/tools.js");
@@ -208,7 +209,7 @@ function loadMenu() {
 }
 
 function Logout() {
-  document.getElementById('btn-info').dataset.connected='0';
+  document.getElementById('btn-primary').dataset.connected='0';
   $.ajax({
     type: 'GET',
     url: 'ajax/logout.php',

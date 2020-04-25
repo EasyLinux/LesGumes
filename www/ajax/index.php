@@ -181,7 +181,13 @@ function loadContent($Content)
       $sHtml = $tpl->display("backup.smarty");
       break;
 
-    default:
+      case 'sendMail':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sHtml = $tpl->display("sendmail.smarty");
+      break;
+
+      default:
       if( strpos($Content,"_") ){
         //$sHtml = "Charger $Content";
         $id = substr($Content,strpos($Content,"_")+1);

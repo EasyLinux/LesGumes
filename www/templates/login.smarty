@@ -21,7 +21,7 @@
 		<button type="button" class="btn btn-primary" onClick="authenticate(); return false;">
 			Connexion
 		</button>
-		<button type="button" class="btn btn-warning"  id='btn-info' onClick="passwordLost(); return false;">
+		<button type="button" class="btn btn-warning"  id='btn-primary' onClick="passwordLost(); return false;">
 			Mot de passe oublié ?
 		</button>
   </form>

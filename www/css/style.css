@@ -219,3 +219,8 @@ img {
   background-color: #E0C91F;
 }
 /*Cookie Consent End*/
+
+#mail-modal .ck-sticky-panel, #mail-modal .ck-content {
+  margin-left: 10px;
+  margin-right: 10px;
+}

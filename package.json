@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/EasyLinux/LesGumes#readme",
   "devDependencies": {
+    "expose-loader": "^0.7.5",
     "webpack-dashboard": "^3.2.0"
   }
 }

@@ -955,10 +955,6 @@ function openEditor(params) {
   });
 }
 
-
-
-
-
 function editNews() {
   data = {
     Title: "Edition des news",

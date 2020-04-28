@@ -1,0 +1,149 @@
+<div class="contrat-amap">
+  <div class="amap-left">
+    <div class="form-group">
+      <label class="control-label" for="textinput">Contrat</label>  
+      <input type="text" class="form-control" data-id="0" id="contractName" >
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Type">Type</label>
+      <select class="form-control" id="contratType">
+{foreach from=$aTypes item=Type}
+  <option value="{$Type.id}">{$Type.value}</option>
+{/foreach}      
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Ref">Producteur</label>
+      <div class="input-group">
+        <input type="text" class="form-control" data-id="0" id='producer'>
+        <div class="input-group-append">
+          <span class="input-group-text" onclick="contrat('chooseProducer','');">choisir</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Ref">Référent</label>
+      <div class="input-group">
+        <input type="text" class="form-control" data-id='0' id="referent">
+        <div class="input-group-append">
+          <span class="input-group-text" onclick="contrat('chooseReferent','');">choisir</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Ref">Suppléant</label>
+      <div class="input-group">
+        <input type="text" class="form-control" data-id='0' id="replace">
+        <div class="input-group-append">
+          <span class="input-group-text" onclick="contrat('chooseSuppleant','');">choisir</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="textinput">Saison en cours</label>  
+      <input type="text" class="form-control" id="currentSeason">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="checkboxes">Verrouillé</label>
+      <input type="checkbox" name="checkboxes" id="locked"> 
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="textinput">Départ contrat du</label>  
+      <input id="contract-start" type="text" class="form-control" style="width: 80px">
+      <label class="control-label" for="textinput" style="padding: 0px 10px 0px 10px; width: 40px; min-width: 0px">au</label>  
+      <input id="contract-end" type="text" class="form-control" style="width: 80px">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Ref" data-toggle="tooltip" title="Nombre de personnes requises pour la permancence">Nb Permanents</label>
+        <input type="text" class="form-control" id="nbPeople" data-toggle="tooltip" title="Nombre de personnes requises pour la permancence"  style="width: 50px;">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="Ref">Prix</label>
+        <input type="text" id="amount" class="form-control" style="text-align: right; width: 80px;" >
+        <div class="input-group-append">
+          <span class="input-group-text glyphicon glyphicon-euro"></span>
+        </div>
+    </div>
+  </div>
+  <div class="amap-right" >
+			<div class="tabbable">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="#tab-livraison" data-toggle="tab">Détails</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#tab-user" data-toggle="tab">Utilisateurs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#tab-products" data-toggle="tab">Produits</a>
+					</li>
+				</ul>
+        <div class='tab-content'>
+          <div class="tab-pane active" id="tab-livraison" style="margin-left: 10px">
+            <h3 >Saison actuelle 2019/2020</h3>
+            <p><span class="glyphicon glyphicon-file" onClick="contrat('doc','');" 
+                     style="cursor: pointer" data-toggle="tooltip"
+                     title="Modifier le contrat papier"></span>
+               Contrat: <a href='/media/documents/Contrats/Légumes/contrat.pdf' target="_blank" id='contrat-doc'>
+               Contrat 2019.pdf</a> 
+               </p>
+            <p><span class="glyphicon glyphicon-shopping-cart"></span> Livraison:  <ul>
+                 <li>Prochaine le 01/05/2020
+                     avec 5 personnes inscrites pour la permancence.
+                 </li>
+                 <li>Nombres de livraison du contrat 12</li>
+              </ul></p>
+            <p><span class="glyphicon glyphicon-time"></span> Liste d'attente</p>
+            <select class="form-control" multiple="multiple" style="height: 120px">
+              <option value="1">User 1</option>
+              <option value="2">User 2</option>
+            </select>
+            <p><br /><span class="glyphicon glyphicon-cog"></span> Editer les règles</p>
+          </div> 
+          <div class="tab-pane" id="tab-user">
+            <select class="form-control" multiple="multiple" style="height: 300px">
+              <option value="1">User 1</option>
+              <option value="2">User 2</option>
+            </select>
+          </div>
+          <div class="tab-pane" id="tab-products">
+            <select class="form-control" multiple="multiple" style="height: 300px">
+              <option value="1">Produit 1</option>
+              <option value="2">Produit 2</option>
+            </select>
+          </div>
+        </div>
+			</div>
+  </div>
+</div>
+<script>
+$( "#contract-start" ).datepicker({
+altField: "#contract-start",
+closeText: 'Fermer',
+prevText: 'Précédent',
+nextText: 'Suivant',
+currentText: 'Aujourd\'hui',
+monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+weekHeader: 'Sem.',
+dateFormat: 'dd/mm'
+});
+$( "#contract-end" ).datepicker({
+altField: "#contract-end",
+closeText: 'Fermer',
+prevText: 'Précédent',
+nextText: 'Suivant',
+currentText: 'Aujourd\'hui',
+monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+weekHeader: 'Sem.',
+dateFormat: 'dd/mm'
+});
+
+</script>

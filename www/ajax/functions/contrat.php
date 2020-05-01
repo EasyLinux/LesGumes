@@ -7,12 +7,13 @@ function contrat($sAction, $sVars)
     case 'getProducteur':
     case 'getReferent':
     case 'getSuppleant':
+    case 'getWait':
       require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
       require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
   
       $db = new cMariaDb($Cfg);
     
-      $sSQL  = "SELECT sys_user.id, CONCAT(sNom,' ',sPrenom) AS Raisoc FROM sys_user ORDER BY Raisoc;";
+      $sSQL  = "SELECT sys_user.id, CONCAT(sNom,' ',sPrenom) AS Raisoc FROM sys_user WHERE bActive=1 ORDER BY Raisoc;";
       $aRet = $db->getAllFetch($sSQL);
       break;
 
@@ -22,6 +23,60 @@ function contrat($sAction, $sVars)
 
     case 'getInfo':
       $aRet = getInfo($sVars);
+      break;
+
+    case 'getDocs':
+      require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+      $DocFolder = $_SERVER["DOCUMENT_ROOT"].$Cfg["Documents"]."/Contrats/".$sVars;
+      $DocTarget = $Cfg["Documents"]."/Contrats/".$sVars;
+      $aRet = ["Errno" => -1, "ErrMsg" => $DocFolder];
+      $aFiles=[];
+      if (is_dir($DocFolder)) {
+        if ($dh = opendir($DocFolder)) {
+            while (($file = readdir($dh)) !== false) {
+              if( filetype($DocFolder."/".$file)  == "file" ){
+                $aFiles[]=$file;
+              }
+            }
+            closedir($dh);
+        }
+        $aRet = ['Errno' => 0, "Files" => $aFiles, "Folder" => $DocTarget];
+      } else {
+        mkdir($DocFolder,0775,true);
+        $aRet = ['Errno' => 0, "Files" => [], "Folder" => $DocTarget];
+      }
+      break;    
+
+    case 'uploadDoc':
+    require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+    $aRet = ['Errno' => -1, "ErrMsg" => print_r($sVars,true)];
+      $DocFolder = $_SERVER["DOCUMENT_ROOT"].$Cfg["Documents"]."/Contrats/".$sVars;
+      $sTargetFile = $DocFolder."/".basename($_FILES['file']['name']	);
+      if( move_uploaded_file($_FILES['file']['tmp_name'],$sTargetFile) ){
+        $aRet = ['Errno' => 0, "ErrMsg" => $sTargetFile];
+      } else {
+        $aRet = ['Errno' => -1, "ErrMsg" => $sTargetFile];
+      }
+      break;
+
+    case 'listLivraison':
+      $aRet = listLivraison($sVars);
+      break;
+
+    case 'saveLivraison':
+      $aRet = saveLivraison($sVars);
+      break;
+
+    case 'delLivraison':
+      $aRet = delLivraison($sVars);
+      break;
+
+    case 'addWaitUser':
+      $aRet = addWaitUser($sVars);
+      break;
+
+    case 'listWait':
+      $aRet = listWait($sVars);
       break;
 
     default:
@@ -44,7 +99,7 @@ function saveContrat($sVars)
   if( $aVars["id"] == 0 ){
     $sSQL  = "INSERT INTO sys_contrat VALUES (";
     $sSQL .= $aVars["id"].",".$aVars["Type"].", ";
-    $sSQL .= $aVars["idProducteur"] .", ".$aVars["idReferent"].", '";
+    $sSQL .= $aVars["idProducteur"] .", ".$aVars["idReferent"].", ";
     $sSQL .= $aVars["idSuppleant"] .", '";
     $sSQL .= $aVars["Name"]."', ".$aVars["nbPeople"].", '";
     $sSQL .= convMonthDay($aVars["Start"])."', '".convMonthDay($aVars["End"])."', ";
@@ -53,7 +108,7 @@ function saveContrat($sVars)
     } else {
       $sSQL .= "0, '";
     }
-    $sSQL .= $aVars["curSeason"]."','".$aVars["price"]."');";
+    $sSQL .= $aVars["curSeason"]."','".$aVars["price"]."','".$aVars["Document"]."','No rules');";
   } else {
     $sSQL  = "UPDATE sys_contrat SET ";
     $sSQL .= "idContratType=".$aVars["Type"].", ";
@@ -70,13 +125,14 @@ function saveContrat($sVars)
       $sSQL .= "Verouille=0, ";
     }
     $sSQL .= "Encours='".$aVars["curSeason"]."', ";
-    $sSQL .= "PrixContrat='".$aVars["price"]."' ";
+    $sSQL .= "PrixContrat='".$aVars["price"]."', ";
+    $sSQL .= "Document='".$aVars["Document"]."' ";
     $sSQL .= "WHERE id=".$aVars["id"].";";
   }
 
   $aRet = $db->Query($sSQL);
 
-  $aRet = ["Errno" => 0, "ErrMsg" => $sSQL];
+  $aRet = ["Errno" => -1, "ErrMsg" => $sSQL];
   return $aRet;
 }
 
@@ -103,7 +159,7 @@ function getInfo($id)
   $sSQL .= "       sys_parameter.value AS Type, ";
   $sSQL .= "       CONCAT(Ref.sNom,' ', Ref.sPrenom) AS Referent, ";
   $sSQL .= "       CONCAT(sup.sNom,' ', sup.sPrenom) AS Suppleant, ";
-  $sSQL .= "       Verouille, nbPermanence, DebutContrat, FinContrat, EnCours, PrixContrat ";
+  $sSQL .= "       Verouille, nbPermanence, DebutContrat, FinContrat, EnCours, PrixContrat, Document ";
   $sSQL .= "  FROM sys_contrat ";
   $sSQL .= "  LEFT JOIN sys_user AS prod ON sys_contrat.IdProducteur = prod.id ";
   $sSQL .= "  LEFT JOIN sys_user AS Ref ON sys_contrat.idReferent = Ref.id ";
@@ -111,4 +167,88 @@ function getInfo($id)
   $sSQL .= "  LEFT JOIN sys_parameter ON sys_contrat.idContratType = sys_parameter.id";
   $sSQL .= "  WHERE sys_contrat.id=".$id;
   return ["Errno" => 0, "Data" => $db->getAllFetch($sSQL)];
+}
+
+function listLivraison($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL  = "SELECT id, DATE_FORMAT(Date, '%d/%m/%Y') AS frDate , numLivraison, Montant ";
+  $sSQL .= "FROM sys_livraison WHERE idContrat=$id ORDER BY Date DESC;";
+  return ["Errno" => 0, "Datas" => $db->getAllFetch($sSQL), "SQL" => $sSQL];
+}
+
+function saveLivraison($sVars)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  // {"id":"0","idContrat":"4","frDate":"08/05/2020","numLivraison":"8","Montant":"45"}"
+  $aVars = json_decode($sVars,true);
+  if( $aVars['id'] == 0){
+    $sSQL  = "INSERT INTO sys_livraison VALUES (0, ".$aVars['idContrat'].",";
+    $sSQL .= "'".frToUsDate($aVars['frDate'])."','".$aVars['numLivraison']."','";
+    $sSQL .= $aVars['Montant']."');";
+    $db->Query($sSQL);
+    $id = $db->getLastId();
+  } else {
+    $sSQL  = "UPDATE sys_livraison SET idContrat=".$aVars['idContrat'];
+    $sSQL .= ", Date='" .frToUsDate($aVars['frDate'])."', numLivraison=";
+    $sSQL .= $aVars['numLivraison'] . ", Montant='". $aVars['Montant'] ."' ";
+    $sSQL .= "WHERE id=".$aVars["id"];
+    $db->Query($sSQL);
+  }
+
+  return ["Errno" => 0, "ErrMsg" => $sSQL, "id" => $id];
+}
+
+function delLivraison($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+   
+  $sSQL = "DELETE FROM sys_livraison WHERE id=$id;";
+  $db->Query($sSQL);
+  $sSQL = "DELETE FROM sys_livraison_produit WHERE idLivraison=$id";
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => ""];
+}
+
+function addWaitUser($sVars)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+  $aVars = json_decode($sVars,true);
+
+  $sSQL  = "INSERT INTO sys_liste_attente VALUES (0,";
+  $sSQL .= $aVars["id"].", ".$aVars["idContrat"].",0,CURRENT_TIMESTAMP)";
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => $sSQL];
+}
+
+function listWait($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL  = "SELECT DATE_FORMAT(dateInscription,'%d/%m/%Y') AS frDate, ";
+  $sSQL .= "CONCAT(sNom,' ',sPrenom) AS Raisoc, sTelMobile, hasContract, sys_liste_attente.id ";
+  $sSQL .= "FROM sys_liste_attente ";
+  $sSQL .= "LEFT JOIN sys_user ON  sys_liste_attente.idUser = sys_user.id ";
+  $sSQL .= "WHERE sys_liste_attente.idContrat=$id ";
+  $sSQL .= "ORDER BY hasContract DESC;";
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => $sSQL, "Wait" => $db->getAllFetch($sSQL)];
+}
+
+function frToUsDate($frDate)
+{
+  $usDate = substr($frDate,6)."-".substr($frDate,3,2)."-".substr($frDate,0,2);
+  return $usDate;
 }

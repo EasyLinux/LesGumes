@@ -2,7 +2,7 @@
   <div class="amap-left">
     <div class="form-group">
       <label class="control-label" for="textinput">Contrat</label>  
-      <input type="text" class="form-control" data-id="0" id="contractName" >
+      <input type="text" class="form-control" data-id="0" data-folder="" id="contractName" >
     </div>
     <div class="form-group">
       <label class="control-label" for="Type">Type</label>
@@ -41,7 +41,7 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="textinput">Saison en cours</label>  
-      <input type="text" class="form-control" id="currentSeason">
+      <input type="text" class="form-control" id="currentSeason" onChange="$('#h3-season').text(this.value);">
     </div>
     <div class="form-group">
       <label class="control-label" for="checkboxes">Verrouillé</label>
@@ -59,7 +59,7 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="Ref">Prix</label>
-        <input type="text" id="amount" class="form-control" style="text-align: right; width: 80px;" >
+        <input type="text" id="amount" class="form-control" style="text-align: right; width: 80px;" onChange="formatNumber()";" >
         <div class="input-group-append">
           <span class="input-group-text glyphicon glyphicon-euro"></span>
         </div>
@@ -80,37 +80,94 @@
 				</ul>
         <div class='tab-content'>
           <div class="tab-pane active" id="tab-livraison" style="margin-left: 10px">
-            <h3 >Saison actuelle 2019/2020</h3>
-            <p><span class="glyphicon glyphicon-file" onClick="contrat('doc','');" 
+            <h3 >Saison actuelle <span id="h3-season"></span></h3>
+            <p><span class="glyphicon glyphicon-file pointer" onClick="contrat('doc','');" 
                      style="cursor: pointer" data-toggle="tooltip"
                      title="Modifier le contrat papier"></span>
-               Contrat: <a href='/media/documents/Contrats/Légumes/contrat.pdf' target="_blank" id='contrat-doc'>
-               Contrat 2019.pdf</a> 
+               Contrat: <a href='' target="_blank" id='contrat-doc'>
+               </a> 
                </p>
-            <p><span class="glyphicon glyphicon-shopping-cart"></span> Livraison:  <ul>
+            <p><span class="glyphicon glyphicon-shopping-cart pointer" 
+                     onclick="contrat('livraison','');"></span> Livraison:</p>
+            <p><ul>
                  <li>Prochaine le 01/05/2020
-                     avec 5 personnes inscrites pour la permancence.
+                     avec 5 personne(s) inscrite(s) pour la permanence.
                  </li>
-                 <li>Nombres de livraison du contrat 12</li>
+                 <li>Nombre de livraison(s) du contrat 12 dont 5 déjà effectuées</li>
               </ul></p>
             <p><span class="glyphicon glyphicon-time"></span> Liste d'attente</p>
-            <select class="form-control" multiple="multiple" style="height: 120px">
-              <option value="1">User 1</option>
-              <option value="2">User 2</option>
-            </select>
-            <p><br /><span class="glyphicon glyphicon-cog"></span> Editer les règles</p>
+            <div style="height: 150px; minheight: 150px; overflow-y: auto">
+              <table class='table-condensed table-bordered'>
+                <thead>
+                  <tr>
+                  <th>Date</th>
+                  <th>Nom Prenom</th>
+                  <th>Téléphone</th>
+                  <th style='text-align: right;'>
+                    <span class="glyphicon glyphicon-plus pointer" 
+                          data-toggle="tooltip" 
+                          title="Ajouter une personne à la liste"
+                          onclick="contrat('addWait','');"></span>
+                  </th>
+                  </tr>
+                </thead>
+                <tbody id="waiting-list">
+                </tbody>
+              </table>
+            </div>
+            <p><br /><span class="glyphicon glyphicon-cog pointer" onClick="contrat('editRules','');"></span> Editer les règles</p>
           </div> 
           <div class="tab-pane" id="tab-user">
-            <select class="form-control" multiple="multiple" style="height: 300px">
-              <option value="1">User 1</option>
-              <option value="2">User 2</option>
-            </select>
+            <div  style='height: 350px; minHeight: 350px'>
+              <table class='table-hover table-bordered table-condensed'>
+                <thead>
+                  <tr>
+                  <th>Date d'inscription</th>
+                  <th>Nom</th>
+                  <th>Prenom</th>
+                  <th>Téléphone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>01/05/2020</td>
+                    <td>NOEL</td>
+                    <td>Serge</td>
+                    <td>06.07.51.68.21</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter</button>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span> Supprimer</button>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Modifier</button>
+            </div>
           </div>
           <div class="tab-pane" id="tab-products">
-            <select class="form-control" multiple="multiple" style="height: 300px">
-              <option value="1">Produit 1</option>
-              <option value="2">Produit 2</option>
-            </select>
+            <div  style='height: 350px; minHeight: 350px'>
+              <table class='table-condensed table-hover table-bordered'>
+                <thead>
+                  <tr style="margin: 2px;">
+                    <th>Produit</th>
+                    <th>Unité</th>
+                    <th>Prix</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Melon</td>
+                    <td>Cagette 5kg</td>
+                    <td>52 €</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter</button>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span> Supprimer</button>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Modifier</button>
+            </div>
           </div>
         </div>
 			</div>

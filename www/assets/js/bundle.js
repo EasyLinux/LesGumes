@@ -236,8 +236,25 @@ function doAction(action, params)
     case 'okWait':
       okWait();
       break;
-  
-      case 'editRules':
+
+    case 'delWait':
+      delWait(params);
+      break;
+
+    case 'acceptWait':
+      // TODO pas implémenté
+      alert("Pas implémenté");
+      break;
+
+    case 'addUser':
+      chooseUser('User', "Ajouter au contrat");
+      break;
+
+    case 'okUser':
+      okUser();
+      break;
+    
+    case 'editRules':
       // Gestion des règles
       editRules();
       break; 
@@ -320,6 +337,7 @@ function initFormContact(id)
       $('#contrat-doc').text(contratDoc.replace(/.*\//, ''));
       $('#contrat-doc').attr("href",resp.Data[0].Document);
       refreshWaitingList();
+      refreshUserList(id);
     });
   }
   _modal_js__WEBPACK_IMPORTED_MODULE_0__["addButtons"]("contrat-edit",Btns);
@@ -763,12 +781,33 @@ function okWait()
       return false;
     }
     refreshWaitingList();
+    $('#choose-user').modal('hide');
   });
-  
+}
+
+function delWait(id)
+{
+  var elContrat = document.getElementById('contractName');
+  var idContrat = elContrat.dataset.id;
+  var sVars='{"id":"'+id+'","idContrat":"'+idContrat+'"}';
+  data={
+    Action: 'contrat',
+    Want:   'delWaitUser',
+    Vars:   sVars
+  };
+  $.post("/ajax/index.php",data, function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    $('#choose-user').modal('hide');
+    refreshWaitingList();
+  });
 }
 
 function refreshWaitingList()
 {
+  console.log("Rafraichir la liste");
   var elContrat = document.getElementById('contractName');
   var idContrat = elContrat.dataset.id;
   data={
@@ -793,30 +832,79 @@ function refreshWaitingList()
       cell.innerHTML = line.sTelMobile;
       var cell = row.insertCell();
       cell.style.textAlign="right";
-      var Html  = "<span class='glyphicon glyphicon-trash pointer' ";  
+      var Html  = "<span class='glyphicon glyphicon-thumbs-up pointer' ";  
+      Html += " data-toggle='tooltip' title='Accepter' ";
+      Html += "onclick='contrat(\"acceptWait\","+line.id+");'></span> ";
+      Html += "<span class='glyphicon glyphicon-trash pointer' ";  
       Html += " data-toggle='tooltip' title='Retirer de la liste' ";
       Html += "onclick='contrat(\"delWait\","+line.id+");'></span>";
       cell.innerHTML = Html;
-  
     });
-
-
   });
-  // var tbody = document.getElementById("waiting-list");
-  // var row = tbody.insertRow();
-  //                     <td>01/05/2020</td>
-  //                     <td>NOEL Serge</td>
-  //                     <td>06.07.51.68.21</td>
-  //                     <td style='text-align: right;'>
-  //                       <span class="glyphicon glyphicon-trash pointer"  
-  //                             data-toggle="tooltip" 
-  //                             title="Retirer de la liste"
-  //                             onclick="contrat('delWait','');"></span>
-
 }
 
 
+function okUser()
+{
+  var elContrat = document.getElementById('contractName');
+  var idContrat = elContrat.dataset.id;
+  var id = $('#user-choose :selected').val();
+  var sVars='{"id":"'+id+'","idContrat":"'+idContrat+'"}';
+  data={
+    Action: 'contrat',
+    Want:   'addUser',
+    Vars:   sVars
+  };
+  $.post("/ajax/index.php",data, function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    console.log(resp.ErrMsg);
+    refreshUserList(idContrat);
+    $('#choose-user').modal('hide');
+  });
+}
 
+function refreshUserList(id)
+{
+  if( id != undefined ){
+    var idContrat = id;
+  } else {
+    var elContrat = document.getElementById('contractName');
+    var idContrat = elContrat.dataset.id;
+  }
+  data={
+    Action:  "contrat",
+    Want:    "refreshUserList",
+    Vars:    idContrat
+  };
+  $.post('/ajax/index.php',data,function(resp){
+    if( resp.Errno == -1){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    var tbody = document.getElementById('user-list');
+    resp.Data.forEach(function(line){
+      var row = tbody.insertRow();
+      var cell = row.insertCell();
+      cell.innerHTML = line.dateInscription;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Nom;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Prenom;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Telephone;
+      var cell = row.insertCell();
+      cell.style.textAlign="right";
+      var Html  = "<input type='checkbox' data-toggle='tooltip'";
+      Html += " title='Contrat en cours'>&nbsp;&nbsp;&nbsp;";
+      Html += "<span class='glyphicon glyphicon-search' data-toggle='tooltip' title='Voir le détail'></span>";
+      cell.innerHTML = Html;
+
+    });
+  });
+}
 
 
 

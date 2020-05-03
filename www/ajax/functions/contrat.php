@@ -8,6 +8,7 @@ function contrat($sAction, $sVars)
     case 'getReferent':
     case 'getSuppleant':
     case 'getWait':
+    case 'getUser':
       require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
       require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
   
@@ -75,8 +76,20 @@ function contrat($sAction, $sVars)
       $aRet = addWaitUser($sVars);
       break;
 
+    case 'delWaitUser':
+      $aRet = delWaitUser($sVars);
+      break;
+
     case 'listWait':
       $aRet = listWait($sVars);
+      break;
+
+    case 'addUser':
+      $aRet = addUser($sVars);
+      break;
+
+    case 'refreshUserList':
+      $aRet = refreshUserList($sVars);
       break;
 
     default:
@@ -218,21 +231,10 @@ function delLivraison($id)
   return ["Errno" => 0, "ErrMsg" => ""];
 }
 
-function addWaitUser($sVars)
-{
-  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
-  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
-  $db = new cMariaDb($Cfg);
-  $aVars = json_decode($sVars,true);
-
-  $sSQL  = "INSERT INTO sys_liste_attente VALUES (0,";
-  $sSQL .= $aVars["id"].", ".$aVars["idContrat"].",0,CURRENT_TIMESTAMP)";
-  $db->Query($sSQL);
-  return ["Errno" => 0, "ErrMsg" => $sSQL];
-}
 
 function listWait($id)
 {
+  // TODO rafraichir hasContract 
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
   $db = new cMariaDb($Cfg);
@@ -245,6 +247,77 @@ function listWait($id)
   $sSQL .= "ORDER BY hasContract DESC;";
   $db->Query($sSQL);
   return ["Errno" => 0, "ErrMsg" => $sSQL, "Wait" => $db->getAllFetch($sSQL)];
+}
+
+function addWaitUser($sVars)
+{
+  // TODO rafraichir hasContract 
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+ 
+  $aVars = json_decode($sVars,true);
+  
+  $sSQL  = "INSERT INTO sys_liste_attente VALUES (0,".$aVars["id"];
+  $sSQL .= ",".$aVars["idContrat"].",0,CURRENT_TIMESTAMP);";
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => $sSQL];
+}
+
+function delWaitUser($sVars)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+ 
+  $aVars = json_decode($sVars,true);
+  
+  $sSQL  = "DELETE FROM sys_liste_attente WHERE id=".$aVars["id"];
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => print_r($aVars,true).$sSQL];
+}
+
+function addUser($sVars)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $aVars = json_decode($sVars,true);
+  // Lire le contrat référencé, calculer date debut et date fin
+  $sSQL = "SELECT DebutContrat, FinContrat FROM sys_contrat WHERE id=".$aVars["idContrat"].";";
+  $aContrat = $db->getAllFetch($sSQL); 
+  $sDebut = substr($aContrat[0]["DebutContrat"],4);
+  $sFin = substr($aContrat[0]["FinContrat"],4);
+  if ( $sDebut > $sFin ){
+    // Bascule l'année ex: fin aout et début en septembre
+    $sNewDebut = date('Y').$sDebut;
+    $sNewFin   = date('Y', strtotime('+1 year')) . $sFin;
+  } else {
+    $sNewDebut = date('Y').$sDebut;
+    $sNewFin   = date('Y'). $sFin;
+  }
+  // Créer une ligne dans sys_contrat_user
+
+  $sSQL  = "INSERT INTO sys_contrat_user VALUES (0,".$aVars['idContrat'];
+  $sSQL .= ",". $aVars['id'].",'$sNewDebut','$sNewFin',0);";
+  $db->Query($sSQL);
+  return ["Errno" => 0,"ErrMsg" => $sSQL];
+}
+
+function refreshUserList($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL  = "SELECT DATE_FORMAT(dDateInscription,'%d/%m/%Y') as dateInscription";
+  $sSQL .= ", sNom AS Nom, sPrenom AS Prenom,";
+  $sSQL .= " sTelMobile AS Telephone FROM sys_contrat_user ";
+  $sSQL .= "LEFT JOIN sys_user ON sys_contrat_user.idUser = sys_user.id ";
+  $sSQL .= "WHERE sys_contrat_user.idContrat=$id ";
+  $sSQL .= "ORDER BY Nom,Prenom;";
+  return ["Errno" => 0,"Data" => $db->getAllFetch($sSQL), "ErrMsg" => $sSQL];
 }
 
 function frToUsDate($frDate)

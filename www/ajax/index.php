@@ -27,10 +27,10 @@ switch($_POST["Action"])
       doUser('Login',$_POST["Login"],$_POST["Passwd"]);
       break;
 
-    case 'doUser':
+    case 'User':
       // Tentative de connexion
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/users.php");
-      doUser($_POST["Want"],$_POST["Login"],$_POST["Passwd"]);
+      User($_POST["Want"],$_POST["Vars"]);
       break;
 
     case 'Content':

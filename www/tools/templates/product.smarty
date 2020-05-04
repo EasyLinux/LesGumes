@@ -8,11 +8,11 @@
 </div>
 <div class="form-group">
   <label class="control-label" for="max">Livraison max</label>  
-  <input id="max" type="text" class="form-control input-md" onchange="this.value=parseInt(this.value);">
+  <input id="max" type="text" class="form-control input-md" onchange="this.value=parseInt(this.value);" value="0">
 </div>
 <div class="form-group">
   <label class="control-label" for="max">Prix</label>   
-  <input id="prix" type="text" class="form-control input-md" onchange="this.value=parseFloat(this.value).toFixed(2);">
+  <input id="prix" type="text" class="form-control input-md" onchange="this.value=parseFloat(this.value).toFixed(2);" value="0.00">
 </div>
 <div class="form-group">
   <label class="control-label" for="description">Commentaires</label>

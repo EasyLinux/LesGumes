@@ -277,13 +277,13 @@ img {
   padding-top: 5px;
 }
 
-.contrat-amap input.required {
+input.required {
   border-color: rgba(229, 23, 23, 0.8);
   box-shadow: 0 1px 1px rgba(229, 23, 23, 0.075) inset, 0 0 8px rgba(229, 23, 23, 0.6);
   outline: 0 none;
 }
   
-.contrat-amap input.require-ok {   
+input.require-ok {   
     border-color: rgba(17, 224, 10, 0.8);
     box-shadow: 0 1px 1px rgba(17, 224, 10, 0.075) inset, 0 0 8px rgba(17, 224, 10, 0.6);
     outline: 0 none;

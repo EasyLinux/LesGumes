@@ -11,37 +11,37 @@
   <div class="tab-content">
     <div class="tab-pane active" id="tabUser">
       <div class="mygroup">
-        <label for="email">Email</label>  
-        <input id="email" type="text" onchange="userAction('uniqueEmail',this.value,0);" >
+        <label for="sEmail">Email</label>  
+        <input id="sEmail" type="text" onchange="user('uniqueEmail',this.value);" >
       </div>
       <div class="mygroup">
-        <label for="Nom">Nom</label>  
-        <input id="name" type="text" required="" onkeyup="upper(this);">
+        <label for="sNom">Nom</label>  
+        <input id="sNom" type="text" required="" onkeyup="this.value=this.value.toUpperCase();"> 
       </div>
       <div class="mygroup">
-        <label for="Prenom">Prenom</label>  
-        <input id="given" type="text">
+        <label for="sPrenom">Prenom</label>  
+        <input id="sPrenom" type="text">
       </div>
       <div class="mygroup">
-        <label for="address">Adresse</label>  
-        <input id="address" type="text">
+        <label for="sAdresse">Adresse</label>  
+        <input id="sAdresse" type="text">
       </div>
       <div class="mygroup">
-        <label for="zip">C.postal / ville</label>  
-        <input id="zip" type="text" style="width: 15%" onchange="getZip(this.value);">
-        <input id="city" type="text" style="width: 44%" onkeyup="upper(this);">
+        <label for="sCodePostal">C.postal / ville</label>  
+        <input id="sCodePostal" type="text" style="width: 15%" onchange="user('getZip',this.value);" >
+        <input id="sVille" type="text" style="width: 44%" onkeyup="this.value=this.value.toUpperCase();">
       </div>
       <div class="mygroup">
-        <label for="phone">Téléphone</label>  
-        <input id="phone" type="text">
+        <label for="sTelephone">Téléphone</label>  
+        <input id="sTelephone" type="text">
       </div>
       <div class="mygroup">
-        <label for="mobile">Tél. Mobile</label>  
-        <input id="mobile" type="text">
+        <label for="sTelMobile">Tél. Mobile</label>  
+        <input id="sTelMobile" type="text">
       </div>
       <div class="mygroup">
-        <label for="login">Login</label>  
-        <input id="login" type="text" required="">
+        <label for="sLogin">Login</label>  
+        <input id="sLogin" type="text" required="">
       </div>
     </div>
 

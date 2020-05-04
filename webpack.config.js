@@ -10,8 +10,8 @@ module.exports = {
 
     // https://webpack.js.org/configuration/output/
     output: {
-        path: path.resolve( __dirname, './www/js' ),
-        filename: 'tools.js'
+        path: path.resolve( __dirname, './www/assets/js' ),
+        filename: 'bundle.js'
     },
   
     // Useful for debugging.
@@ -19,4 +19,5 @@ module.exports = {
 
     // By default webpack logs warnings if the bundle is bigger than 200kb.
     performance: { hints: false }
-};
+  }
+

@@ -19,11 +19,9 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 <!--	<link href="favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" /> -->
 
-	<!-- Latest compiled and minified CSS 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-	<!-- jQuery library 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<!-- jQuery library -->
 	<script src="/assets/js/jquery.min.js"></script>
 	<!-- jQuery ui library 
 	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script> -->
@@ -40,12 +38,14 @@
 	<!-- google roboto font 
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
 	<link href="/assets/css/roboto.css" rel="stylesheet">
+  <link href="/assets/css/jquery-ui.min.css" rel="stylesheet">
 	<link href="css/glyphicons.css" rel="stylesheet" />
 
 	<link href="css/style.css" rel="stylesheet">
 
 	<link href="tools/css/style.css" rel="stylesheet">
+  <script src="assets/js/bundle.js"></script>
 	<script src="js/amap.js"></script>
-<!--  <script src="js/tools.js"></script> -->
+
 	<script src="tools/js/tools.js" ></script>
 </head>

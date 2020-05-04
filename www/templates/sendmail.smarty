@@ -1,0 +1,24 @@
+<div class="modal fade" id="send-mail" role="dialog" aria-labelledby="mySendMail" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content" id='mail-modal'>
+      <div class="modal-header">
+        <h5 class="modal-title" id="mySendMail">
+            Envoi de mail
+        </h5>
+        <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" id="before-mail"></div>
+      <div class="modal-body" id="editMail"></div>
+      <div class="modal-footer" id="mail-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+            <span class="glyphicon glyphicon-envelope"></span> Envoyer
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <span class="glyphicon glyphicon-log-out"></span> Quitter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

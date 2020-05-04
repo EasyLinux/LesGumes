@@ -1,6 +1,7 @@
 var toolbarType = 'complete';
 var CkEditor;
-var editor;
+var CkMail;
+//var editor;
 var aRecords;
 
 /*==========================================================================================
@@ -66,7 +67,7 @@ function createRightButtonBar() {
       $('#sRecDesc').val("");
     }
   };
-  Btn.className = "btn btn-info";
+  Btn.className = "btn btn-primary";
   $("#pop-foot").append(Btn);
   //  Enregistrer 
   var Btn = document.createElement('button');
@@ -98,7 +99,7 @@ function createRightButtonBar() {
       }
     });
   };
-  Btn.className = "btn btn-info";
+  Btn.className = "btn btn-primary";
   $("#pop-foot").append(Btn);
   //   Supprimer
   var Btn = document.createElement('button');
@@ -954,10 +955,6 @@ function openEditor(params) {
   });
 }
 
-
-
-
-
 function editNews() {
   data = {
     Title: "Edition des news",
@@ -1107,7 +1104,7 @@ function editUsers() {
 
     var Btn = document.createElement('button');
     Btn.setAttribute("type", "button");
-    Btn.className = "btn btn-info";
+    Btn.className = "btn btn-primary";
     Btn.innerHTML = "<span class='glyphicon glyphicon-lock'></span> Mot de passe";
     Btn.onclick = function () {
       userAction('chpwd');
@@ -1116,7 +1113,7 @@ function editUsers() {
     var Btn = document.createElement('button');
     Btn.id = "add";
     Btn.innerHTML = "<span class='glyphicon glyphicon-plus'></span> Ajouter";
-    Btn.className = "btn btn-info";
+    Btn.className = "btn btn-primary";
     Btn.onclick = function () {
       userAction('add');
     };
@@ -1124,7 +1121,7 @@ function editUsers() {
     var Btn = document.createElement('button');
     Btn.id = "edit";
     Btn.innerHTML = "<span class='glyphicon glyphicon-pencil'></span> Modifier";
-    Btn.className = "btn btn-info";
+    Btn.className = "btn btn-primary";
     Btn.onclick = function () {
       userAction('edit');
     };
@@ -1415,7 +1412,7 @@ function createModal(parent, id, titre) {
   Btn.onclick = function () {
     userAction('save');
   };
-  Btn.className = "btn btn-info";
+  Btn.className = "btn btn-primary";
   Btn.innerHTML = "<span class='glyphicon glyphicon-save'></span> Enregistrer";
   Btn.setAttribute("data-dismiss", "modal");
   DivFoot.appendChild(Btn);
@@ -1773,4 +1770,12 @@ function createFile(sFileName)
   $(a).on("click",function(){
     doFinder('select-file',sFileName);
   });
+}
+
+/**
+ * gestion des mail
+ */
+function sendMail()
+{
+  $('#send-mail').modal('show');
 }

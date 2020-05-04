@@ -1,0 +1,20 @@
+<div class="form-group">
+  <label class="control-label" for="label">Désignation</label>  
+  <input id="label" type="text" class="form-control input-md" required="" data-id="0">
+</div>
+<div class="form-group">
+  <label class="control-label" for="textinput">Conditionnement</label>  
+  <input id="unite" type="text" class="form-control input-md">
+</div>
+<div class="form-group">
+  <label class="control-label" for="max">Livraison max</label>  
+  <input id="max" type="text" class="form-control input-md" onchange="this.value=parseInt(this.value);">
+</div>
+<div class="form-group">
+  <label class="control-label" for="max">Prix</label>   
+  <input id="prix" type="text" class="form-control input-md" onchange="this.value=parseFloat(this.value).toFixed(2);">
+</div>
+<div class="form-group">
+  <label class="control-label" for="description">Commentaires</label>
+    <textarea class="form-control" id="description"></textarea>
+</div>

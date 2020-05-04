@@ -24,7 +24,6 @@ switch($_POST["Action"])
     case 'Login':
       // Tentative de connexion
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/users.php");
-      error_log(print_r($_POST,true));
       doUser('Login',$_POST["Login"],$_POST["Passwd"]);
       break;
 
@@ -52,7 +51,6 @@ switch($_POST["Action"])
     case 'loadFile':
       $sTargetFile = $_SERVER["DOCUMENT_ROOT"].$_POST["Where"];
       $sTargetFile .= basename($_FILES['file']['name']	);
-      error_log("Fichier cible : ".$sTargetFile);
       if( move_uploaded_file($_FILES['file']['tmp_name'],$sTargetFile) ){
         echo "OK";
       } else {
@@ -94,21 +92,12 @@ switch($_POST["Action"])
       include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/finder.php");
       Finder($_POST["Want"],$_POST["Vars"]);
       break;
-    
-    // case 'Upload':
-    //   $sTargetFile = basename($_FILES['upload']['name']	);
-    //   if( move_uploaded_file($_FILES['upload']['tmp_name'],__DIR__."/../media/$sTargetFile" ) )
-    //   {
-    //     $aResult["url"] = "/media/$sTargetFile";
-    //   }
-    //   else
-    //   {
-    //     $aResult["error"]["message"]="Pas bon";
-    //   }
-    //   header('content-type:application/json');
-    //   echo json_encode($aResult);
-    //   break;
 
+    case 'contrat':  
+      include_once($_SERVER["DOCUMENT_ROOT"]."/ajax/functions/contrat.php");
+      contrat($_POST["Want"],$_POST["Vars"]);
+      break;
+  
     default:
       header('content-type:application/json');
       echo json_encode(["Errno" => -1, "ErrMsg" => "Action: ".$_POST["Action"] ." non utilisable (ajax/index.php)"]);
@@ -181,7 +170,42 @@ function loadContent($Content)
       $sHtml = $tpl->display("backup.smarty");
       break;
 
-    default:
+      case 'sendMail':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sHtml = $tpl->display("sendmail.smarty");
+      break;
+
+      case 'Contrat':
+      // TODO need admin rights
+      $db = new cMariaDb($Cfg);
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $sSQL  = "SELECT sys_contrat.id, label AS Name, ";
+      $sSQL .= "sys_parameter.value AS Type, ";
+      $sSQL .= "CONCAT(prod.sNom, ' ', prod.sPrenom) AS Producteur, ";
+      $sSQL .= "CONCAT(Ref.sNom,' ', Ref.sPrenom) AS Referent, ";
+      $sSQL .= "IF(Verouille=1, 'OUI', 'NON') AS Verrouille ";
+      $sSQL .= "FROM sys_contrat LEFT JOIN sys_user AS prod ";
+      $sSQL .= "ON sys_contrat.IdProducteur = prod.id ";
+      $sSQL .= "LEFT JOIN sys_user AS Ref ON sys_contrat.idReferent = Ref.id ";
+      $sSQL .= "LEFT JOIN sys_parameter ON sys_contrat.idContratType = sys_parameter.id;";
+      $tpl->assign("Contrats",$db->getAllFetch($sSQL)); 
+      $sHtml = $tpl->display("contrat.smarty");
+      //$sHtml = $sSQL;
+      break;
+
+      case 'ContratEdit':
+      // TODO need admin rights
+      $tpl->template_dir = __DIR__."/../tools/templates";
+      $db = new cMariaDb($Cfg);
+      //$sys = new cSystem($db->getDb());
+      $sSQL = "SELECT id, value, link FROM sys_parameter WHERE link='tableTypeContrat';";
+      $aTypes = $db->getAllFetch($sSQL);
+      $tpl->assign("aTypes",$aTypes);
+      $sHtml = $tpl->display("contrat-edit.smarty");
+      break;
+
+      default:
       if( strpos($Content,"_") ){
         //$sHtml = "Charger $Content";
         $id = substr($Content,strpos($Content,"_")+1);

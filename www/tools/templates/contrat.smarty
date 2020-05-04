@@ -1,0 +1,31 @@
+<article id="id-contrat">
+  <h2>Liste des contrats</h2>
+  <div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Type</th>
+        <th>Producteur</th>
+        <th>Référent</th>
+        <th>Verrouillé</th>
+      </tr>
+    </thead>
+    <tbody id="liste-contrat">
+{foreach from=$Contrats item=Contrat} 
+      <tr onClick="contrat('edit',{$Contrat.id});">
+        <td>{$Contrat.Name}</td>
+        <td>{$Contrat.Type}</td>
+        <td>{$Contrat.Producteur}</td>
+        <td>{$Contrat.Referent}</td>
+        <td>{$Contrat.Verrouille}</td>
+      </tr>
+{/foreach}      
+    </tbody>
+  </table>
+
+  </div>
+  <div>
+    <button id="" onClick="contrat('init',0);" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Ajouter</button>
+  </div>
+</article>

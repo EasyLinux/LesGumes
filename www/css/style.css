@@ -12,7 +12,7 @@ body {
   display: none;
 }
 
-/*  hauteur de la boite ckeditor */
+/********************  Editeur CkEditor *****************/
 .ck-editor__editable_inline {
   min-height: 400px;
   height: 400px;
@@ -49,6 +49,7 @@ img {
   padding-right: 10px;
 }
 
+/***************************** Changement mot de passe ************************************/
 .password, .password:focus {   
   border-color: rgba(229, 23, 23, 0.8);
   box-shadow: 0 1px 1px rgba(229, 23, 23, 0.075) inset, 0 0 8px rgba(229, 23, 23, 0.6);
@@ -114,6 +115,7 @@ img {
   padding-top: 1rem; 
 }
 
+/************************************  Finder **************************************/
 /*  Image lors de l'affichage de l'apercu */
 .modal-img {
   display: none; /* Hidden by default */
@@ -173,7 +175,7 @@ img {
   }
 }
 
-/*Cookie Consent Begin*/
+/*************************** Cookie Consent *****************************************/
 #cookieConsent {
   background-color: rgba(20,20,20,0.8);
   min-height: 26px;
@@ -218,4 +220,75 @@ img {
 #cookieConsent a.cookieConsentOK:hover {
   background-color: #E0C91F;
 }
-/*Cookie Consent End*/
+/****************************** Envoi de mail **********************************/
+
+#mail-modal .ck-sticky-panel, #mail-modal .ck-content {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/****************************** Gestion Contrat *********************************/
+.contrat-amap {
+  display: flex;
+}
+
+.contrat-amap .form-group {
+  display: flex;
+}
+
+.contrat-amap .amap-left {
+  width: 33%; 
+  min-width: 33%
+}
+
+.contrat-amap label {
+  width: 150px; 
+  min-width: 150px;
+}
+
+.contrat-amap .input-group-append {
+  cursor: pointer;
+}
+
+.contrat-amap .amap-right {
+  width: 67%; 
+  min-width: 67%; 
+  margin-left: 20px; 
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.contrat-amap .amap-right div {
+  margin-right: 0px; 
+}
+
+.contrat-amap .amap-right .tab-content {
+  border-left: 1px solid #dee2e6; 
+  border-right: 1px solid #dee2e6; 
+  border-bottom: 1px solid #dee2e6; 
+  border-radius: 0px 0px 5px 5px; 
+  height: 420px; 
+  margin: 0px;
+  padding: 10px;
+}
+
+.contrat-amap .amap-right .tab-content h3{
+  text-align: center; 
+  padding-top: 5px;
+}
+
+.contrat-amap input.required {
+  border-color: rgba(229, 23, 23, 0.8);
+  box-shadow: 0 1px 1px rgba(229, 23, 23, 0.075) inset, 0 0 8px rgba(229, 23, 23, 0.6);
+  outline: 0 none;
+}
+  
+.contrat-amap input.require-ok {   
+    border-color: rgba(17, 224, 10, 0.8);
+    box-shadow: 0 1px 1px rgba(17, 224, 10, 0.075) inset, 0 0 8px rgba(17, 224, 10, 0.6);
+    outline: 0 none;
+}
+
+.glyphicon.pointer {
+  cursor:   pointer;
+}

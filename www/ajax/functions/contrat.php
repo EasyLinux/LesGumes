@@ -4,6 +4,10 @@ function contrat($sAction, $sVars)
 {
   switch($sAction)
   {
+    case 'listeContrat':
+      $aRet = listeContrat();
+      break;
+
     case 'getProducteur':
     case 'getReferent':
     case 'getSuppleant':
@@ -92,6 +96,22 @@ function contrat($sAction, $sVars)
       $aRet = refreshUserList($sVars);
       break;
 
+    case 'saveProduct':
+      $aRet = saveProduct($sVars);
+      break; 
+
+    case 'listProduct':
+      $aRet = listProduct($sVars);
+      break; 
+
+    case 'loadProduct':
+      $aRet = loadProduct($sVars);
+      break;
+
+    case 'delProduct':
+      $aRet = delProduct($sVars);
+      break;
+
     default:
       $aRet = ["Errno" => -1, "ErrMsg" => "Action: $sAction indéfinie dans contrat.php"];
   }
@@ -99,6 +119,36 @@ function contrat($sAction, $sVars)
   echo json_encode($aRet); 
 }
 
+/**
+ * listeContrat
+ * 
+ * Renvoi la liste des contrats
+ * @param   void    -
+ * @return  array   Data contient le résultat du SELECT
+ */
+function listeContrat()
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL  = "SELECT sys_contrat.id, label, sys_parameter.value AS Type";
+  $sSQL .= ", CONCAT(usr.sNom,' ',usr.sPrenom) AS Producteur";
+  $sSQL .= ", CONCAT(ref.sNom,' ',ref.sPrenom) AS Referent";
+  $sSQL .= ", IF(Verouille=1, 'OUI', 'NON') AS Verouille ";
+  $sSQL .= "FROM sys_contrat ";
+  $sSQL .= "LEFT JOIN sys_parameter ON sys_contrat.idContratType = sys_parameter.id ";
+  $sSQL .= "LEFT JOIN sys_user AS usr ON sys_contrat.idProducteur = usr.id ";
+  $sSQL .= "LEFT JOIN sys_user AS ref ON sys_contrat.idReferent = ref.id ";
+  return ["Errno" => 0, "Data" => $db->getAllFetch($sSQL)];
+}
+
+/** 
+ * saveContrat
+ * 
+ * Enregistre les données d'un contrat 
+ * @param  string  $sVars   représentation json d'un contrat
+ */
 function saveContrat($sVars)
 {
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
@@ -145,7 +195,7 @@ function saveContrat($sVars)
 
   $aRet = $db->Query($sSQL);
 
-  $aRet = ["Errno" => -1, "ErrMsg" => $sSQL];
+  $aRet = ["Errno" => 0, "ErrMsg" => $sSQL];
   return $aRet;
 }
 
@@ -324,4 +374,112 @@ function frToUsDate($frDate)
 {
   $usDate = substr($frDate,6)."-".substr($frDate,3,2)."-".substr($frDate,0,2);
   return $usDate;
+}
+
+/**
+ * list des produits liés à un contrat
+ * 
+ * @param int $id   identifiant contrat
+ */
+function listProduct($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL  = "SELECT sys_produit.id, Label, Unite, Prix ";
+  $sSQL .= "FROM sys_produit LEFT JOIN sys_produit_prix ";
+  $sSQL .= "ON sys_produit.id = sys_produit_prix.idProduit ";
+  $sSQL .= "WHERE sys_produit_prix.actuel=1 ";
+  $sSQL .= "AND sys_produit.idContrat=$id ";
+  $sSQL .= "AND sys_produit.Actif=1 ORDER BY Label;";
+
+  return ["Errno" => 0, "Data" => $db->getAllFetch($sSQL) ];
+}
+
+/**
+ * Met à jour un produit
+ * 
+ * Ajout ou mise à jour d'un produit, lors d'un changement du prix,
+ * on ajoute une ligne dans la table sys_produit-prix avec la date de modification
+ * cela permettra de faire le suivi du prix.
+ * @param  array $sVars  
+ */
+function saveProduct($sVars)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $aVars = json_decode($sVars,true );
+
+  if( $aVars["id"] == 0 ){
+    $sSQL  = "INSERT INTO sys_produit VALUES (0";
+    $sSQL .= ",". $aVars["idContrat"] .", '".$aVars["label"]."','"; 
+    $sSQL .= $aVars["description"]."','";
+    $sSQL .= $aVars["unite"]. "',".$aVars["max"].",1);";
+    $db->Query($sSQL);
+    $idProd = $db->getLastId();
+    $sSQL  = "INSERT INTO sys_produit_prix VALUES (0,$idProd,'";
+    $sSQL .= $aVars["prix"]."',CURRENT_TIMESTAMP,1);";
+    $db->Query($sSQL);
+  } else {
+    $id = $aVars["id"];
+    $sSQL  = "UPDATE sys_produit SET Label='".$aVars["label"]."', ";
+    $sSQL .= "Description='".$aVars["description"]."', ";
+    $sSQL .= "Unite='".$aVars["unite"]."', ";
+    $sSQL .= "MaxLivraison=".$aVars["max"]." WHERE id=$id;";
+    $db->Query($sSQL);
+    error_log("UPDATE ".$sSQL);
+    // Lire ancien prix
+    $sSQL  = "SELECT id, Prix FROM sys_produit_prix WHERE idProduit=$id;";
+    $Rep = $db->getAllFetch($sSQL);
+    $oldPrix = $Rep[0]["Prix"];
+    if( $aVars["prix"] != $oldPrix){
+      // Ancien prix n'est plus d'actualité
+      $sSQL = "UPDATE sys_produit_prix SET actuel=0 WHERE id=".$Rep[0]["id"].";";
+      $db->Query($sSQL);
+      // Ajout le nouveau prix
+      $sSQL  = "INSERT INTO sys_produit_prix VALUES (0,$id,'";
+      $sSQL .= $aVars["prix"]."',CURRENT_TIMESTAMP,1);";
+      error-log("Nouveau prix: ".$sSQL);
+      $db->Query($sSQL);
+    }
+  }
+  return ["Errno" => 0, "ErrMsg" => "OK"];
+}
+
+/**
+ * loadProduct
+ * 
+ * Retourne les données liées à un produit
+ */
+function loadProduct($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL =  "SELECT *,Prix FROM sys_produit ";
+  $sSQL .= "LEFT JOIN sys_produit_prix ";
+  $sSQL .= "ON sys_produit.id = sys_produit_prix.idProduit ";
+  $sSQL .= "WHERE sys_produit_prix.actuel = 1 ";
+  $sSQL .= "AND sys_produit.id = $id;";
+  return ["Errno" => 0, "Data" => $db->getAllFetch($sSQL)];
+}
+
+/**
+ * delProduct
+ * 
+ * Supprime le produit (le désactive)
+ */
+function delProduct($id)
+{
+  require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
+  $db = new cMariaDb($Cfg);
+
+  $sSQL =  "UPDATE sys_produit SET Actif=0 WHERE id=$id";
+  $db->Query($sSQL);
+  return ["Errno" => 0, "ErrMsg" => "OK"];
 }

@@ -11,7 +11,7 @@
         <th>Verrouillé</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="liste-contrat">
 {foreach from=$Contrats item=Contrat} 
       <tr onClick="contrat('edit',{$Contrat.id});">
         <td>{$Contrat.Name}</td>

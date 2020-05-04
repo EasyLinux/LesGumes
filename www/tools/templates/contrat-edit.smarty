@@ -135,16 +135,6 @@
                   </tr>
                 </thead>
                 <tbody id="user-list">
-<!--                  <tr>
-                    <td>01/05/2020</td>
-                    <td>NOEL</td>
-                    <td>Serge</td>
-                    <td>06.07.51.68.21</td>
-                    <td style='text-align: right;'>
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </td>
-                  </tr> -->
                 </tbody>
               </table>
             </div>
@@ -155,18 +145,18 @@
                 <thead>
                   <tr style="margin: 2px;">
                     <th>Produit</th>
-                    <th>Unité</th>
+                    <th>Conditionnement</th>
                     <th>Prix</th>
                     <th style='text-align: right;'>
                       <span class="glyphicon glyphicon-plus pointer" 
                             data-toggle="tooltip" 
                             title="Ajouter un produit au contrat"
-                            onclick="contrat('addUser','');"></span>
+                            onclick="contrat('editProduct',0);"></span>
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
+                <tbody id="product-list">
+<!--                  <tr>
                     <td>Melon</td>
                     <td>Cagette 5kg</td>
                     <td>52 €</td>
@@ -174,7 +164,7 @@
                       <span class="glyphicon glyphicon-pencil"></span>
                       <span class="glyphicon glyphicon-trash"></span>
                     </td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
             </div>

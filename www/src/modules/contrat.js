@@ -133,6 +133,18 @@ export function doAction(action, params)
       editRules();
       break; 
 
+    case 'editProduct':
+      editProduct(params);
+      break;
+
+    case 'okProduct':
+      saveProduct();
+      break;
+
+    case 'delProduct':
+      delProduct(params);
+      break;
+
     default:
       console.log("Dans contrat - doAction: "+action);
       break;  
@@ -140,6 +152,7 @@ export function doAction(action, params)
 }
 
 /**
+ * Création du formulaire d'édition du contrat
  * 
  * @param {int} id    contrat à modifier, 0 si nouveau
  */
@@ -212,10 +225,15 @@ function initFormContact(id)
       $('#contrat-doc').attr("href",resp.Data[0].Document);
       refreshWaitingList();
       refreshUserList(id);
+      refreshProduct(id);
     });
   }
   modal.addButtons("contrat-edit",Btns);
   $('#contrat-edit').modal('show');
+  // Action à la fermeture du contrat
+  $('#contrat-edit').on('hidden.bs.modal', function () {
+    refreshListeContrat();
+  });
 }
 
 function chooseUser(type, title)
@@ -780,8 +798,139 @@ function refreshUserList(id)
   });
 }
 
+function editProduct(id)
+{
+  modal.createModal("contrat-edit", "edit-product", "Edition produit","");
+  var Btns=[{
+    Label:    "Valider",
+    Func:     "contrat",
+    Action:   "okProduct",
+    Glyph:    "ok",
+    type:     "primary"
+  },{
+    Label:    "Quitter",
+    Func:     "",
+    Action:   "",
+    Glyph:    "log-out",
+    type:     "secondary"
+  }];
+  modal.addButtons("edit-product",Btns);
+  $('#edit-product-content').load('/tools/templates/product.smarty');
+  if( id != 0 ){
+    data = {
+      Action: "contrat",
+      Want:   "loadProduct",
+      Vars:   id
+    };
+    $.post("/ajax/index.php",data,function(resp){
+      if( resp.Errno != 0 ){
+        alert(resp.ErrMsg);
+        return false;
+      }
+      $('#label').val(resp.Data[0].Label);
+      var label = document.getElementById('label');
+      label.dataset.id = id;
+      $('#unite').val(resp.Data[0].Unite);
+      $('#max').val(resp.Data[0].MaxLivraison);
+      $('#prix').val(resp.Data[0].prix);
+      $('#description').val(resp.Data[0].Description);
+      return;
+    });
+  }
+  $('#edit-product').modal('show');
+}
 
+function saveProduct()
+{
+  var el = document.getElementById('label');
+  var id = el.dataset.id;
+  var label = el.value;
+  if (label == ""){
+    alert("Le label est obligatoire");
+    return false;
+  }
+  var unite = document.getElementById('unite').value;
+  var max = document.getElementById('max').value;
+  var prix = document.getElementById('prix').value;
+  var elContrat = document.getElementById('contractName');
+  var idContrat = elContrat.dataset.id;
+  var description = document.getElementById('description').value;
 
+  var sVars= '{"id":"'+id+'","idContrat":"';
+  sVars += idContrat +'","label":"'+label+'","unite":"';
+  sVars += unite +'","max":"'+max+'","prix":"';
+  sVars += prix+'","description":"'+description+'"}';
+
+  data = {
+    Action:  "contrat",
+    Want:    "saveProduct",
+    Vars:    sVars
+  }
+  $.post('/ajax/index.php',data,function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    $('#edit-product').modal('hide');
+    refreshProduct(idContrat);
+  });
+}
+
+function refreshProduct(id)
+{
+  data = {
+    Action:  "contrat",
+    Want:    "listProduct",
+    Vars:    id
+  }
+  $.post('/ajax/index.php',data,function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    var tbody = document.getElementById('product-list');
+    tbody.innerHTML="";
+    resp.Data.forEach(function(line){
+      var row = tbody.insertRow();
+      var cell = row.insertCell();
+      cell.innerHTML=line.Label;
+      var cell = row.insertCell();
+      cell.innerHTML=line.Unite;
+      var cell = row.insertCell();
+      cell.innerHTML=line.Prix;
+      var cell = row.insertCell();
+      cell.style.textAlign="right";
+      var Html = "<span class='glyphicon glyphicon-pencil' ";
+      Html += "data-toggle='tooltip' title='Editer' ";
+      Html += "onclick=\"contrat('editProduct',"+line.id+");\"></span>&nbsp;&nbsp;";
+      Html += "<span class='glyphicon glyphicon-trash' ";
+      Html += "data-toggle='tooltip' title='Supprimer' ";
+      Html += "onclick=\"contrat('delProduct',"+line.id+");\"></span>";
+      cell.innerHTML =Html;
+    });
+    console.log(resp);
+  });
+}
+
+function delProduct(id)
+{
+  console.log("Dans delProduct "+id);
+  data = {
+    Action:  "contrat",
+    Want:    "delProduct",
+    Vars:    id
+  }
+  $.post('/ajax/index.php',data,function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    var elContrat = document.getElementById('contractName');
+    var idContrat = elContrat.dataset.id;
+    console.log("refresh "+idContrat);
+    refreshProduct(idContrat);
+  });
+}
 
 
 
@@ -821,3 +970,36 @@ function editRules()
   $('#edit-rules').modal('show');
 }
 
+function refreshListeContrat()
+{
+  console.log("dans refreshListeContrat");
+  var tbody = document.getElementById('liste-contrat');
+  tbody.innerHTML = "";
+  data={
+    Action: "contrat",
+    Want:   "listeContrat",
+    Vars:   ""
+  }
+  $.post('/ajax/index.php',data,function(resp){
+    if( resp.Errno != 0 ){
+      alert(resp.ErrMsg);
+      return false;
+    }
+    resp.Data.forEach(function(line){
+      var row = tbody.insertRow();
+      row.onclick = function(){
+        contrat('edit',line.id);
+      };
+      var cell = row.insertCell();
+      cell.innerHTML = line.label;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Type;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Producteur;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Referent;
+      var cell = row.insertCell();
+      cell.innerHTML = line.Verouille;
+    });
+  });
+}

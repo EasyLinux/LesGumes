@@ -7,16 +7,31 @@
         <th>Email</th>
         <th>Login</th>
         <th>Tel mobile</th>
+        <th style="text-align: right"><span class="glyphicon glyphicon-plus" onclick="user('add','');"></span></th>
       </tr>
     </thead>
     <tbody>
 {foreach from=$Users item=User} 
-      <tr onClick="userAction('Select',this,{$User.id});">
+      <tr id="user-{$User.id}">
         <td>{$User.sPrenom}</td>
         <td>{$User.sNom}</td>
         <td>{$User.sEmail}</td>
         <td>{$User.sLogin}</td>
         <td>{$User.sTelMobile}</td>
+        <td>
+          <span class="glyphicon glyphicon-lock" 
+                onClick="user('pwd',{$User.id});"
+                data-toggle="tooltip"
+                title="Changer le mot de passe"></span>
+          <span class="glyphicon glyphicon-pencil" 
+                onClick="user('edit',{$User.id});"
+                data-toggle="tooltip"
+                title="Editer la fiche"></span>
+          <span class="glyphicon glyphicon-trash" 
+                onClick="user('del',{$User.id});"
+                data-toggle="tooltip"
+                title="Supprimer l'utilisateur"></span>
+        </td>
       </tr>
 {/foreach}      
     </tbody>

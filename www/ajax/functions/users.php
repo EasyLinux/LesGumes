@@ -3,60 +3,52 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function doUser($sAction,$sLogin,$sPassword)
+function User($sAction,$sVars)
 {
   switch( $sAction )
   {
     case 'Login':
-      Authenticate($sLogin,$sPassword);
+      $aRet = Authenticate($sVars);
       break;
       
-    case 'resetPassword':
-      resetPwd($sLogin);
-      break;
+    // case 'resetPassword':
+    //   resetPwd($sLogin);
+    //   break;
 
-    case 'changePass':
-      changePass($sPassword);
-      break;
+    // case 'changePass':
+    //   changePass($sPassword);
+    //   break;
 
     case 'changePassId':
-      changePassId($sPassword,$sLogin);
+      $aRet = changePassId($sVars);
       break;
 
     case 'listUsers':
-      listUsers();
+      $aRet = listUsers();
       break;
 
     case 'testEmail':
-      testEmail($sLogin);
+      $aRet = testEmail($sVars);
       break;
 
     case 'loadUserId':
-      loadUserId($sLogin);
+      $aRet = loadUserId($sVars);
       break;
 
     case 'save':
-      saveUser($sLogin);
+      $aRet = saveUser($sVars);
       break;
 
     case 'delUser':
-      delUser($sLogin);
+      $aRet = delUser($sVars);
       break;
 
     default:
-      header('content-type:application/json');
-      echo json_encode([
-        "Errno" => "-1", 
-        "ErrMsg" => "Action ($sAction) non connue dans users.php", 
-        "html" => "Action non connue dans users.php"]);
-      break;
+      $aRet = ["Errno" => -1, "ErrMsg" => "Action ($sAction) non connue dans users.php"];
   }
+  header('content-type:application/json');
+  echo json_encode($aRet); 
 }
-
-
-/*==================================================================================================
-  =                                Gestion des utilisateurs                                        =
-  ==================================================================================================*/  
 
 /**
  * Authentificate
@@ -68,7 +60,7 @@ function doUser($sAction,$sLogin,$sPassword)
  * @param  string $mdp     Mot de passe
  * @return array  Contenu de User
  */
-function Authenticate($login,$mdp)
+function Authenticate($sVars)
 {
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/vendor/autoload.php");
@@ -77,7 +69,9 @@ function Authenticate($login,$mdp)
   $db = new cMariaDb($Cfg);
   $sys = new cSystem($db->getDb());
 
-  $aUser = $sys->getUser($login,$mdp);
+  $aVars = json_decode($sVars,true);
+
+  $aUser = $sys->getUser($aVars["login"],$aVars["passw"]);
   if( $aUser["Errno"] != 0){
     header('content-type:application/json');
     echo json_encode($aUser);
@@ -88,14 +82,14 @@ function Authenticate($login,$mdp)
   $_SESSION["User"] = $aUser["User"];
   $_SESSION["Access"] = $sys->getUserRights($aUser["User"]["id"]);
 
-  header('content-type:application/json');
-  echo json_encode([
+  
+  return [
     "Errno"   => 0,
     "ErrMsg"  => "OK",
     "User"    => [
       "Nom"    => $aUser["User"]["sNom"],
       "Prenom" => $aUser["User"]["sPrenom"] 
-    ]]);
+    ]];
 }
 
 /**
@@ -208,18 +202,18 @@ function changePass($sPassword)
   echo json_encode($aRet);
 }
 
-function changePassId($sPassword,$id)
+function changePassId($sVars)
 {
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
+  $aVars = json_decode($sVars,true);
   $db = new cMariaDb($Cfg);
+
   $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-  $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('$sPassword') WHERE id=$id;";
+  $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('".$aVars["passwd"]."') WHERE id=".$aVars["id"].";";
   $db->Query($sSQL);
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-  header('content-type:application/json');
-  echo json_encode($aRet);
+  return ["Errno" => 0, "ErrMsg" => "OK"];
 }
 
 /**
@@ -239,16 +233,12 @@ function listUsers()
   $tpl->template_dir = $_SERVER["DOCUMENT_ROOT"]."/tools/templates";
   $tpl->compile_dir =  $_SERVER["DOCUMENT_ROOT"]."/templates_c";
 
-  $sSQL = "SELECT id,sNom, sPrenom, sEmail, sTelMobile, sLogin FROM sys_user WHERE bActive=1 ORDER BY sNom, sPrenom;";
+  $sSQL = "SELECT id, sNom, sPrenom, sEmail, sTelMobile, sLogin FROM sys_user WHERE bActive=1 ORDER BY sNom, sPrenom;";
 
   // Récupérer les éléments 
   $tpl->assign("Users",$db->getAllFetch($sSQL));
   $sHtml = $tpl->fetch("editUsers.smarty");
-  error_log("HTML : ".$sHtml);
-  $aRet = ["Errno" => 0, "html" => $sHtml ];
-  header('content-type:application/json');
-  echo json_encode($aRet); 
-
+  return ["Errno" => 0, "html" => $sHtml ];
 }
 
 /**
@@ -267,7 +257,6 @@ function testEmail($sEmail)
 
   $sSQL = "SELECT id, sEmail, bActive FROM sys_user WHERE sEmail='$sEmail';";
   $aTmp = $db->getAllFetch($sSQL);
-  error_log("testEmail: ".print_r($aTmp,true));
   if( count($aTmp) > 0){
     if( $aTmp[0]["bActive"] == 1 ){
       $aRet = [
@@ -287,9 +276,7 @@ function testEmail($sEmail)
   } else {
     $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
   }
-  header('content-type:application/json');
-  echo json_encode($aRet); 
-
+  return $aRet;
 }
 
 
@@ -298,8 +285,8 @@ function testEmail($sEmail)
  * 
  * charge la fiche utilisateur identifiée par id
  * 
- * @param   int  $id   id utilisateur
- * @return  array   code d'erreur
+ * @param   int     $id   id utilisateur
+ * @return  array         renvoi des informations
  */
 function loadUserId($id)
 {
@@ -307,24 +294,22 @@ function loadUserId($id)
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
   $db = new cMariaDb($Cfg);
 
-  $sSQL = "SELECT * FROM sys_user WHERE id=$id;";
+  if( $id == 0 ){
+    return ["Errno" => -2, "ErrMsg" => "Nouvel utilisateur"];
+  }
+  $sSQL = "SELECT *, DATE_FORMAT(dDateInscription,'%d/%m/%Y à %H:%i:%s') AS dateIns FROM sys_user WHERE id=$id;";
   $aTmp = $db->getAllFetch($sSQL);
   if( count($aTmp) != 1){
-    $aRet = [
-      "Errno"  => -1, 
-      "ErrMsg" => "Impossible de charger la fiche !"
-    ];  
+    return ["Errno"  => -1, "ErrMsg" => "Impossible de charger la fiche !"];  
   } else {
-    if( $aTmp[0]["bActive" == 0] ){
+    if( $aTmp[0]["bActive"] == 0 ){
       // Fiche désactivée, on la ré-active
       $sSQL = "UPDATE sys_user SET bActive=1 WHERE id=$id;";
       $db->Query($sSQL);
     }
     // On ne transmet pas le mot de passe !
-    unset($aTmp[0]["pMotPasse"]);
-
-    
-  }
+    unset($aTmp[0]["pMotPasse"]);  
+  }  
 
   // Rechercher la liste des droits 
   $sSQL = "SELECT id, sLabel FROM sys_right;";
@@ -349,10 +334,7 @@ function loadUserId($id)
   }
   // $aUsrRights contient la liste des droits possibles et gotRight à true quand le droit 
   // est donné à la personne
-//  $aRet = ["Errno" => 2, "ErrMsg" => "Test ".print_r($aUsrRights,true) ];
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK", "User" => $aTmp[0], "Rights" => $aUsrRights ];
-  header('content-type:application/json');
-  echo json_encode($aRet); 
+  return ["Errno" => 0, "ErrMsg" => "OK", "User" => $aTmp[0], "Rights" => $aUsrRights ];
 }
 
 /**
@@ -360,16 +342,16 @@ function loadUserId($id)
  * 
  * enregistre la fiche utilisateur 
  * 
- * @param   array   data
+ * @param   string  $sVars
  * @return  array   code d'erreur
  */
-function saveUser($sData)
+function saveUser($sVars)
 {
   require_once($_SERVER["DOCUMENT_ROOT"]."/config/config.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
   // Récupérer les données
-  $aData = json_decode($sData,true);
+  $aData = json_decode($sVars,true);
   $db = new cMariaDb($Cfg);
   if( $aData["User"]["id"] == 0 ){
     // id=0 > Ajoute
@@ -388,7 +370,7 @@ function saveUser($sData)
     }
     $Columns = substr($Columns,0,-1);
     $Values = substr($Values,0,-1);
-    $sSQL = "INSERT INTO sys_user ($Columns,dDateInscription) VALUES ($Values,'".date("Y:m:d H:i:s")."');";
+    $sSQL = "INSERT INTO sys_user ($Columns,dDateInscription) VALUES ($Values,CURRENT_TIMESTAMP);";
     $aTmp = $db->Query($sSQL);
     $id = $db->getLastId();
   } else {
@@ -419,7 +401,7 @@ function saveUser($sData)
   //          "ErrMsg" => $sTmp, 
   //          "SQL" => $sSQL ];
 
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK", "SQL" => $sSQL ];
+  return ["Errno" => 0, "ErrMsg" => "OK", "SQL" => $sSQL ];
 
   header('content-type:application/json');
   echo json_encode($aRet); 
@@ -442,8 +424,6 @@ function delUser($id)
   // Fiche active, on la désactive
   $sSQL = "UPDATE sys_user SET bActive=0 WHERE id=$id;";
   $db->Query($sSQL);
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-  header('content-type:application/json');
-  echo json_encode($aRet); 
+  return ["Errno" => -1, "ErrMsg" => $sSQL];
 }
 

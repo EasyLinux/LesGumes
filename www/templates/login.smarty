@@ -18,10 +18,10 @@
 		<p class="help-block">
 			Si vous avez perdu votre mot de passe, veuillez saisir votre login, puis cliquer sur 'Mot de passe oublié ?'
 		</p>
-		<button type="button" class="btn btn-primary" onClick="authenticate(); return false;">
+		<button type="button" class="btn btn-primary" onClick="user('auth',''); return false;">
 			Connexion
 		</button>
-		<button type="button" class="btn btn-warning"  id='btn-primary' onClick="passwordLost(); return false;">
+		<button type="button" class="btn btn-warning"  id='btn-primary' onClick="user('Password',''); return false;">
 			Mot de passe oublié ?
 		</button>
   </form>

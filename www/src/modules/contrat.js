@@ -4,7 +4,7 @@ import * as modal from './modal.js';
  */
 
 /**
- * doAction 
+ * doAction  
  * 
  * Aiguillage des demandes liées au contrat
  * @param {string} action   Action demandée
@@ -779,6 +779,9 @@ function refreshUserList(id)
     var tbody = document.getElementById('user-list');
     resp.Data.forEach(function(line){
       var row = tbody.insertRow();
+      // row.onclick=function(){
+
+      // };
       var cell = row.insertCell();
       cell.innerHTML = line.dateInscription;
       var cell = row.insertCell();
@@ -892,6 +895,9 @@ function refreshProduct(id)
     tbody.innerHTML="";
     resp.Data.forEach(function(line){
       var row = tbody.insertRow();
+      row.onclick= function(){
+        contrat('editProduct',line.id);
+      };
       var cell = row.insertCell();
       cell.innerHTML=line.Label;
       var cell = row.insertCell();
@@ -900,10 +906,7 @@ function refreshProduct(id)
       cell.innerHTML=line.Prix;
       var cell = row.insertCell();
       cell.style.textAlign="right";
-      var Html = "<span class='glyphicon glyphicon-pencil' ";
-      Html += "data-toggle='tooltip' title='Editer' ";
-      Html += "onclick=\"contrat('editProduct',"+line.id+");\"></span>&nbsp;&nbsp;";
-      Html += "<span class='glyphicon glyphicon-trash' ";
+      var Html = "<span class='glyphicon glyphicon-trash' ";
       Html += "data-toggle='tooltip' title='Supprimer' ";
       Html += "onclick=\"contrat('delProduct',"+line.id+");\"></span>";
       cell.innerHTML =Html;
@@ -931,18 +934,6 @@ function delProduct(id)
     refreshProduct(idContrat);
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function editRules()
 {

@@ -15,9 +15,6 @@
 			</label>
 			<input type="password" id="password" />
 		</div>
-		<p class="help-block">
-			Si vous avez perdu votre mot de passe, veuillez saisir votre login, puis cliquer sur 'Mot de passe oublié ?'
-		</p>
 		<button type="button" class="btn btn-primary" onClick="user('auth',''); return false;">
 			Connexion
 		</button>
@@ -25,14 +22,14 @@
 			Mot de passe oublié ?
 		</button>
   </form>
-	<div class="alert alert-success alert-dismissable amap-alert" id="ErrBox">
+  <br /><br />
+	<div class="alert alert-info alert-dismissable" id="ErrBox">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 				×
 		</button>
 		<h4 id="ErrTitle">
-			Alerte
+			Information
 		</h4>
-		  <!-- <strong>Attention</strong> Message lié au formulaire (en bas) <a href="#" class="alert-link"></a> -->
-			<p id="ErrMsg"></p>
+			<p id="ErrMsg">Si vous avez perdu votre mot de passe, veuillez saisir votre login ou votre email, puis cliquez sur 'Mot de passe oublié ?'</p>
 	</div>    
 </article>

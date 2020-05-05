@@ -11,13 +11,13 @@ function User($sAction,$sVars)
       $aRet = Authenticate($sVars);
       break;
       
-    // case 'resetPassword':
-    //   resetPwd($sLogin);
-    //   break;
+    case 'resetPass':
+      $aRet = resetPwd($sVars);
+      break;
 
-    // case 'changePass':
-    //   changePass($sPassword);
-    //   break;
+    case 'changePass':
+      $aRet = changePass($sPassword);
+      break;
 
     case 'changePassId':
       $aRet = changePassId($sVars);
@@ -73,9 +73,7 @@ function Authenticate($sVars)
 
   $aUser = $sys->getUser($aVars["login"],$aVars["passw"]);
   if( $aUser["Errno"] != 0){
-    header('content-type:application/json');
-    echo json_encode($aUser);
-    return;
+    return ["Errno" => -1, "ErrMsg" => "Compte ou mot de passe incorrect !".print_r($aVars,true)];
     }
 
   // Sauvegarde des informations de login
@@ -110,21 +108,21 @@ function resetPwd($login)
   $db = new cMariaDb($Cfg);
 
   // Vérifier que le login out l'Email est connu
-  $sSQL = "SELECT * FROM sys_user WHERE sLogin='$login';";
+  $sSQL = "SELECT * FROM sys_user WHERE sLogin='$login' OR sLogin='$login';";
   $aTmp = $db->getAllFetch($sSQL);
   if( count($aTmp) == 0 )
   {
-    $aRet = ["Errno" => -1, "ErrMsg" => "ERREUR, cet Email n'est pas dans notre base !", "Email" => $login];
+    return ["Errno" => -1, "ErrMsg" => "ERREUR, cet Email ($login) n'est pas dans notre base !", "Email" => $login];
     header('content-type:application/json');
     echo json_encode($aRet);
     return;
   }
   $id = $aTmp[0]["id"];
+  $aUser = $aTmp[0];
   $newPass = randomPassword();
   $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('$newPass') WHERE id=$id;";
   $db->Query($sSQL);
 
-  // TODO a completer - envoi du mail
   // Envoyer le nouveau mot de passe à l'utilisateur
 
   error_log("Mail: ".$Cfg["Smtp"]["Host"].":".$Cfg["Smtp"]["Port"]);
@@ -132,7 +130,7 @@ function resetPwd($login)
 
   $mail = new PHPMailer(true);
   //Server settings
-  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                   // Enable verbose debug output
+  //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
   $mail->isSMTP();                                            // Send using SMTP
   $mail->Host       = $Cfg["Smtp"]["Host"];                   // Set the SMTP server to send through
   $mail->SMTPAuth   = $Cfg["Smtp"]["SmtpAuth"];               // Enable SMTP authentication
@@ -156,13 +154,13 @@ function resetPwd($login)
   // Content
   $mail->isHTML(true);                                  // Set email format to HTML
   $mail->Subject = 'Site AMAP - Reinitialisation du mot de passe';
-  $message  = "<html><head></head><body>Bonjour<br />";
+  $message  = "<html><head></head><body>Bonjour ".$aUser["sPrenom"]." ".$aUser["sNom"]."<br />";
   $message .= "<p>Votre mot de passe a &eacute;t&eacute; r&eacute;-initialis&eacute;: $newPass</p><p>Vous pouvez vour rendre sur <a href='".$_SERVER['SERVER_NAME']."'>";
   $message .= $_SERVER['SERVER_NAME']."</a></p>";
   $message .= "<p>Vous pouvez vous connecter sur le site puis changer de mot de passe.<br />";
   $message .= "Ce mail est un message automatique, merci de ne pas y r&eacute;pondre</p></body></html>";
   $mail->Body    = $message;
-  $message  = "Bonjour\n";
+  $message  = "Bonjour ".$aUser["sPrenom"]." ".$aUser["sNom"]."\n";
   $message .= "Votre mot de passe a et re-initialise: $newPass</p><p>Vous pouvez vour rendre sur ".$_SERVER['SERVER_NAME']."\n";
   $message .= "Vous pouvez vous connecter sur le site puis changer de mot de passe.\n";
   $message .= "Ce mail est un message automatique, merci de ne pas y r&eacute;pondre\n";
@@ -170,10 +168,7 @@ function resetPwd($login)
 
   $mail->send();
 
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-
-  header('content-type:application/json');
-  echo json_encode($aRet);
+  return ["Errno" => 0, "ErrMsg" => "OK"];
 }
 
 
@@ -193,13 +188,9 @@ function changePass($sPassword)
   require_once($_SERVER["DOCUMENT_ROOT"]."/class/autoload.php");
 
   $db = new cMariaDb($Cfg);
-  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
   $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('$sPassword') WHERE id=".$_SESSION["User"]["id"].";";
   $db->Query($sSQL);
-  //$aRet["ErrMsg"] = $sSQL;
-  $aRet["ErrMsg"] = "Votre mot de passe a été changé";
-  header('content-type:application/json');
-  echo json_encode($aRet);
+  return ["Errno" => 0, "ErrMsg"=> "Votre mot de passe a été changé"];
 }
 
 function changePassId($sVars)

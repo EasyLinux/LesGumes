@@ -111,10 +111,6 @@ window.formatNumber = function(){
   _modules_helper_js__WEBPACK_IMPORTED_MODULE_1__["formatNumber"]();
 }
 
-window.editUsers = function(){
-  _modules_user_js__WEBPACK_IMPORTED_MODULE_2__["editUsers"]();
-}
-
 window.user = function(action, params){
   _modules_user_js__WEBPACK_IMPORTED_MODULE_2__["user"](action, params);
 }
@@ -1255,13 +1251,12 @@ function addButtons(id, Btns)
 /*!*********************************!*\
   !*** ./www/src/modules/user.js ***!
   \*********************************/
-/*! exports provided: user, editUsers */
+/*! exports provided: user */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "user", function() { return user; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editUsers", function() { return editUsers; });
 /* harmony import */ var _modal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal.js */ "./www/src/modules/modal.js");
 
 
@@ -1269,37 +1264,46 @@ var inputToField = [  // @var tableau des champs de la table
   "id","sEmail","sNom","sPrenom","sAdresse","sCodePostal",
   "sVille","sTelephone","sTelMobile","sLogin","dateIns"];
 
-
 /**
+ * Aiguillage des demandes 
  * 
- * @param {*} sAction 
- * @param {*} arg1 
- * @param {*} id 
- *
-function userAction(sAction, arg1, id) {
-  switch (sAction) {
-    case 'Select':
-      $('.tableFixHead tr').removeClass('myActive');
-      $(arg1).addClass('myActive');
-      uid = id;
-
-      user = arg1.innerText.split("\t");
-      break;
-
-
-
-
-    default: 
-      console.log("userAction: Action demandée: " + sAction);
-      break;
-  }
-}
-*/
-
+ * @param {string} action 
+ * @param {string} params 
+ */
 function user(action,params)
 {
+  if( action == undefined ){
+    // appel sans paramètre, depuis le menu
+    editUsers();
+    return false;
+  }
   switch(action)
   {
+    case 'login':
+      loadContent('Login');
+      break; 
+    
+    case 'logout':
+      $('#content').load('/templates/logout.smarty')
+      break;
+
+    case 'quit':
+      document.getElementById('cnx-info').dataset.connected='0';
+      $.ajax({
+        type: 'GET',
+        url: 'ajax/logout.php',
+        success: function (msg) {
+          setTimeout(function () {
+            window.location.href = '/index.php';
+          }, 500);    
+        }
+      });
+      break;
+
+    case 'changePass':
+      changePass();
+      break;  
+
     case 'auth':
       // Connexion au site
       authenticate();
@@ -1327,6 +1331,10 @@ function user(action,params)
 
     case 'pwd':
       pwdUser(params);
+      break;
+
+    case 'Password':
+      initPassword();
       break;
 
     default:
@@ -1415,27 +1423,23 @@ function authenticate() {
     Vars:     sVars
   };
   $.post("/ajax/index.php", data,function (resp) {
-      console.log(resp);
       if (resp.Errno == -1) {
         alertBox("danger",resp.ErrMsg,'ERREUR');
+        return false;
       }
-      else {
-        $("#btn-info").removeClass("btn-primary");
-        $("#btn-info").addClass("btn-success");
-        $("#btn-info").html(" <span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom);
-        $("#btn-info").on("click", function () {
-          loadContent('Logout.js');
-          //logout(); 
-          return false;
-        });
-        // TODO charger en fonction des droits
-        // Si membre du groupe admin, il faut charger tools.js ...
+      console.log("Connexion OK");
+      var cnx = document.getElementById('cnx-info');
+      cnx.innerHTML = "<span class='glyphicon glyphicon-user'></span> " + resp.User.Prenom + " " + resp.User.Nom;
+      cnx.dataset.connected=1;
+      cnx.onclick = function() {
+        user('logout','');
+      };
+      // A VOIR Si membre du groupe admin, il faut charger tools.js ...
 
-        // recharge la page d'accueil
-        loadContent("Main");
-        // recharger le menu
-        loadMenu();
-      }
+      // recharge la page d'accueil
+      loadContent("Main");
+      // recharger le menu
+      loadMenu();
     });
 }
 
@@ -1607,9 +1611,9 @@ function pwdUser(id)
 {
   var el = document.getElementById('user-'+id);
   var Msg = "Nouveau mot de passe pour "+el.cells[0].innerText+" "+el.cells[1].innerText+" ?";
-  passwd = prompt(Msg);
+  var passwd = prompt(Msg);
   var sVars = '{"id":"'+id+'","passwd","'+passwd+'"}';
-  if (ret) {
+  if (passwd) {
     data = {
       Action:   'User',
       Want:     'changePassId',
@@ -1617,6 +1621,146 @@ function pwdUser(id)
     }
     $.post("/ajax/index.php", data);
   }
+}
+
+function initPassword()
+{
+  var login = $('#login').val();
+  if( login == ""){
+    alert("Vous devez donner votre email ou votre login !");
+    return false;
+  }
+  data = {
+    Action:   'User',
+    Want:     'resetPass',
+    Vars:     login
+  }
+  $.post("/ajax/index.php", data, function(resp){
+    if(resp.Errno != 0){
+      $('#ErrBox').removeClass('alert-info');
+      $('#ErrBox').addClass('alert-danger');
+      $('#ErrTitle').text('Erreur');
+      $('#ErrMsg').html(resp.ErrMsg);
+      return false;
+      }
+    $('#ErrBox').removeClass('alert-danger');
+    $('#ErrBox').addClass('alert-info');
+    $('#ErrTitle').text('Information');
+    $('#ErrMsg').html("Votre nouveau mot de passe a été envoyé dans votre boîte aux lettres.");
+  });
+}
+
+/**
+ * ChangePass
+ * 
+ * Appelée pour un changement de mot de passe
+ */
+function changePass() {
+  if( document.getElementById('chg-pwd').style.display == "none"){
+    $('#btn-logout').hide();
+    $('#btn-change').text("Changer le mot de passe");
+    $("#chg-pwd").fadeIn();
+    return false;
+  }
+  var Msg = "<p>Votre mot de passe est incorrect.</p>";
+  Msg += "<p>Il doit : ";
+  Msg += "<ul><li>contenir au moins une minuscule</li>";
+  Msg += "<li>contenir au moins une majuscule</li>";
+  Msg += "<li>contenir au moins un chiffre</li>";
+  Msg += "<li>contenir éventuellement un caractère spécial !@#$%^&*()_+-=[]{};:\\|,.<>\/?</li>";
+  Msg += "<li>avoir une taille minimale de 8 caractères</li></ul>";
+  Msg += "</p><p>Les deux mots de passe doivent coincider</p>";
+  Msg += "<p>Ex: <b>Pa$$w0Ord</b> - est un mot de passe compatible, mais, ne l'utilisez pas, il est mondialement connu !</p>";
+  if( $('#pass1').val() != $('#pass2').val() ){
+    Msg = "<p>Vos mots de passe sont différents !</p>"+Msg;
+    alertBox('danger', Msg, 'ERREUR', 20000);
+    return false;
+  }
+  var passwd = $('#pass1').val();
+  var score = scorePassword(passwd);
+  console.log("Votre score "+score);
+  if (score > 80) {
+    Msg="<p>Mot de passe fort</p>";
+    alertBox('info', Msg, 'Information', 2000);
+  }
+  if (score < 30){
+    Msg = "<p>Votre mot de passe n'est pas suffisement complexe</p>"+Msg;
+    alertBox('danger', Msg, 'ERREUR', 20000);
+    return false;
+  }
+
+  data = {
+    Action:   'User',
+    Want:     'changePass',
+    Vars:      passwd
+  }
+  $.post("/ajax/index.php", data, function (resp) {
+    if (resp.Errno != 0) {
+      alertBox('danger', resp.ErrMsg, 'ERREUR');
+    } else {
+      alertBox('success', resp.ErrMsg, 'INFO');
+    }
+  });
+}
+
+/**
+ * donne un valeur en fonction de la robustesse du mot de passe
+ * @param {string} pass 
+ */
+function scorePassword(pass) 
+{
+  var score = 0;
+  if (!pass)
+      return score;
+
+  // award every unique letter until 5 repetitions
+  var letters = new Object();
+  for (var i=0; i<pass.length; i++) {
+      letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+      score += 5.0 / letters[pass[i]];
+  }
+
+  // bonus points for mixing it up
+  var variations = {
+      digits: /\d/.test(pass),
+      lower: /[a-z]/.test(pass),
+      upper: /[A-Z]/.test(pass),
+      nonWords: /\W/.test(pass),
+  }
+
+  var variationCount = 0;
+  for (var check in variations) {
+      variationCount += (variations[check] == true) ? 1 : 0;
+  }
+  score += (variationCount - 1) * 10;
+
+  return parseInt(score);
+}
+
+
+/**
+ * alertBox
+ * 
+ * Display an alert div 
+ * @param {string} sType        type de message <danger|info|success> 
+ * @param {string} sMessage     Message à afficher
+ * @param {string} sTitre       Titre de la Box
+ * @param {int} iDuration       Durée de l'affichage (optionnel 3000)
+ */
+function alertBox(sType, sMessage, sTitre, iDuration) {
+  if (typeof (iDuration) == 'undefined') {
+    iDuration = 3000;
+  }
+  $("#ErrTitle").text(sTitre);
+  $("#ErrMsg").html(sMessage);
+  $("#ErrBox").removeClass('alert-success');
+  $("#ErrBox").removeClass('alert-danger');
+  $("#ErrBox").removeClass('alert-info');
+  $("#ErrBox").addClass('alert-' + sType);
+  $("#ErrBox").show();
+  setTimeout(function () {
+    $("#ErrBox").fadeOut(1000);
+  }, iDuration);
 }
 
 /***/ })

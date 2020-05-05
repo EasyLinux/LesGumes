@@ -1,18 +1,47 @@
-var cookieOk=false;
 $().ready(function () {
   loadContent('Main');
 
-  if( document.getElementById("btn-primary").dataset.connected =="0" && !cookieOk){
+  // Lire le cookie de l'avertissement RGPD
+  if( getCookie('cookieOk') != 'true' ){
+    // Pas présent affiche le bandeau 
     setTimeout(function () {
       $("#cookieConsent").fadeIn(200);
-     }, 4000);
+      }, 500);
+    // Acceptation par l'utilisateur, on place un cookie
     $("#closeCookieConsent, .cookieConsentOK").click(function() {
       $("#cookieConsent").fadeOut(200);
+      setCookie('cookieOk','true',30);
     }); 
    } else {
-     cookieOk = true;
-   }
+     // Déjà présent, on le prolonge
+     setCookie('cookieOk','true',30);
+  }
 }); 
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
 
 // Amap special code 
 $(function () {
@@ -71,25 +100,6 @@ function loadContent(content) {
 
 }
 
-// HTMLElement.prototype.removeListeners = function () {
-//   if (this.myListeners) {
-//       for (var i = 0; i < this.myListeners.length; i++) {
-//           this.removeEventListener(this.myListeners[i].eType, this.myListeners[i].callBack);
-//       };
-//      delete this.myListeners;
-//   };
-// };
-
-function Login()
-{
-  if( document.getElementById("btn-primary").dataset.connected =="0" ){
-    loadContent('Login');
-  } else {
-    ChgPwd();
-  }
-}
-
-
 
 
 /**
@@ -100,6 +110,9 @@ function Login()
  * @param {void}
  */
 function authenticate() {
+alert("Dans authenticate de amap.js");
+
+
   var login = $("#login").val();
   var passw = $("#password").val();
   if (login == "" || passw == "") {
@@ -140,6 +153,7 @@ function authenticate() {
  *
  */
 function passwordLost() {
+  alert("Dans passwordLost de Amap.js");
   var login = $("#login").val();
   if (login == "") {
     alertBox('danger', 'Vous devez saisir un login ou un eMail', 'ERREUR');
@@ -208,143 +222,7 @@ function loadMenu() {
 
 }
 
-function Logout() {
-  document.getElementById('btn-primary').dataset.connected='0';
-  $.ajax({
-    type: 'GET',
-    url: 'ajax/logout.php',
-    success: function (msg) {
-      setTimeout(function () {
-        window.location.href = '/index.php';
-      }, 500);
 
-    }
-  });
-}
-
-/* =====================================================================================
-   =             Gestion des mots de passe                   =
-   =====================================================================================*/
-
-var pwdOk = false;
-
-/** Validate
- * 
- * fonction appelée lors de l'appui sur une touche dans la saisie des mots de passe
- * permet de guider l'utilisateur pour obtenir un mot de passe adéquoit
- */
-function Validate() {
-  // Le mot de passe doit :  Majuscule, minuscule, Chiffre, 8 char, concorder 
-  var valid = 0;
-  curPass1 = $('#pass1').val();
-  curPass2 = $('#pass2').val();
-  if (curPass1.match(/[0-9]/g)) {
-    valid += 20;
-  }
-  if (curPass1.match(/[a-z]/g)) {
-    valid += 20;
-  }
-  if (curPass1.match(/[A-Z]/g)) {
-    valid += 20;
-  }
-  if (curPass1.match(/[!@#$%^&*()_+\-=\[\]{};:\|,.<>\/?]/g)) {
-    valid += 20;
-  }
-  if (curPass1.match(/['\"']/g)) {
-    valid = 0;
-    alertBox('danger', "Votre mot de passe contient des caractères interdits (' ou \")", 'ERREUR', 5000);
-  }
-  if (curPass1.length > 7) {
-    valid += 20;
-  }
-  if (valid < 60) {
-    $("#pass1").removeClass("password-Ok");
-    $("#pass1").addClass("password");
-  } else {
-    $("#pass1").removeClass("password");
-    $("#pass1").addClass("password-Ok");
-  }
-  // raz de l'indicateur de mot de passe valide
-  pwdOk = false;
-  if (curPass1 == curPass2) {
-    $("#pass2").removeClass("password");
-    $("#pass2").addClass("password-Ok");
-    if (valid == 100) {
-      // les mots de passe coincident et satisfont les règles de complexité.
-      pwdOk = true;
-    }
-  } else {
-    if ($("#pass2").hasClass("password-Ok")) {
-      $("#pass2").removeClass("password-Ok");
-      $("#pass2").addClass("password");
-    }
-  }
-
-  // document.getElementById("myBar").style.width = valid + "%";
-  // if (valid == 100) {
-  //   $("#pass1").removeClass("password");
-  //   $("#pass1").addClass("password-Ok");
-  // }
-
-  return valid;
-}
-
-function pwdFocus() {
-  // indicateur de qualité de mot de passe visible
-  $('.pwd-strengh').css("opacity", 1);
-  $('.pwd-strengh').removeClass("w-100");
-  console.log('Change bar');
-}
-
-/**
- * ChgPwd
- * 
- * Appelée pour un changement de mot de passe
- */
-function ChgPwd() {
-  $('#content').load("/templates/logout.smarty");
-}
-
-/**
- * ChgPwd
- * 
- * Appelée pour un changement de mot de passe
- */
-function changePass() {
-  if( document.getElementById('chg-pwd').style.display == "none"){
-    $("#chg-pwd").fadeIn();
-    return false;
-  }
-  Msg = "Votre mot de passe est incorrect.\n\n";
-  Msg += "Il doit : \n";
-  Msg += "   - contenir au moins une minuscule\n";
-  Msg += "   - contenir au moins une majuscule\n";
-  Msg += "   - contenir au moins un chiffre\n";
-  Msg += "   - contenir au moins un caractère spécial !@#$%^&*()_+-=[]{};:\\|,.<>\/?\n";
-  Msg += "   - avoir une taille minimale de 8 caractères\n";
-  Msg += "\nLes deux mots de passe doivent coincider\n";
-  Msg += "Ex: Pa$$w0Ord - est un mot de passe compatible, ne l'utilisez pas, il est mondialement connu !";
-  if (!pwdOk) {
-    alertBox('danger', Msg, 'ERREUR', 10000);
-    return false;
-  }
-  data = {
-    Action: 'doUser',
-    Want: 'changePass',
-    Login: '',
-    Passwd: $("#pass1").val()
-  }
-  $.post("/ajax/index.php", data, function (resp) {
-    if (resp.Errno != 0) {
-      alertBox('danger', resp.ErrMsg, 'ERREUR');
-    } else {
-      alertBox('success', resp.ErrMsg, 'INFO');
-    }
-  });
-}
-
-
-/* ================================================ */
 /**
  * alertBox
  * 
@@ -354,7 +232,7 @@ function changePass() {
  * @param {string} sTitre       Titre de la Box
  * @param {int} iDuration       Durée de l'affichage (optionnel 3000)
  */
-function alertBox(sType, sMessage, sTitre, iDuration) {
+function alertBox2(sType, sMessage, sTitre, iDuration) {
   if (typeof (iDuration) == 'undefined') {
     iDuration = 3000;
   }
@@ -368,6 +246,4 @@ function alertBox(sType, sMessage, sTitre, iDuration) {
   setTimeout(function () {
     $("#ErrBox").fadeOut(1000);
   }, iDuration);
-
-
 }

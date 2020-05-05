@@ -31,7 +31,7 @@
 
     <div id="popupinformation" title="Information"></div>
     <div id="cookieConsent">
-    <div id="closeCookieConsent">x</div>
+      <div id="closeCookieConsent">x</div>
       Ce site utilise des cookies. <a href="#" onClick="loadContent('Legals');">
       Plus d'informations</a>. <a class="cookieConsentOK">Accepter</a>
     </div>

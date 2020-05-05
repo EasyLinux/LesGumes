@@ -8,10 +8,10 @@
 </div>
 <div class="col-md-4">
 {if $Connected eq true}
-  <button class="btn btn-success amap-login"  id='btn-primary' onClick="Login();" data-connected="1"> 
+  <button class="btn btn-success amap-login"  id='cnx-info' onClick="user('logout','');" data-connected="1"> 
           <span class="glyphicon glyphicon-user"></span> {$Raisoc}</button>
 {else}
-  <button class="btn btn-primary amap-login"  id='btn-primary' onClick="Login();" data-connected="0">
+  <button class="btn btn-primary amap-login"  id='cnx-info' onClick="user('login','');" data-connected="0">
           <span class="glyphicon glyphicon-user"></span> Identifiez vous</button>
 {/if}
 </div>

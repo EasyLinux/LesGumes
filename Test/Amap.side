@@ -1,0 +1,140 @@
+{
+  "id": "b2414651-28b8-43bb-b24b-338a833635fd",
+  "version": "2.0",
+  "name": "Amap",
+  "url": "https://amap.easylinux.lan",
+  "tests": [{
+    "id": "37fe7bd7-5cce-40a4-9569-5719c88a6ad1",
+    "name": "Public",
+    "commands": [{
+      "id": "40040324-4a8c-463d-8e05-bc5cf3e427ad",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8e2a3e9e-bcaf-4814-b733-6143c73502df",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1705x866",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "25d0b476-098a-4d91-8ffe-766bf67a9752",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accepter",
+      "targets": [
+        ["linkText=Accepter", "linkText"],
+        ["css=.cookieConsentOK", "css:finder"],
+        ["xpath=//a[contains(text(),'Accepter')]", "xpath:link"],
+        ["xpath=//div[@id='cookieConsent']/a[2]", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Accepter')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "69d61e10-7ab2-46ae-b04a-3d2b5b14bc47",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Accueil",
+      "targets": [
+        ["linkText=Accueil", "linkText"],
+        ["css=.active > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Accueil')]", "xpath:link"],
+        ["xpath=//a[@onclick=\"loadContent('Main');return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menubar']/nav/ul/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[2]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Accueil')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ada2193-f255-423e-b6f5-e49d0f81d016",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=De quoi s'agit-il ?",
+      "targets": [
+        ["linkText=De quoi s'agit-il ?", "linkText"],
+        ["css=.nav-item:nth-child(2) > .nav-link", "css:finder"],
+        ["xpath=//a[@onclick=\"loadContent('article_3');return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menubar']/nav/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[3]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0002b1e5-b184-4a37-888c-494168f657ec",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Nous rejoindre",
+      "targets": [
+        ["linkText=Nous rejoindre", "linkText"],
+        ["css=.nav-item:nth-child(3) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Nous rejoindre')]", "xpath:link"],
+        ["xpath=//a[@onclick=\"loadContent('article_4');return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menubar']/nav/ul/li[3]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[4]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Nous rejoindre')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "48e3750b-3ac8-48ca-b610-5d8111c6d6e9",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Nos producteurs",
+      "targets": [
+        ["linkText=Nos producteurs", "linkText"],
+        ["css=.nav-item:nth-child(4) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Nos producteurs')]", "xpath:link"],
+        ["xpath=//a[@onclick=\"loadContent('article_5');return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menubar']/nav/ul/li[4]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[5]", "xpath:href"],
+        ["xpath=//li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Nos producteurs')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "dcab5b67-f752-4581-b2aa-c6d599beb072",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Contacts",
+      "targets": [
+        ["linkText=Contacts", "linkText"],
+        ["css=.nav-item:nth-child(6) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Contacts')]", "xpath:link"],
+        ["xpath=//a[@onclick=\"loadContent('article_6');return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menubar']/nav/ul/li[6]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[7]", "xpath:href"],
+        ["xpath=//li[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Contacts')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "04fc29c7-7d09-4a2c-b0cf-79e1942216ef",
+      "comment": "",
+      "command": "click",
+      "target": "css=h2 > a",
+      "targets": [
+        ["css=h2 > a", "css:finder"],
+        ["xpath=//a[@onclick=\"loadContent('Main'); return false;\"]", "xpath:attributes"],
+        ["xpath=//div[@id='menu-12']/h2/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'javascript:;')]", "xpath:href"],
+        ["xpath=//h2/a", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "8a74167f-178b-4a51-8800-c941edf8867d",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["37fe7bd7-5cce-40a4-9569-5719c88a6ad1"]
+  }],
+  "urls": ["https://amap.easylinux.lan/"],
+  "plugins": []
+}

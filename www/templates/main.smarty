@@ -39,7 +39,7 @@
 {* Pour pouvoir utiliser l'editeur *}
 {include file="popup.smarty"}			
 {include file="sendmail.smarty"}
-<script src="/tools/js/myeditor.js" ></script>
+<script src="/assets/js/myeditor.js" ></script>
 </body>
 
 </html>

@@ -14,3 +14,8 @@ window.formatNumber = function(){
 window.user = function(action, params){
   user.user(action, params);
 }
+
+window.getLink= function()
+{
+  return prompt("Le lien");
+}

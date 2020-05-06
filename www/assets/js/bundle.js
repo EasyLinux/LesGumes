@@ -115,6 +115,11 @@ window.user = function(action, params){
   _modules_user_js__WEBPACK_IMPORTED_MODULE_2__["user"](action, params);
 }
 
+window.getLink= function()
+{
+  return prompt("Le lien");
+}
+
 /***/ }),
 
 /***/ "./www/src/modules/contrat.js":

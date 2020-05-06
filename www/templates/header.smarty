@@ -8,42 +8,24 @@
 	<meta name='keywords'
 		content='AMAP,Saint-Sébastien,Saint Seb,LesGUMES,Les GUMES,les rangs oignons, la grange aux loups, Rublé' />
 	<!-- pour le référencement google 
-	<meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" /> 
-	 meta indique que l'on utilise des caractères spécifiques au français éèêà... 
-	 <link rel="stylesheet" media="screen" type="text/css" title="css_style" href="style.css" /> 
-	<link rel="icon" type="image/jpeg" href="images/favicone-2.jpeg" /> -->
+	<meta name="google-site-verification" content="qYm35CL7C2njIbVne6NwnGffD7bx8f8JKvmZ94og4l8" />  -->
 
 	<meta name="author" content="Serge NOEL" />
 	<meta name="generator" content="Hand made" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="favicon.ico" />
-	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-	<!-- jQuery library -->
 	<script src="/assets/js/jquery.min.js"></script>
-	<!-- jQuery ui library 
-	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script> -->
 	<script src="/assets/js/jquery-ui.min.js"></script>
-	<!-- Popper JS 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 	<script src="/assets/js/popper.min.js"></script>
-	<!-- Latest compiled JavaScript 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
 	<script src="/assets/js/bootstrap.min.js"></script>
-	<!-- font icons 
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
 	<link href="/assets/css/icon.css" rel="stylesheet">
-	<!-- google roboto font 
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
 	<link href="/assets/css/roboto.css" rel="stylesheet">
   <link href="/assets/css/jquery-ui.min.css" rel="stylesheet">
 	<link href="css/glyphicons.css" rel="stylesheet" />
-
 	<link href="css/style.css" rel="stylesheet">
-
 	<link href="tools/css/style.css" rel="stylesheet">
   <script src="assets/js/bundle.js"></script>
 	<script src="js/amap.js"></script>
-
 	<script src="tools/js/tools.js" ></script>
 </head>

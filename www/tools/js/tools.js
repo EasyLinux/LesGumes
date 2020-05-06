@@ -360,8 +360,6 @@ function doFinder(action, id) {
         if( sCurFolder.substring(0,1) == 'f'){
           CkEditor.execute( 'link', sObject, { linkIsExternal: true } );
         }
-
-        
         $('#image').modal('hide');
       }
       break;

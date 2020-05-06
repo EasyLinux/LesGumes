@@ -346,9 +346,14 @@ function doFinder(action, id) {
       if( sObject != "" ){
         console.log("sObject: "+sObject+" folder "+sCurFolder); 
         if( sObject.substring(0,1) == 'a'){
-          sLink = 'index.php?art='+sObject.substring(2);
-          CkEditor.execute( 'link', sLink );
-        }
+          sLinkLabel = prompt("Titre du lien");
+          sLink = "<p><a href='#' onclick=\"loadContent('article_"+sObject.substring(2)+"');\">"+sLinkLabel+"</a></p>";
+          // sLink = 'index.php?art='+sObject.substring(2);
+          // CkEditor.execute( 'link', sLink );
+          const viewFragment = CkEditor.data.processor.toView( sLink );
+          const modelFragment = CkEditor.data.toModel( viewFragment );
+          CkEditor.model.insertContent(modelFragment);
+      }
         if( sCurFolder.substring(0,1) == 'i'){
           setImage(sObject);
         }

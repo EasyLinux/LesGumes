@@ -12,6 +12,10 @@
       <div class="modal-body" id="before-editor"></div>
       <div class="modal-body" id="editor"></div>
       <div class="modal-footer" id="Pop-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                onClick="doNews('save');" data-toggle="tooltip" title="Enregistrer les modifications">
+          <span class="glyphicon glyphicon-save"></span> Enregistrer
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           <span class="glyphicon glyphicon-log-out"></span> Quitter
         </button>

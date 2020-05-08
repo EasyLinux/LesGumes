@@ -117,9 +117,21 @@ export function doAction(action, params)
 
     case 'acceptWait':
       // TODO pas implémenté
-      alert("Pas implémenté");
+      alert("Pas implémenté - accepter liste");
       break;
 
+    case 'new':
+      alert('Pas implémenté - nouvelle saison ');
+      break;      
+
+    case 'view':
+      alert('Pas implémenté - détail utilisateur');
+      break;      
+
+    case 'valideContrat':
+      alert('Pas implémenté - paiement reçu ?');
+      break;      
+        
     case 'addUser':
       chooseUser('User', "Ajouter au contrat");
       break;
@@ -777,6 +789,7 @@ function refreshUserList(id)
       return false;
     }
     var tbody = document.getElementById('user-list');
+    tbody.innerHTML="";
     resp.Data.forEach(function(line){
       var row = tbody.insertRow();
       // row.onclick=function(){
@@ -793,8 +806,10 @@ function refreshUserList(id)
       var cell = row.insertCell();
       cell.style.textAlign="right";
       var Html  = "<input type='checkbox' data-toggle='tooltip'";
-      Html += " title='Contrat en cours'>&nbsp;&nbsp;&nbsp;";
-      Html += "<span class='glyphicon glyphicon-search' data-toggle='tooltip' title='Voir le détail'></span>";
+      Html += " title='Contrat en cours' ";
+      Html += "onchange=\"contrat('valideContrat',"+line.id+");\">&nbsp;&nbsp;&nbsp;";
+      Html += "<span class='glyphicon glyphicon-search' data-toggle='tooltip' ";
+      Html += "title='Voir le détail' onclick=\"contrat('view',"+line.id+");\"></span>";
       cell.innerHTML = Html;
 
     });

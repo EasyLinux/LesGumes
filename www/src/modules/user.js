@@ -153,7 +153,7 @@ function authenticate() {
   var login = $("#login").val();
   var passw = $("#password").val();
   if (login == "" || passw == "") {
-    alertBox('danger', 'Vous devez saisir un login et un mot de passe !', 'ERREUR');
+    modal.alertBox('danger', 'Vous devez saisir un login et un mot de passe !', 'ERREUR');
     return false;
   }
   var sVars='{"login":"'+login+'","passw":"'+passw+'"}';
@@ -164,7 +164,7 @@ function authenticate() {
   };
   $.post("/ajax/index.php", data,function (resp) {
       if (resp.Errno == -1) {
-        alertBox("danger",resp.ErrMsg,'ERREUR');
+        modal.alertBox("danger",resp.ErrMsg,'ERREUR');
         return false;
       }
       console.log("Connexion OK");
@@ -413,7 +413,7 @@ function changePass() {
   Msg += "<p>Ex: <b>Pa$$w0Ord</b> - est un mot de passe compatible, mais, ne l'utilisez pas, il est mondialement connu !</p>";
   if( $('#pass1').val() != $('#pass2').val() ){
     Msg = "<p>Vos mots de passe sont différents !</p>"+Msg;
-    alertBox('danger', Msg, 'ERREUR', 20000);
+    modal.alertBox('danger', Msg, 'ERREUR', 20000);
     return false;
   }
   var passwd = $('#pass1').val();
@@ -421,11 +421,11 @@ function changePass() {
   console.log("Votre score "+score);
   if (score > 80) {
     Msg="<p>Mot de passe fort</p>";
-    alertBox('info', Msg, 'Information', 2000);
+    modal.alertBox('info', Msg, 'Information', 2000);
   }
   if (score < 30){
     Msg = "<p>Votre mot de passe n'est pas suffisement complexe</p>"+Msg;
-    alertBox('danger', Msg, 'ERREUR', 20000);
+    modal.alertBox('danger', Msg, 'ERREUR', 20000);
     return false;
   }
 
@@ -436,9 +436,9 @@ function changePass() {
   }
   $.post("/ajax/index.php", data, function (resp) {
     if (resp.Errno != 0) {
-      alertBox('danger', resp.ErrMsg, 'ERREUR');
+      modal.alertBox('danger', resp.ErrMsg, 'ERREUR');
     } else {
-      alertBox('success', resp.ErrMsg, 'INFO');
+      modal.alertBox('success', resp.ErrMsg, 'INFO');
     }
   });
 }
@@ -478,27 +478,3 @@ function scorePassword(pass)
 }
 
 
-/**
- * alertBox
- * 
- * Display an alert div 
- * @param {string} sType        type de message <danger|info|success> 
- * @param {string} sMessage     Message à afficher
- * @param {string} sTitre       Titre de la Box
- * @param {int} iDuration       Durée de l'affichage (optionnel 3000)
- */
-function alertBox(sType, sMessage, sTitre, iDuration) {
-  if (typeof (iDuration) == 'undefined') {
-    iDuration = 3000;
-  }
-  $("#ErrTitle").text(sTitre);
-  $("#ErrMsg").html(sMessage);
-  $("#ErrBox").removeClass('alert-success');
-  $("#ErrBox").removeClass('alert-danger');
-  $("#ErrBox").removeClass('alert-info');
-  $("#ErrBox").addClass('alert-' + sType);
-  $("#ErrBox").show();
-  setTimeout(function () {
-    $("#ErrBox").fadeOut(1000);
-  }, iDuration);
-}

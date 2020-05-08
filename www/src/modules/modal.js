@@ -80,3 +80,28 @@ export function addButtons(id, Btns)
     document.getElementById(id+"-footer").appendChild(Btn);
   });
 }
+
+/**
+ * alertBox
+ * 
+ * Display an alert div 
+ * @param {string} sType        type de message <danger|info|success> 
+ * @param {string} sMessage     Message à afficher
+ * @param {string} sTitre       Titre de la Box
+ * @param {int} iDuration       Durée de l'affichage (optionnel 3000)
+ */
+export function alertBox(sType, sMessage, sTitre, iDuration) {
+  if (typeof (iDuration) == 'undefined') {
+    iDuration = 3000;
+  }
+  $("#ErrTitle").text(sTitre);
+  $("#ErrMsg").html(sMessage);
+  $("#ErrBox").removeClass('alert-success');
+  $("#ErrBox").removeClass('alert-danger');
+  $("#ErrBox").removeClass('alert-info');
+  $("#ErrBox").addClass('alert-' + sType);
+  $("#ErrBox").show();
+  setTimeout(function () {
+    $("#ErrBox").fadeOut(1000);
+  }, iDuration);
+}

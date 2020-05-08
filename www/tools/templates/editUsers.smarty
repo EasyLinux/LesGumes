@@ -1,5 +1,5 @@
 
-  <table class="table table-hover tableFixHead">
+  <table class="table-condensed table-hover tableFixHead">
     <thead>
       <tr>
         <th>Prenom</th>

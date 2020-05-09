@@ -56,6 +56,12 @@
         <div class="mycheck" id="checkRights">
         </div>
       </div>
+      <label class="control-label" for="binome">Binôme</label>
+      <input type="text" class="form-control" data-id="0" id='binome'>
+      <div class="input-group-append">
+        <span class="input-group-text" onclick="user('chooseBinome','');">choisir</span>
+      </div>
+
     </div>
   </div>
   <input type="hidden" id="id" />

@@ -16,7 +16,7 @@ function User($sAction,$sVars)
       break;
 
     case 'changePass':
-      $aRet = changePass($sPassword);
+      $aRet = changePass($sVars);
       break;
 
     case 'changePassId':
@@ -73,7 +73,7 @@ function Authenticate($sVars)
 
   $aUser = $sys->getUser($aVars["login"],$aVars["passw"]);
   if( $aUser["Errno"] != 0){
-    return ["Errno" => -1, "ErrMsg" => "Compte ou mot de passe incorrect !".print_r($aVars,true)];
+    return ["Errno" => -1, "ErrMsg" => "Compte ou mot de passe incorrect !"];
     }
 
   // Sauvegarde des informations de login
@@ -202,7 +202,7 @@ function changePassId($sVars)
   $db = new cMariaDb($Cfg);
 
   $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
-  $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('".$aVars["passwd"]."') WHERE id=".$aVars["id"].";";
+  $sSQL = "UPDATE sys_user SET pMotPasse=SHA1('" . $aVars["passwd"] . "') WHERE id=".$aVars["id"].";";
   $db->Query($sSQL);
   return ["Errno" => 0, "ErrMsg" => "OK"];
 }

@@ -122,7 +122,7 @@ function editUser(id)
     Glyph:    "log-out",
     type:     "secondary"
   }];
-  modal.createModal("user-manage", "user-edit", "Edition utilisateur","");
+  modal.createModal("user-manage", "user-edit", "Edition utilisateur","modal-lg");
   modal.addButtons("user-edit",Btns);
   $('#user-edit-content').load("/tools/templates/userEdit.smarty", function () {
     loadUser(id);
@@ -352,7 +352,7 @@ function pwdUser(id)
   var el = document.getElementById('user-'+id);
   var Msg = "Nouveau mot de passe pour "+el.cells[0].innerText+" "+el.cells[1].innerText+" ?";
   var passwd = prompt(Msg);
-  var sVars = '{"id":"'+id+'","passwd","'+passwd+'"}';
+  var sVars = '{"id":"'+id+'","passwd":"'+passwd+'"}';
   if (passwd) {
     data = {
       Action:   'User',

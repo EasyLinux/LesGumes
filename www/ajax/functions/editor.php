@@ -12,14 +12,12 @@ function doEditor($sAction, $sFolder,$sFile)
       break;
 
     case 'newFolder':
-      error_log($_SERVER["DOCUMENT_ROOT"].$sFolder."/".$sFile);
       mkdir($_SERVER["DOCUMENT_ROOT"].$sFolder."/".$sFile);
       header('content-type:application/json');
       echo json_encode(["Errno" => 0,"ErrMsg" => "OK"]); 
       break;
 
     case 'delFile';
-      error_log("Effacer : ".$_SERVER["DOCUMENT_ROOT"].$sFolder."/".$sFile);
       deleteFolder($_SERVER["DOCUMENT_ROOT"].$sFolder."/".$sFile);
       header('content-type:application/json');
       echo json_encode(["Errno" => 0,"ErrMsg" => "OK"]); 
@@ -37,7 +35,6 @@ function doEditor($sAction, $sFolder,$sFile)
 function findFiles($Folder)
 {
   $aTmp = scandir($_SERVER["DOCUMENT_ROOT"].$_POST["Folder"]);
-  error_log($_SERVER["DOCUMENT_ROOT"].$_POST["Folder"]);
   foreach($aTmp as $sFile)
   {
     if( $sFile != "."){ // ne pas transmettre '.'

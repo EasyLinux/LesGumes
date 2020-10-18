@@ -62,6 +62,8 @@ class cMariaDb
     {
         $this->Errno = 0;
         $this->ErrMsg = "OK";
+        $sSqlLog = "INSERT INTO sys_log VALUES (0,CURRENT_TIMESTAMP,".$_SESSION["User"]["id"].",'".addslashes($sSQL)."');";
+        $this->Result = $this->Db->query($sSqlLog);
         $this->Result = $this->Db->query($sSQL);
         if( $this->Db->errno )
         {

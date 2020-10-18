@@ -25,15 +25,15 @@ export function doAction(action, params)
       break;
     
     case 'chooseProducer':
-      chooseUser('Producteur',"Choisir un producteur");
+      chooseUser('Producteur',"Choisir un producteur", false);
       break;
 
     case 'chooseReferent':
-      chooseUser('Referent',"Choisir un référent");
+      chooseUser('Referent',"Choisir un référent", false);
       break;
       
     case 'chooseSuppleant':
-      chooseUser('Suppleant',"Choisir un suppléant");
+      chooseUser('Suppleant',"Choisir un suppléant",false);
       break;
       
     case 'okProducteur':
@@ -104,7 +104,7 @@ export function doAction(action, params)
       break;
     
     case 'addWait':
-      chooseUser('Wait', "Ajouter à la liste d'attente");
+      chooseUser('Wait', "Ajouter à la liste d'attente",false);
       break;
 
     case 'okWait':
@@ -133,7 +133,7 @@ export function doAction(action, params)
       break;      
         
     case 'addUser':
-      chooseUser('User', "Ajouter au contrat");
+      chooseUser('User', "Ajouter au contrat", true);
       break;
 
     case 'okUser':
@@ -225,10 +225,10 @@ function initFormContact(id)
         $('#locked').prop("checked",false);
       }
       var Debut = resp.Data[0].DebutContrat;
-      var debContrat = Debut.substr(8,2)+"/"+Debut.substr(5,2);
+      var debContrat = Debut.substr(8,2)+"/"+Debut.substr(5,2)+"/"+Debut.substr(0,4);
       $('#contract-start').val(debContrat);
       var Fin = resp.Data[0].FinContrat;
-      var finContrat = Fin.substr(8,2)+"/"+Fin.substr(5,2);
+      var finContrat = Fin.substr(8,2)+"/"+Fin.substr(5,2)+"/"+Fin.substr(0,4);
       $('#contract-end').val(finContrat);
       $('#nbPeople').val(resp.Data[0].nbPermanence);
       $('#amount').val(resp.Data[0].PrixContrat);
@@ -248,7 +248,7 @@ function initFormContact(id)
   });
 }
 
-function chooseUser(type, title)
+function chooseUser(type, title, multiple)
 {
   modal.createModal("contrat-edit", "choose-user", title,"modal-sm");
   var Btns=[{
@@ -270,7 +270,7 @@ function chooseUser(type, title)
   sel.className="form-control";
   sel.style.height="200px";
   sel.style.minHeight="200px";
-  sel.multiple=true;
+  sel.multiple=multiple;  
   var div = document.getElementById('choose-user-content');
   div.appendChild(sel);
   var i =0;
@@ -284,7 +284,6 @@ function chooseUser(type, title)
       option.text = user.Raisoc;
       option.value = user.id;
       sel.add(option);
-
     });
   });
 
@@ -345,7 +344,6 @@ function saveContrat(quit)
   sPost += '"Document":"'+$('#contrat-doc').attr('href')+'",'; 
   sPost += '"price":"'+$("#amount").val()+'"}';
   if( formValid ){
-    console.log(sPost);
     var data={
       Action: "contrat",
       Want:   "save",
@@ -750,10 +748,20 @@ function refreshWaitingList()
 
 function okUser()
 {
+  // TODO gérer le multiple
   var elContrat = document.getElementById('contractName');
   var idContrat = elContrat.dataset.id;
   var id = $('#user-choose :selected').val();
-  var sVars='{"id":"'+id+'","idContrat":"'+idContrat+'"}';
+  var ids="[";
+  $('#user-choose :selected').each(function(){
+      ids+='"'+$(this).val()+'",';
+     });
+  ids=ids.slice(0,-1)+']';
+  console.log(ids);
+
+  var sVars='{"ids":'+ids+',"idContrat":"'+idContrat+'"}';
+  console.log(sVars);
+
   data={
     Action: 'contrat',
     Want:   'addUser',
@@ -809,7 +817,9 @@ function refreshUserList(id)
       Html += " title='Contrat en cours' ";
       Html += "onchange=\"contrat('valideContrat',"+line.id+");\">&nbsp;&nbsp;&nbsp;";
       Html += "<span class='glyphicon glyphicon-search' data-toggle='tooltip' ";
-      Html += "title='Voir le détail' onclick=\"contrat('view',"+line.id+");\"></span>";
+      Html += "title='Voir le détail' onclick=\"contrat('view',"+line.id+");\"></span> ";
+      Html += "<span class='glyphicon glyphicon-trash' data-toggle='tooltip' ";
+      Html += "title='Supprimer' onclick=\"contrat('delUsr',"+line.id+");\"></span>";
       cell.innerHTML = Html;
 
     });
@@ -978,7 +988,6 @@ function editRules()
 
 function refreshListeContrat()
 {
-  console.log("dans refreshListeContrat");
   var tbody = document.getElementById('liste-contrat');
   tbody.innerHTML = "";
   data={

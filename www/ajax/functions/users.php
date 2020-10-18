@@ -124,10 +124,6 @@ function resetPwd($login)
   $db->Query($sSQL);
 
   // Envoyer le nouveau mot de passe à l'utilisateur
-
-  error_log("Mail: ".$Cfg["Smtp"]["Host"].":".$Cfg["Smtp"]["Port"]);
-
-
   $mail = new PHPMailer(true);
   //Server settings
   //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output

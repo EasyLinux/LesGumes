@@ -84,7 +84,6 @@ function saveRights($id,$label,$desc)
     $db->Query($sSQL);
     $aRet = ["Errno" => 0,"id" => $id];
   }
-  error_log("modif : $sSQL");
   return $aRet;
 }
 

@@ -111,10 +111,6 @@ function addFolder($sVars)
     $sDir = $_SERVER["DOCUMENT_ROOT"].$Cfg["Images"].$aVars['Path'];
   }
   $sDir .= "/".$aVars["Folder"];
-
-error_log("mkdir ".$sDir);
-
-
   mkdir($sDir);
 
   $aRet = ['Errno' => 0, "ErrMsg" => "OK"];

@@ -21,7 +21,6 @@ switch( $_POST["Action"])
       // Construire la requete d'ajout
       $sSQL  = "INSERT INTO sys_db_update (id,description,version,sql_text) VALUES ";
       $sSQL .= "(NULL,'".$_POST["Desc"]."','".$_POST["Version"]."','".base64_encode($_POST["SQL"])."');";
-      //error_log($sSQL);
       $db = new cMariaDb($Cfg);
       $db->Query($sSQL);
       break;
@@ -34,7 +33,6 @@ switch( $_POST["Action"])
 
       foreach($aResult as $aSQL)
       {
-        //error_log(print_r($aSQL,true));
         $sReturn .= base64_decode($aSQL["sql_text"])."\n";
       }
       echo $sReturn;

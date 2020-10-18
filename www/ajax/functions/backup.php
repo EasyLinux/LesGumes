@@ -25,7 +25,7 @@ function doBackup($sAction, $sType, $id)
       break;
 
     case 'doRestore':
-      error_log("demande restauration de $id en tant que $sType ");
+      // error_log("demande restauration de $id en tant que $sType ");
       ini_set('max_execution_time', 600);
       ini_set('memory_limit','1024M');
       $aRet = restoreNow("backup-$id.zip",$sType);

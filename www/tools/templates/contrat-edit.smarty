@@ -49,9 +49,9 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="textinput">Départ contrat du</label>  
-      <input id="contract-start" type="text" class="form-control" style="width: 80px">
+      <input id="contract-start" type="text" class="form-control" style="width: 100px; padding-left: 5px;padding-right:5px">
       <label class="control-label" for="textinput" style="padding: 0px 10px 0px 10px; width: 40px; min-width: 0px">au</label>  
-      <input id="contract-end" type="text" class="form-control" style="width: 80px">
+      <input id="contract-end" type="text" class="form-control" style="width: 100px; padding-left: 5px;padding-right:5px">
     </div>
     <div class="form-group">
       <label class="control-label" for="Ref" data-toggle="tooltip" title="Nombre de personnes requises pour la permancence">Nb Permanents</label>
@@ -115,7 +115,7 @@
                 </tbody>
               </table>
             </div>
-            <p><br /><span class="glyphicon glyphicon-cog pointer" onClick="contrat('editRules','');"></span> Editer les règles</p>
+            <p><br /><span class="glyphicon glyphicon-cog pointer" onClick="contrat('editRules','');"></span> Editer les règles lors de la commande</p>
           </div> 
           <div class="tab-pane" id="tab-user">
             <div  style='height: 350px; minHeight: 350px; overflow-y: auto'>
@@ -186,7 +186,7 @@ dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samed
 dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
 dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
 weekHeader: 'Sem.',
-dateFormat: 'dd/mm'
+dateFormat: 'dd/mm/yy'
 });
 $( "#contract-end" ).datepicker({
 altField: "#contract-end",
@@ -200,7 +200,7 @@ dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samed
 dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
 dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
 weekHeader: 'Sem.',
-dateFormat: 'dd/mm'
+dateFormat: 'dd/mm/yy'
 });
 
 </script>

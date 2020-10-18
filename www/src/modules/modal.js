@@ -52,8 +52,6 @@ export function createModal(parent, id, titre, size) {
     $('#' + parent).css('opacity', 1);
     $('#' + id).remove();
   });
-
-  // $('#'+id).modal('show');
 }
 
 /**

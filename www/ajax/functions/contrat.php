@@ -140,6 +140,7 @@ function listeContrat()
   $sSQL .= "LEFT JOIN sys_parameter ON sys_contrat.idContratType = sys_parameter.id ";
   $sSQL .= "LEFT JOIN sys_user AS usr ON sys_contrat.idProducteur = usr.id ";
   $sSQL .= "LEFT JOIN sys_user AS ref ON sys_contrat.idReferent = ref.id ";
+  $sSQL .= "ORDER BY sys_contrat.label;";
   return ["Errno" => 0, "Data" => $db->getAllFetch($sSQL)];
 }
 
@@ -165,8 +166,8 @@ function saveContrat($sVars)
     $sSQL .= $aVars["idProducteur"] .", ".$aVars["idReferent"].", ";
     $sSQL .= $aVars["idSuppleant"] .", '";
     $sSQL .= $aVars["Name"]."', ".$aVars["nbPeople"].", '";
-    $sSQL .= convMonthDay($aVars["Start"])."', '".convMonthDay($aVars["End"])."', ";
-    if( $aVars["locked"] ){
+    $sSQL .= $aVars["Start"]."', '".$aVars["End"]."', ";
+    if( $aVars["locked"] == "true" ){
       $sSQL .= "1, '";
     } else {
       $sSQL .= "0, '";
@@ -180,9 +181,9 @@ function saveContrat($sVars)
     $sSQL .= "idSuppleant=".$aVars["idSuppleant"].", ";
     $sSQL .= "label='".$aVars["Name"]."', ";
     $sSQL .= "NbPermanence=".$aVars["nbPeople"].", ";
-    $sSQL .= "DebutContrat='".convMonthDay($aVars["Start"])."', ";
-    $sSQL .= "FinContrat='".convMonthDay($aVars["End"])."', ";
-    if( $aVars["locked"] ){
+    $sSQL .= "DebutContrat='".date_format(date_create_from_format('j/m/Y', $aVars["Start"]), 'Y-m-d')."', ";
+    $sSQL .= "FinContrat='".date_format(date_create_from_format('j/m/Y', $aVars["End"]), 'Y-m-d')."', ";
+    if( $aVars["locked"] == "true" ){
       $sSQL .= "Verouille=1, ";
     } else {
       $sSQL .= "Verouille=0, ";
@@ -195,15 +196,15 @@ function saveContrat($sVars)
 
   $aRet = $db->Query($sSQL);
 
-  $aRet = ["Errno" => 0, "ErrMsg" => $sSQL];
+  $aRet = ["Errno" => 0, "ErrMsg" => "OK"];
   return $aRet;
 }
 
-function convMonthDay($sDate)
-{
-  $sRetDate = "2000-".substr($sDate,3,2)."-".substr($sDate,0,2);
-  return $sRetDate;
-}
+// function convMonthDay($sDate)
+// {
+//   $sRetDate = "2000-".substr($sDate,3,2)."-".substr($sDate,0,2);
+//   return $sRetDate;
+// }
 
 function getInfo($id)
 {
@@ -334,6 +335,7 @@ function addUser($sVars)
   $db = new cMariaDb($Cfg);
 
   $aVars = json_decode($sVars,true);
+
   // Lire le contrat référencé, calculer date debut et date fin
   $sSQL = "SELECT DebutContrat, FinContrat FROM sys_contrat WHERE id=".$aVars["idContrat"].";";
   $aContrat = $db->getAllFetch($sSQL); 
@@ -347,12 +349,12 @@ function addUser($sVars)
     $sNewDebut = date('Y').$sDebut;
     $sNewFin   = date('Y'). $sFin;
   }
-  // Créer une ligne dans sys_contrat_user
 
-  $sSQL  = "INSERT INTO sys_contrat_user VALUES (0,".$aVars['idContrat'];
-  $sSQL .= ",". $aVars['id'].",'$sNewDebut','$sNewFin',0);";
-  $db->Query($sSQL);
-  return ["Errno" => 0,"ErrMsg" => $sSQL];
+  // Créer les lignes dans sys_contrat_user
+  // $sSQL  = "INSERT IGNORE INTO sys_contrat_user VALUES (0,".$aVars['idContrat'];
+  // $sSQL .= ",". $aVars['id'].",'$sNewDebut','$sNewFin',0);";
+  // $db->Query($sSQL);
+  return ["Errno" => -1,"ErrMsg" => print_r($aVars,true)];
 }
 
 function refreshUserList($id)
